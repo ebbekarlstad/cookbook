@@ -20,7 +20,8 @@ public class App extends Application {
         Label mysql;
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=abcd1234&useSSL=false");
+            Connection conn = DriverManager
+                    .getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=abcd1234&useSSL=false");
             mysql = new Label("Driver found and connected");
 
         } catch (SQLException e) {
@@ -36,6 +37,6 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch(App.class);
-      }
+    }
 
 }
