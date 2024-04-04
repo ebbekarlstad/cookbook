@@ -25,7 +25,7 @@ public class App extends Application {
 
         try {
             Connection conn = DriverManager
-                    .getConnection("jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false");
+                    .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
             mysql = new Label("Driver found and connected");
 
             Statement st = conn.createStatement();
