@@ -1,5 +1,7 @@
 package cookbook;
 
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,10 +21,18 @@ public class App extends Application {
         Label title = new Label("JavaFX");
         Label mysql;
 
+        String sqlQuery = "SELECT * FROM Members;";
+
         try {
             Connection conn = DriverManager
-                    .getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=abcd1234&useSSL=false");
+                    .getConnection("jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false");
             mysql = new Label("Driver found and connected");
+
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sqlQuery);
+            rs.next();
+            String members = rs.getString(3);
+            System.out.println(members);
 
         } catch (SQLException e) {
             mysql = new Label("An error has occurred: " + e.getMessage());
