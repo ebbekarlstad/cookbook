@@ -20,6 +20,8 @@ public class LogIn {
 
       byte[] passwordDigest = hash.digest(password.getBytes());
       BigInteger number = new BigInteger(1, passwordDigest);
+
+      // Converts MD to hex value.
       hashTxt = number.toString(16);
 
       while (hashTxt.length() < 32) {
@@ -32,5 +34,5 @@ public class LogIn {
     }
     return hashTxt;
   }
-  // Method here to change the password to hash and link to the database to check if the hash value matches
+  // Method here to change the password to hash and link to the database to check if the hash value matches.
 }
