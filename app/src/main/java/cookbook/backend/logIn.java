@@ -7,11 +7,15 @@ import java.math.BigInteger;
 public class LogIn {
   private String passwordHash;
 
+  // Provides access to the stored hash value of the password. 
+  // Can be used to compare against a hashed password string during authentication.
   public String getPasswordHash() {
     return this.passwordHash;
   }
 
   // Create a hash value from the password, return and save it.
+  // Core task of the class. Takes a plaintext password as an input and goes through 
+  // the following steps to generate a hash:
   public String hashPassword(String password) {
     String hashTxt = "";
     try {
