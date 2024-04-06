@@ -6,9 +6,28 @@ package cookbook;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import cookbook.backend.LogIn;
+
 class AppTest {
-    // @Test void appHasAGreeting() {
-    //     App classUnderTest = new App();
-    //     assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    // }
+    // Commented out Greeting Test Case
+    /*@Test void appHasAGreeting() {
+         App classUnderTest = new App();
+         assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+     }*/
+
+    @Test
+    void testPasswordHashing() {
+        LogIn login = new LogIn();
+        String testPassword = "password123";
+
+        // Hash the test password and retrieve the stored hash
+        String hashedPassword = login.hashPassword(testPassword);
+        String retrievedHash = login.getPasswordHash();
+
+        // Check if the hash is not empty
+        assertNotEquals("", hashedPassword, "Hashed password should not be empty");
+
+        // Check if the hashed password matches the retrieved hash
+        assertEquals(hashedPassword, retrievedHash, "Hashed password should match retrieved hash");
+    }
 }
