@@ -19,7 +19,7 @@ public class LogIn {
   public String hashPassword(String password) {
     String hashTxt = "";
     try {
-      MessageDigest hash = MessageDigest.getInstance("SHA-1");
+      MessageDigest hash = MessageDigest.getInstance("SHA-256");
       System.out.println("Input password: " + password);
 
       byte[] passwordDigest = hash.digest(password.getBytes());
