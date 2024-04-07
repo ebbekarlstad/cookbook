@@ -65,7 +65,7 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ImageView>
-            <Text cache="true" fill="WHITE" fontSmoothingType="LCD" layoutX="63.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cookbook" textAlignment="CENTER" wrappingWidth="546.896484375">
+            <Text cache="true" fill="WHITE" fontSmoothingType="LCD" layoutX="63.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COOKBOOK" textAlignment="CENTER" wrappingWidth="546.896484375">
                <font>
                   <Font name="Noto Sans Mono Bold" size="35.0" />
                </font>
