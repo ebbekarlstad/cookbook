@@ -15,7 +15,7 @@ public class UIHandler extends Application {
     Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
         
     // Set the scene and show the stage
-    primaryStage.setScene(new Scene(root, 650, 400));
+    primaryStage.setScene(new Scene(root, 673, 406));
     primaryStage.setTitle("JavaFX Cookbook");
     primaryStage.show();
   }
