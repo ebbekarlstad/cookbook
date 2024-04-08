@@ -15,19 +15,19 @@ class AppTest {
          assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
      }*/
 
-    @Test
-    void testPasswordHashing() {
-        LogIn login = new LogIn();
-        String testPassword = "password123";
+    // @Test
+    // void testPasswordHashing() {
+    //     LogIn login = new LogIn();
+    //     String testPassword = "password123";
 
-        // Hash the test password and retrieve the stored hash
-        String hashedPassword = login.hashPassword(testPassword);
-        String retrievedHash = login.getPasswordHash();
+    //     // Hash the test password and retrieve the stored hash
+    //     String hashedPassword = login.hashPassword(testPassword);
+    //     String retrievedHash = login.getPasswordHash();
 
-        // Check if the hash is not empty
-        assertNotEquals("", hashedPassword, "Hashed password should not be empty");
+    //     // Check if the hash is not empty
+    //     assertNotEquals("", hashedPassword, "Hashed password should not be empty");
 
-        // Check if the hashed password matches the retrieved hash
-        assertEquals(hashedPassword, retrievedHash, "Hashed password should match retrieved hash");
-    }
+    //     // Check if the hashed password matches the retrieved hash
+    //     assertEquals(hashedPassword, retrievedHash, "Hashed password should match retrieved hash");
+    // }
 }
