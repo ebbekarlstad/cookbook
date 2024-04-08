@@ -59,7 +59,7 @@
       <children>
             <ImageView fitHeight="388.0" fitWidth="673.0" opacity="0.83" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/1844074-2432174401.jpg" />
+                  <Image url="@/images/1844074-2432174401.jpg" />
                </image>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />

@@ -38,5 +38,5 @@ public class LogIn {
     }
     return hashTxt;
   }
-  // Method here to change the password to hash and link to the database to check if the hash value matches.
+  // Method here to change the password to hash, and link to the database to check if the hash value matches.
 }
