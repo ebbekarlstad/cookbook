@@ -33,7 +33,6 @@
 -->
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -59,25 +58,24 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="383.0" fitWidth="695.0" layoutX="-13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="400.0" fitWidth="640.0" layoutX="-0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/loginbackground.jpg" />
                </image>
             </ImageView>
-            <PasswordField layoutX="249.0" layoutY="236.0" />
-            <TextField layoutX="249.0" layoutY="187.0" />
-            <ButtonBar layoutX="242.0" layoutY="255.0" prefHeight="40.0" prefWidth="200.0" />
-            <Button layoutX="304.0" layoutY="302.0" mnemonicParsing="false" text="LOGIN" />
-            <Text layoutX="162.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-            <Text layoutX="164.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-            <ImageView fitHeight="112.0" fitWidth="171.0" layoutX="278.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <PasswordField layoutX="236.0" layoutY="228.0" />
+            <TextField layoutX="235.0" layoutY="188.0" />
+            <Button layoutX="290.0" layoutY="284.0" mnemonicParsing="false" text="LOGIN" />
+            <Text layoutX="160.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+            <Text layoutX="163.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+            <ImageView fitHeight="112.0" fitWidth="171.0" layoutX="265.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/user_svg.png" />
                </image>
             </ImageView>
-            <Text fill="#ff6d0d" layoutX="262.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
+            <Text fill="#ff6d0d" layoutX="249.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
                <font>
                   <Font name="Ubuntu Light" size="50.0" />
                </font>

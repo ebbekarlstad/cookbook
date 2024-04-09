@@ -59,7 +59,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="480.0" fitWidth="750.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.92" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="480.0" fitWidth="750.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.92" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/mainpage.jpg" />
                </image>
@@ -82,8 +82,8 @@
                   </DropShadow>
                </effect>
             </Text>
-            <Button layoutX="318.0" layoutY="262.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="LOGIN" />
-            <Button layoutX="318.0" layoutY="301.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="REGISTER" />
+            <Button fx:id="loginbutton" onAction="handleLoginButton" layoutX="318.0" layoutY="262.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="LOGIN" />
+            <Button fx:id="registerbutton" layoutX="318.0" layoutY="301.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="REGISTER" />
       </children>
     </AnchorPane>
   </children>
