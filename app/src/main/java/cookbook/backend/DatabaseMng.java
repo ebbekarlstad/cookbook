@@ -1,33 +1,25 @@
 package cookbook.backend;
 
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseMng {
     private static String lastErrorMessage;
+    private static Connection conn = null; // Hold the connection
 
     // Method that connects to the database
-    public static boolean connect() {
-        String sqlQuery = "SELECT * FROM Members;";
+    public static Connection getConnection() {
         
         // Try catch that tries to connect
         try {
-            Connection conn = DriverManager
-                    .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-            
-            // Allows for SQL statements to be sent
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sqlQuery);
-            rs.next();
-            return true;
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+            return conn;
         
         // Catches and sends error information
         } catch (SQLException e) {
             lastErrorMessage = e.getMessage();
-            return false;
+            return null;
         }
     }
 
