@@ -66,6 +66,7 @@ public class User {
         pstmt.setBoolean(3, this.isAdmin);
 
         // Execute the update query and get the number of affected rows, returns true if at least one is affected.
+        // By checking affectedRows we can se if new user added is successful or not, if 0 it means no users were added.
         int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
         } catch (SQLException e) {
