@@ -93,11 +93,11 @@
             <Font size="18.0" />
           </font>
         </Label>
-            <ButtonBar layoutX="220.0" layoutY="319.0" prefHeight="40.0" prefWidth="200.0" />
-            <ListView fx:id="ListOfRecipe" layoutX="225.0" layoutY="12.0" prefHeight="350.0" prefWidth="390.0" />
-            <Button layoutX="52.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
-            <TextField layoutX="23.0" layoutY="79.0" />
-            <Button layoutX="52.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
+        <ButtonBar layoutX="220.0" layoutY="319.0" prefHeight="40.0" prefWidth="200.0" />
+        <ListView fx:id="ListOfRecipe" layoutX="225.0" layoutY="12.0" prefHeight="350.0" prefWidth="390.0" />
+        <Button layoutX="52.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
+        <TextField fx:id="name" layoutX="23.0" layoutY="79.0" />
+        <Button layoutX="52.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
       </children>
     </AnchorPane>
   </children>
