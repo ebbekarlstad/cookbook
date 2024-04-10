@@ -9,7 +9,7 @@ public class User {
   private Integer userId;
   private String userName;
   private String passwordHash;
-  private Boolean isAdmin;
+  private Boolean isAdmin; 
 
   public User(Integer userId, String userName, String passwordHash, Boolean isAdmin) {
     setUserId(userId);
