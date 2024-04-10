@@ -41,9 +41,9 @@ public class User {
     return this.passwordHash;
   }
 
-  // This sets the password after hashing.
+  // This hashes the password before storing it.
   public void setPassword(String password) {
-    this.passwordHash = password;
+    this.passwordHash = login.hashPassword(password);
   }
 
   public Boolean getIsAdmin() {
