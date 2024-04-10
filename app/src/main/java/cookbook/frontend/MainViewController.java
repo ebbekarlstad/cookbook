@@ -43,4 +43,36 @@ public class MainViewController {
       e.printStackTrace();
     }
   }
+
+  @FXML
+  private void handleNavigationButton(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
+  private void handleHelpButton(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent helpPageParent = FXMLLoader.load(getClass().getResource("/HelpView.fxml"));
+      Scene helpPageScene = new Scene(helpPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) mysqlStatus.getScene().getWindow();
+      window.setScene(helpPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }
