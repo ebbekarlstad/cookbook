@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import cookbook.backend.LogIn;
+import cookbook.backend.be_objects.User;
 
 class AppTest {
     // Commented out Greeting Test Case
@@ -29,5 +30,17 @@ class AppTest {
 
         // Check if the hashed password matches the retrieved hash
         assertEquals(hashedPassword, retrievedHash, "Hashed password should match retrieved hash");
+    }
+
+    @Test
+    void testUserSaveToDatabase() {
+        // Create a user instance with test data
+        User testUser = new User(null, "testUser", "testHash", false); // Assuming ID is auto-generated
+
+        // Attempt to save the user to the database
+        boolean isSaved = testUser.saveToDatabase();
+
+        // Assert that the user was successfully saved
+        assertTrue(isSaved, "User should be successfully saved to the database");
     }
 }

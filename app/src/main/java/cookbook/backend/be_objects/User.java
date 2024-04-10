@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import cookbook.backend.LogIn;
 
 public class User {
   private Integer userId;
@@ -11,10 +12,12 @@ public class User {
   private String passwordHash;
   private Boolean isAdmin; 
 
-  public User(Integer userId, String userName, String passwordHash, Boolean isAdmin) {
+  private final LogIn login = new LogIn();
+
+  public User(Integer userId, String userName, String password, Boolean isAdmin) {
     setUserId(userId);
     setUserName(userName);
-    setPasswordHash(passwordHash);
+    setPassword(password);
     setIsAdmin(isAdmin);
   }
 
@@ -38,8 +41,9 @@ public class User {
     return this.passwordHash;
   }
 
-  public void setPasswordHash(String passwordHash) {
-    this.passwordHash = passwordHash;
+  // This sets the password after hashing.
+  public void setPassword(String password) {
+    this.passwordHash = password;
   }
 
   public Boolean getIsAdmin() {

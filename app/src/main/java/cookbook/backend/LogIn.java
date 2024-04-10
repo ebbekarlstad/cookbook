@@ -38,5 +38,10 @@ public class LogIn {
     }
     return hashTxt;
   }
-  // Method here to change the password to hash, and link to the database to check if the hash value matches.
+  // Method to verify if the input password matches the stored hash
+  public boolean checkPassword(String inputPassword, String storedPasswordHash) {
+    String hashedInput = hashPassword(inputPassword);
+    return hashedInput.equals(storedPasswordHash);
+  }
+  // Method to link to the database to check if the hash value matches.
 }
