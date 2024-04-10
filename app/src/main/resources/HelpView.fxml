@@ -36,12 +36,13 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.MainViewController">
   <children>
@@ -64,16 +65,17 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ImageView>
-            <TextArea prefHeight="18.0" prefWidth="253.0" style="-fx-background-color: #FFF5EE;;" text="Need help? Start here:" wrapText="true">
+            <Rectangle accessibleHelp="erferf" accessibleText="wrfrfer" arcHeight="5.0" arcWidth="5.0" height="400.0" opacity="0.55" stroke="BLACK" strokeType="INSIDE" width="234.0" />
+            <Text fill="WHITE" layoutX="13.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need help? Start here!" wrappingWidth="234.00000000000006">
                <font>
-                  <Font name="System Bold" size="21.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
-            </TextArea>
-            <TextArea layoutY="50.0" prefHeight="350.0" prefWidth="253.0" text="- Add help text here">
+            </Text>
+            <Text fill="WHITE" layoutX="13.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Add help here:" wrappingWidth="234.00000000000006">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Italic" size="16.0" />
                </font>
-            </TextArea>
+            </Text>
       </children>
     </AnchorPane>
   </children>

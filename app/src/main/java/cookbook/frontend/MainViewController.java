@@ -68,7 +68,7 @@ public class MainViewController {
       Scene helpPageScene = new Scene(helpPageParent);
 
       // Get the current stage and replace it
-      Stage window = (Stage) mysqlStatus.getScene().getWindow();
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
       window.setScene(helpPageScene);
       window.show();
     } catch (Exception e) {

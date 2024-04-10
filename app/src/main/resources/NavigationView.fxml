@@ -96,7 +96,7 @@
                   <Image url="@images/mail.png" />
                </image>
             </ImageView>
-            <Button layoutX="22.0" layoutY="307.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="189.0" text="Get Help">
+            <Button fx:id="help_button" layoutX="22.0" layoutY="307.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
