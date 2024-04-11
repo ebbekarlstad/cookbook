@@ -32,18 +32,15 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -51,41 +48,33 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Help">
+        <Menu mnemonicParsing="false" text="Home">
           <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" text="Return to Homepage" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="400.0" fitWidth="640.0" layoutX="-0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="400" fitWidth="640" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
                <image>
-                  <Image url="@images/loginbackground.jpg" />
+                  <Image url="@images/mainpage.jpg" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
             </ImageView>
-            <PasswordField layoutX="236.0" layoutY="228.0" />
-            <TextField layoutX="236.0" layoutY="188.0" />
-            <Button fx:id="loadNavButton" onAction="#handleNavigationButton" layoutX="290.0" layoutY="274.0" mnemonicParsing="false" text="LOGIN" />
-            <Text layoutX="160.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-            <Text layoutX="163.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-            <ImageView fitHeight="112.0" fitWidth="171.0" layoutX="265.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/user_svg.png" />
-               </image>
-            </ImageView>
-            <Text fill="#ff6d0d" layoutX="220.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
+            <Rectangle accessibleHelp="erferf" accessibleText="wrfrfer" arcHeight="5.0" arcWidth="5.0" height="400.0" opacity="0.55" stroke="BLACK" strokeType="INSIDE" width="234.0" />
+            <Text fill="WHITE" layoutX="13.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need help? Start here!" wrappingWidth="234.00000000000006">
                <font>
-                  <Font name="Ubuntu Light" size="70.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.25670498609542847" />
-                     </color>
-                  </DropShadow>
-               </effect>
+            </Text>
+            <Text fill="WHITE" layoutX="13.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Add help here:" wrappingWidth="234.00000000000006">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
             </Text>
       </children>
     </AnchorPane>
