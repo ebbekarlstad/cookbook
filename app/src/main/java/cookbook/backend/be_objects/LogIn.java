@@ -1,4 +1,4 @@
-package cookbook.backend;
+package cookbook.backend.be_objects;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

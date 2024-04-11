@@ -6,7 +6,7 @@ package cookbook;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import cookbook.backend.LogIn;
+import cookbook.backend.be_objects.LogIn;
 import cookbook.backend.be_objects.User;
 
 class AppTest {

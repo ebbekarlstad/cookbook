@@ -4,14 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import cookbook.backend.LogIn;
 
 public class User {
   private Integer userId;
   private String userName;
   private String passwordHash;
-  private Boolean isAdmin; 
-
+  private Boolean isAdmin;
   private final LogIn login = new LogIn();
 
   public User(Integer userId, String userName, String password, Boolean isAdmin) {
