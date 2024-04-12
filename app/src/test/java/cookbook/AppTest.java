@@ -6,6 +6,9 @@ package cookbook;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+
+import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.LogIn;
 import cookbook.backend.be_objects.User;
 
@@ -15,32 +18,35 @@ class AppTest {
          App classUnderTest = new App();
          assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
      }*/
+     private LogIn login;
+     private DatabaseMng dbManager;
 
-    @Test
-    void testPasswordHashing() {
-        LogIn login = new LogIn();
-        String testPassword = "password123";
-
-        // Hash the test password and retrieve the stored hash
-        String hashedPassword = login.hashPassword(testPassword);
-        String retrievedHash = login.getPasswordHash();
-
-        // Check if the hash is not empty
-        assertNotEquals("", hashedPassword, "Hashed password should not be empty");
-
-        // Check if the hashed password matches the retrieved hash
-        assertEquals(hashedPassword, retrievedHash, "Hashed password should match retrieved hash");
+    @BeforeEach
+    void setup() {
+        dbManager = new DatabaseMng();  // Antag att du har mockat eller riktiga databaskopplingar
+        login = new LogIn(dbManager);
     }
+
+     @Test
+     void testPasswordHashing() {
+         String testPassword = "password123";
+         String hashedPassword = login.hashPassword(testPassword);
+ 
+         // Testa att hash-värdet inte är null och inte lika med klartextlösenordet
+         assertNotNull(hashedPassword, "Hashed password should not be null");
+         assertNotEquals(testPassword, hashedPassword, "Hashed password should not match plain text");
+     }
 
     @Test
     void testUserSaveToDatabase() {
-        // Create a user instance with test data
-        User testUser = new User(null, "testUser", "testHash", false); // Assuming ID is auto-generated
-
-        // Attempt to save the user to the database
+        // Använd mock för dbManager om du inte vill ha en verklig databasinteraktion
+        User testUser = new User(null, "testUser", "testPassword", false, dbManager);
+        
+        // Hasha lösenordet innan du sparar användaren
+        testUser.setPassword("testPassword");  // Denna metod borde hash lösenordet internt
         boolean isSaved = testUser.saveToDatabase();
 
-        // Assert that the user was successfully saved
+        // Assert att användaren sparades korrekt
         assertTrue(isSaved, "User should be successfully saved to the database");
     }
 }
