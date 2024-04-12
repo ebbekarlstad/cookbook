@@ -57,7 +57,12 @@ public class RecipeViewController {
 
   @FXML
   void removeRecipe(ActionEvent event) {
-
+    //Denna metoden gör så att när man tar bort en recipe så raderas det från tableView'n och ListView'n
+    int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
+    if (selectedIndex >= 0) {
+      ListOfRecipe_s.getItems().remove(selectedIndex);
+      recipeData.remove(selectedIndex);
+    }
   }
 
 }

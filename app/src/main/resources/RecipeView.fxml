@@ -32,19 +32,11 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.RecipeViewController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
@@ -97,12 +89,20 @@
             <TextField fx:id="RecipeIngredients" layoutX="37.0" layoutY="111.0" />
             <Text layoutX="78.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
             <TextField fx:id="RecipeDetails" layoutX="9.0" layoutY="176.0" prefHeight="93.0" prefWidth="216.0" />
-            <TableView fx:id="infoRecipeTable" layoutX="241.0" layoutY="164.0" prefHeight="201.0" prefWidth="384.0">
-              <columns>
-                <TableColumn prefWidth="108.0" text="Ingredients" />
-                <TableColumn prefWidth="274.0" text="Recipe Details" />
-              </columns>
-            </TableView>
+                <TableView fx:id="infoRecipeTable" layoutX="241.0" layoutY="164.0" prefHeight="201.0" prefWidth="384.0">
+                    <columns>
+                        <TableColumn prefWidth="108.0" text="Ingredients">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="ingredients"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="274.0" text="Recipe Details">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="name"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
             </children>
         </AnchorPane>
     </children>
