@@ -1,7 +1,7 @@
 package cookbook.backend.be_objects;
 
+import cookbook.backend.DatabaseMng;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -10,13 +10,16 @@ public class User {
   private String userName;
   private String passwordHash;
   private Boolean isAdmin;
-  private final LogIn login = new LogIn();
+  private DatabaseMng dbManager;
+  private final LogIn login;
 
-  public User(Integer userId, String userName, String password, Boolean isAdmin) {
+  public User(Integer userId, String userName, String password, Boolean isAdmin, DatabaseMng dbManager) {
     setUserId(userId);
     setUserName(userName);
     setPassword(password);
     setIsAdmin(isAdmin);
+    this.dbManager = dbManager;
+    this.login = new LogIn(dbManager);
   }
 
   public Integer getUserId() {
@@ -53,40 +56,19 @@ public class User {
   }
 
   public boolean saveToDatabase() {
-    Connection conn = null;
-    try {
-      conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-      if (conn == null) {
-        System.err.println("Can't connect to the database.");
-        return false;
-      }
-      // Defining SQL query to insert user data into the "users" table
-      String insertQuery = "INSERT INTO users (userName, passwordHash, isAdmin) VALUES (?, ?, ?)";
-      try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
+    String sql = "INSERT INTO users (userName, passwordHash, isAdmin) VALUES (?, ?, ?)";
+    try (Connection conn = dbManager.getConnection(); // Använder dbManager för att få en Connection
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             
         pstmt.setString(1, this.userName);
         pstmt.setString(2, this.passwordHash);
         pstmt.setBoolean(3, this.isAdmin);
-
-        // Execute the update query and get the number of affected rows, returns true if at least one is affected.
-        // By checking affectedRows we can se if new user added is successful or not, if 0 it means no users were added.
+            
         int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
-        } catch (SQLException e) {
-          System.err.println("SQL exception during user insertion: " + e.getMessage());
-          return false;
-        }
     } catch (SQLException e) {
-        // Handles errors if database connection fails.
-        System.err.println("Database connection error: " + e.getMessage());
+        System.err.println("Database error during user insertion: " + e.getMessage());
         return false;
-    } finally {
-      if (conn != null) {
-        try {
-          conn.close();
-        } catch (SQLException e) {
-          System.err.println("Unable to close database connection: " + e.getMessage());
-          }
-      }
     }
   }
 }
