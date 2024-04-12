@@ -1,4 +1,4 @@
-package cookbook.frontend;
+package cookbook.frontend.fe_controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;

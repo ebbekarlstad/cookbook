@@ -1,4 +1,4 @@
-package cookbook.frontend;
+package cookbook.frontend.fe_controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
