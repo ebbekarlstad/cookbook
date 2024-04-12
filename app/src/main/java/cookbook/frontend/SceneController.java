@@ -1,4 +1,4 @@
-package cookbook.frontend.fe_controllers;
+package cookbook.frontend;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

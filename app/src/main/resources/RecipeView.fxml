@@ -34,25 +34,75 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox prefHeight="368.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeViewController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.RecipeViewController">
     <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="397.0" prefWidth="745.0" VBox.vgrow="ALWAYS">
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" text="Revert" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-            <ImageView fitHeight="400.0" fitWidth="745.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/360_F_672452282_37w8WlNXxxgY0hxCNKEMTTj03IQE5ong.jpg" />
-               </image>
-            </ImageView>
-                <ListView fx:id="ListOfRecipe" layoutX="341.0" layoutY="11.0" prefHeight="350.0" prefWidth="390.0" />
-                <Button layoutX="123.0" layoutY="153.0" mnemonicParsing="false" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
-                <TextField fx:id="name" layoutX="94.0" layoutY="102.0" />
-                <Button layoutX="123.0" layoutY="211.0" mnemonicParsing="false" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
+                <ListView fx:id="ListOfRecipe_s" layoutX="241.0" layoutY="6.0" prefHeight="152.0" prefWidth="384.0" />
+                <Button fx:id="addRecipe" layoutX="65.0" layoutY="283.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
+            <Text layoutX="80.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" />
+                <TextField fx:id="RecipeName" layoutX="37.0" layoutY="52.0" />
+                <Button fx:id="removeRecipe" layoutX="65.0" layoutY="321.0" mnemonicParsing="false" onAction="#removeRecipe" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
+            <Text layoutX="85.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients" wrappingWidth="62.67724609375" />
+            <TextField fx:id="RecipeIngredients" layoutX="37.0" layoutY="111.0" />
+            <Text layoutX="78.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
+            <TextField fx:id="RecipeDetails" layoutX="9.0" layoutY="176.0" prefHeight="93.0" prefWidth="216.0" />
+            <TableView fx:id="infoRecipeTable" layoutX="241.0" layoutY="164.0" prefHeight="201.0" prefWidth="384.0">
+              <columns>
+                <TableColumn prefWidth="108.0" text="Ingredients" />
+                <TableColumn prefWidth="274.0" text="Recipe Details" />
+              </columns>
+            </TableView>
             </children>
         </AnchorPane>
     </children>

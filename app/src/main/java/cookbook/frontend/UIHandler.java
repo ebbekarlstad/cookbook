@@ -13,7 +13,7 @@ public class UIHandler extends Application {
   public void start(Stage primaryStage) throws Exception {
     // Load the FXML layout
     Parent root = FXMLLoader.load(getClass().getResource("/RecipeView.fxml"));
-        
+
     // Set the scene and show the stage
     primaryStage.setScene(new Scene(root, 640, 400));
     primaryStage.setTitle("Cookbook");
