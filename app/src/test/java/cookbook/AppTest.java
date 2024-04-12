@@ -23,7 +23,7 @@ class AppTest {
 
     @BeforeEach
     void setup() {
-        dbManager = new DatabaseMng();  // Antag att du har mockat eller riktiga databaskopplingar
+        dbManager = new DatabaseMng();  
         login = new LogIn(dbManager);
     }
 
@@ -39,14 +39,11 @@ class AppTest {
 
     @Test
     void testUserSaveToDatabase() {
-        // Använd mock för dbManager om du inte vill ha en verklig databasinteraktion
         User testUser = new User(null, "testUser", "testPassword", false, dbManager);
         
-        // Hasha lösenordet innan du sparar användaren
         testUser.setPassword("testPassword");  // Denna metod borde hash lösenordet internt
         boolean isSaved = testUser.saveToDatabase();
 
-        // Assert att användaren sparades korrekt
         assertTrue(isSaved, "User should be successfully saved to the database");
     }
 }

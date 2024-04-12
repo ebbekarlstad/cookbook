@@ -65,7 +65,13 @@ public class User {
         pstmt.setBoolean(3, this.isAdmin);
             
         int affectedRows = pstmt.executeUpdate();
-          return affectedRows > 0;
+        if (affectedRows > 0) {
+          System.out.println("User saved successfully.");
+          return true;
+        } else {
+          System.out.println("No rows affected.");
+          return false;
+        }
     } catch (SQLException e) {
         System.err.println("Database error during user insertion: " + e.getMessage());
         return false;
