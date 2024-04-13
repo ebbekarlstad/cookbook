@@ -25,7 +25,7 @@ public class DatabaseSeeder {
             + "`UserID` int NOT NULL AUTO_INCREMENT, "
             + "`UserName` varchar(45) NOT NULL, "
             + "`DisplayName` varchar(45) NOT NULL, "
-            + "`Password` varchar(45) NOT NULL, "
+            + "`Password` varchar(255) NOT NULL, "
             + "`IsAdmin` tinyint NOT NULL, "
             + "PRIMARY KEY (`UserID`), "
             + "UNIQUE KEY `userID_UNIQUE` (`UserID`));";
