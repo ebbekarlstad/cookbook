@@ -39,7 +39,7 @@ class AppTest {
 
     @Test
     void testUserSaveToDatabase() {
-        User testUser = new User(123, "testUser", "testDisplayName", "testPassword", false, dbManager);
+        User testUser = new User("testUser2", "testDisplayName2", "testPassword2", false, dbManager);
         
         boolean isSaved = testUser.saveToDatabase();
 
