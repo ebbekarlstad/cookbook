@@ -2,6 +2,7 @@ package cookbook.frontend.fe_controllers;
 
 import javafx.event.ActionEvent;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -36,11 +37,22 @@ public class MainViewController {
 
   @FXML
   private void initialize() {
-    // Welcome animation
-    FadeTransition fade = new FadeTransition(Duration.seconds(3), welcomeText);
+    // Fade animation
+    FadeTransition fade = new FadeTransition(Duration.seconds(1), welcomeText);
     fade.setFromValue(0.0);
     fade.setToValue(1.0);
     fade.play();
+
+    // Scale animation
+    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), welcomeText);
+    scaleTransition.setFromX(0.5);
+    scaleTransition.setFromY(0.5);
+    scaleTransition.setToX(1.0);
+    scaleTransition.setToY(1.0);
+    scaleTransition.setCycleCount(1);
+    scaleTransition.setAutoReverse(true);
+    scaleTransition.play();
+
   }
 
   @FXML
