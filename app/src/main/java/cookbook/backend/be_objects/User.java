@@ -16,10 +16,10 @@ public class User {
   public User(Integer userId, String userName, String password, Boolean isAdmin, DatabaseMng dbManager) {
     setUserId(userId);
     setUserName(userName);
-    setPassword(password);
     setIsAdmin(isAdmin);
     this.dbManager = dbManager;
     this.login = new LogIn(dbManager);
+    setPassword(password);
   }
 
   public Integer getUserId() {
@@ -56,7 +56,7 @@ public class User {
   }
 
   public boolean saveToDatabase() {
-    String sql = "INSERT INTO users (userName, passwordHash, isAdmin) VALUES (?, ?, ?)";
+    String sql = "INSERT INTO users (UserName, Password, IsAdmin) VALUES (?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); // Använder dbManager för att få en Connection
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
              
