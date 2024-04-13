@@ -61,8 +61,8 @@ public class User {
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
         pstmt.setString(1, this.userName);
-        pstmt.setString(2, this.passwordHash);
-        pstmt.setString(3, this.displayName);
+        pstmt.setString(2, this.displayName);
+        pstmt.setString(3, this.passwordHash);
         pstmt.setBoolean(4, this.isAdmin);
             
         int affectedRows = pstmt.executeUpdate();
