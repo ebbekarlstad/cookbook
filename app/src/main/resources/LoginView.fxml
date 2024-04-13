@@ -66,7 +66,7 @@
                </image>
             </ImageView>
             <PasswordField fx:id="passwordField" layoutX="236.0" layoutY="228.0" />
-            <TextField fx:id="usernameField"layoutX="236.0" layoutY="188.0" />
+            <TextField fx:id="usernameField" layoutX="236.0" layoutY="188.0" />
             <Button fx:id="loadNavButton" onAction="#handleNavigationButton" layoutX="290.0" layoutY="274.0" mnemonicParsing="false" text="LOGIN" />
             <Text layoutX="160.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
             <Text layoutX="163.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
