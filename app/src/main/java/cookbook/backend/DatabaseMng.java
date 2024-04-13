@@ -10,7 +10,7 @@ import java.util.Optional;
 public class DatabaseMng {
 
   private static String lastErrorMessage = "";
-  private String databaseUrl = "jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false";
+  private String databaseUrl = "jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false";
 
   public Connection getConnection() throws SQLException {
     try {
