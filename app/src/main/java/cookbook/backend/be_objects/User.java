@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class User {
-  private Integer userId;
   private String userName;
   private String displayName;
   private String passwordHash;
@@ -14,22 +13,13 @@ public class User {
   private DatabaseMng dbManager;
   private final LogIn login;
 
-  public User(Integer userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager) {
-    setUserId(userId);
+  public User(String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager) {
     setUserName(userName);
     setDisplayName(displayName);
     setIsAdmin(isAdmin);
     this.dbManager = dbManager;
     this.login = new LogIn(dbManager);
     setPassword(password);
-  }
-
-  public Integer getUserId() {
-    return this.userId;
-  }
-
-  public void setUserId(Integer userId) {
-    this.userId = userId;
   }
 
   public String getUserName() {
@@ -66,15 +56,14 @@ public class User {
   }
 
   public boolean saveToDatabase() {
-    String sql = "INSERT INTO users (UserID, UserName, DisplayName, Password, IsAdmin) VALUES (?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO users (UserName, DisplayName, Password, IsAdmin) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); // Använder dbManager för att få en Connection
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
-        pstmt.setInt(1, this.userId);
-        pstmt.setString(2, this.userName);
-        pstmt.setString(3, this.passwordHash);
-        pstmt.setString(4, this.displayName);
-        pstmt.setBoolean(5, this.isAdmin);
+        pstmt.setString(1, this.userName);
+        pstmt.setString(2, this.passwordHash);
+        pstmt.setString(3, this.displayName);
+        pstmt.setBoolean(4, this.isAdmin);
             
         int affectedRows = pstmt.executeUpdate();
         if (affectedRows > 0) {
