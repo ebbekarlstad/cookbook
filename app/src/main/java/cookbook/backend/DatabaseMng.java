@@ -13,7 +13,7 @@ public class DatabaseMng {
         
         // Try catch that tries to connect
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false");
             return conn;
         
         // Catches and sends error information
