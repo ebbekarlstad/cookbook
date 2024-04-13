@@ -41,7 +41,6 @@ class AppTest {
     void testUserSaveToDatabase() {
         User testUser = new User(123, "testUser", "testDisplayName", "testPassword", false, dbManager);
         
-        testUser.setPassword("testPassword");  // Denna metod borde hash lösenordet internt
         boolean isSaved = testUser.saveToDatabase();
 
         assertTrue(isSaved, "User should be successfully saved to the database");
