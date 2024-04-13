@@ -67,7 +67,7 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ImageView>
-            <Text cache="true" fill="#eb7f07" fontSmoothingType="LCD" layoutX="60.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COOKBOOK" textAlignment="CENTER" wrappingWidth="546.896484375">
+            <Text fx:id="welcomeText" cache="true" fill="#eb7f07" fontSmoothingType="LCD" layoutX="60.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COOKBOOK" textAlignment="CENTER" wrappingWidth="546.896484375">
                <font>
                   <Font name="Ubuntu Light" size="73.0" />
                </font>

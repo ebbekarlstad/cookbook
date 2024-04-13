@@ -1,6 +1,7 @@
 package cookbook.frontend;
 
 import javafx.event.ActionEvent;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 /* import cookbook.backend.DatabaseMng;
 import java.sql.Connection; */
 
@@ -15,6 +18,9 @@ import java.sql.Connection; */
 public class MainViewController {
   @FXML
   private Label mysqlStatus;
+
+  @FXML
+  private Text welcomeText;
 
 /*   @FXML
   private void initialize() {
@@ -27,6 +33,15 @@ public class MainViewController {
             mysqlStatus.setText("An error has occurred: " + DatabaseMng.getLastErrorMessage());
         }
   } */
+
+  @FXML
+  private void initialize() {
+    // Welcome animation
+    FadeTransition fade = new FadeTransition(Duration.seconds(3), welcomeText);
+    fade.setFromValue(0.0);
+    fade.setToValue(1.0);
+    fade.play();
+  }
 
   @FXML
   private void handleLoginButton(ActionEvent event) {
