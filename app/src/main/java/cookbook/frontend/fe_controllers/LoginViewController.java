@@ -23,7 +23,7 @@ public class LoginViewController {
     String username = usernameField.getText();
     String password = passwordField.getText();
 
-    // Assuming there's a LogIn class that handles the login logic
+    // Use LogIn class to query database with credentials
     LogIn login = new LogIn();
   
   } */

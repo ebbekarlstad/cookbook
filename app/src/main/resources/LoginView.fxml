@@ -68,14 +68,20 @@
             <PasswordField fx:id="passwordField" layoutX="236.0" layoutY="228.0" />
             <TextField fx:id="usernameField" layoutX="236.0" layoutY="188.0" />
             <Button fx:id="loadNavButton" layoutX="290.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleNavigationButton" text="LOGIN" />
-            <Text layoutX="160.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-            <Text layoutX="163.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+            <Text layoutX="160.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font></Text>
+            <Text layoutX="163.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font></Text>
             <ImageView fitHeight="112.0" fitWidth="171.0" layoutX="264.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/user_svg.png" />
                </image>
             </ImageView>
-            <Text fill="#fff1e4" layoutX="198.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
+            <Text fill="#fff1e4" layoutX="197.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
                <font>
                   <Font name="SansSerif Bold" size="70.0" />
                </font>
