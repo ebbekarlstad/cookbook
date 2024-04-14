@@ -12,7 +12,7 @@ public class UIHandler extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     // Load the FXML layout
-    Parent root = FXMLLoader.load(getClass().getResource("/RecipeView.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
 
     // Set the scene and show the stage
     primaryStage.setScene(new Scene(root, 640, 400));
