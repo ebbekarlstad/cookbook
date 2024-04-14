@@ -38,13 +38,13 @@ public class MainViewController {
   @FXML
   private void initialize() {
     // Fade animation
-    FadeTransition fade = new FadeTransition(Duration.seconds(1), welcomeText);
+    FadeTransition fade = new FadeTransition(Duration.seconds(1.5), welcomeText);
     fade.setFromValue(0.0);
     fade.setToValue(1.0);
     fade.play();
 
     // Scale animation
-    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), welcomeText);
+    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1.5), welcomeText);
     scaleTransition.setFromX(0.5);
     scaleTransition.setFromY(0.5);
     scaleTransition.setToX(1.0);
