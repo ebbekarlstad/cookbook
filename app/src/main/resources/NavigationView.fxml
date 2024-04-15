@@ -59,7 +59,7 @@
       <children>
             <ImageView fitHeight="400" fitWidth="640" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
                <image>
-                  <Image url="@images/mainpage.jpg" />
+                  <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
