@@ -66,7 +66,7 @@
                </cursor>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="234.0" />
-            <Button layoutX="22.0" layoutY="32.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="189.0" text="    New Recipe" textAlignment="RIGHT">
+            <Button fx:id="newRecipeButton" layoutX="22.0" layoutY="32.0" mnemonicParsing="false" prefHeight="52.0" onAction="#handleNewButton" prefWidth="189.0" text="    New Recipe" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

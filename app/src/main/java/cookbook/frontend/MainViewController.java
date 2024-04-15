@@ -102,4 +102,20 @@ public class MainViewController {
       e.printStackTrace();
     }
   }
+
+  @FXML
+  private void handleNewButton(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent newRecipePageParent = FXMLLoader.load(getClass().getResource("/RecipeView.fxml"));
+      Scene newRecipePageScene = new Scene(newRecipePageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(newRecipePageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }
