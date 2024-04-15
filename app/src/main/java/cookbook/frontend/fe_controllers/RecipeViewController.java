@@ -65,4 +65,30 @@ public class RecipeViewController {
     }
   }
 
+
+  @FXML
+    void onRecipeSelect() {
+        int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            CookingOB selectedRecipe = recipeData.get(selectedIndex);
+            openDetailWindow(selectedRecipe);
+        }
+    }
+
+    private void openDetailWindow(CookingOB recipe) {
+      try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/path_to_RecipeDetail.fxml")); // Update path as needed
+          Parent root = loader.load();
+
+          RecipeDetailController controller = loader.getController();
+          controller.setRecipeDetails(recipe);
+
+          Stage stage = new Stage();
+          stage.setTitle(recipe.getName());
+          stage.setScene(new Scene(root));
+          stage.show();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+  }
 }
