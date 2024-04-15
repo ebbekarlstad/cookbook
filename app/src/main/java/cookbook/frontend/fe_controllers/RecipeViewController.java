@@ -1,4 +1,4 @@
-package cookbook.frontend;
+package cookbook.frontend.fe_controllers;
 
 import cookbook.backend.be_objects.CookingOB;
 

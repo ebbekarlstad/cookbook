@@ -1,24 +1,25 @@
 package cookbook.backend;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseSeeder {
 
-    public static void seedTable(String sql) {
-        // Tries to connect and creates a Statement
+    public void seedTable(String sql) {
+        DatabaseMng dbManager = new DatabaseMng(); // Create an instance of DatabaseMng
         try {
-            Statement stmt = DatabaseMng.getConnection().createStatement();
+            Connection conn = dbManager.getConnection(); // Use the instance to call getConnection()
+            Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             System.out.println("Seeding complete.");
-
         } catch (SQLException e) {
             System.out.println("Error during seeding: " + e.getMessage());
         }
     }
 
     // Seeding the Users table
-    public static void seedUsers() {
+    public void seedUsers() {
         String dropTableSQL = "DROP TABLE IF EXISTS `users`;";
 
         String createTableSQL = "CREATE TABLE `users` ("
@@ -33,7 +34,7 @@ public class DatabaseSeeder {
             seedTable(createTableSQL);
     }
 
-    public static void seedRecipes() {
+    public void seedRecipes() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipes`;";
 
         String createTableSQL = "CREATE TABLE `recipes` ("
@@ -52,7 +53,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedIngredients() {
+    public void seedIngredients() {
         String dropTableSQL = "DROP TABLE IF EXISTS `ingredients`;";
 
         String createTableSQL = "CREATE TABLE `ingredients` ("
@@ -64,7 +65,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedRecipeIngredients() {
+    public void seedRecipeIngredients() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipe_ingredients`;";
 
         String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
@@ -82,7 +83,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedTags() {
+    public void seedTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `tags`;";
 
         String createTableSQL = "CREATE TABLE `tags` ("
@@ -94,7 +95,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedRecipeTags() {
+    public void seedRecipeTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipe_tags`;";
 
         String createTableSQL = "CREATE TABLE `recipe_tags` ("
@@ -111,7 +112,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedComments() {
+    public void seedComments() {
         String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";
 
         String createTableSQL = "CREATE TABLE `comments` ("
@@ -130,7 +131,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedWeeklyDinnerLists() {
+    public void seedWeeklyDinnerLists() {
         String dropTableSQL = "DROP TABLE IF EXISTS `weekly_dinner_lists`;";
 
         String createTableSQL = "CREATE TABLE `weekly_dinner_lists` ("
@@ -145,7 +146,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedDinnerListRecipes() {
+    public void seedDinnerListRecipes() {
         String dropTableSQL = "DROP TABLE IF EXISTS `dinner_list_recipes`;";
 
         String createTableSQL = "CREATE TABLE `dinner_list_recipes` ("
@@ -163,7 +164,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedShoppingLists() {
+    public void seedShoppingLists() {
         String dropTableSQL = "DROP TABLE IF EXISTS `shopping_lists`;";
 
         String createTableSQL = "CREATE TABLE `shopping_lists` ("
@@ -178,7 +179,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedShoppingListItems() {
+    public void seedShoppingListItems() {
         String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
 
         String createTableSQL = "CREATE TABLE `shopping_list_items` ("
@@ -197,7 +198,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedSentRecipes() {
+    public void seedSentRecipes() {
         String dropTableSQL = "DROP TABLE IF EXISTS `sent_recepies`;";
 
         String createTableSQL = "CREATE TABLE `sent_recepies` ("
@@ -219,7 +220,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public static void seedHelpSystem() {
+    public void seedHelpSystem() {
         String dropTableSQL = "DROP TABLE IF EXISTS `help_system`;";
 
         String createTableSQL = "CREATE TABLE `help_system` ("
@@ -233,19 +234,20 @@ public class DatabaseSeeder {
     }
 
     public static void main(String[] args) {
-        seedUsers();
-        seedRecipes();
-        seedIngredients();
-        seedRecipeIngredients();
-        seedTags();
-        seedRecipeTags();
-        seedComments();
-        seedWeeklyDinnerLists();
-        seedDinnerListRecipes();
-        seedShoppingLists();
-        seedShoppingListItems();
-        seedSentRecipes();
-        seedHelpSystem();
+        DatabaseSeeder seeder = new DatabaseSeeder();
+        seeder.seedUsers();
+        seeder.seedRecipes();
+        seeder.seedIngredients();
+        seeder.seedRecipeIngredients();
+        seeder.seedTags();
+        seeder.seedRecipeTags();
+        seeder.seedComments();
+        seeder.seedWeeklyDinnerLists();
+        seeder.seedDinnerListRecipes();
+        seeder.seedShoppingLists();
+        seeder.seedShoppingListItems();
+        seeder.seedSentRecipes();
+        seeder.seedHelpSystem();
         
         // Call other seed functions here
     }
