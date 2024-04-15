@@ -3,10 +3,14 @@
  */
 package cookbook;
 
-/* import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import cookbook.backend.LogIn; */
+import org.junit.jupiter.api.BeforeEach;
+
+import cookbook.backend.DatabaseMng;
+import cookbook.backend.be_objects.LogIn;
+import cookbook.backend.be_objects.User;
 
 class AppTest {
     // Commented out Greeting Test Case
@@ -14,20 +18,31 @@ class AppTest {
          App classUnderTest = new App();
          assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
      }*/
+     private LogIn login;
+     private DatabaseMng dbManager;
 
-    // @Test
-    // void testPasswordHashing() {
-    //     LogIn login = new LogIn();
-    //     String testPassword = "password123";
+    @BeforeEach
+    void setup() {
+        dbManager = new DatabaseMng();  
+        login = new LogIn(dbManager);
+    }
 
-    //     // Hash the test password and retrieve the stored hash
-    //     String hashedPassword = login.hashPassword(testPassword);
-    //     String retrievedHash = login.getPasswordHash();
+     @Test
+     void testPasswordHashing() {
+         String testPassword = "password123";
+         String hashedPassword = login.hashPassword(testPassword);
+ 
+         // Testa att hash-värdet inte är null och inte lika med klartextlösenordet
+         assertNotNull(hashedPassword, "Hashed password should not be null");
+         assertNotEquals(testPassword, hashedPassword, "Hashed password should not match plain text");
+     }
 
-    //     // Check if the hash is not empty
-    //     assertNotEquals("", hashedPassword, "Hashed password should not be empty");
+    @Test
+    void testUserSaveToDatabase() {
+        User testUser = new User("fmoussa", "Firas Moussa", "pass", false, dbManager);
+        
+        boolean isSaved = testUser.saveToDatabase();
 
-    //     // Check if the hashed password matches the retrieved hash
-    //     assertEquals(hashedPassword, retrievedHash, "Hashed password should match retrieved hash");
-    // }
+        assertTrue(isSaved, "User should be successfully saved to the database");
+    }
 }

@@ -2,29 +2,53 @@ package cookbook.backend;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class DatabaseMng {
-    private static String lastErrorMessage;
-    private static Connection conn = null; // Hold the connection
 
-    // Method that connects to the database
-    public static Connection getConnection() {
-        
-        // Try catch that tries to connect
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false");
-            return conn;
-        
-        // Catches and sends error information
+  private static String lastErrorMessage = "";
+  private String databaseUrl = "jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false";
+
+  public Connection getConnection() throws SQLException {
+    try {
+      Connection conn = DriverManager.getConnection(databaseUrl);
+      return conn;
+    } catch (SQLException e) {
+      lastErrorMessage = e.getMessage();
+      throw e;  // Fortsätt kasta undantaget för att yttre metoder kan hantera det
+    }
+  }
+
+    public Optional<String> getPasswordHashForUser(String userName) {
+      String sql = "SELECT passwordHash FROM user WHERE userName = ?";
+      try (Connection conn = getConnection();
+          PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setString(1, userName);
+          ResultSet rs = pstmt.executeQuery();
+          if (rs.next()) {
+            return Optional.of(rs.getString("passwordHash"));
+          }
         } catch (SQLException e) {
+            System.err.println("SQL Exception in getPasswordHashForUser: " + e.getMessage());
             lastErrorMessage = e.getMessage();
-            return null;
         }
+        return Optional.empty();
     }
 
-    // Gets the last error message
+    public static boolean connect() {
+       try {
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        return conn != null;
+      } catch (SQLException e) {
+        lastErrorMessage = e.getMessage();
+        return false;
+      }
+    }
+
     public static String getLastErrorMessage() {
-        return lastErrorMessage;
+      return lastErrorMessage;
     }
 }
