@@ -70,12 +70,12 @@
                     <columns>
                         <TableColumn prefWidth="108.0" text="Ingredients">
                             <cellValueFactory>
-                                <PropertyValueFactory property="ingredients" />
+                                <PropertyValueFactory property="ingredients"/>
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn prefWidth="274.0" text="Description">
+                        <TableColumn prefWidth="274.0" text="Recipe Details">
                             <cellValueFactory>
-                                <PropertyValueFactory property="recipeName" />
+                                <PropertyValueFactory property="name"/>
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
