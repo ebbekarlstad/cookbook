@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.Scene?>
-<?import javafx.stage.Stage?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeDetailController">
-    <Text fx:id="ingredientsText" style="-fx-font-size: 16px;"/>
-    <Text fx:id="descriptionText" style="-fx-font-size: 16px;"/>
+<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeDetailController" style="-fx-padding: 20;">
+    <Label fx:id="ingredientsText" text="Ingredients" style="-fx-font-size: 24px; -fx-font-weight: bold;">
+        <VBox.margin>
+            <Insets bottom="10" />
+        </VBox.margin>
+    </Label>
+    <Label fx:id="descriptionText" text="Description" style="-fx-font-size: 24px; -fx-font-weight: bold;">
+        <VBox.margin>
+            <Insets top="10" />
+        </VBox.margin>
+    </Label>
 </VBox>
