@@ -9,18 +9,19 @@ import java.util.Optional;
 
 public class DatabaseMng {
 
-  private static String lastErrorMessage = "";
-  private String databaseUrl = "jdbc:mysql://localhost/cookbookDB?user=root&password=root&useSSL=false";
+  private String lastErrorMessage = "";
 
-  public Connection getConnection() throws SQLException {
-    try {
-      Connection conn = DriverManager.getConnection(databaseUrl);
-      return conn;
-    } catch (SQLException e) {
-      lastErrorMessage = e.getMessage();
-      throw e;  // Fortsätt kasta undantaget för att yttre metoder kan hantera det
+  private String databaseUrl = "jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false";
+
+    public Connection getConnection() throws SQLException {
+        try {
+            Connection conn = DriverManager.getConnection(databaseUrl);
+            return conn;
+        } catch (SQLException e) {
+            lastErrorMessage = e.getMessage();
+            throw e;
+        }
     }
-  }
 
     public Optional<String> getPasswordHashForUser(String userName) {
       String sql = "SELECT passwordHash FROM user WHERE userName = ?";
@@ -38,7 +39,7 @@ public class DatabaseMng {
         return Optional.empty();
     }
 
-    public static boolean connect() {
+    public boolean connect() {
        try {
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
         return conn != null;
@@ -48,7 +49,7 @@ public class DatabaseMng {
       }
     }
 
-    public static String getLastErrorMessage() {
+    public String getLastErrorMessage() {
       return lastErrorMessage;
     }
 }
