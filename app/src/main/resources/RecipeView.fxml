@@ -57,7 +57,7 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                <ListView fx:id="ListOfRecipe_s" layoutX="241.0" layoutY="6.0" prefHeight="152.0" prefWidth="384.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" />
+                <ListView fx:id="ListOfRecipe_s" layoutX="241.0" layoutY="6.0" prefHeight="152.0" prefWidth="384.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" onMouseClicked="#onRecipeSelect" />
                 <Button fx:id="addRecipe" layoutX="65.0" layoutY="283.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
                 <Text layoutX="80.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" />
                 <TextField fx:id="RecipeName" layoutX="37.0" layoutY="52.0" />
