@@ -1,11 +1,17 @@
+package cookbook.frontend.fe_controllers;
+
+import cookbook.backend.be_objects.CookingOB;
+import javafx.scene.control.TextArea;
+import javafx.fxml.FXML;
+
 public class RecipeDetailController {
   @FXML
-  private Label ingredientsText;
+  private TextArea ingredientsText;
   @FXML
-  private Label descriptionText;
+  private TextArea descriptionText;
 
   public void setRecipeDetails(CookingOB recipe) {
-      ingredientsText.setText("Ingredients: \n" + recipe.getIngredients());
-      descriptionText.setText("Description: \n" + recipe.getName());
+      ingredientsText.setText(recipe.getIngredients());
+      descriptionText.setText(recipe.getName());
   }
 }
