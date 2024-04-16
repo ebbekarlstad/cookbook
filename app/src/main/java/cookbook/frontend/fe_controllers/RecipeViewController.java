@@ -64,5 +64,16 @@ public class RecipeViewController {
         }
     }
 
-   
+    @FXML
+    void initialize() {
+        ArrayList<Integer> numberOfPeople = new ArrayList<>();
+        Collections.addAll(numberOfPeople, 1, 2, 4, 6, 8);
+        amountButton.getItems().addAll(numberOfPeople);
+        amountButton.setOnAction(this::setAmount);
+    }
+
+    private void setAmount(ActionEvent event) {
+        int selected = amountButton.getSelectionModel().getSelectedItem();
+        // Add logic here to handle the amount selection
+    }
 }

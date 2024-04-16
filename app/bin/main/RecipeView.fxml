@@ -66,7 +66,7 @@
                 <TextField fx:id="RecipeIngredients" layoutX="37.0" layoutY="111.0" />
                 <Text layoutX="78.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
                 <TextField fx:id="RecipeDetails" layoutX="9.0" layoutY="176.0" prefHeight="93.0" prefWidth="216.0" />
-               
+                <ComboBox fx:id="amountButton" layoutX="37.0" layoutY="300.0" prefWidth="150.0"/>
                 
 
 
