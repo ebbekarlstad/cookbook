@@ -31,7 +31,7 @@ public class DatabaseMng {
           ResultSet rs = pstmt.executeQuery();
           if (rs.next()) {
             return Optional.of(rs.getString("passwordHash"));
-          }
+          } 
         } catch (SQLException e) {
             System.err.println("SQL Exception in getPasswordHashForUser: " + e.getMessage());
             lastErrorMessage = e.getMessage();
