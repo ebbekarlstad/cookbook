@@ -66,6 +66,12 @@
                 <TextField fx:id="RecipeIngredients" layoutX="37.0" layoutY="111.0" />
                 <Text layoutX="78.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
                 <TextField fx:id="RecipeDetails" layoutX="9.0" layoutY="176.0" prefHeight="93.0" prefWidth="216.0" />
+               
+                
+
+
+
+   
                 <TableView fx:id="infoRecipeTable" layoutX="241.0" layoutY="164.0" prefHeight="201.0" prefWidth="384.0">
                     <columns>
                         <TableColumn prefWidth="108.0" text="Ingredients">

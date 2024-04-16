@@ -1,68 +1,68 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.be_objects.CookingOB;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-/* import javafx.scene.input.MouseEvent; */
+import cookbook.backend.be_objects.CookingOB;
 
 public class RecipeViewController {
 
-  @FXML
-  private ListView<String> ListOfRecipe_s;
+    @FXML
+    private ListView<String> ListOfRecipe_s;
 
-  @FXML
-  private TextField RecipeDetails;
+    @FXML
+    private TextField RecipeDetails;
 
-  @FXML
-  private TextField RecipeIngredients;
+    @FXML
+    private TextField RecipeIngredients;
 
-  @FXML
-  private TextField RecipeName;
+    @FXML
+    private TextField RecipeName;
 
-  @FXML
-  private Button addRecipe;
+    @FXML
+    private Button addRecipe;
 
-  @FXML
-  private TableView<CookingOB> infoRecipeTable;
+    @FXML
+    private TableView<CookingOB> infoRecipeTable;
 
-  @FXML
-  private Button removeRecipe;
+    @FXML
+    private Button removeRecipe;
 
-  //Denna observableList gör så att den håller datan till tableView
-  private ObservableList<CookingOB> recipeData = FXCollections.observableArrayList();
+    @FXML
+    private ComboBox<Integer> amountButton;
 
+    private ObservableList<CookingOB> recipeData = FXCollections.observableArrayList();
 
-  @FXML
-  void addRecipe(ActionEvent event) {
-    String name = RecipeName.getText();
-    String ingredients = RecipeIngredients.getText();
-    String details = RecipeDetails.getText();
-
-
-    ListOfRecipe_s.getItems().add(name);
-
-
-    //Använder CookingOB object för att tillägga detalierna för recipe'n
-    CookingOB recipe = new CookingOB(ingredients, details);
-    recipeData.add(recipe);
-    infoRecipeTable.setItems(recipeData);
-  }
-
-  @FXML
-  void removeRecipe(ActionEvent event) {
-    //Denna metoden gör så att när man tar bort en recipe så raderas det från tableView'n och ListView'n
-    int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
-    if (selectedIndex >= 0) {
-      ListOfRecipe_s.getItems().remove(selectedIndex);
-      recipeData.remove(selectedIndex);
+    @FXML
+    void addRecipe(ActionEvent event) {
+        String name = RecipeName.getText();
+        String ingredients = RecipeIngredients.getText();
+        String details = RecipeDetails.getText();
+        ListOfRecipe_s.getItems().add(name);
+        CookingOB recipe = new CookingOB(ingredients, details);
+        recipeData.add(recipe);
+        infoRecipeTable.setItems(recipeData);
     }
-  }
 
+    @FXML
+    void removeRecipe(ActionEvent event) {
+        int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            ListOfRecipe_s.getItems().remove(selectedIndex);
+            recipeData.remove(selectedIndex);
+        }
+    }
+
+   
 }
