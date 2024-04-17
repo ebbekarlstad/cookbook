@@ -22,7 +22,7 @@ public class LoginViewController {
   private DatabaseMng dbManager = new DatabaseMng();
 
   @FXML
-  private void handleLoginButtonAction(ActionEvent event) {
+  private void handleLoginButton(ActionEvent event) {
     String username = usernameField.getText();
     String password = passwordField.getText();
 
