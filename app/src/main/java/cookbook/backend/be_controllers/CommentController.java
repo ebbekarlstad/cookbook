@@ -8,9 +8,11 @@ import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.CommentObject;
 public class CommentController {
 
+  private DatabaseMng dbManager;
+
   public boolean addComment(){
     String sql = "INSERT INTO users (recipeId, userId, text, timestamp) VALUES (?, ?, ?, ?)";
-    try (Connection conn = DatabaseMng.getConnection(); 
+    try (Connection conn = dbManager.getConnection(); 
       PreparedStatement pstmt = conn.prepareStatement(sql)) {
       pstmt.setLong(1, CommentObject.getRecipeId());
       pstmt.setInt(2, CommentObject.getUserId());

@@ -13,7 +13,7 @@ public class DatabaseMng {
 
   private String databaseUrl = "jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false";
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         try {
             Connection conn = DriverManager.getConnection(databaseUrl);
             return conn;
