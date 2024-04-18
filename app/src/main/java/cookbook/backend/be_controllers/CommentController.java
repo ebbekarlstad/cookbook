@@ -55,6 +55,13 @@ public class CommentController {
           return false;
       }
   }
+
+  public boolean editComment(int commentId, String newText) {
+    String sql = "UPDATE comments SET text = ? WHERE commentId = ?";
+   
+
+
+}
   
 
 }
