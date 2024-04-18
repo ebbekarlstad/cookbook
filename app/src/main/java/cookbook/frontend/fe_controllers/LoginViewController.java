@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -61,7 +63,7 @@ public class LoginViewController {
         System.out.println("Login successful!");
         errorLabel.setTextFill(Color.GREEN);
         errorLabel.setText("Login Successful!");
-        loadNavigationView();
+        loadNavigationView(event);
 
       } else {
         errorLabel.setTextFill(Color.RED);
@@ -78,14 +80,17 @@ public class LoginViewController {
     new Thread(loginTask).start();
   }
 
-  private void loadNavigationView() {
+  private void loadNavigationView(ActionEvent event) {
     try {
-      //Load the navigation view FXML
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("NavigationView.fxml"));
-      Stage stage = (Stage) usernameField.getScene().getWindow();
-      stage.setScene(new Scene(loader.load()));
-      stage.show();
-    }catch (IOException e) {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
