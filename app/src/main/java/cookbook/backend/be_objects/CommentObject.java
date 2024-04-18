@@ -21,25 +21,25 @@ public class CommentObject {
   public void setCommentId(int commentId) {
       this.commentId = commentId;
   }
-  public int getRecipeId() {
+  public static int getRecipeId() {
       return recipeId;
   }
   public void setRecipeId(int recipeId) {
       this.recipeId = recipeId;
   }
-  public int getUserId() {
+  public static int getUserId() {
       return userId;
   }
   public void setUserId(int userId) {
       this.userId = userId;
   }
-  public String getText() {
+  public static String getText() {
       return text;
   }
   public void setText(String text) {
       this.text = text;
   }
-  public String getTimestamp() {
+  public static String getTimestamp() {
       return timestamp;
   }
   public void setTimestamp(String timestamp) {
