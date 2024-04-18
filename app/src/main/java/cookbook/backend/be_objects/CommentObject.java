@@ -3,10 +3,10 @@ package cookbook.backend.be_objects;
 
 public class CommentObject {
   private int commentId;
-  private int recipeId;
-  private int userId;
-  private String text;
-  private String timestamp;
+  private static int recipeId;
+  private static int userId;
+  private static String text;
+  private static String timestamp;
 
   public CommentObject(int commentId, int recipeId, int userId, String text, String timestamp) {
       this.commentId = commentId;
@@ -45,10 +45,6 @@ public class CommentObject {
   public void setTimestamp(String timestamp) {
       this.timestamp = timestamp;
   }
-
-    
-
-
 
     
 }
