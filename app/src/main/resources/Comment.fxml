@@ -30,24 +30,19 @@
                               </Label>
                            </children>
                         </HBox>
-                        <ListView layoutX="3.0" layoutY="501.0" prefHeight="185.0" prefWidth="456.0" />
-                        <Label layoutX="8.0" layoutY="197.0" prefHeight="50.0" prefWidth="212.0" textFill="#ae1010">
-                           <font>
-                              <Font name="System Bold Italic" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="8.0" layoutY="253.0" prefHeight="53.0" prefWidth="227.0" style="-fx-background-color: white;" text="      Comments" textFill="#221e1e">
+                        <ListView layoutX="-2.0" layoutY="393.0" prefHeight="293.0" prefWidth="456.0" />
+                        <Label layoutX="14.0" layoutY="126.0" prefHeight="53.0" prefWidth="227.0" style="-fx-background-color: white;" text="      Comments" textFill="#221e1e">
                            <font>
                               <Font name="System Bold Italic" size="26.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="4.0" layoutY="315.0" prefHeight="179.0" prefWidth="293.0" promptText="Write a comment ">
+                        <TextField layoutY="211.0" prefHeight="179.0" prefWidth="293.0" promptText="Write a comment ">
                            <font>
                               <Font size="29.0" />
                            </font></TextField>
-                        <Button layoutX="304.0" layoutY="390.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="155.0" text="Remove" />
-                        <Button layoutX="305.0" layoutY="329.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="152.0" text="Edit" />
-                        <Button layoutX="303.0" layoutY="451.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="Add" />
+                        <Button layoutX="304.0" layoutY="279.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="155.0" text="Remove" />
+                        <Button layoutX="305.0" layoutY="211.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="152.0" text="Edit" />
+                        <Button layoutX="304.0" layoutY="347.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="Add" />
                      </children>
                   </AnchorPane>
               </content>
