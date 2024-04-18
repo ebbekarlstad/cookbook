@@ -63,7 +63,18 @@ public class CommentController {
         pstmt.setString(1, newText);
         pstmt.setInt(2, commentId);
 
-        
+        int affectedRows = pstmt.executeUpdate();
+        if (affectedRows > 0) {
+            System.out.println("Comment updated successfully.");
+            return true;
+        } else {
+            System.out.println("No rows affected, comment not found.");
+            return false;
+        }
+    } catch (SQLException e) {
+        System.err.println("Database error during comment update: " + e.getMessage());
+        return false;
+    }
 }
   
 
