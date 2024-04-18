@@ -30,8 +30,14 @@ public class DatabaseSeeder {
             + "`IsAdmin` tinyint NOT NULL, "
             + "PRIMARY KEY (`UserID`), "
             + "UNIQUE KEY `userID_UNIQUE` (`UserID`));";
+            
+        // Inserts a new user with username 'user' and password 'user'
+        String seedUserValues = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
+            + "VALUES ('user', 'User', 'user', 0);";
+            
             seedTable(dropTableSQL);
             seedTable(createTableSQL);
+            seedTable(seedUserValues);
     }
 
     public void seedRecipes() {
