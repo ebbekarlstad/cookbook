@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeViewController">
     <children>
-        <MenuBar VBox.vgrow="NEVER">
+        <MenuBar prefHeight="0.0" prefWidth="633.0" VBox.vgrow="NEVER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
@@ -56,24 +56,18 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" VBox.vgrow="ALWAYS">
             <children>
-                <ListView fx:id="ListOfRecipe_s" layoutX="241.0" layoutY="6.0" prefHeight="152.0" prefWidth="384.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" />
-                <Button fx:id="addRecipe" layoutX="14.0" layoutY="282.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
-                <Text layoutX="80.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" />
-                <TextField fx:id="RecipeName" layoutX="37.0" layoutY="52.0" />
-                <Button fx:id="removeRecipe" layoutX="135.0" layoutY="282.0" mnemonicParsing="false" onAction="#removeRecipe" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
-                <Text layoutX="85.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients" wrappingWidth="62.67724609375" />
-                <TextField fx:id="RecipeIngredients" layoutX="37.0" layoutY="111.0" />
-                <Text layoutX="78.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
-                <TextField fx:id="RecipeDetails" layoutX="9.0" layoutY="176.0" prefHeight="93.0" prefWidth="216.0" />
-                
-                
-
-
-
-   
-                <TableView fx:id="infoRecipeTable" layoutX="241.0" layoutY="164.0" prefHeight="201.0" prefWidth="384.0">
+                <ListView fx:id="ListOfRecipe_s" layoutX="6.0" layoutY="250.0" onMouseClicked="#onRecipeSelect" prefHeight="152.0" prefWidth="216.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" />
+                <Button fx:id="addRecipe" layoutX="5.0" layoutY="218.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
+                <Text layoutX="47.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" />
+                <TextField fx:id="RecipeName" layoutX="8.0" layoutY="23.0" />
+                <Button fx:id="removeRecipe" layoutX="114.0" layoutY="218.0" mnemonicParsing="false" onAction="#removeRecipe" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
+                <Text layoutX="51.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients" wrappingWidth="62.67724609375" />
+                <TextField fx:id="RecipeIngredients" layoutX="8.0" layoutY="69.0" />
+                <Text layoutX="45.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
+                <TextField fx:id="RecipeDetails" layoutX="5.0" layoutY="111.0" prefHeight="93.0" prefWidth="216.0" />
+                <TableView fx:id="infoRecipeTable" layoutX="550.0" prefHeight="235.0" prefWidth="384.0">
                     <columns>
                         <TableColumn prefWidth="108.0" text="Ingredients">
                             <cellValueFactory>
@@ -87,7 +81,10 @@
                         </TableColumn>
                     </columns>
                 </TableView>
-            <ComboBox id="numberOfPerson" layoutX="60.0" layoutY="328.0" prefWidth="150.0" promptText="Antal personer " />
+                <ComboBox fx:id="numberOfPerson" layoutX="39.0" layoutY="456.0" prefWidth="150.0" promptText="Antal personer " />
+            
+        
+
             </children>
         </AnchorPane>
     </children>
