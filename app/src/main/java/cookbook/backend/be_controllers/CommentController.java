@@ -58,9 +58,12 @@ public class CommentController {
 
   public boolean editComment(int commentId, String newText) {
     String sql = "UPDATE comments SET text = ? WHERE commentId = ?";
-   
+    try (Connection conn = dbManager.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, newText);
+        pstmt.setInt(2, commentId);
 
-
+        
 }
   
 
