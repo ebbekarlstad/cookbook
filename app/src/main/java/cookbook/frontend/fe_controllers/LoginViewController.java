@@ -90,7 +90,7 @@ public class LoginViewController {
       Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
       window.setScene(navigationPageScene);
       window.show();
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
