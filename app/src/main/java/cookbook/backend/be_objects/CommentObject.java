@@ -18,7 +18,69 @@ public class CommentObject {
         this.timestamp = timestamp;
     }
 
+
+
+    public int getCommentId() {
+        return commentId;
+    }
+
+
+
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
+    }
+
+
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+
+
+    public String getText() {
+        return text;
+    }
+
+
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     
+
+
 
     
 }
