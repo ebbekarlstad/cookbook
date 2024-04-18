@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -8,10 +10,12 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeViewController">
@@ -57,29 +61,64 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" VBox.vgrow="ALWAYS">
             <children>
-                <ListView fx:id="ListOfRecipe_s" layoutX="6.0" layoutY="250.0" onMouseClicked="#onRecipeSelect" prefHeight="152.0" prefWidth="216.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" />
-                <Button fx:id="addRecipe" layoutX="5.0" layoutY="218.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
-                <Text layoutX="47.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" />
-                <TextField fx:id="RecipeName" layoutX="8.0" layoutY="23.0" />
-                <Button fx:id="removeRecipe" layoutX="114.0" layoutY="218.0" mnemonicParsing="false" onAction="#removeRecipe" onMouseClicked="#removeRecipe" prefHeight="25.0" prefWidth="103.0" text="Remove Recipe" />
-                <Text layoutX="51.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients" wrappingWidth="62.67724609375" />
-                <TextField fx:id="RecipeIngredients" layoutX="8.0" layoutY="69.0" />
-                <Text layoutX="45.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Details" />
-                <TextField fx:id="RecipeDetails" layoutX="5.0" layoutY="111.0" prefHeight="93.0" prefWidth="216.0" />
-                <TableView fx:id="infoRecipeTable" layoutX="550.0" prefHeight="235.0" prefWidth="384.0">
-                    <columns>
-                        <TableColumn prefWidth="108.0" text="Ingredients">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="ingredients" />
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn prefWidth="274.0" text="Description">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="recipeName" />
-                            </cellValueFactory>
-                        </TableColumn>
-                    </columns>
-                </TableView>
+                <ListView fx:id="ListOfRecipe_s" layoutX="337.0" layoutY="74.0" onMouseClicked="#onRecipeSelect" prefHeight="546.0" prefWidth="190.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" />
+                <Button fx:id="addRecipe" layoutX="14.0" layoutY="637.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
+                <Text fill="#db5442" layoutX="96.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Text>
+                <TextField fx:id="RecipeName" layoutX="64.0" layoutY="31.0" />
+                <Text fill="#db5442" layoutX="126.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions ">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Text>
+                <TextField fx:id="RecipeDetails" layoutX="6.0" layoutY="327.0" prefHeight="142.0" prefWidth="318.0" />
+            <TableView fx:id="IngredientTable" layoutX="6.0" layoutY="100.0" prefHeight="210.0" prefWidth="318.0">
+               <columns>
+                  <TableColumn fx:id="ingredientColumn" prefWidth="113.0" text="Name" />
+                  <TableColumn fx:id="unitColumn" prefWidth="95.0" text="Unit" />
+                  <TableColumn fx:id="amountColumn" prefWidth="67.0" text="Amount" />
+               </columns>
+               <contextMenu>
+                  <ContextMenu>
+                     <items>
+                     </items>
+                  </ContextMenu>
+               </contextMenu>
+            </TableView>
+            <Button layoutX="5.0" layoutY="62.0" minWidth="103.0" mnemonicParsing="false" onAction="#addIngredientClicked" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: black;;" styleClass="searchButton" text="Add Ingredient" textFill="WHITE" />
+            <TextField fx:id="addAmountText" layoutX="198.0" layoutY="62.0" maxWidth="125.0" prefHeight="26.0" prefWidth="74.0" promptText="Amount" />
+            <TextField fx:id="addUnitText" layoutX="272.0" layoutY="62.0" maxWidth="125.0" prefHeight="26.0" prefWidth="49.0" promptText="Unit" />
+            <TextField fx:id="addIngredientNameText" layoutX="114.0" layoutY="62.0" prefHeight="26.0" prefWidth="86.0" promptText="Name" />
+            <HBox layoutX="132.0" layoutY="419.0" />
+            <Text fill="#db5442" layoutX="395.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe List" wrappingWidth="74.39999999999998">
+               <font>
+                  <Font name="Arial Narrow Bold Italic" size="14.0" />
+               </font>
+            </Text>
+            <HBox layoutX="394.0" layoutY="522.0" />
+            <ListView fx:id="tagsListView" layoutX="42.0" layoutY="472.0" prefHeight="128.0" prefWidth="279.0">
+               <contextMenu>
+                  <ContextMenu>
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#removeTagClicked" text="Remove tag" />
+                     </items>
+                  </ContextMenu>
+               </contextMenu>
+            </ListView>
+            <Label layoutY="522.0" prefHeight="27.0" prefWidth="42.0" text="Tags" textFill="#db5442">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="addTagTextField" layoutX="114.0" layoutY="600.0" prefHeight="25.0" prefWidth="134.0" promptText="Add Tag" />
+            <Button fx:id="addTagButton" layoutX="248.0" layoutY="600.0" mnemonicParsing="false" onAction="#addTagClicked" prefHeight="25.0" prefWidth="63.0" text="Add tag" textFill="#db5442" />
+            <TextArea fx:id="recipeDescText" layoutX="542.0" layoutY="75.0" prefHeight="311.0" prefWidth="390.0" wrapText="true" />
+            <Label fx:id="commentsLabel1" layoutX="701.0" layoutY="24.0" text="Descripton" textFill="#db5442">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </children>

@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -69,28 +70,23 @@ public class RecipeViewController {
   }
 
   @FXML
-  void onRecipeSelect() {
-    int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
-    if (selectedIndex >= 0) {
-      CookingOB selectedRecipe = recipeData.get(selectedIndex);
-      openDetailWindow(selectedRecipe);
-    }
+  private void onRecipeSelect(MouseEvent event) {
+    // Code to execute when a recipe is selected from the list
   }
 
-  private void openDetailWindow(CookingOB recipe) {
-    try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetail.fxml"));
-      Parent root = loader.load();
 
-      RecipeDetailController controller = loader.getController();
-      controller.setRecipeDetails(recipe);
+  @FXML
+  void addIngredientClicked(ActionEvent event) {
+    // Add your implementation logic here
+  }
 
-      Stage stage = new Stage();
-      stage.setTitle(recipe.getName());
-      stage.setScene(new Scene(root,600, 400));
-      stage.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  @FXML
+  void removeTagClicked(ActionEvent event) {
+    // Implementation for removing a tag from the list
+  }
+
+  @FXML
+  void addTagClicked(ActionEvent event) {
+    // Logic for adding a tag
   }
 }
