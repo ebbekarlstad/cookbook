@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.concurrent.Task;
-import javafx.application.Platform;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
