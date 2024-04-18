@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,32 +12,42 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="483.0" prefWidth="690.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="400.0" prefWidth="292.0">
+            <ScrollPane prefHeight="703.0" prefWidth="476.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="378.0" prefWidth="293.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="703.0" prefWidth="475.0">
                      <children>
                         <VBox prefHeight="74.0" prefWidth="100.0" />
-                        <HBox layoutY="6.0" prefHeight="100.0" prefWidth="153.0">
+                        <HBox layoutY="6.0" prefHeight="134.0" prefWidth="457.0">
                            <children>
-                              <Label prefHeight="63.0" prefWidth="96.0" text="     Title" textFill="#b90f0f">
+                              <Label prefHeight="128.0" prefWidth="279.0" text=" Titel ">
                                  <font>
-                                    <Font name="System Bold Italic" size="20.0" />
+                                    <Font size="45.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <VBox layoutX="5.0" layoutY="90.0" prefHeight="80.0" prefWidth="279.0" />
-                        <Label layoutX="5.0" layoutY="174.0" prefHeight="31.0" prefWidth="139.0" text="      Comments" textFill="#ae1010">
+                        <ListView layoutX="3.0" layoutY="501.0" prefHeight="185.0" prefWidth="456.0" />
+                        <Label layoutX="8.0" layoutY="197.0" prefHeight="50.0" prefWidth="212.0" textFill="#ae1010">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="System Bold Italic" size="20.0" />
                            </font>
                         </Label>
-                        <ListView layoutX="4.0" layoutY="221.0" prefHeight="122.0" prefWidth="286.0" />
-                        <Button layoutX="136.0" layoutY="352.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #b90f0f;" text="Add a comment" />
+                        <Label layoutX="8.0" layoutY="253.0" prefHeight="53.0" prefWidth="227.0" style="-fx-background-color: white;" text="      Comments" textFill="#221e1e">
+                           <font>
+                              <Font name="System Bold Italic" size="26.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="4.0" layoutY="315.0" prefHeight="179.0" prefWidth="293.0" promptText="Write a comment ">
+                           <font>
+                              <Font size="29.0" />
+                           </font></TextField>
+                        <Button layoutX="304.0" layoutY="390.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="155.0" text="Remove" />
+                        <Button layoutX="305.0" layoutY="329.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="152.0" text="Edit" />
+                        <Button layoutX="303.0" layoutY="451.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="Add" />
                      </children>
                   </AnchorPane>
               </content>
