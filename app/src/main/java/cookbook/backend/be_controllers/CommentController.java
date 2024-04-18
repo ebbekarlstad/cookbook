@@ -1,23 +1,24 @@
 package cookbook.backend.be_controllers;
+import cookbook.backend.be_objects.CommentObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import cookbook.backend.DatabaseMng;
-import cookbook.backend.be_objects.CommentObject;
 public class CommentController {
 
   private DatabaseMng dbManager;
+  private CommentObject commentObj;
 
   public boolean addComment(){
     String sql = "INSERT INTO users (recipeId, userId, text, timestamp) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); 
       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-      pstmt.setLong(1, CommentObject.getRecipeId());
-      pstmt.setInt(2, CommentObject.getUserId());
-      pstmt.setString(3, CommentObject.getText());
-      pstmt.setString(4,CommentObject.getTimestamp());
+      pstmt.setLong(1, commentObj.getRecipeId());
+      pstmt.setInt(2, commentObj.getUserId());
+      pstmt.setString(3, commentObj.getText());
+      pstmt.setString(4, commentObj.getTimestamp());
 
       int affectedRows = pstmt.executeUpdate();
         if (affectedRows > 0) {
