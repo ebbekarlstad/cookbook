@@ -34,8 +34,7 @@ public class CommentController {
 
     }
 
-    
-    }
+}
 
     public boolean removeComment(int commentId) {
       String sql = "DELETE FROM users WHERE commentId = ?";
