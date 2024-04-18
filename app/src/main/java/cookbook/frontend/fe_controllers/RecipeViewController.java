@@ -11,17 +11,17 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+// import javafx.fxml.FXMLLoader;
+// import javafx.scene.Parent;
+// import javafx.scene.Scene;
+// import javafx.stage.Stage;
 
 /* import javafx.scene.input.MouseEvent; */
 
 public class RecipeViewController {
 
   @FXML
-  private ListView<String> ListOfRecipe_s;
+  private ListView<String> ListOfRecipes;
 
   @FXML
   private TextField RecipeDetails;
@@ -50,7 +50,7 @@ public class RecipeViewController {
     String ingredients = RecipeIngredients.getText();
     String details = RecipeDetails.getText();
 
-    ListOfRecipe_s.getItems().add(name);
+    ListOfRecipes.getItems().add(name);
 
     // Använder CookingOB object för att tillägga detalierna för recipe'n
     CookingOB recipe = new CookingOB(ingredients, details);
@@ -62,9 +62,9 @@ public class RecipeViewController {
   void removeRecipe(ActionEvent event) {
     // Denna metoden gör så att när man tar bort en recipe så raderas det från
     // tableView'n och ListView'n
-    int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
+    int selectedIndex = ListOfRecipes.getSelectionModel().getSelectedIndex();
     if (selectedIndex >= 0) {
-      ListOfRecipe_s.getItems().remove(selectedIndex);
+      ListOfRecipes.getItems().remove(selectedIndex);
       recipeData.remove(selectedIndex);
     }
   }
