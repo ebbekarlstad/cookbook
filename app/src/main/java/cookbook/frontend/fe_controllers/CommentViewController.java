@@ -1,5 +1,8 @@
 package cookbook.frontend.fe_controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_objects.CommentObject;
@@ -20,6 +23,7 @@ public class CommentViewController {
     
     @FXML
     private ListView<String> commentsListView;  // List to display comments
+    private List<Integer> commentIdList = new ArrayList<>();
 
     @FXML
     private TextField commentInput;  // Input field for comments
@@ -63,6 +67,36 @@ public class CommentViewController {
 
     @FXML
     private void editComment(ActionEvent event) {
-        // Unimplemented method
+        int selectedIndex = commentsListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex != -1) {
+            // Check if the text box is already loaded with the selected comment for editing
+            if (commentInput.getText().equals(commentsListView.getItems().get(selectedIndex))) {
+                // User has edited the comment and is ready to update
+                String updatedCommentText = commentInput.getText().trim();
+                // Assuming the ListView items are directly mapped to comment IDs or you have a way to get IDs
+                int commentId = getCommentIdByIndex(selectedIndex); // Implement this method based on your application's data structure
+
+                if (commentController.editComment(commentId, updatedCommentText)) {
+                    commentsListView.getItems().set(selectedIndex, updatedCommentText);
+                    commentInput.clear();
+                    System.out.println("Comment updated successfully.");
+                } else {
+                    System.out.println("Failed to update comment.");
+                }
+            } else {
+                // Load the selected comment into the text box for editing
+                commentInput.setText(commentsListView.getItems().get(selectedIndex));
+            }
+        } else {
+            System.out.println("No comment selected.");
+        }
+    }
+
+    private int getCommentIdByIndex(int index) {
+        if (index >= 0 && index < commentIdList.size()) {
+            return commentIdList.get(index);
+        } else {
+            throw new IndexOutOfBoundsException("Index out of bounds for comment ID list");
+        }
     }
 }
