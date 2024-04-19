@@ -1,26 +1,29 @@
 package cookbook.backend.be_objects;
 
 public class Ingredient {
-  private final String name;
-  private final String unit;
-  private final int amount;
+  private String name;
+  private String ingredientsID;
 
 
-  public Ingredient(String name, String unit, int amount) {
-    this.name = name;
-    this.unit = unit;
-    this.amount = amount;
+
+  public Ingredient(String name, String ingredientsID) {
+    setIngredientsID(ingredientsID);
+    setName(name);
   }
 
   public String getName() {
     return name;
   }
 
-  public String getUnit() {
-    return unit;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public int getAmount() {
-    return amount;
+  public String getIngredientsID() {
+    return ingredientsID;
+  }
+
+  public void setIngredientsID(String ingredientsID) {
+    this.ingredientsID = ingredientsID;
   }
 }
