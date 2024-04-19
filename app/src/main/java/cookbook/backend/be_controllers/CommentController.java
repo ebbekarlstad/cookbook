@@ -9,11 +9,14 @@ import cookbook.backend.be_objects.CommentObject;
 
 public class CommentController {
 
-  private CommentObject commentObj;
   private DatabaseMng dbManager;
 
-  public boolean addComment(){
-    String sql = "INSERT INTO users (recipeId, userId, text, timestamp) VALUES (?, ?, ?, ?)";
+  public CommentController(DatabaseMng dbManager) {
+    this.dbManager = dbManager; // Assign the passed instance to the dbManager field
+  }
+
+  public boolean addComment(CommentObject commentObj){
+    String sql = "INSERT INTO comments (RecipeID, UserID, Text, Timestamp) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); 
       PreparedStatement pstmt = conn.prepareStatement(sql)) {
       pstmt.setLong(1, commentObj.getRecipeId());
