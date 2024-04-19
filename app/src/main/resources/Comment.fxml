@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="cookbook.frontend.fe_controllers.CommentViewController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <HBox prefHeight="483.0" prefWidth="690.0" BorderPane.alignment="CENTER">
          <children>
@@ -30,19 +30,19 @@
                               </Label>
                            </children>
                         </HBox>
-                        <ListView layoutX="-2.0" layoutY="332.0" prefHeight="354.0" prefWidth="465.0" />
+                        <ListView fx:id="commentsListView" layoutX="-2.0" layoutY="332.0" prefHeight="354.0" prefWidth="465.0" />
                         <Label layoutY="89.0" prefHeight="53.0" prefWidth="227.0" style="-fx-background-color: white;" text="      Comments" textFill="#221e1e">
                            <font>
                               <Font name="System Bold Italic" size="26.0" />
                            </font>
                         </Label>
-                        <TextField layoutY="152.0" prefHeight="179.0" prefWidth="293.0" promptText="Write a comment ">
+                        <TextField fx:id="commentInput" layoutY="152.0" prefHeight="179.0" prefWidth="293.0" promptText="Write a comment ">
                            <font>
                               <Font size="29.0" />
                            </font></TextField>
                         <Button layoutX="305.0" layoutY="220.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="155.0" text="Remove" />
                         <Button layoutX="306.0" layoutY="152.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="152.0" text="Edit" />
-                        <Button layoutX="304.0" layoutY="288.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="Add" />
+                        <Button layoutX="304.0" layoutY="288.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="Add" onAction="#addComment" />
                         <Button layoutX="304.0" layoutY="25.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="156.0" text="Share" />
                      </children>
                   </AnchorPane>
