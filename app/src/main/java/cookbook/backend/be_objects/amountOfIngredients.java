@@ -26,8 +26,8 @@ public class amountOfIngredients {
     return amount;
   }
 
-  public void addAmount(double additional) {
-    amount += additional;
+  public void addAmount(double addingUTIL) {
+    amount += addingUTIL;
   }
   public void setAmount(double amount) {
     this.amount = amount;
@@ -48,9 +48,5 @@ public class amountOfIngredients {
   public void setIngredient_s(Ingredient ingredient_s) {
     this.ingredient_s = ingredient_s;
   }
-
-
-  public String toData() {
-    return "INGREDIENT:" + this.amount + ":" + String.valueOf(this.unit) + ":" + this.name;
-  }
+  
 }
