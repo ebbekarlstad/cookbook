@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.CommentObject;
+
 public class CommentController {
 
   private CommentObject commentObj;
@@ -31,11 +32,8 @@ public class CommentController {
       } catch (SQLException e) {
           System.err.println("Database error during comment insertion: " + e.getMessage());
           return false;
-
-
     }
-
-}
+  }
 
     public boolean removeComment(int commentId) {
       String sql = "DELETE FROM users WHERE commentId = ?";
@@ -76,10 +74,5 @@ public class CommentController {
         System.err.println("Database error during comment update: " + e.getMessage());
         return false;
     }
+  }
 }
-  
-
-}
-
-
-
