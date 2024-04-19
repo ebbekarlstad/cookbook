@@ -16,8 +16,16 @@ public class CommentViewController {
     private void addComment(ActionEvent event) {
         String comment = commentInput.getText().trim();  // Get text from TextField
         if (!comment.isEmpty()) {
-            commentsListView.getItems().add(comment);  // Add comment to ListView
-            commentInput.clear();  // Clear input field
+            commentsListView.getItems().add(comment);  // Add comment to our ListView
+            commentInput.clear();
+        }
+    }
+
+    @FXML
+    private void deleteComment(ActionEvent event) {
+        int selectedIndex = commentsListView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex != -1) { // Check if an item is actually selected
+            commentsListView.getItems().remove(selectedIndex);
         }
     }
 }
