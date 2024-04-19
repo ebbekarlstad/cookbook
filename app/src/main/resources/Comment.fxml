@@ -40,7 +40,7 @@
                            <font>
                               <Font size="29.0" />
                            </font></TextField>
-                        <Button layoutX="305.0" layoutY="220.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="155.0" text="Remove"  onAction="#deleteComment" />
+                        <Button layoutX="305.0" layoutY="220.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="155.0" text="Remove"  onAction="#removeComment" />
                         <Button layoutX="306.0" layoutY="152.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="152.0" text="Edit" onAction="#editComment" />
                         <Button layoutX="304.0" layoutY="288.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="Add" onAction="#addComment" />
                         <Button layoutX="304.0" layoutY="25.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="156.0" text="Share" />
