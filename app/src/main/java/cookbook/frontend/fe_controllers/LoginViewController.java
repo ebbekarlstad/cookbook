@@ -39,23 +39,36 @@ public class LoginViewController {
 
   private DatabaseMng dbManager = new DatabaseMng();
 
+  /**
+   * Method that handles the ActionEvent when the Login button is clicked.
+   * @param event Login button click.
+   */
   @FXML
   private void handleLoginButton(ActionEvent event) {
+    
+    // Empty the errorlabel
     errorLabel.setText("");
+
+    // Get the input from the username & password field.
     String username = usernameField.getText();
     String password = passwordField.getText();
 
     // Show progress indicator
     loginProgress.setVisible(true);
 
+    /**
+     * Boolean that initializes a new Task object.
+     * @return False if credentials are wrong. True if correct.
+     */
     Task<Boolean> loginTask = new Task<>() {
       @Override
       protected Boolean call() throws Exception {
-        Thread.sleep(2000);
+        Thread.sleep(2000);  // Sleep for 2 seconds
         return new LogIn(dbManager).doLogin(username, password);
       }
     };
 
+    // If login succeded
     loginTask.setOnSucceeded(e -> {
       loginProgress.setVisible(false);
 
