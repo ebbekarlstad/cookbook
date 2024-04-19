@@ -33,7 +33,7 @@ public class DatabaseSeeder {
             
         // Inserts a new user with username 'user' and password 'user'
         String seedUserValues = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
-            + "VALUES ('user', 'User', 'user', 0);";
+            + "VALUES ('user', 'User', '4f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 0);";
             
             seedTable(dropTableSQL);
             seedTable(createTableSQL);
