@@ -38,24 +38,24 @@ public class CommentController {
     }
   }
 
-    public boolean removeComment(int commentId) {
-      String sql = "DELETE FROM comments WHERE commentId = ?";
-      try (Connection conn = dbManager.getConnection();
-           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setInt(1, commentId);
-  
-          int affectedRows = pstmt.executeUpdate();
-          if (affectedRows > 0) {
-              System.out.println("Comment deleted successfully.");
-              return true;
-          } else {
-              System.out.println("No rows affected, comment not found.");
-              return false;
-          }
-      } catch (SQLException e) {
-          System.err.println("Database error during comment deletion: " + e.getMessage());
-          return false;
-      }
+  public boolean removeComment(String commentText) {
+    String sql = "DELETE FROM comments WHERE Text = ?";
+    try (Connection conn = dbManager.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, commentText);
+
+        int affectedRows = pstmt.executeUpdate();
+        if (affectedRows > 0) {
+            System.out.println("Comment deleted successfully.");
+            return true;
+        } else {
+            System.out.println("No rows affected, comment not found.");
+            return false;
+        }
+    } catch (SQLException e) {
+        System.err.println("Database error during comment deletion: " + e.getMessage());
+        return false;
+    }
   }
 
   public boolean editComment(int commentId, String newText) {
