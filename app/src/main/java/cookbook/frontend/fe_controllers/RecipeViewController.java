@@ -1,24 +1,18 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.be_objects.CookingOB;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import cookbook.backend.be_objects.Ingredient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-/* import javafx.scene.input.MouseEvent; */
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class RecipeViewController {
+
+  @FXML
+  private TableView<Ingredient> IngredientTable;
 
   @FXML
   private ListView<String> ListOfRecipe_s;
@@ -27,66 +21,95 @@ public class RecipeViewController {
   private TextField RecipeDetails;
 
   @FXML
-  private TextField RecipeIngredients;
+  private TextField RecipeName;
 
   @FXML
-  private TextField RecipeName;
+  private TextField addAmountText;
+
+  @FXML
+  private TextField addIngredientNameText;
 
   @FXML
   private Button addRecipe;
 
   @FXML
-  private TableView<CookingOB> infoRecipeTable;
+  private Button addTagButton;
 
   @FXML
-  private Button removeRecipe;
-
-  // Denna observableList gör så att den håller datan till tableView
-  private ObservableList<CookingOB> recipeData = FXCollections.observableArrayList();
+  private TextField addTagTextField;
 
   @FXML
-  void addRecipe(ActionEvent event) {
-    String name = RecipeName.getText();
-    String ingredients = RecipeIngredients.getText();
-    String details = RecipeDetails.getText();
-
-    ListOfRecipe_s.getItems().add(name);
-
-    // Använder CookingOB object för att tillägga detalierna för recipe'n
-    CookingOB recipe = new CookingOB(ingredients, details);
-    recipeData.add(recipe);
-    infoRecipeTable.setItems(recipeData);
-  }
+  private TextField addUnitText;
 
   @FXML
-  void removeRecipe(ActionEvent event) {
-    // Denna metoden gör så att när man tar bort en recipe så raderas det från
-    // tableView'n och ListView'n
-    int selectedIndex = ListOfRecipe_s.getSelectionModel().getSelectedIndex();
-    if (selectedIndex >= 0) {
-      ListOfRecipe_s.getItems().remove(selectedIndex);
-      recipeData.remove(selectedIndex);
-    }
-  }
+  private TableColumn<Ingredient, String> ingredientColumn;
 
   @FXML
-  private void onRecipeSelect(MouseEvent event) {
-    // Code to execute when a recipe is selected from the list
-  }
+  private Label commentsLabel1;
 
+  @FXML
+  private TableColumn<Ingredient, String> unitColumn;
+
+  @FXML
+  private TableColumn<Ingredient, Integer> amountColumn;
+
+  @FXML
+  private TextArea recipeDescText;
+
+  @FXML
+  private ListView<String> tagsListView;
 
   @FXML
   void addIngredientClicked(ActionEvent event) {
-    // Add your implementation logic here
+    // This method will be used to add the ingredients to the table.
+    String name = addIngredientNameText.getText();
+    String unit = addUnitText.getText();
+    int amount = Integer.parseInt(addAmountText.getText());
+
+    Ingredient ingredient = new Ingredient(name, unit, amount);
+    IngredientTable.getItems().add(ingredient);
+
+    addIngredientNameText.clear();
+    addUnitText.clear();
+    addAmountText.clear();
   }
 
   @FXML
-  void removeTagClicked(ActionEvent event) {
-    // Implementation for removing a tag from the list
+  void addRecipe(MouseEvent event) {
+
+    String recipeName = RecipeName.getText();
+    String recipeDescription = recipeDescText.getText();
+
+    ListOfRecipe_s.getItems().add(recipeName);
+
   }
 
   @FXML
   void addTagClicked(ActionEvent event) {
-    // Logic for adding a tag
+    String tag = addTagTextField.getText();
+    tagsListView.getItems().add(tag);
+    addTagTextField.clear();
   }
+
+  @FXML
+  void onRecipeSelect(javafx.scene.input.MouseEvent event) {
+
+  }
+
+  @FXML
+  void removeTagClicked(ActionEvent event) {
+    // This method will be used to remove tags from the list view
+    int selectedIndex = tagsListView.getSelectionModel().getSelectedIndex();
+    if (selectedIndex != -1) {
+      tagsListView.getItems().remove(selectedIndex);
+    }
+  }
+
+
+
+
+  
+
+
+
 }
