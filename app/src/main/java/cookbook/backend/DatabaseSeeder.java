@@ -122,7 +122,7 @@ public class DatabaseSeeder {
         String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";
 
         String createTableSQL = "CREATE TABLE `comments` ("
-            + "`CommentID` int NOT NULL, "
+            + "`CommentID` int NOT NULL AUTO_INCREMENT, "
             + "`RecipeID` int NOT NULL, "
             + "`UserID` int NOT NULL, "
             + "`Text` varchar(255) NOT NULL, "
