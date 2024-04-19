@@ -30,8 +30,14 @@ public class DatabaseSeeder {
             + "`IsAdmin` tinyint NOT NULL, "
             + "PRIMARY KEY (`UserID`), "
             + "UNIQUE KEY `userID_UNIQUE` (`UserID`));";
+            
+        // Inserts a new user with username 'user' and password 'user'
+        String seedUserValues = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
+            + "VALUES ('user', 'User', '4f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 0);";
+            
             seedTable(dropTableSQL);
             seedTable(createTableSQL);
+            seedTable(seedUserValues);
     }
 
     public void seedRecipes() {
@@ -116,7 +122,7 @@ public class DatabaseSeeder {
         String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";
 
         String createTableSQL = "CREATE TABLE `comments` ("
-            + "`CommentID` int NOT NULL, "
+            + "`CommentID` int NOT NULL AUTO_INCREMENT, "
             + "`RecipeID` int NOT NULL, "
             + "`UserID` int NOT NULL, "
             + "`Text` varchar(255) NOT NULL, "
