@@ -11,6 +11,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
@@ -58,6 +60,11 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" VBox.vgrow="ALWAYS">
             <children>
+                <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
+                   <image>
+                      <Image url="@images/abstract-textured-backgound.jpg" />
+                   </image>
+                </ImageView>
                 <ListView fx:id="ListOfRecipe_s" layoutX="6.0" layoutY="250.0" onMouseClicked="#onRecipeSelect" prefHeight="152.0" prefWidth="216.0" style="-fx-font-weight: bold; -fx-font-size: 16px;;" />
                 <Button fx:id="addRecipe" layoutX="5.0" layoutY="218.0" mnemonicParsing="false" onAction="#addRecipe" onMouseClicked="#addRecipe" prefHeight="25.0" prefWidth="103.0" text="Add Recipe" />
                 <Text layoutX="47.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" />
@@ -74,9 +81,9 @@
                                 <PropertyValueFactory property="ingredients" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn prefWidth="274.0" text="Description">
+                        <TableColumn prefWidth="274.0" text="Recipe Details">
                             <cellValueFactory>
-                                <PropertyValueFactory property="recipeName" />
+                                <PropertyValueFactory property="name" />
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
