@@ -1,6 +1,8 @@
 package cookbook.frontend.fe_controllers;
 
 import cookbook.backend.be_objects.Ingredient;
+import cookbook.backend.be_controllers.BE_RecipeDB;
+import cookbook.backend.be_objects.RecipeOB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.UUID;
 
 public class RecipeViewController {
 
@@ -18,7 +21,7 @@ public class RecipeViewController {
   private ListView<String> ListOfRecipe_s;
 
   @FXML
-  private TextField RecipeDetails;
+  private TextField RecipeInstructions;
 
   @FXML
   private TextField RecipeName;
@@ -39,7 +42,7 @@ public class RecipeViewController {
   private TextField addTagTextField;
 
   @FXML
-  private TextField addUnitText;
+  private ComboBox<String> addUnit;
 
   @FXML
   private TableColumn<Ingredient, String> ingredientColumn;
@@ -61,17 +64,20 @@ public class RecipeViewController {
 
   @FXML
   void addIngredientClicked(ActionEvent event) {
-    // This method will be used to add the ingredients to the table.
-    String name = addIngredientNameText.getText();
-    String unit = addUnitText.getText();
-    int amount = Integer.parseInt(addAmountText.getText());
 
-    Ingredient ingredient = new Ingredient(name, unit, amount);
-    IngredientTable.getItems().add(ingredient);
+    // Adding implemintations for the ingredients to be added inside of the database
+   try {
+     String ingredient_name = addIngredientNameText.getText();
 
-    addIngredientNameText.clear();
-    addUnitText.clear();
-    addAmountText.clear();
+     UUID uniqueID = UUID.randomUUID();
+     String uniqueIngredientID = uniqueID.toString();
+     String selectUnit = addUnit.getSelectionModel().getSelectedItem();
+     String additional = addAmountText.getText();
+     double selectedAmount = Double.parseDouble(additional);
+
+   } catch (Exception e) {
+     throw new RuntimeException(e);
+   }
   }
 
   @FXML
@@ -79,8 +85,18 @@ public class RecipeViewController {
 
     String recipeName = RecipeName.getText();
     String recipeDescription = recipeDescText.getText();
+    String recipeInstructions = RecipeInstructions.getText();
+    UUID uniqueRecipe = UUID.randomUUID();
+    String recipeID = uniqueRecipe.toString();
 
-    ListOfRecipe_s.getItems().add(recipeName);
+    try {
+      BE_RecipeDB.addRecipe(recipeID, recipeName, recipeDescription, recipeInstructions);
+      RecipeOB addedRecipe = new RecipeOB(recipeID, recipeName, recipeDescription, recipeInstructions, false);
+
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+
 
   }
 
@@ -104,12 +120,4 @@ public class RecipeViewController {
       tagsListView.getItems().remove(selectedIndex);
     }
   }
-
-
-
-
-
-
-
-
 }

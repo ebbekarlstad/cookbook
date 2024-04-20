@@ -48,5 +48,5 @@ public class amountOfIngredients {
   public void setIngredient_s(Ingredient ingredient_s) {
     this.ingredient_s = ingredient_s;
   }
-  
+
 }

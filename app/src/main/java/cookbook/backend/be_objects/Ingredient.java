@@ -26,4 +26,6 @@ public class Ingredient {
   public void setIngredientsID(String ingredientsID) {
     this.ingredientsID = ingredientsID;
   }
+
+
 }

@@ -9,7 +9,7 @@ public class RecipeOB {
   private String ID;
   private ArrayList<amountOfIngredients> amountOfIngredients = new ArrayList<>();
 
-  public RecipeOB(String name, String descriptions, String instructions, String ID) {
+  public RecipeOB(String name, String descriptions, String instructions, String ID, boolean b) {
     setName(name);
     setDescriptions(descriptions);
     setInstructions(instructions);
@@ -54,5 +54,9 @@ public class RecipeOB {
 
   public void setAmountOfIngredients(ArrayList<amountOfIngredients> amountOfIngredients) {
     this.amountOfIngredients = amountOfIngredients;
+  }
+
+  public void addIngredient(amountOfIngredients ingredient) {
+    amountOfIngredients.add(ingredient);
   }
 }
