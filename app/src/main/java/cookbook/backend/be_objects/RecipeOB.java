@@ -1,21 +1,28 @@
 package cookbook.backend.be_objects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeOB {
   private String name;
-  private String descriptions;
+  private String description;
   private String instructions;
   private String ID;
-  private ArrayList<amountOfIngredients> amountOfIngredients = new ArrayList<>();
+  private List<amountOfIngredients> ingredients;
 
-  public RecipeOB(String name, String descriptions, String instructions, String ID, boolean b) {
-    setName(name);
-    setDescriptions(descriptions);
-    setInstructions(instructions);
-    setID(ID);
+  public RecipeOB(String ID, String name, String description, String instructions) {
+    this.ID = ID;
+    this.name = name;
+    this.description = description;
+    this.instructions = instructions;
+    this.ingredients = new ArrayList<>();
   }
 
+  public void addIngredient(amountOfIngredients ingredient) {
+    ingredients.add(ingredient);
+  }
+
+  // Getters and setters
   public String getName() {
     return name;
   }
@@ -24,12 +31,12 @@ public class RecipeOB {
     this.name = name;
   }
 
-  public String getDescriptions() {
-    return descriptions;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescriptions(String descriptions) {
-    this.descriptions = descriptions;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getInstructions() {
@@ -48,15 +55,11 @@ public class RecipeOB {
     this.ID = ID;
   }
 
-  public ArrayList<amountOfIngredients> getAmountOfIngredients() {
-    return amountOfIngredients;
+  public List<amountOfIngredients> getIngredients() {
+    return ingredients;
   }
 
-  public void setAmountOfIngredients(ArrayList<amountOfIngredients> amountOfIngredients) {
-    this.amountOfIngredients = amountOfIngredients;
-  }
-
-  public void addIngredient(amountOfIngredients ingredient) {
-    amountOfIngredients.add(ingredient);
+  public void setIngredients(List<amountOfIngredients> ingredients) {
+    this.ingredients = ingredients;
   }
 }
