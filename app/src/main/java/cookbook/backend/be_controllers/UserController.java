@@ -72,7 +72,7 @@ public class UserController {
   // remove favorite recipe to database
   public boolean removeFavoriteRecipe(CookingOB recipe) {
     String sql = "INSERT INTO favorite:recipes (UserName, RecipeName, Ingredients) VALUES (?, ?, ?)";
-    try (Connection conn = dbManager.getConnection());
+    try (Connection conn = dbManager.getConnection();
       PreparedStatement pstmt = conn.prepareStatement(sql)) {
       
       pstmt.setString(1, user.getUserName());
