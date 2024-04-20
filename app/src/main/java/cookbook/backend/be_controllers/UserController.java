@@ -45,27 +45,31 @@ public class UserController {
     }
   }
 
-  public List<CookingOB> getFavoriteRecipes() {
-    List<CookingOB> recipes = new ArrayList<>();
-    String sql = "SELECT RecipeName, Ingredients FROM favorite_recipes WHERE UserName = ?";
+  // add favorite recipe to database
+  public boolean addFavoriteRecipe(CookingOB recipe) {
+    String sql = "INSERT INTO favorite_recipes (UserName, RecipeName, Ingredients) VALUES (?, ?, ?)";
     try (Connection conn = dbManager.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        
+
       pstmt.setString(1, user.getUserName());
-      ResultSet rs = pstmt.executeQuery();
-      while (rs.next()) {
-        String recipeName = rs.getString("RecipeName");
-        String ingredients = rs.getString("Ingredients");
-        recipes.add(new CookingOB(ingredients, recipeName));
+      pstmt.setString(2, recipe.getName());
+      pstmt.setString(3, recipe.getIngredients());
+      int affectedRows = pstmt.executeUpdate();
+      if (affectedRows > 0) {
+        user.addFavoriteRecipe(recipe);
+        System.out.println("Favorite recipe added successfully.");
+        return true;
+      } else {
+        System.out.println("No rows affected.");
+        return false;
       }
-      return recipes;
     } catch (SQLException e) {
-      System.err.println("Database error during fetching favorite recipes: " + e.getMessage());
-      return null;
+      System.err.println("Database error during adding favorite recipe: " + e.getMessage());
+      return false;
     }
   }
 
-  
+  // remove favorite recipe to database
   public boolean removeFavoriteRecipe(CookingOB recipe) {
     String sql = "INSERT INTO favorite:recipes (UserName, RecipeName, Ingredients) VALUES (?, ?, ?)";
     try (Connection conn = dbManager.getConnection());
@@ -86,6 +90,27 @@ public class UserController {
     } catch (SQLException e) {
       System.err.println("Database error during removing favorite recipe: " + e.getMessage());
       return false;
+    }
+  }
+
+  // retrieve all favorite recipes from database
+  public List<CookingOB> getFavoriteRecipes() {
+    List<CookingOB> recipes = new ArrayList<>();
+    String sql = "SELECT RecipeName, Ingredients FROM favorite_recipes WHERE UserName = ?";
+    try (Connection conn = dbManager.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+      pstmt.setString(1, user.getUserName());
+      ResultSet rs = pstmt.executeQuery();
+      while (rs.next()) {
+        String recipeName = rs.getString("RecipeName");
+        String ingredients = rs.getString("Ingredients");
+        recipes.add(new CookingOB(ingredients, recipeName));
+      }
+      return recipes;
+    } catch (SQLException e) {
+      System.err.println("Database error during fetching favorite recipes: " + e.getMessage());
+      return null;
     }
   }
 }
