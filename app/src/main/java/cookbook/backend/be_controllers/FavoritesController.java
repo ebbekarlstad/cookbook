@@ -1,7 +1,7 @@
 package cookbook.backend.be_controllers;
 
 import cookbook.backend.DatabaseMng;
-import cookbook.backend.be_objects.CookingOB;
+import cookbook.backend.be_objects.Recipe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,13 +16,13 @@ public class FavoritesController {
     this.dbManager = dbManager;
   }
 
-  // Bästa lösningen är att skapa en favorit-tag, då justeras koden utefter det
-    public boolean addFavorite(String userId, CookingOB recipe) {
+  // Bästa lösningen är att skapa en favorit-tagg, då justeras koden utefter det
+    public boolean addFavorite(String userId, Recipe recipe) {
       String sql = "INSERT INTO user_favorites (user_id, recipe_id) VALUES (?, ?)";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userId);
-          pstmt.setString(2, recipe.getRecipeId());  
+          pstmt.setString(2, recipe.getId());  
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
       } catch (SQLException e) {
@@ -31,12 +31,12 @@ public class FavoritesController {
       }
     }
 
-    public boolean removeFavorite(String userId, CookingOB recipe) {
+    public boolean removeFavorite(String userId, Recipe recipe) {
       String sql = "DELETE FROM user_favorites WHERE user_id = ? AND recipe_id = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userId);
-          pstmt.setString(2, recipe.getRecipeId());
+          pstmt.setString(2, recipe.getId());
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
       } catch (SQLException e) {
@@ -45,8 +45,8 @@ public class FavoritesController {
       }
     }
 
-    public List<CookingOB> getFavorites(String userId) {
-      List<CookingOB> favorites = new ArrayList<>();
+    public List<Recipe> getFavorites(String userId) {
+      List<Recipe> favorites = new ArrayList<>();
       String sql = "SELECT r.* FROM recipes r INNER JOIN user_favorites f ON r.recipe_id = f.recipe_id WHERE f.user_id = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -56,7 +56,7 @@ public class FavoritesController {
             String recipeId = rs.getString("recipe_id");
             String ingredients = rs.getString("ingredients");
             String recipeName = rs.getString("name");
-            favorites.add(new CookingOB(recipeId, ingredients, recipeName));
+            favorites.add(new Recipe(recipeId, ingredients, recipeName, recipeName, null));
           }
           return favorites;
         } catch (SQLException e) {

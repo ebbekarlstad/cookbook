@@ -42,7 +42,7 @@ class AppTest {
 
     @Test
     void testUserSaveToDatabase() {
-        User testUser = new User("user", "test user", "user", false, dbManager);
+        User testUser = new User("user", "test user", "user", false, dbManager, null);
         userController.setUser(testUser);
         boolean isSaved = userController.saveToDatabase();
 

@@ -1,5 +1,6 @@
 package cookbook.backend.be_objects;
 import cookbook.backend.DatabaseMng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class User {
   private String passwordHash;
   private Boolean isAdmin;
   private final LogIn login;
-  private List<CookingOB> favoriteRecipes = new ArrayList<>();
+  private List<Recipe> favoriteRecipes = new ArrayList<>();
 
   public User(String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites) {
     setUserName(userName);
@@ -58,17 +59,17 @@ public class User {
     this.isAdmin = isAdmin;
   }
 
-  public void addFavoriteRecipe(CookingOB recipe) {
+  public void addFavoriteRecipe(Recipe recipe) {
     if(!favoriteRecipes.contains(recipe)) {
       favoriteRecipes.add(recipe);
     }
   }
 
-  public void removeFavoriteRecipe(CookingOB recipe) {
+  public void removeFavoriteRecipe(Recipe recipe) {
     favoriteRecipes.remove(recipe);
   }
 
-  public List<CookingOB> getFavoriteRecipes() {
+  public List<Recipe> getFavoriteRecipes() {
     return new ArrayList<>(favoriteRecipes);
   }
 }
