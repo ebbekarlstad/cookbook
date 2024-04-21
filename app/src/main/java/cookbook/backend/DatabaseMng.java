@@ -24,14 +24,14 @@ public class DatabaseMng {
     }
 
     public Optional<String> getPasswordHashForUser(String userName) {
-      String sql = "SELECT passwordHash FROM user WHERE userName = ?";
+      String sql = "SELECT Password FROM users WHERE UserName = ?";
       try (Connection conn = getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userName);
           ResultSet rs = pstmt.executeQuery();
           if (rs.next()) {
-            return Optional.of(rs.getString("passwordHash"));
-          }
+            return Optional.of(rs.getString("Password"));
+          } 
         } catch (SQLException e) {
             System.err.println("SQL Exception in getPasswordHashForUser: " + e.getMessage());
             lastErrorMessage = e.getMessage();

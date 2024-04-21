@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -25,7 +25,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="400" fitWidth="640" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
@@ -33,13 +33,13 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="234.0" />
-            <Button fx:id="newRecipeButton" layoutX="22.0" layoutY="32.0" mnemonicParsing="false" prefHeight="52.0" onAction="#handleNewButton" prefWidth="189.0" text="    New Recipe" textAlignment="RIGHT">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="703.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="340.0" />
+            <Button fx:id="newRecipeButton" layoutX="22.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" text="    New Recipe" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button layoutX="22.0" layoutY="122.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="189.0" text="          Browse Recipes" textAlignment="RIGHT">
+            <Button layoutX="22.0" layoutY="122.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -54,22 +54,22 @@
                   <Image url="@images/plus.png" />
                </image>
             </ImageView>
-            <Button layoutX="22.0" layoutY="214.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
+            <Button layoutX="22.0" layoutY="566.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="214.0">
+            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="566.0">
                <image>
                   <Image url="@images/mail.png" />
                </image>
             </ImageView>
-            <Button fx:id="help_button" layoutX="22.0" layoutY="307.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
+            <Button fx:id="help_button" layoutX="22.0" layoutY="629.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="311.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="634.0">
                <image>
                   <Image url="@images/question.png" />
                </image>

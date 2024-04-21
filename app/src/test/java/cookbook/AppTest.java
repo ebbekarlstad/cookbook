@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.LogIn;
 import cookbook.backend.be_objects.User;
+import cookbook.backend.be_controllers.UserController;
 
 class AppTest {
     // Commented out Greeting Test Case
@@ -20,10 +21,12 @@ class AppTest {
      }*/
      private LogIn login;
      private DatabaseMng dbManager;
+     private UserController userController;
 
     @BeforeEach
     void setup() {
-        dbManager = new DatabaseMng();  
+        dbManager = new DatabaseMng();
+        userController = new UserController(dbManager);
         login = new LogIn(dbManager);
     }
 
@@ -39,9 +42,9 @@ class AppTest {
 
     @Test
     void testUserSaveToDatabase() {
-        User testUser = new User("fmoussa", "Firas Moussa", "pass", false, dbManager);
-        
-        boolean isSaved = testUser.saveToDatabase();
+        User testUser = new User("user", "test user", "user", false, dbManager);
+        userController.setUser(testUser);
+        boolean isSaved = userController.saveToDatabase();
 
         assertTrue(isSaved, "User should be successfully saved to the database");
     }
