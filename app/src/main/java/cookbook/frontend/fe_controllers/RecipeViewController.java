@@ -3,10 +3,12 @@ package cookbook.frontend.fe_controllers;
 import cookbook.backend.be_controllers.IngredientController;
 import cookbook.backend.be_controllers.RecipeController;
 import cookbook.backend.be_controllers.TagController;
+
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.Tag;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +28,9 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * The RecipeViewController class controls the functionality of the recipe view in the frontend.
+ */
 public class RecipeViewController {
 
   @FXML
@@ -140,8 +145,7 @@ public class RecipeViewController {
   /**
    * Returns to the main menu screen when the back button is clicked.
    * Loads the main menu scene and sets it as the current scene.
-   * Displays the main menu stage.
-   * Sets the dimensions and properties of the main menu stage.
+   * Displays the main menu stage with specified dimensions.
    *
    * @param event The ActionEvent that triggered the method.
    * @throws SQLException If an error occurs while accessing the database.
@@ -162,11 +166,6 @@ public class RecipeViewController {
     mainStage.setResizable(false);
     mainStage.centerOnScreen();
   }
-
-  /**
-   * Method for adding the tags to the temporary list.
-   * We will add all the tags within that list to the recipe later on.
-   */
 
   /**
    * Adds the selected tag to the temporary list of tags.
@@ -207,10 +206,6 @@ public class RecipeViewController {
         updateTagBox();
 
       }
-
-
-
-      //If something is selected, use that one.
     } else if (tagsDropdown.getSelectionModel().getSelectedItem() != null) {
       String tag_name = tagsDropdown.getSelectionModel().getSelectedItem();
       Tag myTag = findTag(tag_name);
@@ -229,9 +224,19 @@ public class RecipeViewController {
     updateTagsLabel();
   }
 
+
   /**
-   * The add ingredient button, when button is pressed, add the ingredient to the
-   * recipe.
+   * Adds the entered ingredient to the temporary list of ingredients.
+   * Retrieves the ingredient name, unit, and amount from the corresponding text fields and combo box.
+   * Generates a unique ingredient ID using UUID.randomUUID().
+   * Adds the new ingredient to the ingredientController and creates a new ingredientObject.
+   * Adds the new ingredient to the temporary list of selectedIngredients.
+   * Updates the ingredientLabel to display the added ingredient.
+   * Displays a success message if the ingredient is successfully added.
+   *
+   * @param event The ActionEvent that triggered the method.
+   * @throws SQLException If an error occurs while accessing the database.
+   * @throws IOException  If an error occurs during I/O operations.
    */
 
   public void addIngredientToList(ActionEvent event) throws SQLException, IOException {
@@ -242,17 +247,12 @@ public class RecipeViewController {
       String selectedUnit = unit.getSelectionModel().getSelectedItem();
       String a = amount.getText();
       float selectedAmount = Float.parseFloat(a);
-
-      // add the ingredient to the database aswell as creating an object.
       IngredientController.addIngredient(uniqueIngredientID, ingredient_Name);
       Ingredient newIngredientObject = new Ingredient(uniqueIngredientID, ingredient_Name);
-      // add the ingredient to our QuantityIngredient object and then add the object
-      // to the list.
+
       AmountOfIngredients newQuanitityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount,
               newIngredientObject);
       selectedIngredients.add(newQuanitityIngredients);
-
-      // Append the ingredient name to the ingredientLabel
       String currentLabelText = ingredientLabel.getText();
       if (currentLabelText.isEmpty()) {
         ingredientLabel.setText(ingredient_Name);
@@ -270,9 +270,10 @@ public class RecipeViewController {
   }
 
   /**
-   * Two methods for handling the comboboxes aswell as finding tags.
+   * Updates the tags dropdown box with the list of available tags.
+   *
+   * @throws SQLException If an error occurs while accessing the database.
    */
-
   public void updateTagBox() throws SQLException {
     tagsDropdown.getItems().clear();
     tagsDropdown.getItems().add(null);
@@ -293,10 +294,6 @@ public class RecipeViewController {
   }
 
   /**
-   * Recipe stuff.
-   */
-
-  /**
    * Initializes the controller when the corresponding view is loaded.
    * Retrieves the recipes, initializes the lists for selected tags and ingredients,
    * and initializes the tags list. Updates the tag box and sets the items for the unit ComboBox.
@@ -310,7 +307,7 @@ public class RecipeViewController {
 
   public void initialize(URL location, ResourceBundle resources) {
     try {
-      recipes = RecipeController.getRecpies();
+      recipes = RecipeController.getRecipes();
       selectedTags = new ArrayList<>();
       selectedIngredients = new ArrayList<>();
       tags = new ArrayList<>();
@@ -325,6 +322,7 @@ public class RecipeViewController {
     System.out.println(recipes.size());
 
   }
+
 
   /**
    * Updates the tags label to display the names of the selected tags.

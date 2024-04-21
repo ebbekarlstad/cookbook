@@ -9,6 +9,13 @@ import java.util.List;
 public class TagController {
   public ArrayList<Tag> allTags = new ArrayList<>();
 
+  /**
+   * Retrieves a list of tags from the database.
+   *
+   * @return a list of Tag objects representing the tags
+   * @throws SQLException if a database error occurs
+   */
+
   public static List<Tag> getTags() throws SQLException {
     ArrayList<Tag> tags = new ArrayList<>();
     String query = "SELECT * FROM tag;";
@@ -32,6 +39,14 @@ public class TagController {
     return tags;
   }
 
+  /**
+   * Adds a tag to the database.
+   *
+   * @param tag_id   the ID of the tag
+   * @param tag_name the name of the tag
+   * @throws SQLException if a database error occurs
+   */
+
   public static void addTag(String tag_id, String tag_name) throws SQLException {
     String query = "INSERT INTO tag VALUES(?, ?);";
     Connection conn = DriverManager
@@ -47,6 +62,14 @@ public class TagController {
       System.out.println(e);
     }
   }
+
+  /**
+   * Adds a tag to a recipe in the database.
+   *
+   * @param RecipeID the ID of the recipe
+   * @param TagID    the ID of the tag
+   * @throws SQLException if a database error occurs
+   */
 
   public static void addTagToRecipe(String RecipeID, String TagID) throws SQLException {
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");

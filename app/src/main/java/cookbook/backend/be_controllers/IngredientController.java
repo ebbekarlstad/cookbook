@@ -2,16 +2,20 @@ package cookbook.backend.be_controllers;
 
 import cookbook.backend.be_objects.Ingredient;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
 
 public class IngredientController {
 
   /**
    * Retrieves a list of ingredients from the database.
    *
-   * @return a list of ingredientObject representing the ingredients
+   * @return a list of Ingredient objects representing the ingredients
    * @throws SQLException if a database error occurs
    */
 
@@ -76,10 +80,6 @@ public class IngredientController {
       sqlStatement.setString(3, unit);
       sqlStatement.setFloat(4, amount);
       sqlStatement.executeUpdate();
-
-      //int rowsAffected = sqlStatement.executeUpdate();
-      //System.out.println(rowsAffected + " rows affected");
-
     } catch (SQLException e) {
       System.out.println("..." + e);
     }

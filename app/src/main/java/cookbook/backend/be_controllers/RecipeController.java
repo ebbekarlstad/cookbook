@@ -7,9 +7,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
 
 public class RecipeController {
 
@@ -17,16 +18,17 @@ public class RecipeController {
   public ArrayList<Recipe> allRecipes = new ArrayList<>();
 
   /**
-   * returns a list of all recipes.
+   * Returns a list of all recipes.
+   *
+   * @return List of Recipe objects
+   * @throws SQLException if a database access error occurs
    */
-  public static List<Recipe> getRecpies() throws SQLException {
+  public static List<Recipe> getRecipes() throws SQLException {
     ArrayList<Recipe> currentRecipeObjects = new ArrayList<>();
-    String query = "SELECT * FROM recipe";
+    String query = "SELECT * FROM recipes";
 
-    Connection conn = DriverManager
-            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-
-    try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Recipe newRecipe = new Recipe(
@@ -36,14 +38,11 @@ public class RecipeController {
                 result.getString("instructions"),
                 result.getBoolean("star"));
 
-        // this will upade the class ArrayList.
-        // Updates the calls ArrayList in the recipe object
+        // Updates the class ArrayList.
         currentRecipeObjects.add(newRecipe);
-
       }
 
-      // Comment so iker can access it.
-      // adding ingredients for each recipe.
+      // Adding ingredients for each recipe.
       for (Recipe recipeObject : currentRecipeObjects) {
         String id = recipeObject.getId();
         String ingQuery = "SELECT * " +
@@ -53,10 +52,7 @@ public class RecipeController {
         try (PreparedStatement ingStatement = conn.prepareStatement(ingQuery)) {
           ingStatement.setString(1, id);
           ResultSet ingResultSet = ingStatement.executeQuery();
-          System.out.println(ingResultSet);
           while (ingResultSet.next()) {
-            System.out.println("ingredient_name: " + ingResultSet.getString("ingredient_name"));
-            System.out.println("ingredient_id: " + ingResultSet.getString("ingredient_id"));
             recipeObject.addIngredient(new AmountOfIngredients(
                     ingResultSet.getString("unit"),
                     ingResultSet.getFloat("amount"),
@@ -64,15 +60,14 @@ public class RecipeController {
             );
           }
 
-          // we can add tag to the object here.
-
+          // Adding tags to the object.
           String tagQuery = "SELECT tag.tag_id, tag.name " +
                   "FROM tag " +
                   "JOIN recipe_tag ON recipe_tag.tag_id = tag.tag_id " +
                   "WHERE recipe_tag.recipe_id = ?";
-          try (PreparedStatement tagtatement = conn.prepareStatement(tagQuery)) {
-            tagtatement.setString(1, id);
-            ResultSet tagResultSet = tagtatement.executeQuery();
+          try (PreparedStatement tagStatement = conn.prepareStatement(tagQuery)) {
+            tagStatement.setString(1, id);
+            ResultSet tagResultSet = tagStatement.executeQuery();
             while (tagResultSet.next()) {
               Tag newTag = new Tag(
                       tagResultSet.getString("tag_id"),
@@ -97,19 +92,21 @@ public class RecipeController {
   }
 
   /**
-   * adds the date to the recipe for weekly list.
+   * Adds the date to the recipe for the weekly list.
+   *
+   * @param recipeId   The ID of the recipe
+   * @param created_at The timestamp when the recipe was added
+   * @param userId     The ID of the user
+   * @throws SQLException if a database access error occurs
    */
-  public static void adddate(String recipeId, Timestamp created_at , String userId) throws SQLException {
-
-
+  public static void addDate(String recipeId, Timestamp created_at, String userId) throws SQLException {
     String query = "INSERT into weekly_list values ((?),(?),(?))";
-    Connection conn = DriverManager
-            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-    try (PreparedStatement preparedStmnt = conn.prepareStatement(query)) {
-      preparedStmnt.setString(1, userId);
-      preparedStmnt.setString(2, recipeId);
-      preparedStmnt.setString(3, String.valueOf(created_at));
-      preparedStmnt.executeUpdate();
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement preparedStmt = conn.prepareStatement(query)) {
+      preparedStmt.setString(1, userId);
+      preparedStmt.setString(2, recipeId);
+      preparedStmt.setString(3, String.valueOf(created_at));
+      preparedStmt.executeUpdate();
 
     } catch (SQLException e) {
       if (e instanceof SQLIntegrityConstraintViolationException) {
@@ -118,16 +115,20 @@ public class RecipeController {
         e.printStackTrace();
       }
     }
-
   }
 
   /**
-   * adds new recipe.
+   * Adds a new recipe to the database.
+   *
+   * @param recipeId   The ID of the recipe
+   * @param recipeName The name of the recipe
+   * @param shortDesc  A short description of the recipe
+   * @param longDesc   A long description of the recipe
+   * @throws SQLException if a database access error occurs
    */
-  public static void addRecipe(String recipeId, String recipeName, String shortDesc, String longDesc) throws SQLException{
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-    String query = "INSERT INTO recipe VALUES(?,?,?,?,?)";
-    try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+  public static void addRecipe(String recipeId, String recipeName, String shortDesc, String longDesc) throws SQLException {
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement sqlStatement = conn.prepareStatement("INSERT INTO recipes VALUES(?,?,?,?,?)")) {
       sqlStatement.setString(1, recipeId);
       sqlStatement.setString(2, recipeName);
       sqlStatement.setString(3, shortDesc);
