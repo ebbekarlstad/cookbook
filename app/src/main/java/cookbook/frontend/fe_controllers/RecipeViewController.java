@@ -1,158 +1,340 @@
 package cookbook.frontend.fe_controllers;
 
+import cookbook.backend.be_controllers.IngredientController;
+import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_controllers.TagController;
+import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.Ingredient;
-import cookbook.backend.be_controllers.BE_RecipeDB;
-import cookbook.backend.be_objects.RecipeOB;
-import cookbook.backend.be_objects.amountOfIngredients;
+import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.Tag;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class RecipeViewController {
 
   @FXML
-  private TableView<Ingredient> IngredientTable;
+  public TextField recipeName;
 
   @FXML
-  private ListView<RecipeOB> ListOfRecipe_s;
+  public TextArea recipeShortDesc;
 
   @FXML
-  private TextField RecipeInstructions;
+  public TextArea recipeLongDesc;
 
   @FXML
-  private TextField RecipeName;
+  public ComboBox<String> tagsDropdown;
 
   @FXML
-  private TextField addAmount;
+  public TextField tagName;
 
   @FXML
-  private Button addIngredient;
+  public Button addTag;
 
   @FXML
-  private TextField addIngredientNameText;
+  private TextField fromUser;
 
   @FXML
-  private Button addRecipe;
+  private TextField toUser;
 
   @FXML
-  private Button addTagButton;
+  public TextField ingredientName;
 
   @FXML
-  private TextField addTagTextField;
+  public Button addIngredient;
 
   @FXML
-  private ComboBox<String> addUnit;
+  public Button back;
 
   @FXML
-  private TableColumn<Ingredient, String> ingredientColumn;
+  public Button addRecipie;
 
   @FXML
-  private Label commentsLabel1;
+  public TextField amount;
 
   @FXML
-  private TableColumn<Ingredient, String> unitColumn;
+  public ComboBox<String> unit;
 
   @FXML
-  private TableColumn<Ingredient, Integer> amountColumn;
+  public Label tagsLabel;
 
   @FXML
-  private TextArea recipeDescText;
+  public Label ingredientLabel;
 
-  @FXML
-  private ListView<String> tagsListView;
+  public List<Recipe> recipes;
 
-  private ObservableList<Ingredient> ingredientsList = FXCollections.observableArrayList();
+  public List<Ingredient> ingredients;
+  public List<AmountOfIngredients> selectedIngredients;
 
-  @FXML
-  void initialize() {
-    IngredientTable.setItems(ingredientsList);
-    ingredientColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
-    TableColumn<Ingredient, Double> amountColumn = new TableColumn<>("Amount");
-    amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
-  }
+  public List<Tag> tags;
+  public List<Tag> selectedTags;
 
-  @FXML
-  void addIngredientClicked(ActionEvent event) {
+  /**
+   * Creates a new recipe based on the input provided by the user.
+   * Retrieves the recipe name, short description, and long description from the corresponding text fields.
+   * Generates a unique recipe ID using UUID.randomUUID().
+   * Adds the recipe to the recipeController and creates a new recipeObject.
+   * Iterates over the selected ingredients and adds them to the created recipe.
+   * Iterates over the selected tags and adds them to the created recipe.
+   * Displays a success message if the recipe is successfully created.
+   * Displays an error message if an SQLException occurs.
+   *
+   * @param event The ActionEvent that triggered the method.
+   * @throws SQLException If an error occurs while accessing the database.
+   * @throws IOException  If an error occurs during I/O operations.
+   */
+
+  public void createRecipe(ActionEvent event) throws SQLException, IOException {
+    // For Recipe
+    String recipe_Name = recipeName.getText();
+    String shortDescription = recipeShortDesc.getText();
+    String longDescription = recipeLongDesc.getText();
+    UUID uniqueRecipie = UUID.randomUUID();
+    String recipeID = uniqueRecipie.toString();
+
     try {
-      String ingredientName = addIngredientNameText.getText();
-      String selectUnit = addUnit.getSelectionModel().getSelectedItem();
-      double selectedAmount = Double.parseDouble(addAmount.getText());
+      RecipeController.addRecipe(recipeID, recipe_Name, shortDescription, longDescription);
+      Recipe createdRecipe = new Recipe(recipeID, recipe_Name, shortDescription, longDescription, false);
 
-      // Create the Ingredient object with the provided details
-      Ingredient ingredient = new Ingredient("", ingredientName, selectedAmount, selectUnit);
-
-      // Add the Ingredient to the table
-      ingredientsList.add(ingredient);
-
-      // Clear the input fields
-      addIngredientNameText.clear();
-      addUnit.getSelectionModel().clearSelection();
-      addAmount.clear();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-
-
-
-  @FXML
-  void addRecipe(ActionEvent event) {
-    String recipeName = RecipeName.getText();
-    String recipeDescription = recipeDescText.getText();
-    String recipeInstructions = RecipeInstructions.getText();
-
-    if (!recipeName.isEmpty() && !recipeDescription.isEmpty() && !recipeInstructions.isEmpty() && !ingredientsList.isEmpty()) {
-      try {
-        UUID uniqueRecipe = UUID.randomUUID();
-        String recipeID = uniqueRecipe.toString();
-
-        // Add recipe to database
-        BE_RecipeDB.addRecipe(recipeName, recipeDescription, recipeInstructions, ingredientsList);
-
-        // Clear input fields and lists
-        RecipeName.clear();
-        recipeDescText.clear();
-        RecipeInstructions.clear();
-        ingredientsList.clear();
-
-        // Show success message or update UI as needed
-        System.out.println("Recipe added successfully!");
-
-      } catch (SQLException e) {
-        e.printStackTrace();
-        // Handle database error
+      // Two Loops that add all the selected ingredients into the recipe.
+      for (AmountOfIngredients ingredient : selectedIngredients) {
+        createdRecipe.addIngredient(ingredient);
+        IngredientController.addIngredientToRecipe(recipeID, ingredient.ingredientID(), ingredient.getUnit(),
+                ingredient.getAmount());
       }
-    } else {
-      // Show error message or alert user to fill in all fields
-      System.out.println("Please fill in all fields.");
+
+      System.out.println(createdRecipe.getIngredientsList());
+
+      for (Tag tag : selectedTags) {
+        createdRecipe.addTag(tag);
+        TagController.addTagToRecipe(recipeID, tag.getTag_id());
+      }
+
+      Alert success = new Alert(Alert.AlertType.INFORMATION);
+      success.setTitle("Success!");
+      success.setContentText("You successfully created a new recipe!");
+      success.show();
+    } catch (SQLException x) {
+      Alert failure = new Alert(Alert.AlertType.INFORMATION);
+      failure.setTitle("Faliure!");
+      failure.setContentText(x.toString());
+      failure.show();
     }
   }
 
+  /**
+   * Returns to the main menu screen when the back button is clicked.
+   * Loads the main menu scene and sets it as the current scene.
+   * Displays the main menu stage.
+   * Sets the dimensions and properties of the main menu stage.
+   *
+   * @param event The ActionEvent that triggered the method.
+   * @throws SQLException If an error occurs while accessing the database.
+   * @throws IOException  If an error occurs during I/O operations.
+   */
 
-  @FXML
-  void addTagClicked(ActionEvent event) {
-    String tag = addTagTextField.getText();
-    tagsListView.getItems().add(tag);
-    addTagTextField.clear();
+  public void backButton(ActionEvent event) throws SQLException, IOException {
+    URL url = new File("src/main/java/cookbook/resources/MainView.fxml").toURI().toURL();
+    FXMLLoader loader = new FXMLLoader(url);
+    Parent root = loader.load();
+    Scene loginScene = new Scene(root);
+
+    Stage mainStage = (Stage) back.getScene().getWindow();
+    mainStage.setScene(loginScene);
+    mainStage.show();
+    mainStage.setHeight(740);
+    mainStage.setWidth(1000);
+    mainStage.setResizable(false);
+    mainStage.centerOnScreen();
   }
 
-  @FXML
-  void onRecipeSelect(javafx.scene.input.MouseEvent event) {
-    // You can handle selecting a recipe here if needed
-  }
+  /**
+   * Method for adding the tags to the temporary list.
+   * We will add all the tags within that list to the recipe later on.
+   */
 
-  @FXML
-  void removeTagClicked(ActionEvent event) {
-    int selectedIndex = tagsListView.getSelectionModel().getSelectedIndex();
-    if (selectedIndex != -1) {
-      tagsListView.getItems().remove(selectedIndex);
+  /**
+   * Adds the selected tag to the temporary list of tags.
+   * Retrieves the tag name from the text field or the dropdown menu.
+   * Generates a unique tag ID using UUID.randomUUID().
+   * Checks if the tag already exists in the list, and displays an error message if it does.
+   * Adds the new tag to the tagController and creates a new tagObject.
+   * Displays a success message if the tag is successfully created.
+   *
+   * @param event The ActionEvent that triggered the method.
+   * @throws SQLException If an error occurs while accessing the database.
+   * @throws IOException  If an error occurs during I/O operations.
+   */
+
+  public void addTagToList(ActionEvent event) throws SQLException, IOException {
+    if (tagsDropdown.getSelectionModel().getSelectedItem() == null) {
+      String tag_Name = tagName.getText();
+      UUID uniqueID = UUID.randomUUID();
+      String tagID = uniqueID.toString();
+
+      //If duplicate, do this. Else, do that.
+      if (findTag(tag_Name) != null) {
+        //If tag already exists, show this.
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Error!");
+        error.setContentText("Tag already exists!");
+        error.show();
+      } else {
+        // Add the tag to the database and create an object.
+        TagController.addTag(tagID, tag_Name);
+        Tag newTag = new Tag(tagID, tag_Name);
+        selectedTags.add(newTag);
+
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Success!");
+        success.setContentText("You successfully created a new tag!");
+        success.show();
+        updateTagBox();
+
+      }
+
+
+
+      //If something is selected, use that one.
+    } else if (tagsDropdown.getSelectionModel().getSelectedItem() != null) {
+      String tag_name = tagsDropdown.getSelectionModel().getSelectedItem();
+      Tag myTag = findTag(tag_name);
+
+      if (myTag != null && !selectedTags.contains(myTag)) {
+        selectedTags.add(myTag);
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Success!");
+        success.setContentText("You successfully added a new tag!");
+        success.show();
+      }
     }
+
+    tagsDropdown.setValue(null);
+    tagName.setText("");
+    updateTagsLabel();
+  }
+
+  /**
+   * The add ingredient button, when button is pressed, add the ingredient to the
+   * recipe.
+   */
+
+  public void addIngredientToList(ActionEvent event) throws SQLException, IOException {
+    try {
+      String ingredient_Name = ingredientName.getText();
+      UUID uniqueID = UUID.randomUUID();
+      String uniqueIngredientID = uniqueID.toString();
+      String selectedUnit = unit.getSelectionModel().getSelectedItem();
+      String a = amount.getText();
+      float selectedAmount = Float.parseFloat(a);
+
+      // add the ingredient to the database aswell as creating an object.
+      IngredientController.addIngredient(uniqueIngredientID, ingredient_Name);
+      Ingredient newIngredientObject = new Ingredient(uniqueIngredientID, ingredient_Name);
+      // add the ingredient to our QuantityIngredient object and then add the object
+      // to the list.
+      AmountOfIngredients newQuanitityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount,
+              newIngredientObject);
+      selectedIngredients.add(newQuanitityIngredients);
+
+      // Append the ingredient name to the ingredientLabel
+      String currentLabelText = ingredientLabel.getText();
+      if (currentLabelText.isEmpty()) {
+        ingredientLabel.setText(ingredient_Name);
+      } else {
+        ingredientLabel.setText(currentLabelText + ", " + ingredient_Name);
+      }
+
+      Alert success = new Alert(Alert.AlertType.INFORMATION);
+      success.setTitle("Success!");
+      success.setContentText("You successfully created a new ingredient!");
+      success.show();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+  }
+
+  /**
+   * Two methods for handling the comboboxes aswell as finding tags.
+   */
+
+  public void updateTagBox() throws SQLException {
+    tagsDropdown.getItems().clear();
+    tagsDropdown.getItems().add(null);
+    for (Tag tag : TagController.getTags()) {
+      String tagname = tag.getTag_name();
+      tagsDropdown.getItems().add(tagname);
+    }
+
+  }
+
+  public Tag findTag(String tagName) throws SQLException {
+    for (Tag tag : TagController.getTags()) {
+      if (tag.getTag_name().equals(tagName)) {
+        return tag;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Recipe stuff.
+   */
+
+  /**
+   * Initializes the controller when the corresponding view is loaded.
+   * Retrieves the recipes, initializes the lists for selected tags and ingredients,
+   * and initializes the tags list. Updates the tag box and sets the items for the unit ComboBox.
+   * Prints the size of the recipes list.
+   *
+   * @param location  The location used to resolve relative paths for the root object,
+   *                  or null if the location is not known.
+   * @param resources The resources used to localize the root object,
+   *                  or null if the root object was not localized.
+   */
+
+  public void initialize(URL location, ResourceBundle resources) {
+    try {
+      recipes = RecipeController.getRecpies();
+      selectedTags = new ArrayList<>();
+      selectedIngredients = new ArrayList<>();
+      tags = new ArrayList<>();
+
+      updateTagBox();
+      unit.setItems(FXCollections.observableArrayList("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"));
+
+
+    } catch (SQLException err) {
+      err.printStackTrace();
+    }
+    System.out.println(recipes.size());
+
+  }
+
+  /**
+   * Updates the tags label to display the names of the selected tags.
+   * Retrieves the tag names from the selectedTags list using stream and map operations.
+   * Concatenates the tag names into a comma-separated string.
+   * Sets the resulting string as the text of the tagsLabel.
+   */
+
+  private void updateTagsLabel() {
+    List<String> tagNames = selectedTags.stream().map(Tag::getTag_name).collect(Collectors.toList());
+    tagsLabel.setText(String.join(", ", tagNames));
   }
 }

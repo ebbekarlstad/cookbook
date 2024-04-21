@@ -1,70 +1,64 @@
 package cookbook.backend.be_objects;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+/**
+ * The ingredientObject class represents an ingredient with its ID and name.
+ */
 
 public class Ingredient {
-  private StringProperty ingredientID;
-  private StringProperty name;
-  private DoubleProperty amount;
-  private StringProperty unit;
+  private String id;
+  private String name;
 
-  public Ingredient(String ingredientID, String name, double amount, String unit) {
-    this.ingredientID = new SimpleStringProperty(ingredientID);
-    this.name = new SimpleStringProperty(name);
-    this.amount = new SimpleDoubleProperty(amount);
-    this.unit = new SimpleStringProperty(unit);
+  /**
+   * Constructs a new ingredientObject with the specified ID and name.
+   *
+   * @param id   the ID of the ingredient
+   * @param name the name of the ingredient
+   */
+
+
+  public Ingredient(String id, String name){
+    setId(id);
+    setName(name);
   }
 
+  /**
+   * Gets the ID of the ingredient.
+   *
+   * @return the ID of the ingredient
+   */
 
-  public StringProperty ingredientIDProperty() {
-    return ingredientID;
+  public String getId() {
+    return id;
   }
 
-  public String getIngredientID() {
-    return ingredientID.get();
+  /**
+   * Sets the ID of the ingredient.
+   *
+   * @param id the ID of the ingredient
+   */
+
+  public void setId(String id) {
+    this.id = id;
   }
 
-  public void setIngredientID(String ingredientId) {
-    this.ingredientID.set(ingredientId);
-  }
+  /**
+   * Gets the name of the ingredient.
+   *
+   * @return the name of the ingredient
+   */
 
-  public StringProperty nameProperty() {
+  public String getName() {
     return name;
   }
 
-  public String getName() {
-    return name.get();
-  }
+  /**
+   * Sets the name of the ingredient.
+   *
+   * @param name the name of the ingredient
+   */
+
 
   public void setName(String name) {
-    this.name.set(name);
+    this.name = name;
   }
-
-  public DoubleProperty amountProperty() {
-    return amount;
-  }
-
-  public double getAmount() {
-    return amount.get();
-  }
-
-  public void setAmount(double amount) {
-    this.amount.set(amount);
-  }
-
-  public StringProperty unitProperty() {
-    return unit;
-  }
-
-  public String getUnit() {
-    return unit.get();
-  }
-
-  public void setUnit(String unit) {
-    this.unit.set(unit);
-  }
-
 }
