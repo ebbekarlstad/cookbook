@@ -181,6 +181,9 @@ public class RecipeViewController {
    */
 
   public void addTagToList(ActionEvent event) throws SQLException, IOException {
+    if (selectedTags == null) {
+      selectedTags = new ArrayList<>();
+  }
     if (tagsDropdown.getSelectionModel().getSelectedItem() == null) {
       String TagName = tagName.getText();
       UUID uniqueID = UUID.randomUUID();
@@ -240,6 +243,9 @@ public class RecipeViewController {
    */
 
   public void addIngredientToList(ActionEvent event) throws SQLException, IOException {
+    if (selectedIngredients == null) {
+      selectedIngredients = new ArrayList<>();
+  }
     try {
       String IngredientName = ingredientName.getText();
       UUID uniqueID = UUID.randomUUID();

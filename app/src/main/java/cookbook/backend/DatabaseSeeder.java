@@ -96,7 +96,7 @@ public class DatabaseSeeder {
         String dropTableSQL = "DROP TABLE IF EXISTS `tags`;";
 
         String createTableSQL = "CREATE TABLE `tags` ("
-            + "`TagID` int NOT NULL, "
+            + "`TagID` varchar(255) NOT NULL, "
             + "`TagName` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`TagID`));";
         
@@ -110,7 +110,7 @@ public class DatabaseSeeder {
         String createTableSQL = "CREATE TABLE `recipe_tags` ("
             + "`RecipeTagID` int NOT NULL, "
             + "`RecipeID` int NOT NULL, "
-            + "`TagID` int NOT NULL, "
+            + "`TagID` varchar(255) NOT NULL, "
             + "PRIMARY KEY (`RecipeTagID`), "
             + "KEY `TagID_idx` (`TagID`), "
             + "KEY `RecipeID1_idx` (`RecipeID`), "
