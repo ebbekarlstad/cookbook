@@ -44,17 +44,18 @@ public class DatabaseSeeder {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipes`;";
 
         String createTableSQL = "CREATE TABLE `recipes` ("
-            + "`RecipeID` int NOT NULL, "
-            + "`UserID` int NOT NULL, "
-            + "`RecipeName` varchar(45) NOT NULL, "
-            + "`ShortDesc` varchar(45) NOT NULL, "
-            + "`DetailedDesc` varchar(255) NOT NULL, "
-            + "`Unit` varchar(45) NOT NULL, "
-            + "`Amount` float NOT NULL, "
-            + "PRIMARY KEY (`RecipeID`), "
-            + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
-            +"KEY `UserID_idx` (`UserID`), "
-            + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+                + "`RecipeID` int NOT NULL, "
+                + "`UserID` int NOT NULL, "
+                + "`RecipeName` varchar(45) NOT NULL, "
+                + "`ShortDesc` varchar(45) NOT NULL, "
+                + "`DetailedDesc` varchar(255) NOT NULL, "
+                + "`Unit` varchar(45) NOT NULL, "
+                + "`Amount` float NOT NULL, "
+                + "PRIMARY KEY (`RecipeID`), "
+                + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
+                +"KEY `UserID_idx` (`UserID`), "
+                + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
         
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
@@ -79,7 +80,8 @@ public class DatabaseSeeder {
             + "`RecipeIngredientID` int NOT NULL, "
             + "`RecipeID` int NOT NULL, "
             + "`IngredientID` varchar(45) NOT NULL, "
-            + "`Quantity` int NOT NULL, "
+            + "`Unit` varchar(4) NOT NULL,"
+            + "`Amount` float NOT NULL,"
             + "PRIMARY KEY (`RecipeIngredientID`), "
             + "KEY `RecipeID_idx` (`RecipeID`), "
             + "KEY `IngredientID_idx` (`IngredientID`), "

@@ -24,6 +24,7 @@ public class RecipeController {
    * @throws SQLException if a database access error occurs
    */
   public static List<Recipe> getRecipes() throws SQLException {
+
     ArrayList<Recipe> currentRecipeObjects = new ArrayList<>();
     String query = "SELECT * FROM recipes";
 
@@ -32,11 +33,10 @@ public class RecipeController {
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Recipe newRecipe = new Recipe(
-                result.getString("recipe_id"),
-                result.getString("name"),
-                result.getString("description"),
-                result.getString("instructions"),
-                result.getBoolean("star"));
+                result.getString("RecipeID"),
+                result.getString("RecipeName"),
+                result.getString("ShortDesc"),
+                result.getString("DetailedDesc"));
 
         // Updates the class ArrayList.
         currentRecipeObjects.add(newRecipe);
@@ -47,36 +47,36 @@ public class RecipeController {
         String id = recipeObject.getId();
         String ingQuery = "SELECT * " +
                 "FROM ingredients " +
-                "JOIN recipe_ingredients ON recipe_ingredients.ingredient_id = ingredients.ingredient_id " +
-                "WHERE recipe_ingredients.recipe_id = ?";
+                "JOIN recipe_ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientName " +
+                "WHERE recipe_ingredients.IngredientID = ?";
         try (PreparedStatement ingStatement = conn.prepareStatement(ingQuery)) {
           ingStatement.setString(1, id);
           ResultSet ingResultSet = ingStatement.executeQuery();
           while (ingResultSet.next()) {
             recipeObject.addIngredient(new AmountOfIngredients(
-                    ingResultSet.getString("unit"),
-                    ingResultSet.getFloat("amount"),
-                    new Ingredient(ingResultSet.getString("ingredient_id"), ingResultSet.getString("ingredient_name")))
+                    ingResultSet.getString("Unit"),
+                    ingResultSet.getFloat("Amount"),
+                    new Ingredient(ingResultSet.getString("IngredientID"), ingResultSet.getString("IngredientName")))
             );
           }
 
           // Adding tags to the object.
-          String tagQuery = "SELECT tag.tag_id, tag.name " +
-                  "FROM tag " +
-                  "JOIN recipe_tag ON recipe_tag.tag_id = tag.tag_id " +
-                  "WHERE recipe_tag.recipe_id = ?";
-          try (PreparedStatement tagStatement = conn.prepareStatement(tagQuery)) {
-            tagStatement.setString(1, id);
-            ResultSet tagResultSet = tagStatement.executeQuery();
+          String tagQuery = "SELECT tags.TagID, tags.TagName " +
+                  "FROM tags " +
+                  "JOIN recipe_tags ON recipe_tags.TagID = tag.TagID " +
+                  "WHERE recipe_tags.RecipeID = ?";
+          try (PreparedStatement tagsStatement = conn.prepareStatement(tagQuery)) {
+            tagsStatement.setString(1, id);
+            ResultSet tagResultSet = tagsStatement.executeQuery();
             while (tagResultSet.next()) {
               Tag newTag = new Tag(
-                      tagResultSet.getString("tag_id"),
-                      tagResultSet.getString("name"));
+                      tagResultSet.getString("TagID"),
+                      tagResultSet.getString("TagName"));
               recipeObject.addTag(newTag);
             }
 
           } catch (SQLException e) {
-            System.out.println("Error adding tag: " + e);
+            System.out.println("Error adding tags: " + e);
           }
 
         } catch (SQLException e) {

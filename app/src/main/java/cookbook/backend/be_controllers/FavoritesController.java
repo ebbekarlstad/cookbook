@@ -53,10 +53,10 @@ public class FavoritesController {
           pstmt.setString(1, userId);
           ResultSet rs = pstmt.executeQuery();
           while (rs.next()) {
-            String recipeId = rs.getString("recipe_id");
-            String ingredients = rs.getString("ingredients");
-            String recipeName = rs.getString("name");
-            favorites.add(new Recipe(recipeId, ingredients, recipeName, recipeName, null));
+            String recipeId = rs.getString("RecipeID");
+            String ingredients = rs.getString("Ingredients");
+            String recipeName = rs.getString("RecipeName");
+            favorites.add(new Recipe(recipeId, ingredients, recipeName, recipeName));
           }
           return favorites;
         } catch (SQLException e) {

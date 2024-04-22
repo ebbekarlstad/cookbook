@@ -4,18 +4,18 @@ package cookbook.backend.be_objects;
  * The Ingredient class represents an ingredient with its ID and name.
  */
 public class Ingredient {
-  private String id;
-  private String name;
+  private String IngredientID;
+  private String IngredientName;
 
   /**
    * Constructs a new Ingredient with the specified ID and name.
    *
-   * @param id   the ID of the ingredient
-   * @param name the name of the ingredient
+   * @param IngredientID   the ID of the ingredient
+   * @param IngredientName the name of the ingredient
    */
-  public Ingredient(String id, String name) {
-    setId(id);
-    setName(name);
+  public Ingredient(String IngredientID, String IngredientName) {
+    setIngredientID(IngredientID);
+    setIngredientName(IngredientName);
   }
 
   /**
@@ -23,17 +23,17 @@ public class Ingredient {
    *
    * @return the ID of the ingredient
    */
-  public String getId() {
-    return id;
+  public String getIngredientID() {
+    return IngredientID;
   }
 
   /**
    * Set the ID of the ingredient.
    *
-   * @param id the ID of the ingredient
+   * @param IngredientID the ID of the ingredient
    */
-  public void setId(String id) {
-    this.id = id;
+  public void setIngredientID(String IngredientID) {
+    this.IngredientID = IngredientID;
   }
 
   /**
@@ -41,16 +41,16 @@ public class Ingredient {
    *
    * @return the name of the ingredient
    */
-  public String getName() {
-    return name;
+  public String getIngredientName() {
+    return IngredientName;
   }
 
   /**
    * Set the name of the ingredient.
    *
-   * @param name the name of the ingredient
+   * @param IngredientName the name of the ingredient
    */
-  public void setName(String name) {
-    this.name = name;
+  public void setIngredientName(String IngredientName) {
+    this.IngredientName = IngredientName;
   }
 }

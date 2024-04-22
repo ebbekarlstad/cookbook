@@ -3,29 +3,26 @@ package cookbook.backend.be_objects;
 import java.util.ArrayList;
 
 public class Recipe {
-  private String id;
-  private String name;
-  private String description;
-  private String instructions;
+  private String RecipeID;
+  private String RecipeName;
+  private String ShortDesc;
+  private String DetailedDesc;
   private ArrayList<AmountOfIngredients> AmountOfIngredientsList = new ArrayList<>();
   private ArrayList<Tag> tagList = new ArrayList<>();
-  private Boolean star;
 
   /**
    * Constructor for Recipe object.
    *
-   * @param id           The ID of the recipe
-   * @param name         The name of the recipe
-   * @param description  The description of the recipe
-   * @param instructions The instructions to prepare the recipe
-   * @param Star         Boolean value indicating if the recipe is starred
+   * @param RecipeID      The ID of the recipe
+   * @param RecipeName    The name of the recipe
+   * @param ShortDesc     The description of the recipe
+   * @param DetailedDesc  The instructions to prepare the recipe
    */
-  public Recipe(String id, String name, String description, String instructions, Boolean Star) {
-    setId(id);
-    setName(name);
-    setDescription(description);
-    setInstructions(instructions);
-    setStar(Star);
+  public Recipe(String RecipeID, String RecipeName, String ShortDesc, String DetailedDesc) {
+    setRecipeID(RecipeID);
+    setRecipeName(RecipeName);
+    setShortDesc(ShortDesc);
+    setDetailedDesc(DetailedDesc);
   }
 
   /**
@@ -34,16 +31,16 @@ public class Recipe {
    * @return The ID of the recipe
    */
   public String getId() {
-    return id;
+    return RecipeID;
   }
 
   /**
    * Set the ID of the recipe.
    *
-   * @param id The ID to set
+   * @param RecipeID The ID to set
    */
-  public void setId(String id) {
-    this.id = id;
+  public void setRecipeID(String RecipeID) {
+    this.RecipeID = RecipeID;
   }
 
   /**
@@ -51,17 +48,17 @@ public class Recipe {
    *
    * @return The name of the recipe
    */
-  public String getName() {
-    return name;
+  public String getRecipeName() {
+    return RecipeName;
   }
 
   /**
    * Set the name of the recipe.
    *
-   * @param name The name to set
+   * @param RecipeName The name to set
    */
-  public void setName(String name) {
-    this.name = name;
+  public void setRecipeName(String RecipeName) {
+    this.RecipeName = RecipeName;
   }
 
   /**
@@ -69,17 +66,17 @@ public class Recipe {
    *
    * @return The description of the recipe
    */
-  public String getDescription() {
-    return description;
+  public String getShortDesc() {
+    return ShortDesc;
   }
 
   /**
    * Set the description of the recipe.
    *
-   * @param description The description to set
+   * @param ShortDesc The description to set
    */
-  public void setDescription(String description) {
-    this.description = description;
+  public void setShortDesc(String ShortDesc) {
+    this.ShortDesc = ShortDesc;
   }
 
   /**
@@ -87,36 +84,19 @@ public class Recipe {
    *
    * @return The instructions of the recipe
    */
-  public String getInstructions() {
-    return instructions;
+  public String getDetailedDesc() {
+    return DetailedDesc;
   }
 
   /**
    * Set the instructions of the recipe.
    *
-   * @param instructions The instructions to set
+   * @param DetailedDesc The instructions to set
    */
-  public void setInstructions(String instructions) {
-    this.instructions = instructions;
+  public void setDetailedDesc(String DetailedDesc) {
+    this.DetailedDesc = DetailedDesc;
   }
 
-  /**
-   * Set whether the recipe is starred.
-   *
-   * @param star Boolean value indicating if the recipe is starred
-   */
-  public void setStar(Boolean star) {
-    this.star = star;
-  }
-
-  /**
-   * Check if the recipe is starred.
-   *
-   * @return True if the recipe is starred, false otherwise
-   */
-  public boolean getStar() {
-    return star;
-  }
 
   /**
    * Get a list of ingredients for the recipe.
