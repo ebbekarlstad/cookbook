@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="mainStack" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainNavigationMenuController">
+   <children>
+      <BorderPane prefHeight="703.0" prefWidth="934.0">
+         <left>
+            <VBox minWidth="100.0" prefHeight="366.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+               </padding>
+            </VBox>
+         </left>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="5.0" left="7.0" right="7.0" top="7.0" />
+               </padding>
+            </VBox>
+         </right>
+         <center>
+            <VBox BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+               </padding>
+               <children>
+                  <VBox fx:id="mainPanel" style="-fx-background-color: #71706f;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label prefHeight="26.0" text="Recipe List:" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="mainTable" onMouseClicked="#showDescriptionFromMain" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets top="1.0" />
+                           </VBox.margin>
+                        </ListView>
+                        <Label fx:id="addRemoveFavoriteLabel" prefHeight="17.0" prefWidth="380.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
