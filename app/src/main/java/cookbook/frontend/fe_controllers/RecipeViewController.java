@@ -67,7 +67,7 @@ public class RecipeViewController {
   public Button back;
 
   @FXML
-  public Button addRecipie;
+  public Button addRecipe;
 
   @FXML
   public TextField amount;
@@ -109,8 +109,8 @@ public class RecipeViewController {
     String recipe_Name = recipeName.getText();
     String shortDescription = recipeShortDesc.getText();
     String longDescription = recipeLongDesc.getText();
-    UUID uniqueRecipie = UUID.randomUUID();
-    String recipeID = uniqueRecipie.toString();
+    UUID uniqueRecipe = UUID.randomUUID();
+    String recipeID = uniqueRecipe.toString();
 
     try {
       RecipeController.addRecipe(recipeID, recipe_Name, shortDescription, longDescription);
@@ -310,6 +310,7 @@ public class RecipeViewController {
       recipes = RecipeController.getRecipes();
       selectedTags = new ArrayList<>();
       selectedIngredients = new ArrayList<>();
+      System.out.println("Initialization complete: selectedIngredients is initialized.");
       tags = new ArrayList<>();
 
       updateTagBox();

@@ -63,7 +63,7 @@ public class DatabaseSeeder {
         String dropTableSQL = "DROP TABLE IF EXISTS `ingredients`;";
 
         String createTableSQL = "CREATE TABLE `ingredients` ("
-            + "`IngredientID` int NOT NULL, "
+            + "`IngredientID` varchar(45) NOT NULL, "
             + "`Name` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`IngredientID`));";
         
@@ -77,7 +77,7 @@ public class DatabaseSeeder {
         String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
             + "`RecipeIngredientID` int NOT NULL, "
             + "`RecipeID` int NOT NULL, "
-            + "`IngredientID` int NOT NULL, "
+            + "`IngredientID` varchar(45) NOT NULL, "
             + "`Quantity` int NOT NULL, "
             + "PRIMARY KEY (`RecipeIngredientID`), "
             + "KEY `RecipeID_idx` (`RecipeID`), "
@@ -191,7 +191,7 @@ public class DatabaseSeeder {
         String createTableSQL = "CREATE TABLE `shopping_list_items` ("
             + "`ShoppingListItemID` int NOT NULL, "
             + "`ShoppingListID` int NOT NULL, "
-            + "`IngredientID` int NOT NULL, "
+            + "`IngredientID` varchar(45) NOT NULL, "
             + "`Quantity` int NOT NULL, "
             + "`IsPurchased` tinyint NOT NULL, "
             + "PRIMARY KEY (`ShoppingListItemID`), "
