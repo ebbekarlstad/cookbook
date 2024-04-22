@@ -46,10 +46,11 @@ public class DatabaseSeeder {
         String createTableSQL = "CREATE TABLE `recipes` ("
             + "`RecipeID` int NOT NULL, "
             + "`UserID` int NOT NULL, "
-            + "`Name` varchar(45) NOT NULL, "
+            + "`RecipeName` varchar(45) NOT NULL, "
             + "`ShortDesc` varchar(45) NOT NULL, "
             + "`DetailedDesc` varchar(255) NOT NULL, "
-            + "`Serves` int NOT NULL, "
+            + "`Unit` varchar(45) NOT NULL, "
+            + "`Amount` float NOT NULL, "
             + "PRIMARY KEY (`RecipeID`), "
             + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
             +"KEY `UserID_idx` (`UserID`), "
@@ -64,7 +65,7 @@ public class DatabaseSeeder {
 
         String createTableSQL = "CREATE TABLE `ingredients` ("
             + "`IngredientID` varchar(45) NOT NULL, "
-            + "`Name` varchar(45) NOT NULL, "
+            + "`IngredientName` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`IngredientID`));";
         
         seedTable(dropTableSQL);
@@ -94,7 +95,7 @@ public class DatabaseSeeder {
 
         String createTableSQL = "CREATE TABLE `tags` ("
             + "`TagID` int NOT NULL, "
-            + "`Name` varchar(45) NOT NULL, "
+            + "`TagName` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`TagID`));";
         
         seedTable(dropTableSQL);
