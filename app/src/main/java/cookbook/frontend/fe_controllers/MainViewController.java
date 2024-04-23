@@ -1,6 +1,9 @@
 package cookbook.frontend.fe_controllers;
 
 import javafx.event.ActionEvent;
+
+import java.io.IOException;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
@@ -117,5 +120,20 @@ public class MainViewController {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  @FXML
+  private void handleBrowseRecipes(ActionEvent event) {
+      try {
+          // Load the main navigation menu FXML
+          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/MainNavigationMenu.fxml"));
+          Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
+  
+          // Get the current stage and replace it
+          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+          window.setScene(mainNavigationMenuScene);
+          window.show();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
   }
 }

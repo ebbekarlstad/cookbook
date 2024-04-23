@@ -27,8 +27,8 @@ public class IngredientController {
       ResultSet result = sqlstatement.executeQuery();
       while(result.next()) {
         Ingredient newIngredient = new Ingredient(
-                result.getString("ingredient_id"),
-                result.getString("ingredient_name"));
+                result.getString("IngredientID"),
+                result.getString("IngredientName"));
         currentIngredients.add(newIngredient);
       }
       result.close();
@@ -42,17 +42,17 @@ public class IngredientController {
   /**
    * Adds an ingredient to the database.
    *
-   * @param uniqueID the unique ID of the ingredient
-   * @param name     the name of the ingredient
+   * @param IngredientID       the unique ID of the ingredient
+   * @param IngredientName     the name of the ingredient
    * @throws SQLException if a database error occurs
    */
 
-  public static void addIngredient(String uniqueID, String name) throws SQLException{
+  public static void addIngredient(String IngredientID, String IngredientName) throws SQLException{
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
     String query = "INSERT INTO ingredients VALUES(?,?)";
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-      sqlStatement.setString(1, uniqueID);
-      sqlStatement.setString(2, name);
+      sqlStatement.setString(1, IngredientID);
+      sqlStatement.setString(2, IngredientName);
       sqlStatement.executeUpdate();
     }
     catch (SQLException e) {
@@ -63,22 +63,22 @@ public class IngredientController {
   /**
    * Adds an ingredient to a recipe in the database.
    *
-   * @param recipeID     the ID of the recipe
-   * @param ingredientID the ID of the ingredient
-   * @param unit         the unit of measurement for the ingredient
-   * @param amount       the amount of the ingredient
+   * @param RecipeID     the ID of the recipe
+   * @param IngredientID the ID of the ingredient
+   * @param Unit         the unit of measurement for the ingredient
+   * @param Amount       the amount of the ingredient
    * @throws SQLException if a database error occurs
    */
 
 
-  public static void addIngredientToRecipe(String recipeID, String ingredientID, String unit, Float amount) throws SQLException {
+  public static void addIngredientToRecipe(String RecipeID, String IngredientID, String Unit, Float Amount) throws SQLException {
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
     String query = "INSERT INTO recipe_ingredients VALUES (?,?,?,?)";
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-      sqlStatement.setString(1, recipeID);
-      sqlStatement.setString(2, ingredientID);
-      sqlStatement.setString(3, unit);
-      sqlStatement.setFloat(4, amount);
+      sqlStatement.setString(1, RecipeID);
+      sqlStatement.setString(2, IngredientID);
+      sqlStatement.setString(3, Unit);
+      sqlStatement.setFloat(4, Amount);
       sqlStatement.executeUpdate();
     } catch (SQLException e) {
       System.out.println("..." + e);

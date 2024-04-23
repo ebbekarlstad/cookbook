@@ -65,7 +65,7 @@
             </Text>
             <Label fx:id="ingredientLabel" alignment="TOP_LEFT" layoutX="530.0" layoutY="170.0" prefHeight="37.0" prefWidth="342.0" style="-fx-border-color: #5499C7; -fx-background-color: #FDFEFE; -fx-font-size: 16;" />
             <Label fx:id="tagsLabel" layoutX="404.0" layoutY="287.0" prefHeight="27.0" prefWidth="466.0" style="-fx-border-color: #5499C7; -fx-background-color: #FDFEFE;" />
-            <Button fx:id="addRecipie" layoutX="332.0" layoutY="598.0" mnemonicParsing="false" onAction="#createRecipe" prefHeight="32.0" prefWidth="215.0" style="-fx-background-color: #FFE5B4;" text="Add Recipe">
+            <Button fx:id="addRecipe" layoutX="332.0" layoutY="598.0" mnemonicParsing="false" onAction="#createRecipe" prefHeight="32.0" prefWidth="215.0" style="-fx-background-color: #FFE5B4;" text="Add Recipe">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -85,6 +85,11 @@
                   <Font name="PT Sans Narrow" size="20.0" />
                </font>
             </Text>
+            <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
+               <font>
+                  <Font name="PT Sans Narrow" size="14.0" />
+               </font>
+            </Button>
          </children>
         </AnchorPane>
     </children>

@@ -18,7 +18,7 @@ public class TagController {
 
   public static List<Tag> getTags() throws SQLException {
     ArrayList<Tag> tags = new ArrayList<>();
-    String query = "SELECT * FROM tag;";
+    String query = "SELECT * FROM tags;";
 
     Connection conn = DriverManager
             .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
@@ -27,8 +27,8 @@ public class TagController {
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Tag user = new Tag(
-                result.getString("tag_id"),
-                result.getString("name"));
+                result.getString("TagID"),
+                result.getString("TagName"));
 
         tags.add(user);
       }
@@ -42,19 +42,19 @@ public class TagController {
   /**
    * Adds a tag to the database.
    *
-   * @param tag_id   the ID of the tag
-   * @param tag_name the name of the tag
+   * @param TagID   the ID of the tag
+   * @param TagName the name of the tag
    * @throws SQLException if a database error occurs
    */
 
-  public static void addTag(String tag_id, String tag_name) throws SQLException {
-    String query = "INSERT INTO tag VALUES(?, ?);";
+  public static void addTag(String TagID, String TagName) throws SQLException {
+    String query = "INSERT INTO tags VALUES(?, ?);";
     Connection conn = DriverManager
             .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-      sqlStatement.setString(1, tag_id);
-      sqlStatement.setString(2, tag_name);
+      sqlStatement.setString(1, TagID);
+      sqlStatement.setString(2, TagName);
 
       sqlStatement.executeUpdate();
 
@@ -73,7 +73,7 @@ public class TagController {
 
   public static void addTagToRecipe(String RecipeID, String TagID) throws SQLException {
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-    String query = "INSERT INTO recipe_tag VALUES(?,?)";
+    String query = "INSERT INTO recipe_tags VALUES(?,?)";
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
       sqlStatement.setString(1, TagID);
       sqlStatement.setString(2, RecipeID);

@@ -4,36 +4,36 @@ package cookbook.backend.be_objects;
  * The AmountOfIngredients class represents the quantity of an ingredient, including its unit, amount, and name.
  */
 public class AmountOfIngredients {
-  private String unit;
-  private float amount;
+  private String Unit;
+  private float Amount;
   private Ingredient ingredient;
-  private String name;
+  private String IngredientName;
 
   /**
    * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient.
    *
-   * @param unit       the unit of measurement for the ingredient (e.g., "g", "ml")
-   * @param amount     the amount of the ingredient
+   * @param Unit       the unit of measurement for the ingredient (e.g., "g", "ml")
+   * @param Amount     the amount of the ingredient
    * @param ingredient the ingredient object
    */
-  public AmountOfIngredients(String unit, float amount, Ingredient ingredient) {
-    this.unit = (unit != null && !unit.equals("unit")) ? unit : "";
-    this.amount = amount;
+  public AmountOfIngredients(String Unit, float Amount, Ingredient ingredient) {
+    this.Unit = (Unit != null && !Unit.equals("unit")) ? Unit : "";
+    this.Amount = Amount;
     this.ingredient = ingredient;
-    this.name = ingredient.getName();
+    this.IngredientName = ingredient.getIngredientName();
   }
 
   /**
    * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient name.
    *
-   * @param unit   the unit of measurement for the ingredient (e.g., "g", "ml")
-   * @param amount the amount of the ingredient
-   * @param name   the name of the ingredient
+   * @param Unit   the unit of measurement for the ingredient (e.g., "g", "ml")
+   * @param Amount the amount of the ingredient
+   * @param IngredientName   the name of the ingredient
    */
-  public AmountOfIngredients(String unit, float amount, String name) {
-    this.unit = (unit != null && !unit.equals("unit")) ? unit : "";
-    this.amount = amount;
-    this.name = name;
+  public AmountOfIngredients(String Unit, float Amount, String IngredientName) {
+    this.Unit = (Unit != null && !Unit.equals("unit")) ? Unit : "";
+    this.Amount = Amount;
+    this.IngredientName = IngredientName;
   }
 
   /**
@@ -51,7 +51,7 @@ public class AmountOfIngredients {
    * @return the ID of the ingredient
    */
   public String ingredientID() {
-    return ingredient.getId();
+    return ingredient.getIngredientID();
   }
 
   /**
@@ -60,7 +60,7 @@ public class AmountOfIngredients {
    * @return the unit of measurement
    */
   public String getUnit() {
-    return unit;
+    return Unit;
   }
 
   /**
@@ -69,7 +69,7 @@ public class AmountOfIngredients {
    * @return the name of the ingredient
    */
   public String getName() {
-    return name;
+    return IngredientName;
   }
 
   /**
@@ -78,7 +78,7 @@ public class AmountOfIngredients {
    * @return the amount of the ingredient
    */
   public float getAmount() {
-    return amount;
+    return Amount;
   }
 
   /**
@@ -87,16 +87,16 @@ public class AmountOfIngredients {
    * @param additional the additional amount to add
    */
   public void addAmount(float additional) {
-    amount += additional;
+    Amount += additional;
   }
 
   /**
    * Set the amount of the ingredient.
    *
-   * @param amount the amount to set
+   * @param Amount the amount to set
    */
-  public void setAmount(float amount) {
-    this.amount = amount;
+  public void setAmount(float Amount) {
+    this.Amount = Amount;
   }
 
   /**
@@ -106,7 +106,7 @@ public class AmountOfIngredients {
    */
   @Override
   public String toString() {
-    return amount + " " + unit + " " + name;
+    return Amount + " " + Unit + " " + IngredientName;
   }
 
   /**
@@ -115,6 +115,6 @@ public class AmountOfIngredients {
    * @return a data string representation of the object
    */
   public String toData() {
-    return "INGREDIENT:" + amount + ":" + unit + ":" + name;
+    return "INGREDIENT:" + Amount + ":" + Unit + ":" + IngredientName;
   }
 }

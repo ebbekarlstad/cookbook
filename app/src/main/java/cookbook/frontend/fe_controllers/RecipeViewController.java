@@ -9,10 +9,10 @@ import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.Tag;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,7 +24,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -89,6 +88,11 @@ public class RecipeViewController {
   public List<Tag> tags;
   public List<Tag> selectedTags;
 
+  @FXML
+    private void initialize() {
+        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
+    }
+
   /**
    * Creates a new recipe based on the input provided by the user.
    * Retrieves the recipe name, short description, and long description from the corresponding text fields.
@@ -106,20 +110,24 @@ public class RecipeViewController {
 
   public void createRecipe(ActionEvent event) throws SQLException, IOException {
     // For Recipe
-    String recipe_Name = recipeName.getText();
-    String shortDescription = recipeShortDesc.getText();
-    String longDescription = recipeLongDesc.getText();
-    UUID uniqueRecipie = UUID.randomUUID();
-    String recipeID = uniqueRecipie.toString();
+    String RecipeName = recipeName.getText();
+    String userPlaceholder = "1";
+    String UserID = userPlaceholder.toString(); // We need to find out how to retrieve this
+    String ShortDesc = recipeShortDesc.getText();
+    String DetailedDesc = recipeLongDesc.getText();
+    UUID uniqueRecipe = UUID.randomUUID();
+    String RecipeID = uniqueRecipe.toString();
+    String Unit = unit.getSelectionModel().getSelectedItem();  // Get selected item from ComboBox
+    String Amount = amount.getText();  // Get text from TextField
 
     try {
-      RecipeController.addRecipe(recipeID, recipe_Name, shortDescription, longDescription);
-      Recipe createdRecipe = new Recipe(recipeID, recipe_Name, shortDescription, longDescription, false);
+      RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
+      Recipe createdRecipe = new Recipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
 
       // Two Loops that add all the selected ingredients into the recipe.
       for (AmountOfIngredients ingredient : selectedIngredients) {
         createdRecipe.addIngredient(ingredient);
-        IngredientController.addIngredientToRecipe(recipeID, ingredient.ingredientID(), ingredient.getUnit(),
+        IngredientController.addIngredientToRecipe(RecipeID, ingredient.ingredientID(), ingredient.getUnit(),
                 ingredient.getAmount());
       }
 
@@ -127,7 +135,7 @@ public class RecipeViewController {
 
       for (Tag tag : selectedTags) {
         createdRecipe.addTag(tag);
-        TagController.addTagToRecipe(recipeID, tag.getTag_id());
+        TagController.addTagToRecipe(RecipeID, tag.getTagID());
       }
 
       Alert success = new Alert(Alert.AlertType.INFORMATION);
@@ -136,7 +144,7 @@ public class RecipeViewController {
       success.show();
     } catch (SQLException x) {
       Alert failure = new Alert(Alert.AlertType.INFORMATION);
-      failure.setTitle("Faliure!");
+      failure.setTitle("Failure!");
       failure.setContentText(x.toString());
       failure.show();
     }
@@ -153,18 +161,18 @@ public class RecipeViewController {
    */
 
   public void backButton(ActionEvent event) throws SQLException, IOException {
-    URL url = new File("src/main/java/cookbook/resources/MainView.fxml").toURI().toURL();
-    FXMLLoader loader = new FXMLLoader(url);
-    Parent root = loader.load();
-    Scene loginScene = new Scene(root);
+    try {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
 
-    Stage mainStage = (Stage) back.getScene().getWindow();
-    mainStage.setScene(loginScene);
-    mainStage.show();
-    mainStage.setHeight(740);
-    mainStage.setWidth(1000);
-    mainStage.setResizable(false);
-    mainStage.centerOnScreen();
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -181,13 +189,16 @@ public class RecipeViewController {
    */
 
   public void addTagToList(ActionEvent event) throws SQLException, IOException {
+    if (selectedTags == null) {
+      selectedTags = new ArrayList<>();
+  }
     if (tagsDropdown.getSelectionModel().getSelectedItem() == null) {
-      String tag_Name = tagName.getText();
+      String TagName = tagName.getText();
       UUID uniqueID = UUID.randomUUID();
-      String tagID = uniqueID.toString();
+      String TagID = uniqueID.toString();
 
       //If duplicate, do this. Else, do that.
-      if (findTag(tag_Name) != null) {
+      if (findTag(TagName) != null) {
         //If tag already exists, show this.
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setTitle("Error!");
@@ -195,8 +206,8 @@ public class RecipeViewController {
         error.show();
       } else {
         // Add the tag to the database and create an object.
-        TagController.addTag(tagID, tag_Name);
-        Tag newTag = new Tag(tagID, tag_Name);
+        TagController.addTag(TagID, TagName);
+        Tag newTag = new Tag(TagID, TagName);
         selectedTags.add(newTag);
 
         Alert success = new Alert(Alert.AlertType.INFORMATION);
@@ -207,8 +218,8 @@ public class RecipeViewController {
 
       }
     } else if (tagsDropdown.getSelectionModel().getSelectedItem() != null) {
-      String tag_name = tagsDropdown.getSelectionModel().getSelectedItem();
-      Tag myTag = findTag(tag_name);
+      String TagName = tagsDropdown.getSelectionModel().getSelectedItem();
+      Tag myTag = findTag(TagName);
 
       if (myTag != null && !selectedTags.contains(myTag)) {
         selectedTags.add(myTag);
@@ -240,24 +251,26 @@ public class RecipeViewController {
    */
 
   public void addIngredientToList(ActionEvent event) throws SQLException, IOException {
+    if (selectedIngredients == null) {
+      selectedIngredients = new ArrayList<>();
+  }
     try {
-      String ingredient_Name = ingredientName.getText();
+      String IngredientName = ingredientName.getText();
       UUID uniqueID = UUID.randomUUID();
       String uniqueIngredientID = uniqueID.toString();
       String selectedUnit = unit.getSelectionModel().getSelectedItem();
       String a = amount.getText();
       float selectedAmount = Float.parseFloat(a);
-      IngredientController.addIngredient(uniqueIngredientID, ingredient_Name);
-      Ingredient newIngredientObject = new Ingredient(uniqueIngredientID, ingredient_Name);
+      IngredientController.addIngredient(uniqueIngredientID, IngredientName);
+      Ingredient newIngredientObj = new Ingredient(uniqueIngredientID, IngredientName);
 
-      AmountOfIngredients newQuanitityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount,
-              newIngredientObject);
-      selectedIngredients.add(newQuanitityIngredients);
+      AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
+      selectedIngredients.add(newQuantityIngredients);
       String currentLabelText = ingredientLabel.getText();
       if (currentLabelText.isEmpty()) {
-        ingredientLabel.setText(ingredient_Name);
+        ingredientLabel.setText(IngredientName);
       } else {
-        ingredientLabel.setText(currentLabelText + ", " + ingredient_Name);
+        ingredientLabel.setText(currentLabelText + ", " + IngredientName);
       }
 
       Alert success = new Alert(Alert.AlertType.INFORMATION);
@@ -278,15 +291,15 @@ public class RecipeViewController {
     tagsDropdown.getItems().clear();
     tagsDropdown.getItems().add(null);
     for (Tag tag : TagController.getTags()) {
-      String tagname = tag.getTag_name();
-      tagsDropdown.getItems().add(tagname);
+      String TagName = tag.getTagName();
+      tagsDropdown.getItems().add(TagName);
     }
 
   }
 
-  public Tag findTag(String tagName) throws SQLException {
+  public Tag findTag(String TagName) throws SQLException {
     for (Tag tag : TagController.getTags()) {
-      if (tag.getTag_name().equals(tagName)) {
+      if (tag.getTagName().equals(TagName)) {
         return tag;
       }
     }
@@ -305,25 +318,6 @@ public class RecipeViewController {
    *                  or null if the root object was not localized.
    */
 
-  public void initialize(URL location, ResourceBundle resources) {
-    try {
-      recipes = RecipeController.getRecipes();
-      selectedTags = new ArrayList<>();
-      selectedIngredients = new ArrayList<>();
-      tags = new ArrayList<>();
-
-      updateTagBox();
-      unit.setItems(FXCollections.observableArrayList("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"));
-
-
-    } catch (SQLException err) {
-      err.printStackTrace();
-    }
-    System.out.println(recipes.size());
-
-  }
-
-
   /**
    * Updates the tags label to display the names of the selected tags.
    * Retrieves the tag names from the selectedTags list using stream and map operations.
@@ -332,7 +326,7 @@ public class RecipeViewController {
    */
 
   private void updateTagsLabel() {
-    List<String> tagNames = selectedTags.stream().map(Tag::getTag_name).collect(Collectors.toList());
+    List<String> tagNames = selectedTags.stream().map(Tag::getTagName).collect(Collectors.toList());
     tagsLabel.setText(String.join(", ", tagNames));
   }
 }
