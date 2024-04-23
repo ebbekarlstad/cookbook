@@ -107,13 +107,17 @@ public class RecipeViewController {
   public void createRecipe(ActionEvent event) throws SQLException, IOException {
     // For Recipe
     String RecipeName = recipeName.getText();
+    String userPlaceholder = "1";
+    String UserID = userPlaceholder.toString(); // We need to find out how to retrieve this
     String ShortDesc = recipeShortDesc.getText();
     String DetailedDesc = recipeLongDesc.getText();
     UUID uniqueRecipe = UUID.randomUUID();
     String RecipeID = uniqueRecipe.toString();
+    String Unit = unit.toString();
+    String Amount = amount.toString();
 
     try {
-      RecipeController.addRecipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
+      RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
       Recipe createdRecipe = new Recipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
 
       // Two Loops that add all the selected ingredients into the recipe.
