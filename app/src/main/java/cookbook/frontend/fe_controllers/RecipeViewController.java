@@ -12,6 +12,7 @@ import cookbook.backend.be_objects.Tag;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -143,7 +144,7 @@ public class RecipeViewController {
       success.show();
     } catch (SQLException x) {
       Alert failure = new Alert(Alert.AlertType.INFORMATION);
-      failure.setTitle("Faliure!");
+      failure.setTitle("Failure!");
       failure.setContentText(x.toString());
       failure.show();
     }
@@ -160,18 +161,18 @@ public class RecipeViewController {
    */
 
   public void backButton(ActionEvent event) throws SQLException, IOException {
-    URL url = new File("src/main/java/cookbook/resources/MainView.fxml").toURI().toURL();
-    FXMLLoader loader = new FXMLLoader(url);
-    Parent root = loader.load();
-    Scene loginScene = new Scene(root);
+    try {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
 
-    Stage mainStage = (Stage) back.getScene().getWindow();
-    mainStage.setScene(loginScene);
-    mainStage.show();
-    mainStage.setHeight(740);
-    mainStage.setWidth(1000);
-    mainStage.setResizable(false);
-    mainStage.centerOnScreen();
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**
