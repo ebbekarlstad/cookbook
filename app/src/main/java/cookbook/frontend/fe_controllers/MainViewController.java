@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import java.io.IOException;
 /* import cookbook.backend.DatabaseMng;
 import java.sql.Connection; */
 
@@ -119,20 +118,4 @@ public class MainViewController {
       e.printStackTrace();
     }
   }
-  @FXML
-private void handleBrowseRecipes(ActionEvent event) {
-    try {
-        // Load the main navigation menu FXML
-        Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/MainNavigationMenu.fxml"));
-        Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
-
-        // Get the current stage and replace it
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(mainNavigationMenuScene);
-        window.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
 }

@@ -39,7 +39,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button layoutX="22.0" layoutY="122.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT" onAction="#handleBrowseRecipes">
+            <Button layoutX="22.0" layoutY="122.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
