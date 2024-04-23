@@ -44,18 +44,17 @@ public class DatabaseSeeder {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipes`;";
 
         String createTableSQL = "CREATE TABLE `recipes` ("
-                + "`RecipeID` int NOT NULL, "
+                + "`RecipeID` varchar(255) NOT NULL, "
                 + "`UserID` int NOT NULL, "
                 + "`RecipeName` varchar(45) NOT NULL, "
                 + "`ShortDesc` varchar(45) NOT NULL, "
                 + "`DetailedDesc` varchar(255) NOT NULL, "
-                + "`Unit` varchar(45) NOT NULL, "
-                + "`Amount` float NOT NULL, "
+                + "`Unit` varchar(100) NOT NULL, "
+                + "`Amount` varchar(100) NOT NULL, "
                 + "PRIMARY KEY (`RecipeID`), "
                 + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
                 +"KEY `UserID_idx` (`UserID`), "
                 + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
-
         
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
@@ -78,10 +77,10 @@ public class DatabaseSeeder {
 
         String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
             + "`RecipeIngredientID` int NOT NULL, "
-            + "`RecipeID` int NOT NULL, "
+            + "`RecipeID` varchar(255) NOT NULL, "
             + "`IngredientID` varchar(45) NOT NULL, "
-            + "`Unit` varchar(4) NOT NULL,"
-            + "`Amount` float NOT NULL,"
+            + "`Unit` varchar(100) NOT NULL,"
+            + "`Amount` varchar(100) NOT NULL,"
             + "PRIMARY KEY (`RecipeIngredientID`), "
             + "KEY `RecipeID_idx` (`RecipeID`), "
             + "KEY `IngredientID_idx` (`IngredientID`), "
@@ -109,7 +108,7 @@ public class DatabaseSeeder {
 
         String createTableSQL = "CREATE TABLE `recipe_tags` ("
             + "`RecipeTagID` int NOT NULL, "
-            + "`RecipeID` int NOT NULL, "
+            + "`RecipeID` varchar(255) NOT NULL, "
             + "`TagID` varchar(255) NOT NULL, "
             + "PRIMARY KEY (`RecipeTagID`), "
             + "KEY `TagID_idx` (`TagID`), "
@@ -126,7 +125,7 @@ public class DatabaseSeeder {
 
         String createTableSQL = "CREATE TABLE `comments` ("
             + "`CommentID` int NOT NULL AUTO_INCREMENT, "
-            + "`RecipeID` int NOT NULL, "
+            + "`RecipeID` varchar(255) NOT NULL, "
             + "`UserID` int NOT NULL, "
             + "`Text` varchar(255) NOT NULL, "
             + "`Timestamp` varchar(45) NOT NULL, "
@@ -161,7 +160,7 @@ public class DatabaseSeeder {
         String createTableSQL = "CREATE TABLE `dinner_list_recipes` ("
             + "`DinnerListRecipeID` int NOT NULL, "
             + "`WeeklyDinnerListID` int NOT NULL, "
-            + "`RecipeID` int NOT NULL, "
+            + "`RecipeID` varchar(255) NOT NULL, "
             + "`DayOfWeek` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`DinnerListRecipeID`), "
             + "KEY `WeeklyDinnerListID0_idx` (`WeeklyDinnerListID`), "
@@ -214,7 +213,7 @@ public class DatabaseSeeder {
             + "`SentRecipeID` int NOT NULL, "
             + "`SenderUserID` int NOT NULL, "
             + "`RecieverUserID` int NOT NULL, "
-            + "`RecipeID` int NOT NULL, "
+            + "`RecipeID` varchar(255) NOT NULL, "
             + "`Message` varchar(255) NOT NULL, "
             + "`Timestamp` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`SentRecipeID`), "
