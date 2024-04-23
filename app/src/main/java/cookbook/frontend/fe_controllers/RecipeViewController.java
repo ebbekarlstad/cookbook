@@ -9,7 +9,6 @@ import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.Tag;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +23,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -89,6 +87,11 @@ public class RecipeViewController {
   public List<Tag> tags;
   public List<Tag> selectedTags;
 
+  @FXML
+    private void initialize() {
+        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
+    }
+
   /**
    * Creates a new recipe based on the input provided by the user.
    * Retrieves the recipe name, short description, and long description from the corresponding text fields.
@@ -113,8 +116,8 @@ public class RecipeViewController {
     String DetailedDesc = recipeLongDesc.getText();
     UUID uniqueRecipe = UUID.randomUUID();
     String RecipeID = uniqueRecipe.toString();
-    String Unit = unit.toString();
-    String Amount = amount.toString();
+    String Unit = unit.getSelectionModel().getSelectedItem();  // Get selected item from ComboBox
+    String Amount = amount.getText();  // Get text from TextField
 
     try {
       RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
@@ -313,25 +316,6 @@ public class RecipeViewController {
    * @param resources The resources used to localize the root object,
    *                  or null if the root object was not localized.
    */
-
-  public void initialize(URL location, ResourceBundle resources) {
-    try {
-      recipes = RecipeController.getRecipes();
-      selectedTags = new ArrayList<>();
-      selectedIngredients = new ArrayList<>();
-      tags = new ArrayList<>();
-
-      updateTagBox();
-      unit.setItems(FXCollections.observableArrayList("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"));
-
-
-    } catch (SQLException err) {
-      err.printStackTrace();
-    }
-    System.out.println(recipes.size());
-
-  }
-
 
   /**
    * Updates the tags label to display the names of the selected tags.
