@@ -100,7 +100,7 @@ public class RecipeController {
    * @throws SQLException if a database access error occurs
    */
   public static void addDate(String recipeId, Timestamp created_at, String userId) throws SQLException {
-    String query = "INSERT into weekly_list values ((?),(?),(?))";
+    String query = "INSERT into weekly_list values  ((?),(?),(?))";
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
          PreparedStatement preparedStmt = conn.prepareStatement(query)) {
       preparedStmt.setString(1, userId);
@@ -126,17 +126,23 @@ public class RecipeController {
    * @param longDesc   A long description of the recipe
    * @throws SQLException if a database access error occurs
    */
-  public static void addRecipe(String recipeId, String recipeName, String shortDesc, String longDesc) throws SQLException {
+  public static void addRecipe(String recipeId, String UserID, String recipeName, String shortDesc, String longDesc, String Unit, String Amount) throws SQLException {
+    String query = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES(?,?,?,?,?,?,?)";
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement sqlStatement = conn.prepareStatement("INSERT INTO recipes VALUES(?,?,?,?,?)")) {
+         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
       sqlStatement.setString(1, recipeId);
-      sqlStatement.setString(2, recipeName);
-      sqlStatement.setString(3, shortDesc);
-      sqlStatement.setString(4, longDesc);
-      sqlStatement.setBoolean(5, false);
+      sqlStatement.setString(2, UserID);
+      sqlStatement.setString(3, recipeName);
+      sqlStatement.setString(4, shortDesc);
+      sqlStatement.setString(5, longDesc);
+      sqlStatement.setString(6, Unit);
+      sqlStatement.setString(7, Amount);
       sqlStatement.executeUpdate();
     } catch (SQLException e) {
-      System.out.println("..." + e);
+        System.err.println("Error executing SQL: " + query);
+        System.err.println("Parameters: " + recipeId + ", " + UserID + ", " + recipeName + ", " + shortDesc + ", " + longDesc + ", " + Unit + ", " + Amount);
+        System.err.println("SQL Error: " + e.getMessage());
+        System.err.println("..." + e);
     }
   }
 }
