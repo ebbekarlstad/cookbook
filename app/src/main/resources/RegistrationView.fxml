@@ -67,13 +67,13 @@
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
             </ImageView>
-            <PasswordField fx:id="passwordField" layoutX="382.0" layoutY="428.0" />
-            <TextField fx:id="usernameField" layoutX="382.0" layoutY="352.0" />
-            <Button fx:id="loadNavButton" layoutX="428.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Register">
+            <PasswordField fx:id="//add here" layoutX="382.0" layoutY="428.0" />
+            <TextField fx:id="//add name here" layoutX="382.0" layoutY="352.0" />
+            <Button fx:id="loadNavButton" layoutX="428.0" layoutY="499.0" mnemonicParsing="false" onAction="" text="Register">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <ProgressIndicator fx:id="loginProgress" layoutX="441.0" layoutY="364.0" prefHeight="119.0" prefWidth="52.0" visible="false" />
+            <ProgressIndicator fx:id="//add here" layoutX="441.0" layoutY="364.0" prefHeight="119.0" prefWidth="52.0" visible="false" />
             <Label fx:id="errorLabel" alignment="TOP_CENTER" layoutX="362.0" layoutY="424.0" prefHeight="16.0" prefWidth="211.0" textAlignment="CENTER" textFill="red" />
             <Text layoutX="275.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
                <font>
@@ -100,7 +100,7 @@
                   </DropShadow>
                </effect>
             </Text>
-            <TextField fx:id="usernameField1" layoutX="382.0" layoutY="389.0" />
+            <TextField fx:id="//change this" layoutX="382.0" layoutY="389.0" />
             <Text layoutX="275.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                <font>
                   <Font name="SansSerif Bold" size="13.0" />
