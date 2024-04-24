@@ -67,21 +67,37 @@ public class RecipeListViewController {
     }
   }
 
-  private void handleRecipeSelection(MouseEvent event) {
+    private void handleRecipeSelection(MouseEvent event) {
       if (event.getClickCount() == 2) { // Double-click to handle recipe selection
           Recipe selectedRecipe = mainTable.getSelectionModel().getSelectedItem();
           if (selectedRecipe != null) {
+            try {
               System.out.println("Selected Recipe: " + selectedRecipe.getRecipeName());
-              // Further actions like opening a recipe detail view can be implemented here
+              // Load the FXML for the comments view
+              FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comment.fxml"));
+              Parent commentViewParent = loader.load();
+
+              // Get the controller and pass the selected recipe
+              CommentViewController controller = loader.getController();
+              controller.initData(selectedRecipe);
+
+              // Setup and show the new stage (or scene)
+              Scene commentViewScene = new Scene(commentViewParent);
+              Stage window = new Stage(); // You might want to use another method to handle windows
+              window.setScene(commentViewScene);
+              window.show();
+            } catch (IOException e) {
+                e.printStackTrace();
           }
+        }
       }
-  }
+    }
 
 
     @FXML
-public void showDescriptionFromMain(MouseEvent event) {
-    // Implementation code
-    // For example, open a new window or display details about the selected item
+    public void showDescriptionFromMain(MouseEvent event) {
+        // Implementation code
+        // For example, open a new window or display details about the selected item
 }
 
 }
