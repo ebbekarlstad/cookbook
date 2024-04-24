@@ -6,12 +6,26 @@ import java.util.List;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_objects.CommentObject;
+import cookbook.backend.be_objects.Recipe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 public class CommentViewController {
+
+    @FXML
+    private Label recipeNameLabel; // Example of a label to show the recipe name
+
+    public void initData(Recipe recipe) {
+        // Set the recipe information in your controls
+        recipeNameLabel.setText(recipe.getRecipeName());
+        recipeNameLabel.setText(String.valueOf(recipe.getId()));
+        recipeNameLabel.setText(recipe.getShortDesc());
+        recipeNameLabel.setText(recipe.getDetailedDesc());
+        recipeNameLabel.setText(recipe.getId());
+    }
 
     private CommentController commentController;
 
