@@ -63,8 +63,9 @@ public class RecipeController {
           // Adding tags to the object.
           String tagQuery = "SELECT tags.TagID, tags.TagName " +
           "FROM tags " +
-          "JOIN recipe_tags ON recipe_tags.TagID = tag.TagID " +
+          "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
           "WHERE recipe_tags.RecipeID = ?";
+
           try (PreparedStatement tagsStatement = conn.prepareStatement(tagQuery)) {
             tagsStatement.setString(1, id);
             ResultSet tagResultSet = tagsStatement.executeQuery();
