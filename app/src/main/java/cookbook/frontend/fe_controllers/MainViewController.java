@@ -106,6 +106,21 @@ public class MainViewController {
     }
   }
 
+  public void handleHelpBackButton(ActionEvent event){
+    try {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   @FXML
   private void handleNewButton(ActionEvent event) {
     try {
@@ -125,7 +140,7 @@ public class MainViewController {
   private void handleBrowseRecipes(ActionEvent event) {
       try {
           // Load the main navigation menu FXML
-          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/MainNavigationMenu.fxml"));
+          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
           Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
   
           // Get the current stage and replace it
