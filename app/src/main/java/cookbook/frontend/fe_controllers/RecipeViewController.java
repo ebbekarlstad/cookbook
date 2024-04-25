@@ -116,7 +116,7 @@ public class RecipeViewController {
     UUID uniqueRecipe = UUID.randomUUID();
     String RecipeID = uniqueRecipe.toString();
     String Unit = unit.getSelectionModel().getSelectedItem();  // Get selected item from ComboBox
-    String Amount = amount.getText();  // Get text from TextField
+    Float Amount = Float.parseFloat(amount.getText());  // Get text from TextField
 
     try {
       RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
