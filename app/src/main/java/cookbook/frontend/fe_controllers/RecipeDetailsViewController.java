@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 public class RecipeDetailsViewController {
 
     private String recipeId;
+    private int commentId;
 
     @FXML
     private Label titleLabel; // Label for the recipe title.
@@ -53,21 +54,16 @@ public class RecipeDetailsViewController {
     @FXML
     private TextField commentInput;  // Input field for comments
 
-    // Not sure if db operations work
     @FXML
     private void addComment(ActionEvent event) {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
-            CommentObject newComment = new CommentObject(0, 0, 0, commentText, commentText);
-            newComment.setRecipeId(Integer.parseInt(this.recipeId));
-            newComment.setUserId(1);  // Same here
-            newComment.setText(commentText);
-            newComment.setTimestamp("yy-mm-dd hh:mm:ss");  // Determine how to set timestamp
+            // Assuming recipeId and userId should be handled as Strings
+            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, 1, commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
+            commentsListView.getItems().add(commentText);  // Add comment to ListView
+            commentInput.clear();  // Clear the input field
 
-            if (commentController.addComment(newComment)) {
-                commentsListView.getItems().add(commentText);  // Add comment to our ListView
-                commentInput.clear();
-            } else {
+            if (!commentController.addComment(newComment)) {
                 System.out.println("Failed to add comment.");
             }
         }
