@@ -163,7 +163,12 @@ public class RecipeDetailsViewController {
         }
       } catch (SQLException e) {
           System.err.println("Database error during comment insertion: " + e.getMessage());
-    }
+        }   
       }
+
+      @FXML
+      public void removeFromFavorites(ActionEvent event) {
+        String sql = "DELETE FROM favorites WHERE RecipeID = ?";
+
 
 }
