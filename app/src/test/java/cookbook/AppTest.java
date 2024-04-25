@@ -10,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.LogIn;
+import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.be_controllers.UserController;
+import cookbook.backend.be_controllers.FavoritesController;
 
 class AppTest {
     // Commented out Greeting Test Case
@@ -22,6 +24,7 @@ class AppTest {
      private LogIn login;
      private DatabaseMng dbManager;
      private UserController userController;
+     private FavoritesController favoritesController;
 
     @BeforeEach
     void setup() {
@@ -48,4 +51,14 @@ class AppTest {
 
         assertTrue(isSaved, "User should be successfully saved to the database");
     }
+
+    @Test
+    void testAddFavorite() {
+        Recipe recipe = new Recipe("1", "Pasta Carbonara", "Simple pasta", "Cook pasta and mix with sauce");
+        String userId = "user";
+        boolean result = favoritesController.addFavorite(userId, recipe);
+        
+        assertTrue(result, "Adding favorite should return true when successful");
+    }
+
 }

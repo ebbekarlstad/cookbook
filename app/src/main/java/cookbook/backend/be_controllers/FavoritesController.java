@@ -18,7 +18,7 @@ public class FavoritesController {
 
   // Bästa lösningen är att skapa en favorit-tagg, då justeras koden utefter det
     public boolean addFavorite(String userId, Recipe recipe) {
-      String sql = "INSERT INTO user_favorites (user_id, recipe_id) VALUES (?, ?)";
+      String sql = "UPDATE recipes SET IsFavorite = 1 WHERE UserID = 1 AND RecipeID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userId);
@@ -32,7 +32,7 @@ public class FavoritesController {
     }
 
     public boolean removeFavorite(String userId, Recipe recipe) {
-      String sql = "DELETE FROM user_favorites WHERE user_id = ? AND recipe_id = ?";
+      String sql = "UPDATE recipes SET IsFavorite = 0 WHERE UserID = 1 AND RecipeID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userId);
@@ -47,7 +47,7 @@ public class FavoritesController {
 
     public List<Recipe> getFavorites(String userId) {
       List<Recipe> favorites = new ArrayList<>();
-      String sql = "SELECT r.* FROM recipes r INNER JOIN user_favorites f ON r.recipe_id = f.recipe_id WHERE f.user_id = ?";
+      String sql = "SELECT * FROM recipes WHERE UserID = ? AND IsFavorites = 1";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userId);
