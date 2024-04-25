@@ -51,6 +51,7 @@ public class DatabaseSeeder {
                 + "`DetailedDesc` varchar(255) NOT NULL, "
                 + "`Unit` varchar(100) NOT NULL, "
                 + "`Amount` varchar(100) NOT NULL, "
+                + "`IsFavorite` tinyint, "
                 + "PRIMARY KEY (`RecipeID`), "
                 + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
                 +"KEY `UserID_idx` (`UserID`), "
