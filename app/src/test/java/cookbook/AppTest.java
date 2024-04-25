@@ -31,6 +31,8 @@ class AppTest {
         dbManager = new DatabaseMng();
         userController = new UserController(dbManager);
         login = new LogIn(dbManager);
+        favoritesController = new FavoritesController(dbManager);
+
     }
 
      @Test
