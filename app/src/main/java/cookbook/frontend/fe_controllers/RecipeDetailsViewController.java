@@ -146,6 +146,24 @@ public class RecipeDetailsViewController {
       @FXML
       public void addToFavorites(ActionEvent event) {
         String sql = "INSERT INTO favorites (RecipeID, UserID, Name, ShortDesc, DetailedDesc, Serves) VALUES (?, ?, ?, ?, ?, ?)";
-        
+        try (Connection conn = myDbManager.getConnection(); 
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, recipe.getId());
+            // pstmt.setInt(2, recipe.getUserID());
+            pstmt.setString(3, recipe.getRecipeName());
+            pstmt.setString(4,recipe.getShortDesc());
+            pstmt.setString(5,recipe.getDetailedDesc());
+            // pstmt.setString(6,recipe.getServes());
+                
+      int affectedRows = pstmt.executeUpdate();
+        if (affectedRows > 0) {
+          System.out.println("Favorite saved successfully.");
+        } else {
+          System.out.println("No rows affected.");
+        }
+      } catch (SQLException e) {
+          System.err.println("Database error during comment insertion: " + e.getMessage());
+    }
+      }
 
 }
