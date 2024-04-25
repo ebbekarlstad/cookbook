@@ -55,9 +55,13 @@ public class DatabaseSeeder {
                 + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
                 +"KEY `UserID_idx` (`UserID`), "
                 + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
+        String insertDataSQL = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
+                + " VALUES (1, 1, 'placeHolderName', 'placeHolderShort', 'placeHolderLong', 'g', 10);";
         
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
+        seedTable(insertDataSQL);
     }
 
     public void seedIngredients() {
