@@ -74,11 +74,11 @@ public class RecipeListViewController {
             try {
               System.out.println("Selected Recipe: " + selectedRecipe.getRecipeName());
               // Load the FXML for the comments view
-              FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comment.fxml"));
+              FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetails.fxml"));
               Parent commentViewParent = loader.load();
 
               // Get the controller and pass the selected recipe
-              CommentViewController controller = loader.getController();
+              RecipeDetailsViewController controller = loader.getController();
               controller.initData(selectedRecipe);
 
               // Setup and show the new stage (or scene)
