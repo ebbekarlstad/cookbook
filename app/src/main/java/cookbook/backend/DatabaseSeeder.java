@@ -78,22 +78,19 @@ public class DatabaseSeeder {
 
     public void seedRecipeIngredients() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipe_ingredients`;";
-
+    
         String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
-            + "`RecipeIngredientID` int NOT NULL, "
             + "`RecipeID` varchar(255) NOT NULL, "
             + "`IngredientID` varchar(45) NOT NULL, "
             + "`Unit` varchar(100) NOT NULL,"
             + "`Amount` varchar(100) NOT NULL,"
-            + "PRIMARY KEY (`RecipeIngredientID`), "
-            + "KEY `RecipeID_idx` (`RecipeID`), "
-            + "KEY `IngredientID_idx` (`IngredientID`), "
-            + "CONSTRAINT `IngredientID0` FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
-            + "CONSTRAINT `RecipeID0` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`))";
-        
+            + "PRIMARY KEY (`RecipeID`, `IngredientID`), "
+            + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
+            + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
+    
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
-    }
+    }    
 
     public void seedTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `tags`;";
