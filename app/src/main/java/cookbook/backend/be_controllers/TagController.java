@@ -71,14 +71,19 @@ public class TagController {
    * @throws SQLException if a database error occurs
    */
 
-  public static void addTagToRecipe(String RecipeID, String TagID) throws SQLException {
+   public static void addTagToRecipe(String RecipeID, String TagID) throws SQLException {
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-    String query = "INSERT INTO recipe_tags VALUES(?,?)";
+    String query = "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?);";
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-      sqlStatement.setString(1, TagID);
-      sqlStatement.setString(2, RecipeID);
-      sqlStatement.executeUpdate();
-
+        sqlStatement.setString(1, RecipeID);
+        sqlStatement.setString(2, TagID);
+        System.out.println("Executing SQL to add tag to recipe: " + query + " with RecipeID: " + RecipeID + ", TagID: " + TagID);
+        sqlStatement.executeUpdate();
+    } catch (SQLException e) {
+        System.err.println("SQL Exception in addTagToRecipe: " + e.getMessage());
+        e.printStackTrace();
+        throw e;  // Rethrow the exception to handle it in the calling method
     }
-  }
+}
+
 }

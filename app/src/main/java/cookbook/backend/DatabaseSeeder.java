@@ -51,13 +51,18 @@ public class DatabaseSeeder {
                 + "`DetailedDesc` varchar(255) NOT NULL, "
                 + "`Unit` varchar(100) NOT NULL, "
                 + "`Amount` varchar(100) NOT NULL, "
+                + "`IsFavorite` tinyint, "
                 + "PRIMARY KEY (`RecipeID`), "
                 + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
                 +"KEY `UserID_idx` (`UserID`), "
                 + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
+        String insertDataSQL = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
+                + " VALUES (1, 1, 'placeHolderName', 'placeHolderShort', 'placeHolderLong', 'g', 10);";
         
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
+        seedTable(insertDataSQL);
     }
 
     public void seedIngredients() {
@@ -74,22 +79,19 @@ public class DatabaseSeeder {
 
     public void seedRecipeIngredients() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipe_ingredients`;";
-
+    
         String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
-            + "`RecipeIngredientID` int NOT NULL, "
             + "`RecipeID` varchar(255) NOT NULL, "
             + "`IngredientID` varchar(45) NOT NULL, "
             + "`Unit` varchar(100) NOT NULL,"
             + "`Amount` varchar(100) NOT NULL,"
-            + "PRIMARY KEY (`RecipeIngredientID`), "
-            + "KEY `RecipeID_idx` (`RecipeID`), "
-            + "KEY `IngredientID_idx` (`IngredientID`), "
-            + "CONSTRAINT `IngredientID0` FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
-            + "CONSTRAINT `RecipeID0` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`))";
-        
+            + "PRIMARY KEY (`RecipeID`, `IngredientID`), "
+            + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
+            + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
+    
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
-    }
+    }    
 
     public void seedTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `tags`;";
@@ -105,20 +107,19 @@ public class DatabaseSeeder {
 
     public void seedRecipeTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipe_tags`;";
-
+    
         String createTableSQL = "CREATE TABLE `recipe_tags` ("
-            + "`RecipeTagID` int NOT NULL, "
             + "`RecipeID` varchar(255) NOT NULL, "
             + "`TagID` varchar(255) NOT NULL, "
-            + "PRIMARY KEY (`RecipeTagID`), "
+            + "PRIMARY KEY (`RecipeID`, `TagID`), "  // Set composite primary key
             + "KEY `TagID_idx` (`TagID`), "
-            + "KEY `RecipeID1_idx` (`RecipeID`), "
-            + "CONSTRAINT `RecipeID1` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
-            + "CONSTRAINT `TagID` FOREIGN KEY (`TagID`) REFERENCES `tags` (`TagID`))";
-        
+            + "KEY `RecipeID_idx` (`RecipeID`), "
+            + "CONSTRAINT `Recipe_FK` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
+            + "CONSTRAINT `Tag_FK` FOREIGN KEY (`TagID`) REFERENCES `tags` (`TagID`));";
+            
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
-    }
+    }    
 
     public void seedComments() {
         String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";

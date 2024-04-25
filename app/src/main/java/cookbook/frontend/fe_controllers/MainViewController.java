@@ -125,7 +125,7 @@ public class MainViewController {
   private void handleBrowseRecipes(ActionEvent event) {
       try {
           // Load the main navigation menu FXML
-          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/MainNavigationMenu.fxml"));
+          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
           Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
   
           // Get the current stage and replace it

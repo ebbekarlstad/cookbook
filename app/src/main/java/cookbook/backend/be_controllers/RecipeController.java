@@ -63,8 +63,9 @@ public class RecipeController {
           // Adding tags to the object.
           String tagQuery = "SELECT tags.TagID, tags.TagName " +
           "FROM tags " +
-          "JOIN recipe_tags ON recipe_tags.TagID = tag.TagID " +
+          "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
           "WHERE recipe_tags.RecipeID = ?";
+
           try (PreparedStatement tagsStatement = conn.prepareStatement(tagQuery)) {
             tagsStatement.setString(1, id);
             ResultSet tagResultSet = tagsStatement.executeQuery();
@@ -126,7 +127,7 @@ public class RecipeController {
   * @param longDesc   A long description of the recipe
   * @throws SQLException if a database access error occurs
   */
-  public static void addRecipe(String recipeId, String UserID, String recipeName, String shortDesc, String longDesc, String Unit, String Amount) throws SQLException {
+  public static void addRecipe(String recipeId, String UserID, String recipeName, String shortDesc, String longDesc, String Unit, Float Amount) throws SQLException {
     String query = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES(?,?,?,?,?,?,?)";
     try { 
       Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
@@ -137,7 +138,7 @@ public class RecipeController {
       sqlStatement.setString(4, shortDesc);
       sqlStatement.setString(5, longDesc);
       sqlStatement.setString(6, Unit);
-      sqlStatement.setString(7, Amount);
+      sqlStatement.setFloat(7, Amount);
       sqlStatement.executeUpdate();
       
     } catch (SQLException e) {

@@ -6,17 +6,43 @@ import java.util.List;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_objects.CommentObject;
+import cookbook.backend.be_objects.Recipe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-public class CommentViewController {
+public class RecipeDetailsViewController {
+
+    private String recipeId;
+    private int commentId;
+
+    @FXML
+    private Label titleLabel; // Label for the recipe title.
+    @FXML
+    private Label shortLabel; // Label for the short description.
+    @FXML
+    private Label longLabel; // Label for the detailed description.
+
+    public void initData(Recipe recipe) {
+        // Set the recipe information in your controls
+        titleLabel.setText(recipe.getRecipeName());
+        shortLabel.setText(recipe.getShortDesc());
+        longLabel.setText(recipe.getDetailedDesc());
+
+        this.recipeId = recipe.getId();
+    }
 
     private CommentController commentController;
 
     // Constructor
-    public CommentViewController() {
+    public RecipeDetailsViewController() {
         DatabaseMng myDbManager = new DatabaseMng();
         this.commentController = new CommentController(myDbManager);  // Correctly assign to the class field
     }
@@ -28,21 +54,16 @@ public class CommentViewController {
     @FXML
     private TextField commentInput;  // Input field for comments
 
-    // Not sure if db operations work
     @FXML
     private void addComment(ActionEvent event) {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
-            CommentObject newComment = new CommentObject(0, 0, 0, commentText, commentText);
-            newComment.setRecipeId(1);  // We need to determine how to get this
-            newComment.setUserId(1);  // Same here
-            newComment.setText(commentText);
-            newComment.setTimestamp("yy-mm-dd hh:mm:ss");  // Determine how to set timestamp
+            // Assuming recipeId and userId should be handled as Strings
+            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, 1, commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
+            commentsListView.getItems().add(commentText);  // Add comment to ListView
+            commentInput.clear();  // Clear the input field
 
-            if (commentController.addComment(newComment)) {
-                commentsListView.getItems().add(commentText);  // Add comment to our ListView
-                commentInput.clear();
-            } else {
+            if (!commentController.addComment(newComment)) {
                 System.out.println("Failed to add comment.");
             }
         }
@@ -99,4 +120,19 @@ public class CommentViewController {
             throw new IndexOutOfBoundsException("Index out of bounds for comment ID list");
         }
     }
+
+    public void handleHelpBackButton(ActionEvent event){
+        try {
+          //Load the navigation page FXML
+          Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+          Scene navigationPageScene = new Scene(navigationPageParent);
+    
+          // Get the current stage and replace it
+          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+          window.setScene(navigationPageScene);
+          window.show();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
 }

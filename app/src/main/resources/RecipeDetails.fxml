@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeDetailsViewController">
+    <children>
+        <MenuBar prefHeight="0.0" prefWidth="633.0" VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="ALWAYS">
+         <children>
+            <ListView fx:id="commentsListView" layoutX="596.0" prefHeight="549.0" prefWidth="324.0" />
+            <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
+               <font>
+                  <Font name="PT Sans Narrow" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="titleLabel" layoutX="14.0" layoutY="44.0" prefHeight="83.0" prefWidth="573.0" text="Recipe Title">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <TextField fx:id="commentInput" layoutX="596.0" layoutY="601.0" prefHeight="48.0" prefWidth="324.0" promptText="Write a comment ">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </TextField>
+            <Button layoutX="601.0" layoutY="554.0" mnemonicParsing="false" onAction="#addComment" prefHeight="43.0" prefWidth="85.0" text="Add" />
+            <Button layoutX="830.0" layoutY="553.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="44.0" prefWidth="85.0" text="Remove" />
+            <Button layoutX="716.0" layoutY="553.0" mnemonicParsing="false" onAction="#editComment" prefHeight="45.0" prefWidth="85.0" text="Edit" />
+            
+            <Label layoutX="17.0" layoutY="123.0" prefHeight="30.0" prefWidth="573.0" text="Recipe Short Description: " wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            
+            <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="17.0" layoutY="167.0" prefHeight="117.0" prefWidth="558.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            
+            <Label layoutX="17.0" layoutY="252.0" prefHeight="45.0" prefWidth="573.0" text="Recipe Detailed Description: " wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            
+            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="19.0" layoutY="304.0" prefHeight="230.0" prefWidth="558.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+        </AnchorPane>
+    </children>
+</VBox>

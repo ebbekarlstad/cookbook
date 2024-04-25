@@ -18,9 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,47 +106,51 @@ public class RecipeViewController {
    * @throws IOException  If an error occurs during I/O operations.
    */
 
-  public void createRecipe(ActionEvent event) throws SQLException, IOException {
+   public void createRecipe(ActionEvent event) throws SQLException, IOException {
     // For Recipe
     String RecipeName = recipeName.getText();
-    String userPlaceholder = "1";
-    String UserID = userPlaceholder.toString(); // We need to find out how to retrieve this
+    String userPlaceholder = "1"; // Placeholder for UserID
+    String UserID = userPlaceholder; // Convert to string if necessary
     String ShortDesc = recipeShortDesc.getText();
     String DetailedDesc = recipeLongDesc.getText();
     UUID uniqueRecipe = UUID.randomUUID();
     String RecipeID = uniqueRecipe.toString();
     String Unit = unit.getSelectionModel().getSelectedItem();  // Get selected item from ComboBox
-    String Amount = amount.getText();  // Get text from TextField
+    Float Amount;
+    try {
+        Amount = Float.parseFloat(amount.getText());  // Try to parse the text to Float
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input for amount, defaulting to 0.");
+        Amount = 0.0f;  // Setting a default value if parsing fails
+    }
 
     try {
-      RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
-      Recipe createdRecipe = new Recipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
+        RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
+        Recipe createdRecipe = new Recipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
 
-      // Two Loops that add all the selected ingredients into the recipe.
-      for (AmountOfIngredients ingredient : selectedIngredients) {
-        createdRecipe.addIngredient(ingredient);
-        IngredientController.addIngredientToRecipe(RecipeID, ingredient.ingredientID(), ingredient.getUnit(),
-                ingredient.getAmount());
-      }
+        for (AmountOfIngredients ingredient : selectedIngredients) {
+            createdRecipe.addIngredient(ingredient);
+            IngredientController.addIngredientToRecipe(RecipeID, ingredient.ingredientID(), ingredient.getUnit(),
+                    ingredient.getAmount());
+        }
 
-      System.out.println(createdRecipe.getIngredientsList());
+        for (Tag tag : selectedTags) {
+            createdRecipe.addTag(tag);
+            TagController.addTagToRecipe(RecipeID, tag.getTagID());
+        }
 
-      for (Tag tag : selectedTags) {
-        createdRecipe.addTag(tag);
-        TagController.addTagToRecipe(RecipeID, tag.getTagID());
-      }
-
-      Alert success = new Alert(Alert.AlertType.INFORMATION);
-      success.setTitle("Success!");
-      success.setContentText("You successfully created a new recipe!");
-      success.show();
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Success");
+        success.setContentText("Recipe created successfully! You may now go back.");
+        success.show();
     } catch (SQLException x) {
-      Alert failure = new Alert(Alert.AlertType.INFORMATION);
-      failure.setTitle("Failure!");
-      failure.setContentText(x.toString());
-      failure.show();
+        Alert failure = new Alert(Alert.AlertType.ERROR);
+        failure.setTitle("Error");
+        failure.setContentText("Failed to create recipe due to a database error.");
+        failure.show();
+        System.err.println("SQL Exception: " + x.getMessage());
     }
-  }
+}
 
   /**
    * Returns to the main menu screen when the back button is clicked.

@@ -3,28 +3,29 @@ package cookbook.backend.be_objects;
 
 public class CommentObject {
   private int commentId;
-  private int recipeId;
+  private String recipeId;
   private int userId;
   private String text;
   private String timestamp;
 
-  public CommentObject(int commentId, int recipeId, int userId, String text, String timestamp) {
+  public CommentObject(int commentId, String recipeId, int userId, String text, String timestamp) {
       this.commentId = commentId;
       this.recipeId = recipeId;
       this.userId = userId;
       this.text = text;
       this.timestamp = timestamp;
   }
-  public int getCommentId() {
+
+public int getCommentId() {
       return commentId;
   }
   public void setCommentId(int commentId) {
       this.commentId = commentId;
   }
-  public int getRecipeId() {
+  public String getRecipeId() {
       return recipeId;
   }
-  public void setRecipeId(int recipeId) {
+  public void setRecipeId(String recipeId) {
       this.recipeId = recipeId;
   }
   public int getUserId() {
