@@ -19,7 +19,7 @@ public class CommentController {
     String sql = "INSERT INTO comments (RecipeID, UserID, Text, Timestamp) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); 
       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-      pstmt.setLong(1, commentObj.getRecipeId());
+      pstmt.setString(1, commentObj.getRecipeId());
       pstmt.setInt(2, commentObj.getUserId());
       pstmt.setString(3, commentObj.getText());
       pstmt.setString(4,commentObj.getTimestamp());
