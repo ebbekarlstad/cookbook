@@ -106,20 +106,19 @@ public class DatabaseSeeder {
 
     public void seedRecipeTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `recipe_tags`;";
-
+    
         String createTableSQL = "CREATE TABLE `recipe_tags` ("
-            + "`RecipeTagID` int NOT NULL, "
             + "`RecipeID` varchar(255) NOT NULL, "
             + "`TagID` varchar(255) NOT NULL, "
-            + "PRIMARY KEY (`RecipeTagID`), "
+            + "PRIMARY KEY (`RecipeID`, `TagID`), "  // Set composite primary key
             + "KEY `TagID_idx` (`TagID`), "
-            + "KEY `RecipeID1_idx` (`RecipeID`), "
-            + "CONSTRAINT `RecipeID1` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
-            + "CONSTRAINT `TagID` FOREIGN KEY (`TagID`) REFERENCES `tags` (`TagID`))";
-        
+            + "KEY `RecipeID_idx` (`RecipeID`), "
+            + "CONSTRAINT `Recipe_FK` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
+            + "CONSTRAINT `Tag_FK` FOREIGN KEY (`TagID`) REFERENCES `tags` (`TagID`));";
+            
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
-    }
+    }    
 
     public void seedComments() {
         String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";
