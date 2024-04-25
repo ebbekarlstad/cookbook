@@ -20,16 +20,22 @@ import javafx.stage.Stage;
 
 public class RecipeDetailsViewController {
 
+    private String recipeId;
+
     @FXML
-    private Label recipeNameLabel; // Example of a label to show the recipe name
+    private Label titleLabel; // Label for the recipe title.
+    @FXML
+    private Label shortLabel; // Label for the short description.
+    @FXML
+    private Label longLabel; // Label for the detailed description.
 
     public void initData(Recipe recipe) {
         // Set the recipe information in your controls
-        recipeNameLabel.setText(recipe.getRecipeName());
-        recipeNameLabel.setText(String.valueOf(recipe.getId()));
-        recipeNameLabel.setText(recipe.getShortDesc());
-        recipeNameLabel.setText(recipe.getDetailedDesc());
-        recipeNameLabel.setText(recipe.getId());
+        titleLabel.setText(recipe.getRecipeName());
+        shortLabel.setText(recipe.getShortDesc());
+        longLabel.setText(recipe.getDetailedDesc());
+
+        this.recipeId = recipe.getId();
     }
 
     private CommentController commentController;
@@ -53,7 +59,7 @@ public class RecipeDetailsViewController {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
             CommentObject newComment = new CommentObject(0, 0, 0, commentText, commentText);
-            newComment.setRecipeId(1);  // We need to determine how to get this
+            newComment.setRecipeId(Integer.parseInt(this.recipeId));
             newComment.setUserId(1);  // Same here
             newComment.setText(commentText);
             newComment.setTimestamp("yy-mm-dd hh:mm:ss");  // Determine how to set timestamp
