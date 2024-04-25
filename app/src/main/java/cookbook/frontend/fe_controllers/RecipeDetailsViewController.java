@@ -169,6 +169,21 @@ public class RecipeDetailsViewController {
       @FXML
       public void removeFromFavorites(ActionEvent event) {
         String sql = "DELETE FROM favorites WHERE RecipeID = ?";
+        try (Connection conn = myDbManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, recipe.getId());
+    
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Favorite deleted csuccessfully.");
+            } else {
+                System.out.println("No rows affected, omment not found.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Database error during comment deletion: " + e.getMessage());
+        }
+      }
+
 
 
 }
