@@ -21,9 +21,9 @@
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <Label prefHeight="102.0" prefWidth="186.0" text="     Favorite lista ">
+                  <Label prefHeight="102.0" prefWidth="186.0" text="     Favorites " textFill="#cc0303">
                      <font>
-                        <Font size="23.0" />
+                        <Font name="System Bold Italic" size="23.0" />
                      </font>
                   </Label>
                   <ListView fx:id="favoritelista" prefHeight="290.0" prefWidth="165.0" />
