@@ -55,12 +55,16 @@ class AppTest {
     }
 
     @Test
-    void testAddFavorite() {
-        Recipe recipe = new Recipe("1", "Pasta Carbonara", "Simple pasta", "Cook pasta and mix with sauce");
-        String userId = "user";
-        boolean result = favoritesController.addFavorite(userId, recipe);
-        
-        assertTrue(result, "Adding favorite should return true when successful");
+    public void test_addFavorite_validIDs() {
+        // Arrange
+        String userId = "1";
+        Recipe recipe = new Recipe("1", "Ingredients", "RecipeName", "RecipeName");
+    
+        // Act
+        boolean result = addFavorite(userId, recipe);
+    
+        // Assert
+        assertTrue(result);
     }
 
 }
