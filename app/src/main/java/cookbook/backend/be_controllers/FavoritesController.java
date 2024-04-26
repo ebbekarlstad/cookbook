@@ -16,7 +16,6 @@ public class FavoritesController {
     this.dbManager = dbManager;
   }
 
-  // Bästa lösningen är att skapa en favorit-tagg, då justeras koden utefter det
     public boolean addFavorite(String userId, Recipe recipe) {
       String sql = "UPDATE recipes SET IsFavorite = 1 WHERE UserID = 1 AND RecipeID = ?";
       try (Connection conn = dbManager.getConnection();
