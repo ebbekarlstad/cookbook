@@ -21,12 +21,12 @@
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <ListView fx:id="favoritelista" prefHeight="534.0" prefWidth="186.0" />
-                  <Label prefHeight="152.0" prefWidth="194.0" text="     Favorite lista ">
+                  <Label prefHeight="102.0" prefWidth="186.0" text="     Favorite lista ">
                      <font>
                         <Font size="23.0" />
                      </font>
                   </Label>
+                  <ListView fx:id="favoritelista" prefHeight="290.0" prefWidth="165.0" />
                </children>
             </VBox>
          </left>
