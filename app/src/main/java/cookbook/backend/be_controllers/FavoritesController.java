@@ -17,10 +17,10 @@ public class FavoritesController {
   }
 
     public boolean addFavorite(String userId, Recipe recipe) {
-      String sql = "UPDATE recipes SET IsFavorite = 1 WHERE UserID = 1 AND RecipeID = ?";
+      String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userId);
+          pstmt.setInt(1, Integer.parseInt(userId));
           pstmt.setString(2, recipe.getId());  
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
@@ -31,10 +31,10 @@ public class FavoritesController {
     }
 
     public boolean removeFavorite(String userId, Recipe recipe) {
-      String sql = "UPDATE recipes SET IsFavorite = 0 WHERE UserID = 1 AND RecipeID = ?";
+      String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userId);
+          pstmt.setInt(1, Integer.parseInt(userId));
           pstmt.setString(2, recipe.getId());
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;

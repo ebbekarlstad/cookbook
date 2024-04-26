@@ -93,6 +93,21 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }    
 
+    public void seedUserFavorites() {
+        String dropTableSQL = "DROP TABLE IF EXISTS `user_favorites`;";
+        
+        String createTableSQL = "CREATE TABLE `user_favorites` ("
+            + "`UserID` INT NOT NULL, "
+            + "`RecipeID` varchar(255) NOT NULL, "
+            + "PRIMARY KEY (`UserID`, `RecipeID`), "
+            + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`), "
+            + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
+
+    seedTable(dropTableSQL);
+    seedTable(createTableSQL);
+
+    }
+
     public void seedTags() {
         String dropTableSQL = "DROP TABLE IF EXISTS `tags`;";
 
@@ -249,6 +264,7 @@ public class DatabaseSeeder {
         seeder.seedIngredients();
         seeder.seedRecipeIngredients();
         seeder.seedTags();
+        seeder.seedUserFavorites();
         seeder.seedRecipeTags();
         seeder.seedComments();
         seeder.seedWeeklyDinnerLists();
