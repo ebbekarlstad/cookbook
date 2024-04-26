@@ -34,6 +34,7 @@ public class RecipeDetailsViewController {
     private Label shortLabel; // Label for the short description.
     @FXML
     private Label longLabel; // Label for the detailed description.
+    //favorit attribute 
 
     DatabaseMng myDbManager;
     public void initData(Recipe recipe) {
@@ -175,15 +176,12 @@ public class RecipeDetailsViewController {
     
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
-                System.out.println("Favorite deleted csuccessfully.");
+                System.out.println("Favorite deleted successfully.");
             } else {
-                System.out.println("No rows affected, omment not found.");
+                System.out.println("No rows affected, comment not found.");
             }
         } catch (SQLException e) {
             System.err.println("Database error during comment deletion: " + e.getMessage());
         }
       }
-
-
-
 }
