@@ -44,23 +44,24 @@ public class FavoritesController {
       }
     }
 
-    // public List<Recipe> getFavorites(String userId) {
-    //   List<Recipe> favorites = new ArrayList<>();
-    //   String sql = "SELECT * FROM user_favorites";
-    //   try (Connection conn = dbManager.getConnection();
-    //         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    //       pstmt.setString(1, userId);
-    //       ResultSet rs = pstmt.executeQuery();
-    //       while (rs.next()) {
-    //         String recipeId = rs.getString("RecipeID");
-    //         String ingredients = rs.getString("Ingredients");
-    //         String recipeName = rs.getString("RecipeName");
-    //         favorites.add(new Recipe(recipeId, ingredients, recipeName, recipeName));
-    //       }
-    //       return favorites;
-    //     } catch (SQLException e) {
-    //       System.err.println("Error fetching favorites: " + e.getMessage());
-    //       return null;
-    //     }
-    // }
+    public List<Recipe> getFavorites(String userId) {
+      List<Recipe> favorites = new ArrayList<>();
+      String sql = "SELECT r.RecipeID, r.RecipeName, r.ShortDesc, r.DetailedDesc FROM user_favorites uf JOIN recipes r ON uf.RecipeID = r.RecipeID WHERE uf.UserID = ?";
+      try (Connection conn = dbManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setString(1, userId);
+          ResultSet rs = pstmt.executeQuery();
+          while (rs.next()) {
+            String recipeId = rs.getString("RecipeID");
+            String recipeName = rs.getString("RecipeName");
+            String shortDesc = rs.getString("ShortDesc");
+            String detailedDesc = rs.getString("DetailedDesc");
+            favorites.add(new Recipe(recipeId, recipeName, shortDesc, detailedDesc));
+          }
+          return favorites;
+        } catch (SQLException e) {
+          System.err.println("Error fetching favorites: " + e.getMessage());
+          return new ArrayList<>();
+        }
+    }
 }
