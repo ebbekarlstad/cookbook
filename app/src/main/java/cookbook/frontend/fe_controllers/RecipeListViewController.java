@@ -24,10 +24,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 public class RecipeListViewController {
-
-
-  
-
   @FXML
   private TextField searchByNameField;
 
@@ -122,13 +118,6 @@ public class RecipeListViewController {
         }
       }
     }
-
-
-    @FXML
-    public void showDescriptionFromMain(MouseEvent event) {
-        // Implementation code
-        // For example, open a new window or display details about the selected item
-}
 
   @FXML
   private void searchByName(ActionEvent event) {

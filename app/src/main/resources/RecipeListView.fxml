@@ -88,7 +88,7 @@
                      </effect>
                   </Label>
                   <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" text="Go back" />
-                  <ListView fx:id="mainTable" onMouseClicked="#showDescriptionFromMain" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
+                  <ListView fx:id="mainTable" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets top="1.0" />
                      </VBox.margin>
