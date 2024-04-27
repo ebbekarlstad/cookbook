@@ -32,9 +32,9 @@
                   <Font name="PT Sans Narrow" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="titleLabel" layoutX="243.0" layoutY="6.0" prefHeight="62.0" prefWidth="304.0" text="Recipe Title">
+            <Label fx:id="titleLabel" layoutX="7.0" layoutY="-2.0" prefHeight="62.0" prefWidth="786.0" text="Recipe Title">
                <font>
-                  <Font name="System Bold" size="36.0" />
+                  <Font name="System Bold" size="32.0" />
                </font>
             </Label>
             <TextField fx:id="commentInput" layoutX="596.0" layoutY="601.0" prefHeight="48.0" prefWidth="324.0" promptText="Write a comment ">
@@ -46,13 +46,13 @@
             <Button layoutX="800.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="26.0" prefWidth="70.0" text="Remove" />
             <Button layoutX="698.0" layoutY="561.0" mnemonicParsing="false" onAction="#editComment" prefHeight="26.0" prefWidth="62.0" text="Edit" />
             
-            <Label layoutX="7.0" layoutY="53.0" prefHeight="30.0" prefWidth="275.0" text="Recipe Short Description: " textFill="#db5442" wrapText="true">
+            <Label layoutX="8.0" layoutY="61.0" prefHeight="30.0" prefWidth="275.0" text="Recipe Short Description: " textFill="#db5442" wrapText="true">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             
-            <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="7.0" layoutY="92.0" prefHeight="85.0" prefWidth="918.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
+            <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="7.0" layoutY="92.0" prefHeight="86.0" prefWidth="786.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font>
@@ -64,13 +64,13 @@
                </font>
             </Label>
             
-            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="422.0" prefHeight="252.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
+            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="411.0" prefHeight="263.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="addToFavorites" layoutX="678.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="30.0" prefWidth="102.0" text="Add to favorite" />
-            <Button fx:id="removeFromFavorites" layoutX="551.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="30.0" prefWidth="120.0" text="Remove to favorite" />
+            <Button fx:id="addToFavorites" layoutX="800.0" layoutY="69.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="46.0" prefWidth="120.0" text="Add to favorite" />
+            <Button fx:id="removeFromFavorites" layoutX="800.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="46.0" prefWidth="120.0" text="Remove to favorite" />
             <Label fx:id="commentsLabel" layoutX="689.0" layoutY="181.0" prefHeight="26.0" prefWidth="120.0" text="Comments" textFill="#db5442">
                <font>
                   <Font name="System Bold Italic" size="20.0" />
