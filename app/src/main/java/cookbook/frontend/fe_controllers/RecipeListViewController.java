@@ -25,7 +25,7 @@ public class RecipeListViewController {
 
   @FXML
   private TextField searchByNameField;
-  
+
   @FXML
   private Button searchByNameButton;
 
@@ -120,4 +120,39 @@ public class RecipeListViewController {
         // For example, open a new window or display details about the selected item
 }
 
+  @FXML
+  private void searchByName(ActionEvent event) {
+    String nameQuery = searchByNameField.getText().trim();
+    if (!nameQuery.isEmpty()) {
+      try {
+        // Add logic for fetching by name -- Add getRecipesByName method in "RecipeController"
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  @FXML
+  private void searchByIngredients(ActionEvent event) {
+    String nameQuery = searchByIngredientsField.getText().trim();
+    if (!nameQuery.isEmpty()) {
+      try {
+        // Add logic for fetching by ingredients -- Add getRecipesByIngredients method in "RecipeController"
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  @FXML
+  private void searchByTags(ActionEvent event) {
+    String nameQuery = searchByTagsField.getText().trim();
+    if (!nameQuery.isEmpty()) {
+      try {
+        // Add logic for fetching by tags -- Add getRecipesByTags method in "RecipeController"
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
 }
