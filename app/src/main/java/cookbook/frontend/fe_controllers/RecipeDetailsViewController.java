@@ -11,7 +11,7 @@ import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Recipe;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

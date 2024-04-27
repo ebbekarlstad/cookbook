@@ -23,10 +23,8 @@ import javafx.event.ActionEvent;
 
 public class RecipeListViewController {
 
+
   
-  private ObservableList<String> favoriteRecipes = FXCollections.observableArrayList(); //mee 
-
-
 
   @FXML
   private TextField searchByNameField;
