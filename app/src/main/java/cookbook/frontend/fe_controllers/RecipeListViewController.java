@@ -21,9 +21,7 @@ import javafx.event.ActionEvent;
 
 public class RecipeListViewController {
 
-  @FXML
-  private ListView<String> favoritelista; //me
-
+  
   private ObservableList<String> favoriteRecipes = FXCollections.observableArrayList(); //mee 
 
 
@@ -35,7 +33,7 @@ public class RecipeListViewController {
 
   @FXML
   private void initialize() {
-    favoritelista.setItems(favoriteRecipes);
+  
       // Set a custom cell factory for the ListView
       mainTable.setCellFactory(param -> new ListCell<Recipe>() {
           @Override
