@@ -136,6 +136,11 @@ public class MainViewController {
           e.printStackTrace();
       }
   }
+  @FXML
+    private void handleFavoriteButtonAction(ActionEvent event) {
+
+}
+
 
   
 }
