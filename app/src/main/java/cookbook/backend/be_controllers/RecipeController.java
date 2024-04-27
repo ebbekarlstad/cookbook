@@ -164,4 +164,40 @@ public class RecipeController {
     }
     return recipeList;
   }
+
+  public static List<Recipe> getRecipesByIngredients(String ingredient) throws SQLException {
+    ArrayList<Recipe> recipeList = new ArrayList<>();
+
+    String query = "SELECT DISTINCT r.* FROM recipes r "
+
+                 + "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID "
+
+                 + "JOIN ingredients i ON ri.IngredientID = i.IngredientID "
+
+                 + "WHERE i.IngredientName = ?";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+
+         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+
+      sqlStatement.setString(1, ingredient);
+
+      ResultSet result = sqlStatement.executeQuery();
+
+      while (result.next()) {
+        Recipe newRecipe = new Recipe(
+          result.getString("RecipeID"),
+          result.getString("RecipeName"),
+          result.getString("ShortDesc"),
+          result.getString("DetailedDesc")
+        );
+
+        recipeList.add(newRecipe);
+      }
+      result.close();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+    return recipeList;
+  }
 }
