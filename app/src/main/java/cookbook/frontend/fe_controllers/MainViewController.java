@@ -147,7 +147,7 @@ public class MainViewController {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(favoriteRecipesScene);
         window.show();
-    } catch (IIOException e) {
+    } catch (IOException e) {
         e.printStackTrace();
     }
 
