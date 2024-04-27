@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -57,13 +59,17 @@ public class RecipeListViewController {
           @Override
           protected void updateItem(Recipe recipe, boolean empty) {
               super.updateItem(recipe, empty);
-
               if (empty || recipe == null || recipe.getRecipeName() == null) {
                   setText(null);
+                  setTooltip(null); // Clear toolTip
               } else {
                   setText(recipe.getRecipeName());
+                  Tooltip tooltip = new Tooltip(recipe.getShortDesc()); // Create a tooltip with the short description
+                  tooltip.setShowDelay(Duration.millis(100));
+                  setTooltip(tooltip);
               }
           }
+
       });
 
       // Ideally, fetch the recipes from a RecipeController or similar backend class
