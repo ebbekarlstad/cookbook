@@ -124,7 +124,9 @@ public class RecipeListViewController {
     String nameQuery = searchByNameField.getText().trim();
     if (!nameQuery.isEmpty()) {
       try {
-        // Add logic for fetching by name -- Add getRecipesByName method in "RecipeController"
+        recipeList.clear();
+        recipeList.addAll(RecipeController.getRecipesByName(nameQuery));
+        mainTable.setItems(recipeList);
       } catch (Exception e) {
         e.printStackTrace();
       }
