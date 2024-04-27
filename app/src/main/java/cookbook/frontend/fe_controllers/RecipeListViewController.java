@@ -134,12 +134,17 @@ public class RecipeListViewController {
     }
   }
 
+
+  // When user clicks search by ingredients.
   @FXML
   private void searchByIngredients(ActionEvent event) {
-    String nameQuery = searchByIngredientsField.getText().trim();
-    if (!nameQuery.isEmpty()) {
+    String ingredientQuery = searchByIngredientsField.getText().trim();
+    if (!ingredientQuery.isEmpty()) {
       try {
-        // Add logic for fetching by ingredients -- Add getRecipesByIngredients method in "RecipeController"
+
+        recipeList.clear(); // Clear the current list
+        recipeList.addAll(RecipeController.getRecipesByIngredients(ingredientQuery));
+        mainTable.setItems(recipeList);
       } catch (Exception e) {
         e.printStackTrace();
       }
