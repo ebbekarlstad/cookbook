@@ -165,6 +165,7 @@ public class RecipeController {
     return recipeList;
   }
 
+  // Method to query database when user searches for recipe by ingredients.
   public static List<Recipe> getRecipesByIngredients(String ingredient) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
 
@@ -192,6 +193,39 @@ public class RecipeController {
           result.getString("DetailedDesc")
         );
 
+        recipeList.add(newRecipe);
+      }
+      result.close();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+    return recipeList;
+  }
+
+  // Method to query database when user searches for a recipe by tags.
+  public static List<Recipe> getRecipesByTags(String tag) throws SQLException {
+    ArrayList<Recipe> recipeList = new ArrayList<>();
+
+    String query = "SELECT DISTINCT r.* FROM recipes r "
+
+                 + "JOIN recipe_tags rt ON r.RecipeID = rt.RecipeID "
+
+                 + "JOIN tags t ON rt.TagID = t.TagID "
+
+                 + "WHERE t.TagName = ?";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+
+      sqlStatement.setString(1, tag);
+      ResultSet result = sqlStatement.executeQuery();
+      while (result.next()) {
+        Recipe newRecipe = new Recipe(
+          result.getString("RecipeID"),
+          result.getString("RecipeName"),
+          result.getString("ShortDesc"),
+          result.getString("DetailedDesc")
+        );
         recipeList.add(newRecipe);
       }
       result.close();
