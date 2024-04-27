@@ -146,7 +146,7 @@ public class RecipeDetailsViewController {
 
       @FXML
       public void addToFavorites(ActionEvent event) {
-        String sql = "INSERT INTO favorites (RecipeID, UserID, Name, ShortDesc, DetailedDesc, Serves) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
         try (Connection conn = myDbManager.getConnection(); 
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, recipe.getId());
