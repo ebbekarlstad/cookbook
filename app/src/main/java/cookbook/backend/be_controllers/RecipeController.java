@@ -140,6 +140,7 @@ public class RecipeController {
     }
   }
 
+  // Method to query database when user searches for recipe by name.
   public static List<Recipe> getRecipesByName(String name) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
     String query = "SELECT * FROM recipes WHERE RecipeName LIKE ?";

@@ -118,7 +118,8 @@ public class RecipeListViewController {
         }
       }
     }
-
+  
+  // When user clicks search by name.
   @FXML
   private void searchByName(ActionEvent event) {
     String nameQuery = searchByNameField.getText().trim();
