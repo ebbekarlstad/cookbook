@@ -118,37 +118,48 @@ public class RecipeListViewController {
         }
       }
     }
-
+  
+  // When user clicks search by name.
   @FXML
   private void searchByName(ActionEvent event) {
     String nameQuery = searchByNameField.getText().trim();
     if (!nameQuery.isEmpty()) {
       try {
-        // Add logic for fetching by name -- Add getRecipesByName method in "RecipeController"
+        recipeList.clear();
+        recipeList.addAll(RecipeController.getRecipesByName(nameQuery));
+        mainTable.setItems(recipeList);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
   }
 
+
+  // When user clicks search by ingredients.
   @FXML
   private void searchByIngredients(ActionEvent event) {
-    String nameQuery = searchByIngredientsField.getText().trim();
-    if (!nameQuery.isEmpty()) {
+    String ingredientQuery = searchByIngredientsField.getText().trim();
+    if (!ingredientQuery.isEmpty()) {
       try {
-        // Add logic for fetching by ingredients -- Add getRecipesByIngredients method in "RecipeController"
+
+        recipeList.clear(); // Clear the current list
+        recipeList.addAll(RecipeController.getRecipesByIngredients(ingredientQuery));
+        mainTable.setItems(recipeList);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
   }
 
+  // When userclicks search by tags.
   @FXML
   private void searchByTags(ActionEvent event) {
-    String nameQuery = searchByTagsField.getText().trim();
-    if (!nameQuery.isEmpty()) {
+    String tagQuery = searchByTagsField.getText().trim();
+    if (!tagQuery.isEmpty()) {
       try {
-        // Add logic for fetching by tags -- Add getRecipesByTags method in "RecipeController"
+        recipeList.clear(); // Clear the current list
+        recipeList.addAll(RecipeController.getRecipesByTags(tagQuery));
+        mainTable.setItems(recipeList);
       } catch (Exception e) {
         e.printStackTrace();
       }
