@@ -6,11 +6,13 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -23,11 +25,23 @@
             </ImageView>
       <BorderPane prefHeight="703.0" prefWidth="934.0">
          <right>
-            <VBox prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: GRAY;" BorderPane.alignment="CENTER">
+            <VBox prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: GRAY; -fx-border-color: BLACK;" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="5.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="SEARCH" textAlignment="CENTER" wrappingWidth="182.57942581176758">
+                     <font>
+                        <Font name="SansSerif Regular" size="32.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="8.4" offsetY="2.0" radius="3.885" width="9.14">
+                           <color>
+                              <Color opacity="0.8429118990898132" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Text>
                   <Separator prefHeight="60.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by name">
                      <font>
@@ -35,36 +49,43 @@
                      </font>
                   </Text>
                   <TextField fx:id="searchByNameField" style="-fx-background-color: White;" />
-                  <Button fx:id="searchByNameButton" mnemonicParsing="false" text="Search" onAction="#searchByName"/>
+                  <Button mnemonicParsing="false" text="Search" />
                   <Separator prefHeight="29.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by ingredients">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="searchByIngredientsField" style="-fx-background-color: WHITE;" />
-                  <Button fx:id="searchByIngredientsButton" mnemonicParsing="false" text="Search" onAction="#searchByIngredients"/>
+                  <TextField style="-fx-background-color: WHITE;" />
+                  <Button mnemonicParsing="false" text="Search" />
                   <Separator prefHeight="21.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by tags">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="searchByTagsField" style="-fx-background-color: WHITE;" />
-                  <Button fx:id="searchByTagsButton" mnemonicParsing="false" text="Search" onAction="#searchByTags"/>
+                  <TextField style="-fx-background-color: WHITE;" />
+                  <Button mnemonicParsing="false" text="Search" />
                </children>
             </VBox>
          </right>
          <center>
-            <VBox prefHeight="724.0" prefWidth="765.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="724.0" prefWidth="765.0" style="-fx-border-color: BLACK;" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <Label prefHeight="26.0" text="RECIPE LIST" textFill="WHITE">
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="732.0" text="RECIPE LIST" textFill="WHITE">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="SansSerif Regular" size="32.0" />
                      </font>
+                     <effect>
+                        <DropShadow height="7.54" offsetY="2.0" radius="3.6100000000000003" width="8.9">
+                           <color>
+                              <Color opacity="0.9042145609855652" />
+                           </color>
+                        </DropShadow>
+                     </effect>
                   </Label>
                   <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" text="Go back" />
                   <ListView fx:id="mainTable" onMouseClicked="#showDescriptionFromMain" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
