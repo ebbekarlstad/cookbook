@@ -151,12 +151,15 @@ public class RecipeListViewController {
     }
   }
 
+  // When userclicks search by tags.
   @FXML
   private void searchByTags(ActionEvent event) {
-    String nameQuery = searchByTagsField.getText().trim();
-    if (!nameQuery.isEmpty()) {
+    String tagQuery = searchByTagsField.getText().trim();
+    if (!tagQuery.isEmpty()) {
       try {
-        // Add logic for fetching by tags -- Add getRecipesByTags method in "RecipeController"
+        recipeList.clear(); // Clear the current list
+        recipeList.addAll(RecipeController.getRecipesByTags(tagQuery));
+        mainTable.setItems(recipeList);
       } catch (Exception e) {
         e.printStackTrace();
       }
