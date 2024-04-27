@@ -20,6 +20,18 @@
                <padding>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
+               <children>
+                  <VBox prefHeight="684.0" prefWidth="186.0">
+                     <children>
+                        <Label prefHeight="66.0" prefWidth="186.0" style="-fx-background-color: #cc1515;" text="         Favorites" textFill="#0f0f0f">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <ListView prefHeight="294.0" prefWidth="186.0" style="-fx-background-position: #0f0f0f;" />
+                     </children>
+                  </VBox>
+               </children>
             </VBox>
          </left>
          <right>
@@ -43,7 +55,7 @@
                            </font>
                         </Label>
                         <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" text="Go back" />
-                        <ListView fx:id="mainTable" onMouseClicked="#showDescriptionFromMain" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
+                        <ListView fx:id="mainTable" onMouseClicked="#showDescriptionFromMain" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets top="1.0" />
                            </VBox.margin>

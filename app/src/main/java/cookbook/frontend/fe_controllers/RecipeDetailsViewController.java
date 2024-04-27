@@ -1,5 +1,8 @@
 package cookbook.frontend.fe_controllers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,7 @@ import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Recipe;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,6 +26,7 @@ public class RecipeDetailsViewController {
 
     private String recipeId;
     private int commentId;
+    Recipe recipe;
 
     @FXML
     private Label titleLabel; // Label for the recipe title.
@@ -29,8 +34,11 @@ public class RecipeDetailsViewController {
     private Label shortLabel; // Label for the short description.
     @FXML
     private Label longLabel; // Label for the detailed description.
+    //favorit attribute 
 
+    DatabaseMng myDbManager;
     public void initData(Recipe recipe) {
+        this.recipe = recipe;
         // Set the recipe information in your controls
         titleLabel.setText(recipe.getRecipeName());
         shortLabel.setText(recipe.getShortDesc());
@@ -43,7 +51,7 @@ public class RecipeDetailsViewController {
 
     // Constructor
     public RecipeDetailsViewController() {
-        DatabaseMng myDbManager = new DatabaseMng();
+        myDbManager = new DatabaseMng();
         this.commentController = new CommentController(myDbManager);  // Correctly assign to the class field
     }
     
@@ -133,6 +141,44 @@ public class RecipeDetailsViewController {
           window.show();
         } catch (Exception e) {
           e.printStackTrace();
+        }
+      }
+
+      @FXML
+      public void addToFavorites(ActionEvent event, String userId) {
+        String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
+        try (Connection conn = myDbManager.getConnection(); 
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, Integer.parseInt(userId)); // Antag att userId är tillgängligt
+            pstmt.setString(2, recipe.getId());
+                
+      int affectedRows = pstmt.executeUpdate();
+        if (affectedRows > 0) {
+          System.out.println("Favorite saved successfully.");
+        } else {
+          System.out.println("No rows affected.");
+        }
+      } catch (SQLException e) {
+          System.err.println("Database error during comment insertion: " + e.getMessage());
+        }   
+      }
+
+      @FXML
+      public void removeFromFavorites(ActionEvent event, String userId) {
+        String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
+        try (Connection conn = myDbManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, Integer.parseInt(userId));
+            pstmt.setString(2, recipe.getId());
+    
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Favorite deleted successfully.");
+            } else {
+                System.out.println("No rows affected, comment not found.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Database error during comment deletion: " + e.getMessage());
         }
       }
 }
