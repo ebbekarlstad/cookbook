@@ -23,6 +23,11 @@ import javafx.event.ActionEvent;
 
 public class RecipeListViewController {
 
+  
+  private ObservableList<String> favoriteRecipes = FXCollections.observableArrayList(); //mee 
+
+
+
   @FXML
   private TextField searchByNameField;
 
@@ -48,6 +53,7 @@ public class RecipeListViewController {
 
   @FXML
   private void initialize() {
+  
       // Set a custom cell factory for the ListView
       mainTable.setCellFactory(param -> new ListCell<Recipe>() {
           @Override
