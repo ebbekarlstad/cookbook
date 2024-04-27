@@ -46,7 +46,7 @@
             <Button layoutX="800.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="26.0" prefWidth="70.0" text="Remove" />
             <Button layoutX="698.0" layoutY="561.0" mnemonicParsing="false" onAction="#editComment" prefHeight="26.0" prefWidth="62.0" text="Edit" />
             
-            <Label layoutX="8.0" layoutY="61.0" prefHeight="30.0" prefWidth="275.0" text="Recipe Short Description: " textFill="#db5442" wrapText="true">
+            <Label layoutX="8.0" layoutY="61.0" prefHeight="30.0" prefWidth="192.0" text="Short Description: " textFill="#db5442" wrapText="true">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -58,13 +58,13 @@
                </font>
             </Label>
             
-            <Label layoutX="7.0" layoutY="377.0" prefHeight="45.0" prefWidth="573.0" text="Recipe Detailed Description: " textFill="#db5442" wrapText="true">
+            <Label layoutX="8.0" layoutY="377.0" prefHeight="40.0" prefWidth="184.0" text="Instruction:" textFill="#db5442" wrapText="true">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Label>
             
-            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="411.0" prefHeight="263.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
+            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="416.0" prefHeight="258.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -73,7 +73,7 @@
             <Button fx:id="removeFromFavorites" layoutX="800.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="46.0" prefWidth="120.0" text="Remove to favorite" />
             <Label fx:id="commentsLabel" layoutX="689.0" layoutY="181.0" prefHeight="26.0" prefWidth="120.0" text="Comments" textFill="#db5442">
                <font>
-                  <Font name="System Bold Italic" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <TableView id="IngredientTable" fx:id="IngredientTable" fixedCellSize="0.0" layoutX="13.0" layoutY="181.0" prefHeight="196.0" prefWidth="551.0">
