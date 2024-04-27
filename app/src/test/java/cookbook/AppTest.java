@@ -31,6 +31,8 @@ class AppTest {
         dbManager = new DatabaseMng();
         userController = new UserController(dbManager);
         login = new LogIn(dbManager);
+        favoritesController = new FavoritesController(dbManager);
+
     }
 
      @Test
@@ -54,11 +56,30 @@ class AppTest {
 
     @Test
     void testAddFavorite() {
+        // Skapa ett receptobjekt
         Recipe recipe = new Recipe("1", "Pasta Carbonara", "Simple pasta", "Cook pasta and mix with sauce");
-        String userId = "user";
+        String userId = "1"; // Användar-ID som redan finns i din databas
+    
+        // Anropa addFavorite och kontrollera resultatet
         boolean result = favoritesController.addFavorite(userId, recipe);
-        
+    
+        // Verifiera att lägga till var framgångsrikt
         assertTrue(result, "Adding favorite should return true when successful");
     }
 
+    @Test
+    void testRemoveFavorite() {
+        // Skapa ett receptobjekt
+        Recipe recipe = new Recipe("1", "Pasta Carbonara", "Simple pasta", "Cook pasta and mix with sauce");
+        String userId = "1"; // Användar-ID som redan finns i din databas
+
+        // Lägg till ett recept som ett favoritrecept
+        favoritesController.addFavorite(userId, recipe);
+
+        // Anropa removeFavorite och kontrollera resultatet
+        boolean result = favoritesController.removeFavorite(userId, recipe);
+
+        // Verifiera att ta bort var framgångsrikt
+        assertTrue(result, "Removing favorite should return true when successful");
+        }
 }

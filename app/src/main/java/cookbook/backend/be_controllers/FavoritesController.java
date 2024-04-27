@@ -16,12 +16,11 @@ public class FavoritesController {
     this.dbManager = dbManager;
   }
 
-  // Bästa lösningen är att skapa en favorit-tagg, då justeras koden utefter det
     public boolean addFavorite(String userId, Recipe recipe) {
-      String sql = "UPDATE recipes SET IsFavorite = 1 WHERE UserID = 1 AND RecipeID = ?";
+      String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userId);
+          pstmt.setInt(1, Integer.parseInt(userId));
           pstmt.setString(2, recipe.getId());  
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
@@ -32,10 +31,10 @@ public class FavoritesController {
     }
 
     public boolean removeFavorite(String userId, Recipe recipe) {
-      String sql = "UPDATE recipes SET IsFavorite = 0 WHERE UserID = 1 AND RecipeID = ?";
+      String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userId);
+          pstmt.setInt(1, Integer.parseInt(userId));
           pstmt.setString(2, recipe.getId());
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
@@ -47,21 +46,22 @@ public class FavoritesController {
 
     public List<Recipe> getFavorites(String userId) {
       List<Recipe> favorites = new ArrayList<>();
-      String sql = "SELECT * FROM recipes WHERE UserID = ? AND IsFavorites = 1";
+      String sql = "SELECT r.RecipeID, r.RecipeName, r.ShortDesc, r.DetailedDesc FROM user_favorites uf JOIN recipes r ON uf.RecipeID = r.RecipeID WHERE uf.UserID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userId);
           ResultSet rs = pstmt.executeQuery();
           while (rs.next()) {
             String recipeId = rs.getString("RecipeID");
-            String ingredients = rs.getString("Ingredients");
             String recipeName = rs.getString("RecipeName");
-            favorites.add(new Recipe(recipeId, ingredients, recipeName, recipeName));
+            String shortDesc = rs.getString("ShortDesc");
+            String detailedDesc = rs.getString("DetailedDesc");
+            favorites.add(new Recipe(recipeId, recipeName, shortDesc, detailedDesc));
           }
           return favorites;
         } catch (SQLException e) {
           System.err.println("Error fetching favorites: " + e.getMessage());
-          return null;
+          return new ArrayList<>();
         }
     }
 }
