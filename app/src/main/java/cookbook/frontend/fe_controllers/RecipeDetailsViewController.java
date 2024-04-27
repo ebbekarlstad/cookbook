@@ -145,7 +145,7 @@ public class RecipeDetailsViewController {
       }
 
       @FXML
-      public void addToFavorites(ActionEvent event) {
+      public void addToFavorites(ActionEvent event, String userId) {
         String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
         try (Connection conn = myDbManager.getConnection(); 
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -164,7 +164,7 @@ public class RecipeDetailsViewController {
       }
 
       @FXML
-      public void removeFromFavorites(ActionEvent event) {
+      public void removeFromFavorites(ActionEvent event, String userId) {
         String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
         try (Connection conn = myDbManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
