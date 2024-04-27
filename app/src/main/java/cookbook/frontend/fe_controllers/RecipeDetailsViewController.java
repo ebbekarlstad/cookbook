@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 public class RecipeDetailsViewController {
 
     private String recipeId;
+    private String userId;
     private int commentId;
     Recipe recipe;
 
@@ -46,6 +47,7 @@ public class RecipeDetailsViewController {
 
         this.recipeId = recipe.getId();
     }
+
 
     private CommentController commentController;
 
@@ -145,7 +147,8 @@ public class RecipeDetailsViewController {
       }
 
       @FXML
-      public void addToFavorites(ActionEvent event, String userId) {
+      public void addToFavorites(ActionEvent event) {
+        String userId = this.userId;
         String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
         try (Connection conn = myDbManager.getConnection(); 
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -164,7 +167,8 @@ public class RecipeDetailsViewController {
       }
 
       @FXML
-      public void removeFromFavorites(ActionEvent event, String userId) {
+      public void removeFromFavorites(ActionEvent event) {
+        String userId = this.userId;
         String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
         try (Connection conn = myDbManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

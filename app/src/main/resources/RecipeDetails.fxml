@@ -67,8 +67,9 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button layoutX="476.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="43.0" prefWidth="120.0" text="Add to favorite" />
+            <Button fx:id="addToFavorites" layoutX="476.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="43.0" prefWidth="120.0" text="Add to favorite" />
             <Button fx:id="removeFromFavorites" layoutX="347.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="43.0" prefWidth="120.0" text="Remove to favorite" />
+            
          </children>
         </AnchorPane>
     </children>
