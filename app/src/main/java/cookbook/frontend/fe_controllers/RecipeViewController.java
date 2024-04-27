@@ -64,7 +64,7 @@ public class RecipeViewController {
   public Button back;
 
   @FXML
-  public Button addRecipie;
+  public Button addRecipie;  // Name needs to be changed...
 
   @FXML
   public TextField amount;
