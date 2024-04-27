@@ -2,12 +2,6 @@ package cookbook.backend.be_controllers;
 
 import cookbook.backend.be_objects.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,5 +138,29 @@ public class RecipeController {
     } catch (SQLException e) {
       System.err.println("..." + e);
     }
+  }
+
+  public static List<Recipe> getRecipesByName(String name) throws SQLException {
+    ArrayList<Recipe> recipeList = new ArrayList<>();
+    String query = "SELECT * FROM recipes WHERE RecipeName LIKE ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+          sqlStatement.setString(1, "%" + name + "%");
+          ResultSet result = sqlStatement.executeQuery();
+          while (result.next()) {
+            Recipe newRecipe = new Recipe(
+              result.getString("RecipeID"),
+              result.getString("RecipeName"),
+              result.getString("ShortDesc"),
+              result.getString("DetailedDesc")
+            );
+            recipeList.add(newRecipe);
+          }
+          result.close();
+
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+    return recipeList;
   }
 }
