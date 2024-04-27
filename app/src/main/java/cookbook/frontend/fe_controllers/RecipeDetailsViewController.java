@@ -149,12 +149,8 @@ public class RecipeDetailsViewController {
         String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
         try (Connection conn = myDbManager.getConnection(); 
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, recipe.getId());
-            // pstmt.setInt(2, recipe.getUserID());
-            pstmt.setString(3, recipe.getRecipeName());
-            pstmt.setString(4,recipe.getShortDesc());
-            pstmt.setString(5,recipe.getDetailedDesc());
-            // pstmt.setString(6,recipe.getServes());
+            pstmt.setInt(1, Integer.parseInt(userId)); // Antag att userId är tillgängligt
+            pstmt.setString(2, recipe.getId());
                 
       int affectedRows = pstmt.executeUpdate();
         if (affectedRows > 0) {
@@ -169,10 +165,11 @@ public class RecipeDetailsViewController {
 
       @FXML
       public void removeFromFavorites(ActionEvent event) {
-        String sql = "DELETE FROM favorites WHERE RecipeID = ?";
+        String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
         try (Connection conn = myDbManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, recipe.getId());
+            pstmt.setInt(1, Integer.parseInt(userId));
+            pstmt.setString(2, recipe.getId());
     
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
