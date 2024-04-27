@@ -184,5 +184,6 @@ public class RecipeDetailsViewController {
         } catch (SQLException e) {
             System.err.println("Database error during comment deletion: " + e.getMessage());
         }
+        
       }
 }
