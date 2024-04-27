@@ -34,24 +34,24 @@
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField style="-fx-background-color: White;" />
-                  <Button mnemonicParsing="false" text="Search" />
+                  <TextField fx:id="searchByNameField" style="-fx-background-color: White;" />
+                  <Button fx:id="searchByNameButton" mnemonicParsing="false" text="Search" onAction="#searchByName"/>
                   <Separator prefHeight="29.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by ingredients">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField style="-fx-background-color: WHITE;" />
-                  <Button mnemonicParsing="false" text="Search" />
+                  <TextField fx:id="searchByIngredientsField" style="-fx-background-color: WHITE;" />
+                  <Button fx:id="searchByIngredientsButton" mnemonicParsing="false" text="Search" onAction="#searchByIngredients"/>
                   <Separator prefHeight="21.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by tags">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField style="-fx-background-color: WHITE;" />
-                  <Button mnemonicParsing="false" text="Search" />
+                  <TextField fx:id="searchByTagsField" style="-fx-background-color: WHITE;" />
+                  <Button fx:id="searchByTagsButton" mnemonicParsing="false" text="Search" onAction="#searchByTags"/>
                </children>
             </VBox>
          </right>
