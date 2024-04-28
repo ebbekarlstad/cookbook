@@ -28,7 +28,7 @@ import cookbook.backend.DatabaseMng;
 public class RecipeDetailsViewController {
 
     private String recipeId;
-    private String userId;
+    private Long userId;
     private int commentId;
     Recipe recipe;
     private FavoritesController favoritesController; 
@@ -41,7 +41,7 @@ public class RecipeDetailsViewController {
     private Label longLabel; // Label for the detailed description.
     //favorit attribute 
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -163,7 +163,7 @@ public class RecipeDetailsViewController {
       public void addToFavorites(ActionEvent event) {
           try {
               // Skriv ut userID och recipeID för att verifiera att de inte är null
-              System.out.println("UserId: " + this.userId);
+              System.out.println("UserId: " + (this.userId != null ? this.userId: "null"));
               System.out.println("Recipe: " + (this.recipe != null ? this.recipe.getId() : "null"));
       
               // Kontrollera att både userId och recipe är korrekt innan du fortsätter

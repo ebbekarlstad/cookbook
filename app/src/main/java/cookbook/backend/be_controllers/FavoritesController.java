@@ -56,7 +56,7 @@ public class FavoritesController {
             String recipeName = rs.getString("RecipeName");
             String shortDesc = rs.getString("ShortDesc");
             String detailedDesc = rs.getString("DetailedDesc");
-            Recipe recipe = new Recipe(recipeId, recipeName, shortDesc, detailedDesc,);
+            Recipe recipe = new Recipe(recipeId, recipeName, shortDesc, detailedDesc);
             favoriteRecipes.add(recipe);
           }
           return favoriteRecipes;

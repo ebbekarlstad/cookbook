@@ -48,9 +48,9 @@ public class FavoriteViewController {
 
     private void loadFavoriteRecipes() {
     // Antag att du hämtar det aktuella användar-ID:t på något sätt.
-    String currentUserId = "currentUser"; // Detta borde vara det faktiska användar-ID:t.
-    List<Recipe> favorites = favoritesController.getFavorites(currentUserId);
-    System.out.println("Favorites for user " + currentUserId + ": " + favorites); // Logga för att se resultatet.
+    Long userId = 1L; // Detta borde vara det faktiska användar-ID:t.
+    List<Recipe> favorites = favoritesController.getFavorites(userId);
+    System.out.println("Favorites for user " + userId + ": " + favorites); // Logga för att se resultatet.
     favoriteRecipes.setAll(favorites);
     }
 }
