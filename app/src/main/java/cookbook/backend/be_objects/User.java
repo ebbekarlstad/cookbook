@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+  private Long userId;
   private String userName;
   private String displayName;
   private String passwordHash;
@@ -12,7 +13,8 @@ public class User {
   private final LogIn login;
   private List<Recipe> favoriteRecipes = new ArrayList<>();
 
-  public User(String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites) {
+  public User(Long userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites) {
+    this.userId = userId;
     setUserName(userName);
     setDisplayName(displayName);
     setIsAdmin(isAdmin);
@@ -20,6 +22,9 @@ public class User {
     setPassword(password);
   }
 
+  public int getUserId() {
+    return userId;
+  }
   public String getUserName() {
     return this.userName;
   }

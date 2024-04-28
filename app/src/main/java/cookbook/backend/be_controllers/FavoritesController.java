@@ -16,11 +16,11 @@ public class FavoritesController {
     this.dbManager = dbManager;
   }
 
-    public boolean addFavorite(String userId, Recipe recipe) {
+    public boolean addFavorite(Long userId, Recipe recipe) {
       String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setInt(1, Integer.parseInt(userId));
+          pstmt.setLong(1, userId);
           pstmt.setString(2, recipe.getId());  
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
@@ -30,11 +30,11 @@ public class FavoritesController {
       }
     }
 
-    public boolean removeFavorite(String userId, Recipe recipe) {
+    public boolean removeFavorite(Long userId, Recipe recipe) {
       String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setInt(1, Integer.parseInt(userId));
+          pstmt.setLong(1, userId);
           pstmt.setString(2, recipe.getId());
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
@@ -44,12 +44,12 @@ public class FavoritesController {
       }
     }
 
-    public List<Recipe> getFavorites(String userId) {
+    public List<Recipe> getFavorites(Long userId) {
       List<Recipe> favorites = new ArrayList<>();
       String sql = "SELECT r.RecipeID, r.RecipeName, r.ShortDesc, r.DetailedDesc FROM user_favorites uf JOIN recipes r ON uf.RecipeID = r.RecipeID WHERE uf.UserID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userId);
+          pstmt.setLong(1, userId);
           ResultSet rs = pstmt.executeQuery();
           while (rs.next()) {
             String recipeId = rs.getString("RecipeID");
