@@ -45,7 +45,7 @@ public class FavoritesController {
     }
 
     public List<Recipe> getFavorites(Long userId) {
-      List<Recipe> favorites = new ArrayList<>();
+      List<Recipe> favoriteRecipes = new ArrayList<>();
       String sql = "SELECT r.RecipeID, r.RecipeName, r.ShortDesc, r.DetailedDesc FROM user_favorites uf JOIN recipes r ON uf.RecipeID = r.RecipeID WHERE uf.UserID = ?";
       try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -56,9 +56,10 @@ public class FavoritesController {
             String recipeName = rs.getString("RecipeName");
             String shortDesc = rs.getString("ShortDesc");
             String detailedDesc = rs.getString("DetailedDesc");
-            favorites.add(new Recipe(recipeId, recipeName, shortDesc, detailedDesc));
+            Recipe recipe = new Recipe(recipeId, recipeName, shortDesc, detailedDesc,);
+            favoriteRecipes.add(recipe);
           }
-          return favorites;
+          return favoriteRecipes;
         } catch (SQLException e) {
           System.err.println("Error fetching favorites: " + e.getMessage());
           return new ArrayList<>();

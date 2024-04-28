@@ -22,7 +22,7 @@ public class User {
     setPassword(password);
   }
 
-  public int getUserId() {
+  public Long getUserId() {
     return userId;
   }
   public String getUserName() {
