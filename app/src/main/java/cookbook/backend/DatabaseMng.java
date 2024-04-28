@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class DatabaseMng {
+  
 
   private String lastErrorMessage = "";
 
@@ -52,4 +53,10 @@ public class DatabaseMng {
     public String getLastErrorMessage() {
       return lastErrorMessage;
     }
-}
+
+   
+  }
+
+
+  
+

@@ -107,6 +107,22 @@ public class MainViewController {
   }
 
   @FXML
+  private void handleHelpBackButton(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent helpPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene helpPageScene = new Scene(helpPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(helpPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
   private void handleNewButton(ActionEvent event) {
     try {
       //Load the navigation page FXML
@@ -136,4 +152,23 @@ public class MainViewController {
           e.printStackTrace();
       }
   }
+  @FXML
+    private void handleFavoriteButtonAction(ActionEvent event) {
+      try {
+
+        Parent favoriteRecipesParent = FXMLLoader.load(getClass().getResource("/favoriteView.fxml"));
+        Scene favoriteRecipesScene = new Scene(favoriteRecipesParent);
+
+      
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(favoriteRecipesScene);
+        window.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+
+
+  
 }

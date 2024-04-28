@@ -45,6 +45,10 @@ public class LoginViewController {
    */
   @FXML
   private void handleLoginButton(ActionEvent event) {
+
+    
+
+    
     
     // Empty the errorlabel
     errorLabel.setText("");
@@ -67,6 +71,7 @@ public class LoginViewController {
         return new LogIn(dbManager).doLogin(username, password);
       }
     };
+    
 
     // If login succeded
     loginTask.setOnSucceeded(e -> {
@@ -107,4 +112,6 @@ public class LoginViewController {
       e.printStackTrace();
     }
   }
+
+  
 }

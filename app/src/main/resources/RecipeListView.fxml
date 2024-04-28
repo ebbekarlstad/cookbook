@@ -49,7 +49,7 @@
                      </font>
                   </Text>
                   <TextField fx:id="searchByNameField" style="-fx-background-color: White;" />
-                  <Button mnemonicParsing="false" text="Search" />
+                  <Button fx:id="searchByNameButton" onAction="#searchByName" mnemonicParsing="false" text="Search" />
                   <Separator prefHeight="29.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by ingredients">
                      <font>
@@ -57,7 +57,7 @@
                      </font>
                   </Text>
                   <TextField style="-fx-background-color: WHITE;" />
-                  <Button mnemonicParsing="false" text="Search" />
+                  <Button fx:id="searchByIngredientsButton" onAction="#searchByIngredients" mnemonicParsing="false" text="Search" />
                   <Separator prefHeight="21.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by tags">
                      <font>
@@ -65,7 +65,7 @@
                      </font>
                   </Text>
                   <TextField style="-fx-background-color: WHITE;" />
-                  <Button mnemonicParsing="false" text="Search" />
+                  <Button fx:id="searchByTagsButton" onAction="#searchByTags" mnemonicParsing="false" text="Search" />
                </children>
             </VBox>
          </right>
@@ -88,7 +88,7 @@
                      </effect>
                   </Label>
                   <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" text="Go back" />
-                  <ListView fx:id="mainTable" onMouseClicked="#showDescriptionFromMain" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
+                  <ListView fx:id="mainTable" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets top="1.0" />
                      </VBox.margin>
