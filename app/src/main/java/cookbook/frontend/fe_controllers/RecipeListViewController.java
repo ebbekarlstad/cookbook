@@ -43,7 +43,7 @@ public class RecipeListViewController {
   private Button searchByTagsButton;
 
   @FXML
-  private ListView<Recipe> mainTable; // Assumes ListView is set to hold Recipe objects
+  private ListView<Recipe> mainTable; 
 
   private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
@@ -109,7 +109,7 @@ public class RecipeListViewController {
 
               // Setup and show the new stage (or scene)
               Scene commentViewScene = new Scene(commentViewParent);
-              Stage window = new Stage(); // You might want to use another method to handle windows
+              Stage window = new Stage(); 
               window.setScene(commentViewScene);
               window.show();
             } catch (IOException e) {

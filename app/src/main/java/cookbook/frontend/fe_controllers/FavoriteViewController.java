@@ -26,7 +26,7 @@ public class FavoriteViewController {
     private ListView<Recipe> favoritesListView;
 
     private ObservableList<Recipe> favoriteRecipes = FXCollections.observableArrayList();
-    private FavoritesController favoritesController; // Antag att detta är din backend-controller.
+    private FavoritesController favoritesController; 
 
     public FavoriteViewController() {
         DatabaseMng dbManager = new DatabaseMng();
@@ -44,7 +44,7 @@ public class FavoriteViewController {
                 if (empty || recipe == null) {
                     setText(null);
                 } else {
-                    setText(recipe.getRecipeName()); // Eller hur du nu vill visa recepten.
+                    setText(recipe.getRecipeName()); 
                 }
             }
         });
@@ -55,10 +55,10 @@ public class FavoriteViewController {
 
     private void loadFavoriteRecipes() {
         System.out.println("here");
-    // Antag att du hämtar det aktuella användar-ID:t på något sätt.
-    Long userId = 1L; // Detta borde vara det faktiska användar-ID:t.
+    
+    Long userId = 1L; 
     List<Recipe> favorites = favoritesController.getFavorites(userId);
-    System.out.println("Favorites for user " + userId + ": " + favorites); // Logga för att se resultatet.
+    System.out.println("Favorites for user " + userId + ": " + favorites); 
     favoriteRecipes.setAll(favorites);
     }
 

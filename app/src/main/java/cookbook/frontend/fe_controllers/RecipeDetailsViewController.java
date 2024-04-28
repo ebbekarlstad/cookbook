@@ -38,7 +38,7 @@ public class RecipeDetailsViewController {
     private Label shortLabel; // Label for the short description.
     @FXML
     private Label longLabel; // Label for the detailed description.
-    //favorit attribute 
+    //favorit attribute
     
     public void setUserId(Long userId) {
         this.userId = userId;
@@ -54,7 +54,7 @@ public class RecipeDetailsViewController {
         longLabel.setText(recipe.getDetailedDesc());
 
         this.recipeId = recipe.getId();
-        System.out.println("InitData - UserId: " + this.userId); // För felsökning
+        System.out.println("InitData - UserId: " + this.userId); 
     }
 
 
@@ -63,7 +63,7 @@ public class RecipeDetailsViewController {
     // Constructor
     public RecipeDetailsViewController() {
         myDbManager = new DatabaseMng();
-        this.commentController = new CommentController(myDbManager);  // Correctly assign to the class field
+        this.commentController = new CommentController(myDbManager);  
         favoritesController = new FavoritesController(myDbManager); 
        
 
@@ -81,7 +81,7 @@ public class RecipeDetailsViewController {
     private void addComment(ActionEvent event) {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
-            // Assuming recipeId and userId should be handled as Strings
+        
             CommentObject newComment = new CommentObject(this.commentId, this.recipeId, 1, commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
             commentsListView.getItems().add(commentText);  // Add comment to ListView
             commentInput.clear();  // Clear the input field
@@ -117,8 +117,8 @@ public class RecipeDetailsViewController {
             if (commentInput.getText().equals(commentsListView.getItems().get(selectedIndex))) {
                 // User has edited the comment and is ready to update
                 String updatedCommentText = commentInput.getText().trim();
-                // Assuming the ListView items are directly mapped to comment IDs or you have a way to get IDs
-                int commentId = getCommentIdByIndex(selectedIndex); // Implement this method based on your application's data structure
+            
+                int commentId = getCommentIdByIndex(selectedIndex); 
 
                 if (commentController.editComment(commentId, updatedCommentText)) {
                     commentsListView.getItems().set(selectedIndex, updatedCommentText);
