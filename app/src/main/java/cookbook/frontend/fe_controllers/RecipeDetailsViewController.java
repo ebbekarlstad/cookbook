@@ -31,8 +31,7 @@ public class RecipeDetailsViewController {
     private Long userId;
     private int commentId;
     Recipe recipe;
-    private FavoritesController favoritesController; 
-
+    
     @FXML
     private Label titleLabel; // Label for the recipe title.
     @FXML
@@ -40,12 +39,13 @@ public class RecipeDetailsViewController {
     @FXML
     private Label longLabel; // Label for the detailed description.
     //favorit attribute 
-
+    
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
+    
     DatabaseMng myDbManager;
+    private FavoritesController favoritesController = new FavoritesController(myDbManager); 
     public void initData(Recipe recipe) {
         this.recipe = recipe;
         // Set the recipe information in your controls
@@ -161,39 +161,66 @@ public class RecipeDetailsViewController {
 
       @FXML
       public void addToFavorites(ActionEvent event) {
-          try {
-              // Skriv ut userID och recipeID för att verifiera att de inte är null
-              System.out.println("UserId: " + (this.userId != null ? this.userId: "null"));
-              System.out.println("Recipe: " + (this.recipe != null ? this.recipe.getId() : "null"));
+        //   try {
+        //       // Skriv ut userID och recipeID för att verifiera att de inte är null
+        //       System.out.println("UserId: " + (this.userId != null ? this.userId: "null"));
+        //       System.out.println("Recipe: " + (this.recipe != null ? this.recipe.getId() : "null"));
       
-              // Kontrollera att både userId och recipe är korrekt innan du fortsätter
-              if (this.userId != null && this.recipe != null) {
-                  if (favoritesController.addFavorite(this.userId, this.recipe)) {
-                      System.out.println("Favorite added successfully.");
-                      // Uppdatera UI här
-                  } else {
-                      System.out.println("Failed to add favorite.");
-                  }
-              } else {
-                  System.out.println("UserId or Recipe is null, cannot add to favorites.");
-              }
-          } catch (Exception e) {
-              System.err.println("Error adding favorite: " + e.getMessage());
-              e.printStackTrace();
-          }
+        //       // Kontrollera att både userId och recipe är korrekt innan du fortsätter
+        //       if (this.userId != null && this.recipe != null) {
+        //           if (favoritesController.addFavorite(this.userId, this.recipe)) {
+        //               System.out.println("Favorite added successfully.");
+        //               // Uppdatera UI här
+        //           } else {
+        //               System.out.println("Failed to add favorite.");
+        //           }
+        //       } else {
+        //           System.out.println("UserId or Recipe is null, cannot add to favorites.");
+        //       }
+        //   } catch (Exception e) {
+        //       System.err.println("Error adding favorite: " + e.getMessage());
+        //       e.printStackTrace();
+        //   }
+        // String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
+        // try (Connection conn = myDbManager.getConnection();
+        //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        //     this.userId = 1L;
+        //     pstmt.setLong(1, userId);
+        //     pstmt.setString(2, recipe.getId());  
+        //     int affectedRows = pstmt.executeUpdate();
+        //     if ( affectedRows > 0) System.out.println("Done");;
+        // } catch (SQLException e) {
+        //   System.err.println("Error adding favorite: " + e.getMessage());
+        // }
+        this.userId = 1L;
+        favoritesController.addFavorite(userId, recipe);
       }
     
 
 
       @FXML
       public void removeFromFavorites(ActionEvent event) {
-          // Använd favoritesController för att ta bort från databasen istället
-          if (favoritesController.removeFavorite(this.userId, this.recipe)) {
-              System.out.println("Favorite removed successfully.");
-              // Uppdatera ditt UI här om nödvändigt, t.ex. aktivera 'Add to favorite'-knappen
-          } else {
-              System.out.println("Failed to remove favorite.");
-              // Visa felmeddelande till användaren
-          }
+
+        //   // Använd favoritesController för att ta bort från databasen istället
+        //   if (favoritesController.removeFavorite(this.userId, this.recipe)) {
+        //       System.out.println("Favorite removed successfully.");
+        //       // Uppdatera ditt UI här om nödvändigt, t.ex. aktivera 'Add to favorite'-knappen
+        //   } else {
+        //       System.out.println("Failed to remove favorite.");
+        //       // Visa felmeddelande till användaren
+        //   }
+        // String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
+        // try (Connection conn = myDbManager.getConnection();
+        //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        //     pstmt.setLong(1, userId);
+        //     pstmt.setString(2, recipe.getId());
+        //     int affectedRows = pstmt.executeUpdate();
+        //     if ( affectedRows > 0) System.out.println("Done");;
+        // } catch (SQLException e) {
+        //   System.err.println("Failed to remove favorite: ");
+        // }
+
+        this.userId = 1L;
+        favoritesController.removeFavorite(userId, recipe);
       }
 }
