@@ -8,8 +8,8 @@
 
 <AnchorPane fx:id="shoppingPage" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShoppingListViewController">
    <children>
-      <ListView fx:id="ingView" editable="true" layoutX="509.0" layoutY="83.0" prefHeight="597.0" prefWidth="451.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="509.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0" />
-      <Label contentDisplay="CENTER" layoutX="4.0" layoutY="20.0" prefHeight="62.0" prefWidth="411.0" text="Shopping List" textAlignment="CENTER" textFill="#db5442" AnchorPane.leftAnchor="4.0">
+      <ListView fx:id="ingView" editable="true" layoutX="14.0" layoutY="18.0" prefHeight="597.0" prefWidth="451.0" AnchorPane.bottomAnchor="17.200000000000045" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="534.8" AnchorPane.topAnchor="18.0" />
+      <Label contentDisplay="CENTER" layoutX="268.0" layoutY="20.0" prefHeight="62.0" prefWidth="411.0" text="Shopping List" textAlignment="CENTER" textFill="#db5442" AnchorPane.leftAnchor="268.0">
          <font>
             <Font name="Times New Roman Bold" size="42.0" />
          </font>
