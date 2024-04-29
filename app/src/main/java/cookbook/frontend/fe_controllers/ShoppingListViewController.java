@@ -1,43 +1,71 @@
 package cookbook.frontend.fe_controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-/**
- * Controller for the Shopping List view.
- */
 public class ShoppingListViewController {
 
-    @FXML
-    private ListView<String> ingView; // Assuming the ListView is for strings, adjust the type if necessary.
+  @FXML
+  private TableView<Ingredient> IngredientTable;
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the FXML file has been loaded.
-     */
-    @FXML
-    private void initialize() {
-        // Initialize your ListView with data or any setup code.
-        loadShoppingListItems();
+  @FXML
+  private TableColumn<Ingredient, String> ingredientColumn;
+
+  @FXML
+  private TableColumn<Ingredient, String> amountColumn;
+
+  @FXML
+  private TextField ingredientName;
+
+  @FXML
+  private TextField amount;
+
+  @FXML
+  private Button addIngredient;
+
+  private final ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
+
+  @FXML
+  public void initialize() {
+    ingredientColumn.setCellValueFactory(new PropertyValueFactory<>("ingredientName"));
+    amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+    IngredientTable.setItems(ingredientList);
+  }
+
+  @FXML
+  void addIngredientToList(ActionEvent event) {
+    String name = ingredientName.getText();
+    String qty = amount.getText();
+    if (!name.isEmpty() && !qty.isEmpty()) {
+      Ingredient newIngredient = new Ingredient(name, qty);
+      ingredientList.add(newIngredient);
+      ingredientName.clear();
+      amount.clear();
+    }
+  }
+
+  public static class Ingredient {
+    private final String ingredientName;
+    private final String amount;
+
+    public Ingredient(String ingredientName, String amount) {
+      this.ingredientName = ingredientName;
+      this.amount = amount;
     }
 
-    /**
-     * Loads shopping list items into the ListView. This is a placeholder method.
-     * You need to adapt this method to load actual data.
-     */
-    private void loadShoppingListItems() {
-        // Here, we just add some dummy data for demonstration purposes.
-        ingView.getItems().addAll("Milk", "Eggs", "Flour", "Sugar", "Butter");
+    public String getIngredientName() {
+      return ingredientName;
     }
 
-    /**
-     * Handles additional actions, such as item selection or other buttons if present.
-     * This is just a template method to give you an idea.
-     */
-    @FXML
-    private void handleItemAction() {
-        String selectedItem = ingView.getSelectionModel().getSelectedItem();
-        System.out.println("Selected item: " + selectedItem);
-        // Add more handling logic as per your application needs.
+    public String getAmount() {
+      return amount;
     }
+  }
 }
