@@ -492,6 +492,7 @@ public class DatabaseSeeder {
         seeder.seedShoppingListItems();
         seeder.seedSentRecipes();
         seeder.seedHelpSystem();
+				seeder.seedMessages();
         
         // Call other seed functions here
     }
