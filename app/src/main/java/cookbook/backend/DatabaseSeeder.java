@@ -31,9 +31,13 @@ public void seedMessages() {
 
 		+ "`message_type` VARCHAR(255),"
 
+		+ "'recipe_id' VARCHAR(255) NOT NULL,"
+
 		+ "`content` TEXT,"
 
 		+ "`sent_time` TIMESTAMP,"
+
+		+ "FOREIGN KET (recipe_id) REFERENCES 'recipes ('RecipeID')"
 
 		+ "FOREIGN KEY (`sender_id`) REFERENCES `users`(`UserID`),"
 
