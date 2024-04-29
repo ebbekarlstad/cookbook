@@ -19,33 +19,24 @@ public class DatabaseSeeder {
     }
 
 
-public void seedMessages() {
-    String dropTableSql = "DROP TABLE IF EXISTS `messages`;";
-		String createTableSQL = "CREATE TABLE `messages` ("
-
-		+ "`message_id` BIGINT AUTO_INCREMENT PRIMARY KEY,"
-
-		+ "`sender_id` INT NOT NULL,"
-
-		+ "`receiver_id` INT NOT NULL,"
-
-		+ "`message_type` VARCHAR(255),"
-
-		+ "'recipe_id' VARCHAR(255) NOT NULL,"
-
-		+ "`content` TEXT,"
-
-		+ "`sent_time` TIMESTAMP,"
-
-		+ "FOREIGN KET (recipe_id) REFERENCES 'recipes ('RecipeID')"
-
-		+ "FOREIGN KEY (`sender_id`) REFERENCES `users`(`UserID`),"
-
-		+ "FOREIGN KEY (`receiver_id`) REFERENCES `users`(`UserID`));";
-
-    seedTable(dropTableSql);
-    seedTable(createTableSQL);
-}
+		public void seedMessages() {
+			String dropTableSql = "DROP TABLE IF EXISTS `messages`;";
+			String createTableSQL = "CREATE TABLE `messages` ("
+					+ "`message_id` BIGINT AUTO_INCREMENT PRIMARY KEY,"
+					+ "`sender_id` INT NOT NULL,"
+					+ "`receiver_id` INT NOT NULL,"
+					+ "`recipe_id` VARCHAR(255) NOT NULL,"
+					+ "`content` TEXT,"
+					+ "`sent_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+					+ "FOREIGN KEY (`recipe_id`) REFERENCES `recipes`(`RecipeID`),"
+					+ "FOREIGN KEY (`sender_id`) REFERENCES `users`(`UserID`),"
+					+ "FOREIGN KEY (`receiver_id`) REFERENCES `users`(`UserID`)"
+					+ ");";
+		
+			seedTable(dropTableSql);
+			seedTable(createTableSQL);
+		}
+		
 	
 
     // Seeding the Users table
