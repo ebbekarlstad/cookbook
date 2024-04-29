@@ -84,7 +84,7 @@
                   <Image url="@images/star.png" />
                </image>
             </ImageView>
-            <Button fx:id="favoriteButton1" layoutX="22.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="RIGHT">
+            <Button fx:id="favoriteButton1" layoutX="22.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

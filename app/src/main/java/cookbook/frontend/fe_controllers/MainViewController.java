@@ -169,6 +169,23 @@ public class MainViewController {
 
 }
 
+@FXML
+private void handleShoppingListButton(ActionEvent event) {
+    try {
+        // Load the Shopping List view FXML
+        Parent shoppingListPageParent = FXMLLoader.load(getClass().getResource("/ShoppingList.fxml"));
+        Scene shoppingListPageScene = new Scene(shoppingListPageParent);
+
+        // Get the current stage and replace it
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(shoppingListPageScene);
+        window.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
 
   
 }
