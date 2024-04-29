@@ -2,7 +2,9 @@ package cookbook.backend.be_objects;
 import cookbook.backend.DatabaseMng;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class User {
   private Long userId;
@@ -12,14 +14,18 @@ public class User {
   private Boolean isAdmin;
   private final LogIn login;
   private List<Recipe> favoriteRecipes = new ArrayList<>();
+  private String weekly;
+  private Set<String> weeklyList = new HashSet<>();
 
-  public User(Long userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites) {
+  public User(Long userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites, String weekly) {
     this.userId = userId;
     setUserName(userName);
     setDisplayName(displayName);
     setIsAdmin(isAdmin);
     this.login = new LogIn(dbManager);
     setPassword(password);
+    this.weekly = weekly;
+    populateWeeklyList(weekly);
   }
 
   public Long getUserId() {
@@ -77,4 +83,13 @@ public class User {
   public List<Recipe> getFavoriteRecipes() {
     return new ArrayList<>(favoriteRecipes);
   }
+
+  public String getWeekly() {
+    return this.weekly;
+  }
+  public void setWeekly(String weekly) {
+    this.weekly = weekly;
+  }
+
+  
 }
