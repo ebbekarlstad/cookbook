@@ -18,22 +18,31 @@ public class DatabaseSeeder {
         }
     }
 
-		// Table for storing messages.
-		public void seedMessages() {
-			String dropTableSql = "DROP TABLE IF EXISTS 'messages';";
-			String createTableSQL = "CREATE TABLE 'messages' ("
-					+ "'message_id' BIGINT AUTO_INCREMENT PRIMARY KEY,"
-					+"'sender_id' BIGINT NOT NULL,"
-					+ "'receiver_id' BIGINT NOT NULL,"
-					+ "'message_type' VARCHAR(255),"
-					+"'content' TEXT,"
-					+"'sent_time' TIMESTAMP,"
-					+"FOREIGN KEY ('sender_id)'' REFERENCES users('UserID'),"
-					+"FOREIGN KEY ('receiver_id') REFERENCES users('UserID'));";
 
-					seedTable(dropTableSql);
-					seedTable(createTableSQL);
-		}
+public void seedMessages() {
+    String dropTableSql = "DROP TABLE IF EXISTS `messages`;";
+		String createTableSQL = "CREATE TABLE `messages` ("
+
+		+ "`message_id` BIGINT AUTO_INCREMENT PRIMARY KEY,"
+
+		+ "`sender_id` INT NOT NULL,"
+
+		+ "`receiver_id` INT NOT NULL,"
+
+		+ "`message_type` VARCHAR(255),"
+
+		+ "`content` TEXT,"
+
+		+ "`sent_time` TIMESTAMP,"
+
+		+ "FOREIGN KEY (`sender_id`) REFERENCES `users`(`UserID`),"
+
+		+ "FOREIGN KEY (`receiver_id`) REFERENCES `users`(`UserID`));";
+
+    seedTable(dropTableSql);
+    seedTable(createTableSQL);
+}
+	
 
     // Seeding the Users table
     public void seedUsers() {
