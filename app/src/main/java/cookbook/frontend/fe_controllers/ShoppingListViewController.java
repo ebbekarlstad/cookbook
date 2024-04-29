@@ -6,7 +6,7 @@ import javafx.scene.control.ListView;
 /**
  * Controller for the Shopping List view.
  */
-public class ShoppingListController {
+public class ShoppingListViewController {
 
     @FXML
     private ListView<String> ingView; // Assuming the ListView is for strings, adjust the type if necessary.
