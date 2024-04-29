@@ -8,15 +8,15 @@ public class Message {
   private Long messageId;
   private Long senderId;
   private Long receiverId;
-  private String messageType;
-  private String content;
-  private Timestamp sentTime;
+  private String recipeId;  // Foreign key to the recipes table
+  private String content;  // Optional message text about the recipe
+  private Timestamp sentTime;  // Timestamp when the message was created
 
   // Constructor
-  public Message(Long senderId, Long receiverId, String messageType, String content) {
+  public Message(Long senderId, Long receiverId, String recipeId, String content) {
     this.senderId = senderId;
     this.receiverId = receiverId;
-    this.messageType = messageType;
+    this.recipeId = recipeId;
     this.content = content;
     this.sentTime = new Timestamp(System.currentTimeMillis()); // Set current time as the timestamp
   }
@@ -46,12 +46,12 @@ public class Message {
     this.receiverId = receiverId;
   }
 
-  public String getMessageType() {
-    return messageType;
+  public String getRecipeId() {
+    return recipeId;
   }
 
-  public void setMessageType(String messageType) {
-    this.messageType = messageType;
+  public void setRecipeId(String recipeId) {
+    this.recipeId = recipeId;
   }
 
   public String getContent() {
@@ -70,3 +70,4 @@ public class Message {
     this.sentTime = sentTime;
   }
 }
+
