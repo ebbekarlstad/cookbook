@@ -47,6 +47,7 @@ public class WeeklyController {
       System.out.println("Error removing weekly recipe: " + e.getMessage());
       return false;
      }
+  }
 
      public List<Recipe> getWeeklyRecipes(int userId) {
       List<Recipe> recipes = new ArrayList<>();
