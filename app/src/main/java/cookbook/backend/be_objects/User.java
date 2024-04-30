@@ -91,5 +91,7 @@ public class User {
     this.weekly = weekly;
   }
 
+  //List for weekly recipes here - populateweekly and return weeklylist
+
   
 }
