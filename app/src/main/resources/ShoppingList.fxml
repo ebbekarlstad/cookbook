@@ -19,17 +19,17 @@
             <Insets left="150.0" />
          </padding>
       </Label>
-      <TableView id="IngredientTable" fx:id="IngredientTable" fixedCellSize="0.0" layoutX="14.0" layoutY="97.0" prefHeight="496.0" prefWidth="389.0">
+      <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="14.0" layoutY="97.0" prefHeight="496.0" prefWidth="389.0">
          <columns>
-            <TableColumn id="ingredientColumn" fx:id="ingredientColumn" prefWidth="256.79998779296875" text="Ingredient" />
-            <TableColumn id="amountColumn" fx:id="amountColumn" prefWidth="131.20001220703125" text="Amount" />
+            <TableColumn fx:id="ingredientColumn" prefWidth="256.79998779296875" text="Ingredient Name" />
+            <TableColumn fx:id="amountColumn" prefWidth="131.20001220703125" text="Amount" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
       <TextField fx:id="ingredientName" layoutX="418.0" layoutY="143.0" prefHeight="32.0" prefWidth="180.0" promptText="Ingredient name" style="-fx-border-color: #5499C7;" />
-      <TextField fx:id="amount" layoutX="607.0" layoutY="143.0" prefHeight="32.0" prefWidth="120.0" promptText="Amount " style="-fx-border-color: #5499C7;" />
-      <Button fx:id="addIngredient" layoutX="417.0" layoutY="183.0" mnemonicParsing="false" onAction="#addIngredientToList" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #FFA500;" text="Add ingredient" />
+      <TextField fx:id="amount" layoutX="607.0" layoutY="143.0" prefHeight="32.0" prefWidth="120.0" promptText="Amount" style="-fx-border-color: #5499C7;" />
+      <Button fx:id="addIngredient" layoutX="417.0" layoutY="183.0" mnemonicParsing="false" onAction="#addIngredientToList" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #FFA500;" text="Add Ingredient" />
    </children>
 </AnchorPane>
