@@ -59,24 +59,25 @@ public class ShoppingListViewController {
       }
   }
 
-    private void loadIngredients() {
-      if (currentShoppingListId != -1) {
-          String sql = "SELECT IngredientID, Quantity FROM shopping_list_items WHERE ShoppingListID = " + currentShoppingListId;
-          try (Connection conn = dbManager.getConnection();
-               Statement stmt = conn.createStatement();
-               ResultSet rs = stmt.executeQuery(sql)) {
-  
-              while (rs.next()) {
-                  String ingName = rs.getString("IngredientID");  // Check if this needs to join with Ingredients to get the name
-                  String qty = rs.getString("Quantity");
-                  ingredientList.add(new ShoppingIngredient(ingName, qty));
-                  System.out.println("Loaded: " + ingName + " " + qty); // Debugging line
-              }
-          } catch (SQLException ex) {
-              System.err.println("Error loading ingredients from database: " + ex.getMessage());
-          }
-      }
-  }
+  private void loadIngredients() {
+    if (currentShoppingListId != -1) {
+        String sql = "SELECT IngredientID, Quantity FROM shopping_list_items WHERE ShoppingListID = " + currentShoppingListId;
+        try (Connection conn = dbManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String ingName = rs.getString("IngredientID");
+                String qty = rs.getString("Quantity");
+                ingredientList.add(new ShoppingIngredient(ingName, qty));
+                // System.out.println("Loaded: " + ingName + " " + qty); // Comment out or remove this line
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error loading ingredients from database: " + ex.getMessage());
+        }
+    }
+}
+
   
 
     @FXML
