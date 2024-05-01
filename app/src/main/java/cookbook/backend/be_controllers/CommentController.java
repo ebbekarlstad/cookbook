@@ -58,19 +58,18 @@ public class CommentController {
     }
   }
 
-  public boolean editComment(int commentId, String newText) {
-    String sql = "UPDATE comments SET text = ? WHERE Text = ?";
-    try (Connection conn = dbManager.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+  public boolean updateComment(String oldText, String newText) {
+    String sql = "UPDATE comments SET Text = ? WHERE Text = ?";
+    try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
         pstmt.setString(1, newText);
-        pstmt.setInt(2, commentId);
+        pstmt.setString(2, oldText);
 
         int affectedRows = pstmt.executeUpdate();
         if (affectedRows > 0) {
             System.out.println("Comment updated successfully.");
             return true;
         } else {
-            System.out.println("No rows affected, comment not found.");
+            System.out.println("No rows affected, comment not updated.");
             return false;
         }
     } catch (SQLException e) {
