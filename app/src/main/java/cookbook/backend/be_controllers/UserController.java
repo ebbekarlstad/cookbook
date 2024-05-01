@@ -1,15 +1,15 @@
 package cookbook.backend.be_controllers;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.DatabaseMng;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-public class UserController {
+import java.sql.*;
+
+public class    UserController {
   private DatabaseMng dbManager;
-    private User user;
+  private User user;
 
-  public UserController(DatabaseMng dbManager) {
+
+  public UserController(DatabaseMng dbManager) throws SQLException {
     this.dbManager = dbManager;
   }
 
@@ -17,7 +17,9 @@ public class UserController {
     this.user = user;
   }
 
-  public boolean saveToDatabase() {
+    public static User loggedInUser;
+
+    public boolean saveToDatabase() {
     String sql = "INSERT INTO users (UserName, DisplayName, Password, IsAdmin) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); // Använder dbManager för att få en Connection
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -40,4 +42,32 @@ public class UserController {
         return false;
     }
   }
+
+    public static User searchForUser(String UserName, String Password) throws SQLException {
+
+        String query = "SELECT * FROM user WHERE username=(?) AND password=(?) LIMIT 1;";
+
+        // If theres no user with that information, return null.
+        loggedInUser = null;
+        Connection conn = DriverManager
+                .getConnection("jdbc:mysql://localhost/cookbook?user=root&password=root&useSSL=false");
+
+        try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+            sqlStatement.setString(1, UserName);
+            sqlStatement.setString(2, Password);
+            ResultSet result = sqlStatement.executeQuery();
+            if (result.next()) {
+                loggedInUser = new User(
+                        result.getLong("UserID"),
+                        result.getString("Username"),
+                        result.getString("password"),
+                        result.getBoolean("IsAdmin"));
+            }
+            result.close();
+        } catch (SQLException x) {
+            System.out.println(x);
+        }
+        return loggedInUser;
+    }
 }
+

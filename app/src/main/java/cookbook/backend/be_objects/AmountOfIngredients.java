@@ -1,5 +1,4 @@
 package cookbook.backend.be_objects;
-
 /**
  * The AmountOfIngredients class represents the quantity of an ingredient, including its unit, amount, and name.
  */

@@ -1,154 +1,314 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.DatabaseMng;
+import cookbook.backend.be_controllers.UserController;
+import cookbook.backend.be_objects.AmountOfIngredients;
+import cookbook.backend.be_objects.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import java.sql.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 
-public class ShoppingListViewController {
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 
-    @FXML
-    private TableView<ShoppingIngredient> ingredientTable;
+/**
+ * Controller class for the Shopping List view. Handles the functionality of the shopping list.
+ */
 
-    @FXML
-    private TableColumn<ShoppingIngredient, String> ingredientColumn;
-
-    @FXML
-    private TableColumn<ShoppingIngredient, String> amountColumn;
-
-    @FXML
-    private TextField ingredientName;
+public class ShoppingListViewController implements Initializable {
 
     @FXML
-    private TextField amount;
-
+    private ListView<AmountOfIngredients> ingView;
     @FXML
-    private Button addIngredient;
-
-    private final ObservableList<ShoppingIngredient> ingredientList = FXCollections.observableArrayList();
-    private DatabaseMng dbManager = new DatabaseMng();
-    private int currentShoppingListId = -1;  // Default to -1, indicating no valid shopping list is selected
-
+    private Button deleteBtn;
     @FXML
-    public void initialize() {
-        ingredientColumn.setCellValueFactory(new PropertyValueFactory<>("ingredientName"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        ingredientTable.setItems(ingredientList);
-        initShoppingList(); // Initialize a valid shopping list ID
-        loadIngredients();    }
+    private Button modifyBtn;
+    @FXML
+    private Button amounttUp;
+    @FXML
+    private Button amounttDown;
+    @FXML
+    private Label currentIng;
+    @FXML
+    private Label amount_text;
 
-    private void initShoppingList() {
-      try (Connection conn = dbManager.getConnection();
-           Statement stmt = conn.createStatement()) {
-          ResultSet rs = stmt.executeQuery("SELECT MAX(ShoppingListID) as ShoppingListID FROM shopping_lists;");
-          if (rs.next()) {
-              currentShoppingListId = rs.getInt("ShoppingListID");
-              // Optionally create a new list if none exists:
-              if (currentShoppingListId == 0) { 
-              }
-          }
-      } catch (SQLException ex) {
-          System.err.println("Error initializing shopping list: " + ex.getMessage());
-      }
-  }
+    private LocalDate startDateglobal;
 
-  private void loadIngredients() {
-    if (currentShoppingListId != -1) {
-        String sql = "SELECT IngredientID, Quantity FROM shopping_list_items WHERE ShoppingListID = " + currentShoppingListId;
-        try (Connection conn = dbManager.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+    private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
+    private ObservableList<AmountOfIngredients> x = FXCollections.observableArrayList();
 
-            while (rs.next()) {
-                String ingName = rs.getString("IngredientID");
-                String qty = rs.getString("Quantity");
-                ingredientList.add(new ShoppingIngredient(ingName, qty));
-                // System.out.println("Loaded: " + ingName + " " + qty); // Comment out or remove this line
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error loading ingredients from database: " + ex.getMessage());
-        }
+    /**
+     * Clears the shopping list by removing all items from the list view and ingredients list.
+     */
+
+    private void clear() {
+        ingView.getItems().clear();
+        ingredients.clear();
     }
-}
 
-  
+    /**
+     * Returns a string representation of the shopping list.
+     *
+     * @return The string representation of the shopping list.
+     */
 
-    @FXML
-    void addIngredientToList(ActionEvent event) {
-        String name = ingredientName.getText();
-        String qty = amount.getText();
-        if (!name.isEmpty() && !qty.isEmpty() && currentShoppingListId != -1) {
-            if (validateOrAddIngredient(name)) {  // Ensure the ingredient is valid or added
-                ShoppingIngredient newIngredient = new ShoppingIngredient(name, qty);
-                ingredientList.add(newIngredient);
-                saveIngredientToDatabase(newIngredient);
-                ingredientName.clear();
-                amount.clear();
-            }
+    public String stringRep() {
+        StringBuilder s = new StringBuilder();
+        for (AmountOfIngredients Quantity : ingView.getItems()) {
+            s.append(Quantity.toData() + "\n");
         }
+        String outstring = s.toString();
+        return outstring;
     }
-    
-    private boolean validateOrAddIngredient(String ingredientName) {
-        try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM ingredients WHERE IngredientID = ?")) {
-            pstmt.setString(1, ingredientName);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;  // Ingredient exists
-            } else {
-                // Add ingredient if it doesn't exist
-                try (PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO ingredients (IngredientID, IngredientName) VALUES (?, ?)")) {
-                    insertStmt.setString(1, ingredientName);
-                    insertStmt.setString(2, ingredientName);  // Assuming IngredientName is the same as IngredientID for simplicity
-                    insertStmt.executeUpdate();
-                    return true;  // Ingredient added
+
+    /**
+     * Initializes the controller when the corresponding view is loaded.
+     * Clears the shopping list, sets up the list view cell factory, and adds a listener for item selection.
+     *
+     * @param location  The location used to resolve relative paths for the root object,
+     *                  or null if the location is not known.
+     * @param resources The resources used to localize the root object,
+     *                  or null if the root object was not localized.
+     */
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        clear();
+        ingView.setCellFactory(ingr -> new ShoppingListCellView());
+        ingView.setItems(ingredients);
+
+        ingView.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<AmountOfIngredients>() {
+                    @Override
+                    public void changed(ObservableValue<? extends AmountOfIngredients> ob, AmountOfIngredients oldQe, AmountOfIngredients newQe) {
+                        selectQe(newQe);
+                    }
+                });
+    }
+
+
+    /**
+     * Retrieves the shopping list and updates the view.
+     * Clears the ingredients list and adds ingredients from the shopping list,
+     * removing any duplicates.
+     *
+     * @param shoppingList The shopping list to display.
+     * @param ld           The start date for the shopping list.
+     */
+
+
+    public void getShoppingList(ObservableList<AmountOfIngredients> shoppingList, LocalDate ld) {
+        startDateglobal = ld;
+
+        // Clear the ingredients list
+        ingredients.clear();
+
+        // Iterate over the shoppingList and add ingredients to the ingredients list,
+        // checking for duplicates and keeping only one occurrence
+        for (AmountOfIngredients ingredient : shoppingList) {
+            boolean isDuplicate = false;
+            for (AmountOfIngredients existingIngredient : ingredients) {
+                if (ingredient.getName().equals(existingIngredient.getName())) {
+                    isDuplicate = true;
+                    break;
                 }
             }
-        } catch (SQLException ex) {
-            System.err.println("Error validating or adding ingredient: " + ex.getMessage());
-            return false;
+            if (!isDuplicate) {
+                ingredients.add(ingredient);
+            }
         }
-    }
-    
 
-    private void saveIngredientToDatabase(ShoppingIngredient ingredient) {
-        String sql = "INSERT INTO shopping_list_items (ShoppingListID, IngredientID, Quantity) VALUES (?, ?, ?)";
-        try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, currentShoppingListId);
-            pstmt.setString(2, ingredient.getIngredientName());
-            pstmt.setString(3, ingredient.getAmount());
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            System.err.println("Error saving ingredient to database: " + ex.getMessage());
-        }
+        // Update the ingView with the updated ingredients list
+        ingView.setItems(ingredients);
     }
 
+    /**
+     * Selects a quantity ingredient and updates the displayed information.
+     *
+     * @param quantity The selected quantity ingredient.
+     */
 
-  
-
-    public static class ShoppingIngredient {
-        private final String ingredientName;
-        private final String amount;
-
-        public ShoppingIngredient(String ingredientName, String amount) {
-            this.ingredientName = ingredientName;
-            this.amount = amount;
+    public void selectQe(AmountOfIngredients quantity) {
+        if (quantity != null){
+            amount_text.setText(String.valueOf(quantity.getAmount()));
+            currentIng.setText(quantity.getName());
+        } else {
+            return;
         }
+    }
 
-        public String getIngredientName() {
-            return ingredientName;
+    /**
+     * Handles the action when the Modify button is clicked.
+     * Modifies the selected quantity ingredient's amount and updates the view.
+     */
+
+    @FXML
+    public void onModifyBtn(ActionEvent event) {
+        AmountOfIngredients quantity = ingView.getSelectionModel().getSelectedItem();
+        if (quantity == null) {
+            return;
+        } else {
+            quantity.setAmount(Float.valueOf(amount_text.getText()));
+            ingView.setItems(x);
+            ingView.setItems(ingredients);
+            save();
         }
+    }
 
-        public String getAmount() {
-            return amount;
+    /**
+     * Handles the action when the Delete button is clicked.
+     * Deletes the selected quantity ingredient from the list and updates the view.
+     */
+
+
+    @FXML
+    public void onDeleteBtn (ActionEvent event) {
+        AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
+        if (qe == null) {
+            return;
+        } else {
+            ingredients.remove(qe);
+            ingView.setItems(x);
+            ingView.setItems(ingredients);
+            save();
+        }
+    }
+
+    /**
+     * Handles the action when the Up button is clicked.
+     * Increases the amount of the selected quantity ingredient by 1 and updates the view.
+     */
+
+    @FXML
+    public void onUpButton(ActionEvent event) {
+        AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
+        if (qe == null) {
+            return;
+        } else {
+            Float currentAmt = Float.valueOf(amount_text.getText());
+            String newAmt = String.valueOf(currentAmt+1);
+            amount_text.setText(newAmt);
+        }
+    }
+
+    /**
+     * Handles the action when the Down button is clicked.
+     * Decreases the amount of the selected quantity ingredient by 1 and updates the view.
+     * The amount cannot be negative.
+     */
+
+    @FXML
+    public void onDownButton(ActionEvent event) {
+        AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
+        if (qe == null) {
+            return;
+        } else {
+            Float currentAmt = Float.valueOf(amount_text.getText());
+            if (currentAmt > 0) {
+                String newAmt = String.valueOf(currentAmt-1);
+                amount_text.setText(newAmt);
+            } else {
+                amount_text.setText("0");
+            }
+        }
+    }
+
+    /**
+     * Saves the shopping list to a file.
+     * The file is named based on the start date and user ID.
+     */
+
+    public void save() {
+        String pathdate = startDateglobal.toString();
+        User user = UserController.loggedInUser;
+        Long userId = user.getUserId();
+        String basePath = "generatedDinnerList";
+        String folderPath = basePath + "/" + userId;
+        String fullPath = folderPath + "/" + pathdate + ".data";
+
+        try {
+            File folder = new File(folderPath);
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            File file = new File(fullPath);
+            file.createNewFile();
+
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+            BufferedWriter bwriter = new BufferedWriter(out);
+            bwriter.write(stringRep());
+            bwriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Reads the shopping list from a file.
+     * The file is located based on the start date and user ID.
+     * Returns the list of quantity ingredients read from the file.
+     * Returns null if the file does not exist or an error occurs.
+     */
+
+    public List<AmountOfIngredients> read() {
+        String datePath = startDateglobal.toString();
+        User user = UserController.loggedInUser;
+        Long userId = user.getUserId();
+        String basePath = "generatedDinnerList";
+        String fullPath = basePath + "/" + userId + "/" + datePath + ".data";
+
+        List<AmountOfIngredients> x = new ArrayList<>();
+
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fullPath);
+            if (inputStream != null) {
+                Scanner scanner = new Scanner(inputStream, "utf-8");
+
+                if (!scanner.hasNextLine()) {
+                    scanner.close();
+                    return null;
+                }
+
+                String line = scanner.nextLine();
+                String[] data = line.split(":");
+                if (!data[0].equals("INGREDIENT")) {
+                    scanner.close();
+                    return null;
+                }
+
+                AmountOfIngredients ingredient = new AmountOfIngredients(data[2], Float.valueOf(data[1]), data[3]);
+                x.add(ingredient);
+
+                while (scanner.hasNext()) {
+                    String ingredientLine = scanner.nextLine();
+                    data = ingredientLine.split(":");
+
+                    if (data[0].equals("INGREDIENT")) {
+                        ingredient = new AmountOfIngredients(data[2], Float.valueOf(data[1]), data[3]);
+                        x.add(ingredient);
+                    }
+                }
+                scanner.close();
+                return x;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

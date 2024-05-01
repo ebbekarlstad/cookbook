@@ -3,15 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="shoppingPage" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShoppingListViewController">
    <children>
-      <Label contentDisplay="CENTER" layoutX="32.0" layoutY="22.0" prefHeight="62.0" prefWidth="411.0" text="Shopping List" textFill="#db5442" AnchorPane.leftAnchor="32.0">
+      <Label contentDisplay="CENTER" layoutX="-11.0" layoutY="45.0" prefHeight="62.0" prefWidth="411.0" text="Shopping List" textFill="#db5442" AnchorPane.leftAnchor="-11.0">
          <font>
             <Font name="Times New Roman Bold" size="42.0" />
          </font>
@@ -19,17 +18,48 @@
             <Insets left="150.0" />
          </padding>
       </Label>
-      <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="14.0" layoutY="97.0" prefHeight="496.0" prefWidth="389.0">
-         <columns>
-            <TableColumn fx:id="ingredientColumn" prefWidth="256.79998779296875" text="Ingredient Name" />
-            <TableColumn fx:id="amountColumn" prefWidth="131.20001220703125" text="Amount" />
-         </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <TextField fx:id="ingredientName" layoutX="418.0" layoutY="143.0" prefHeight="32.0" prefWidth="180.0" promptText="Ingredient name" style="-fx-border-color: #5499C7;" />
-      <TextField fx:id="amount" layoutX="607.0" layoutY="143.0" prefHeight="32.0" prefWidth="120.0" promptText="Amount" style="-fx-border-color: #5499C7;" />
-      <Button fx:id="addIngredient" layoutX="417.0" layoutY="183.0" mnemonicParsing="false" onAction="#addIngredientToList" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #FFA500;" text="Add Ingredient" />
+      <Pane layoutX="98.0" layoutY="187.0" prefHeight="265.0" prefWidth="345.0">
+         <children>
+            <Button layoutX="178.0" layoutY="229.0" mnemonicParsing="false" onAction="#onDeleteBtn" prefHeight="37.0" prefWidth="170.0" style="-fx-border-color: #5499C7;" text="DELETE" textFill="#2f2d2d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="-1.0" layoutY="229.0" mnemonicParsing="false" onAction="#onModifyBtn" prefHeight="37.0" prefWidth="170.0" style="-fx-border-color: #5499C7;" text="MODIFY" textFill="#2c2929">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Label prefHeight="51.0" prefWidth="345.0" style="-fx-border-style: solid; -fx-border-color: #5499C7; -fx-background-color: white;" text="Amount">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="140.0" />
+               </padding>
+            </Label>
+            <Button layoutX="221.0" layoutY="96.0" mnemonicParsing="false" onAction="#onUpButton" prefHeight="37.0" prefWidth="66.0" style="-fx-border-color: #5499C7;" text="+">
+               <font>
+                  <Font name="Poppins" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="59.0" layoutY="96.0" mnemonicParsing="false" onAction="#onDownButton" prefHeight="37.0" prefWidth="66.0" style="-fx-border-color: #5499C7;" text="-">
+               <font>
+                  <Font name="Poppins" size="15.0" />
+               </font>
+            </Button>
+            <Label fx:id="currentIng" alignment="CENTER" layoutX="-3.0" layoutY="164.0" prefHeight="51.0" prefWidth="351.0" style="-fx-border-color: #5499C7; -fx-background-color: white;" styleClass="-fx-border-color">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="amount_text" alignment="CENTER" contentDisplay="CENTER" layoutX="140.0" layoutY="96.0" prefHeight="37.0" prefWidth="66.0" style="-fx-border-color: #5499C7; -fx-background-color: white;">
+               <font>
+                  <Font name="Poppins" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ListView fx:id="ingView" editable="true" layoutX="472.0" layoutY="45.0" prefHeight="510.0" prefWidth="292.0" style="-fx-border-color: #5499C7;" />
    </children>
 </AnchorPane>
