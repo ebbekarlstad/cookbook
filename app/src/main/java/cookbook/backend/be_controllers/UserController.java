@@ -43,31 +43,33 @@ public class    UserController {
     }
   }
 
-    public static User searchForUser(String UserName, String Password) throws SQLException {
+  // For later when logged in user has been implemented.
 
-        String query = "SELECT * FROM user WHERE username=(?) AND password=(?) LIMIT 1;";
-
-        // If theres no user with that information, return null.
-        loggedInUser = null;
-        Connection conn = DriverManager
-                .getConnection("jdbc:mysql://localhost/cookbook?user=root&password=root&useSSL=false");
-
-        try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-            sqlStatement.setString(1, UserName);
-            sqlStatement.setString(2, Password);
-            ResultSet result = sqlStatement.executeQuery();
-            if (result.next()) {
-                loggedInUser = new User(
-                        result.getLong("UserID"),
-                        result.getString("Username"),
-                        result.getString("password"),
-                        result.getBoolean("IsAdmin"));
-            }
-            result.close();
-        } catch (SQLException x) {
-            System.out.println(x);
-        }
-        return loggedInUser;
-    }
+//    public static User searchForUser(String UserName, String Password) throws SQLException {
+//
+//        String query = "SELECT * FROM user WHERE username=(?) AND password=(?) LIMIT 1;";
+//
+//        // If theres no user with that information, return null.
+//        loggedInUser = null;
+//        Connection conn = DriverManager
+//                .getConnection("jdbc:mysql://localhost/cookbook?user=root&password=root&useSSL=false");
+//
+//        try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+//            sqlStatement.setString(1, UserName);
+//            sqlStatement.setString(2, Password);
+//            ResultSet result = sqlStatement.executeQuery();
+//            if (result.next()) {
+//                loggedInUser = new User(
+//                        result.getLong("UserID"),
+//                        result.getString("Username"),
+//                        result.getString("password"),
+//                        result.getBoolean("IsAdmin"));
+//            }
+//            result.close();
+//        } catch (SQLException x) {
+//            System.out.println(x);
+//        }
+//        return loggedInUser;
+//    }
 }
 

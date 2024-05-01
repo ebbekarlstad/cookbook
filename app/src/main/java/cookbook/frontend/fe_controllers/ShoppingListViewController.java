@@ -182,7 +182,7 @@ public class ShoppingListViewController implements Initializable {
 
     public void save() {
         String pathdate = startDateglobal.toString();
-        User user = UserController.loggedInUser;
+//        User user = UserController.loggedInUser; // needs to be fixed later.
         Long userId = user.getUserId();
         String basePath = "generatedDinnerList";
         String folderPath = basePath + "/" + userId;
@@ -209,7 +209,7 @@ public class ShoppingListViewController implements Initializable {
 
     public List<AmountOfIngredients> read() {
         String datePath = startDateglobal.toString();
-        User user = UserController.loggedInUser;
+//        User user = UserController.loggedInUser; // needs to be fixed later.
         Long userId = user.getUserId();
         String basePath = "generatedDinnerList";
         String fullPath = basePath + "/" + userId + "/" + datePath + ".data";
