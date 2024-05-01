@@ -50,13 +50,13 @@ public class UserController {
   // Method to get all users from the database.
   public List<User> getAllUsers() {
     List<User> users = new ArrayList<>();
-    String sql = "SELECT id, name FROM users"; // Adjust SQL as needed
+    String sql = "SELECT UserID, DisplayName FROM users"; // Adjust SQL as needed
     try (Connection conn = this.dbManager.getConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql)) {
 
         while (rs.next()) {
-          User user = new User(rs.getLong("id"), rs.getString("name"), sql, sql, null, dbManager, sql);
+          User user = new User(rs.getLong("UserID"), rs.getString("DisplayName"), sql, sql, null, dbManager, sql);
           users.add(user);
         }
     } catch (SQLException e) {
