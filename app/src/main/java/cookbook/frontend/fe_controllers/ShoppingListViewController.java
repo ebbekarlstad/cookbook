@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-/**
- * Controller class for the Shopping List view. Handles the functionality of the shopping list.
- */
 
 public class ShoppingListViewController implements Initializable {
 
@@ -73,15 +70,6 @@ public class ShoppingListViewController implements Initializable {
         return outstring;
     }
 
-    /**
-     * Initializes the controller when the corresponding view is loaded.
-     * Clears the shopping list, sets up the list view cell factory, and adds a listener for item selection.
-     *
-     * @param location  The location used to resolve relative paths for the root object,
-     *                  or null if the location is not known.
-     * @param resources The resources used to localize the root object,
-     *                  or null if the root object was not localized.
-     */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,15 +86,6 @@ public class ShoppingListViewController implements Initializable {
                 });
     }
 
-
-    /**
-     * Retrieves the shopping list and updates the view.
-     * Clears the ingredients list and adds ingredients from the shopping list,
-     * removing any duplicates.
-     *
-     * @param shoppingList The shopping list to display.
-     * @param ld           The start date for the shopping list.
-     */
 
 
     public void getShoppingList(ObservableList<AmountOfIngredients> shoppingList, LocalDate ld) {
@@ -134,11 +113,6 @@ public class ShoppingListViewController implements Initializable {
         ingView.setItems(ingredients);
     }
 
-    /**
-     * Selects a quantity ingredient and updates the displayed information.
-     *
-     * @param quantity The selected quantity ingredient.
-     */
 
     public void selectQe(AmountOfIngredients quantity) {
         if (quantity != null){
@@ -148,11 +122,6 @@ public class ShoppingListViewController implements Initializable {
             return;
         }
     }
-
-    /**
-     * Handles the action when the Modify button is clicked.
-     * Modifies the selected quantity ingredient's amount and updates the view.
-     */
 
     @FXML
     public void onModifyBtn(ActionEvent event) {
@@ -167,12 +136,6 @@ public class ShoppingListViewController implements Initializable {
         }
     }
 
-    /**
-     * Handles the action when the Delete button is clicked.
-     * Deletes the selected quantity ingredient from the list and updates the view.
-     */
-
-
     @FXML
     public void onDeleteBtn (ActionEvent event) {
         AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
@@ -186,10 +149,6 @@ public class ShoppingListViewController implements Initializable {
         }
     }
 
-    /**
-     * Handles the action when the Up button is clicked.
-     * Increases the amount of the selected quantity ingredient by 1 and updates the view.
-     */
 
     @FXML
     public void onUpButton(ActionEvent event) {
@@ -203,11 +162,6 @@ public class ShoppingListViewController implements Initializable {
         }
     }
 
-    /**
-     * Handles the action when the Down button is clicked.
-     * Decreases the amount of the selected quantity ingredient by 1 and updates the view.
-     * The amount cannot be negative.
-     */
 
     @FXML
     public void onDownButton(ActionEvent event) {
@@ -225,10 +179,6 @@ public class ShoppingListViewController implements Initializable {
         }
     }
 
-    /**
-     * Saves the shopping list to a file.
-     * The file is named based on the start date and user ID.
-     */
 
     public void save() {
         String pathdate = startDateglobal.toString();
@@ -248,20 +198,14 @@ public class ShoppingListViewController implements Initializable {
             file.createNewFile();
 
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-            BufferedWriter bwriter = new BufferedWriter(out);
-            bwriter.write(stringRep());
-            bwriter.close();
+            BufferedWriter bWriter = new BufferedWriter(out);
+            bWriter.write(stringRep());
+            bWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Reads the shopping list from a file.
-     * The file is located based on the start date and user ID.
-     * Returns the list of quantity ingredients read from the file.
-     * Returns null if the file does not exist or an error occurs.
-     */
 
     public List<AmountOfIngredients> read() {
         String datePath = startDateglobal.toString();
