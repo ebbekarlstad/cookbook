@@ -2,7 +2,9 @@ package cookbook.backend.be_controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.*;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.CommentObject;
@@ -14,6 +16,21 @@ public class CommentController {
   public CommentController(DatabaseMng dbManager) {
     this.dbManager = dbManager; // Assign the passed instance to the dbManager field
   }
+
+  public List<String> fetchComments(String recipeId) {
+    List<String> comments = new ArrayList<>();
+    String sql = "SELECT Text FROM comments WHERE RecipeID = ?";
+    try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, recipeId);
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            comments.add(rs.getString("Text"));
+        }
+    } catch (SQLException e) {
+        System.err.println("Database error during fetching comments: " + e.getMessage());
+    }
+    return comments;
+}
 
   public boolean addComment(CommentObject commentObj){
     String sql = "INSERT INTO comments (RecipeID, UserID, Text, Timestamp) VALUES (?, ?, ?, ?)";
