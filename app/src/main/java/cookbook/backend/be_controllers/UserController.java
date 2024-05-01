@@ -4,6 +4,12 @@ import cookbook.backend.DatabaseMng;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.sql.Statement; 
+import java.sql.ResultSet;
+
 
 public class UserController {
   private DatabaseMng dbManager;
@@ -39,5 +45,24 @@ public class UserController {
         System.err.println("Database error during user insertion: " + e.getMessage());
         return false;
     }
+  }
+
+  // Method to get all users from the database.
+  public List<User> getAllUsers() {
+    List<User> users = new ArrayList<>();
+    String sql = "SELECT id, name FROM users"; // Adjust SQL as needed
+    try (Connection conn = this.dbManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+          User user = new User(rs.getLong("id"), rs.getString("name"), sql, sql, null, dbManager, sql);
+          users.add(user);
+        }
+    } catch (SQLException e) {
+      System.err.println("Error retrieving users: " + e.getMessage());
+      return Collections.emptyList();
+    }
+    return users;
   }
 }
