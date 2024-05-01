@@ -1,14 +1,12 @@
 package cookbook.frontend.fe_controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Recipe;
 import javafx.event.ActionEvent;
+import java.util.*;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,18 +41,19 @@ public class RecipeDetailsViewController {
     }
     
     DatabaseMng myDbManager;
+    
     private FavoritesController favoritesController = new FavoritesController(myDbManager); 
+    
     public void initData(Recipe recipe) {
         this.recipe = recipe;
-        // Set the recipe information in your controls
+        // Set the recipe information
         titleLabel.setText(recipe.getRecipeName());
         shortLabel.setText(recipe.getShortDesc());
         longLabel.setText(recipe.getDetailedDesc());
 
         this.recipeId = recipe.getId();
-        System.out.println("InitData - UserId: " + this.userId); 
+        loadComments();
     }
-
 
     private CommentController commentController;
 
@@ -63,17 +62,20 @@ public class RecipeDetailsViewController {
         myDbManager = new DatabaseMng();
         this.commentController = new CommentController(myDbManager);  
         favoritesController = new FavoritesController(myDbManager); 
-       
-
-       
     }
     
+    private void loadComments() {
+        List<String> comments = commentController.fetchComments(this.recipeId);
+        commentsListView.getItems().setAll(comments); // Clears existing items and adds all fetched comments
+    }
+
     @FXML
     private ListView<String> commentsListView;  // List to display comments
-    private List<Integer> commentIdList = new ArrayList<>();
 
     @FXML
     private TextField commentInput;  // Input field for comments
+
+    private String currentCommentText;
 
     @FXML
     private void addComment(ActionEvent event) {
@@ -111,34 +113,29 @@ public class RecipeDetailsViewController {
     private void editComment(ActionEvent event) {
         int selectedIndex = commentsListView.getSelectionModel().getSelectedIndex();
         if (selectedIndex != -1) {
-            // Check if the text box is already loaded with the selected comment for editing
-            if (commentInput.getText().equals(commentsListView.getItems().get(selectedIndex))) {
-                // User has edited the comment and is ready to update
-                String updatedCommentText = commentInput.getText().trim();
-            
-                int commentId = getCommentIdByIndex(selectedIndex); 
-
-                if (commentController.editComment(commentId, updatedCommentText)) {
-                    commentsListView.getItems().set(selectedIndex, updatedCommentText);
-                    commentInput.clear();
-                    System.out.println("Comment updated successfully.");
-                } else {
-                    System.out.println("Failed to update comment.");
-                }
-            } else {
-                // Load the selected comment into the text box for editing
-                commentInput.setText(commentsListView.getItems().get(selectedIndex));
-            }
+            currentCommentText = commentsListView.getItems().get(selectedIndex);
+            commentInput.setText(currentCommentText); // Set the text of the selected comment into the text field for editing
         } else {
             System.out.println("No comment selected.");
         }
     }
 
-    private int getCommentIdByIndex(int index) {
-        if (index >= 0 && index < commentIdList.size()) {
-            return commentIdList.get(index);
+    @FXML
+    public void updateComment(ActionEvent event) {
+        String newCommentText = commentInput.getText().trim();
+        if (!newCommentText.isEmpty() && !newCommentText.equals(currentCommentText)) {
+            if (commentController.updateComment(currentCommentText, newCommentText)) {
+                int selectedIndex = commentsListView.getSelectionModel().getSelectedIndex();
+                if (selectedIndex != -1) {
+                    commentsListView.getItems().set(selectedIndex, newCommentText); // Update the comment in the ListView
+                    commentInput.clear(); // Clear the text field after updating
+                    System.out.println("Comment updated successfully.");
+                }
+            } else {
+                System.out.println("Failed to update comment.");
+            }
         } else {
-            throw new IndexOutOfBoundsException("Index out of bounds for comment ID list");
+            System.out.println("No changes made to the comment.");
         }
     }
 
