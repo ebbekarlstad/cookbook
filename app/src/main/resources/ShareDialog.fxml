@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShareDialogController">
+    <Label text="Share Recipe"/>
+    <ComboBox fx:id="recipientComboBox" promptText="Select a recipient"/>
+    <TextField fx:id="messageField" promptText="Add a message"/>
+    <Button text="Send" onAction="#sendShare"/>
+</VBox>
