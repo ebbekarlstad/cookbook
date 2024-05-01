@@ -6,6 +6,7 @@ import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Recipe;
 import javafx.event.ActionEvent;
+import java.util.*;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,18 +41,19 @@ public class RecipeDetailsViewController {
     }
     
     DatabaseMng myDbManager;
+    
     private FavoritesController favoritesController = new FavoritesController(myDbManager); 
+    
     public void initData(Recipe recipe) {
         this.recipe = recipe;
-        // Set the recipe information in your controls
+        // Set the recipe information
         titleLabel.setText(recipe.getRecipeName());
         shortLabel.setText(recipe.getShortDesc());
         longLabel.setText(recipe.getDetailedDesc());
 
         this.recipeId = recipe.getId();
-        System.out.println("InitData - UserId: " + this.userId); 
+        loadComments();
     }
-
 
     private CommentController commentController;
 
@@ -60,11 +62,13 @@ public class RecipeDetailsViewController {
         myDbManager = new DatabaseMng();
         this.commentController = new CommentController(myDbManager);  
         favoritesController = new FavoritesController(myDbManager); 
-       
-
-       
     }
     
+    private void loadComments() {
+        List<String> comments = commentController.fetchComments(this.recipeId);
+        commentsListView.getItems().setAll(comments); // Clears existing items and adds all fetched comments
+    }
+
     @FXML
     private ListView<String> commentsListView;  // List to display comments
 
