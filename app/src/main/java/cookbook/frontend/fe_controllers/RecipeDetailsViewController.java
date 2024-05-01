@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -33,7 +34,9 @@ public class RecipeDetailsViewController {
     private Label shortLabel; // Label for the short description.
     @FXML
     private Label longLabel; // Label for the detailed description.
-    //favorit attribute
+
+    @FXML
+    private Button shareRecipeButton;
     
     public void setUserId(Long userId) {
         this.userId = userId;
@@ -153,6 +156,22 @@ public class RecipeDetailsViewController {
           e.printStackTrace();
         }
       }
+		
+		// When user clicks share recipe.
+		public void shareRecipe(ActionEvent event) {
+			try {
+				//Load the navigation page FXML
+				Parent sharePageParent = FXMLLoader.load(getClass().getResource("/ShareDialog.fxml"));
+				Scene sharePageScene = new Scene(sharePageParent);
+	
+				// Get the current stage and replace it
+				Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+				window.setScene(sharePageScene);
+				window.show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
       @FXML
       public void addToFavorites(ActionEvent event) {

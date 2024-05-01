@@ -86,6 +86,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <Button fx:id="shareRecipeButton" onAction="#shareRecipe" layoutX="657.0" layoutY="17.0" mnemonicParsing="false" text="Share Recipe" />
             
          </children>
         </AnchorPane>

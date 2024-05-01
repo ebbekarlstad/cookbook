@@ -18,6 +18,27 @@ public class DatabaseSeeder {
         }
     }
 
+
+		public void seedMessages() {
+			String dropTableSql = "DROP TABLE IF EXISTS `messages`;";
+			String createTableSQL = "CREATE TABLE `messages` ("
+					+ "`message_id` BIGINT AUTO_INCREMENT PRIMARY KEY,"
+					+ "`sender_id` INT NOT NULL,"
+					+ "`receiver_id` INT NOT NULL,"
+					+ "`recipe_id` VARCHAR(255) NOT NULL,"
+					+ "`content` TEXT,"
+					+ "`sent_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+					+ "FOREIGN KEY (`recipe_id`) REFERENCES `recipes`(`RecipeID`),"
+					+ "FOREIGN KEY (`sender_id`) REFERENCES `users`(`UserID`),"
+					+ "FOREIGN KEY (`receiver_id`) REFERENCES `users`(`UserID`)"
+					+ ");";
+		
+			seedTable(dropTableSql);
+			seedTable(createTableSQL);
+		}
+		
+	
+
     // Seeding the Users table
     public void seedUsers() {
         String dropTableSQL = "DROP TABLE IF EXISTS `users`;";
@@ -34,10 +55,14 @@ public class DatabaseSeeder {
         // Inserts a new user with username 'user' and password 'user'
         String seedUserValues = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
             + "VALUES ('user', 'User', '4f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 0);";
-            
+
+				String seedUser2Values = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
+            + "VALUES ('testuser', 'testuser', '4f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 0);";
+
             seedTable(dropTableSQL);
             seedTable(createTableSQL);
             seedTable(seedUserValues);
+						seedTable(seedUser2Values);
     }
 
     public void seedRecipes() {
@@ -475,6 +500,7 @@ public class DatabaseSeeder {
         seeder.seedShoppingListItems();
         seeder.seedSentRecipes();
         seeder.seedHelpSystem();
+				seeder.seedMessages();
         
         // Call other seed functions here
     }
