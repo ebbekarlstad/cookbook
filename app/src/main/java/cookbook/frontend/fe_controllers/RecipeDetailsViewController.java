@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class RecipeDetailsViewController {
@@ -156,19 +157,25 @@ public class RecipeDetailsViewController {
 		
 		// When user clicks share recipe.
 		public void shareRecipe(ActionEvent event) {
-			try {
-				//Load the navigation page FXML
-				Parent sharePageParent = FXMLLoader.load(getClass().getResource("/ShareDialog.fxml"));
-				Scene sharePageScene = new Scene(sharePageParent);
-	
-				// Get the current stage and replace it
-				Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-				window.setScene(sharePageScene);
-				window.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+            try {
+                // Load the ShareDialog FXML and get the controller
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShareDialog.fxml"));
+                Parent sharePageParent = loader.load();
+                ShareDialogController shareDialogController = loader.getController();
+        
+                // Pass the recipe data to the ShareDialogController
+                shareDialogController.initData(this.recipe);
+        
+                // Create a new stage (window)
+                Stage shareStage = new Stage();
+                shareStage.setTitle("Share Recipe");
+                shareStage.setScene(new Scene(sharePageParent));
+                shareStage.initModality(Modality.APPLICATION_MODAL); // This will make it so user cant interact with old window
+                shareStage.show(); // Showw the new stage
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
       @FXML
       public void addToFavorites(ActionEvent event) {
