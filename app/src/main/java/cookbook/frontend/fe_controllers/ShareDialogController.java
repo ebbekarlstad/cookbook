@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import cookbook.backend.DatabaseMng;
 
 import cookbook.backend.be_objects.Message;
+import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_controllers.MessageController;
 
 public class ShareDialogController {
@@ -27,13 +28,21 @@ public class ShareDialogController {
   @FXML
   private ComboBox<User> recipientComboBox;
   
+  @FXML
+  private TextField messageField;
+
   private Long senderId;
   private Long receiverId;
   private String recipeId;
-  private String content; 
+  private String content;
 
-  @FXML
-  private TextField messageField;
+  Recipe recipe;
+
+  public void initData(Recipe recipe) {
+    this.recipe = recipe;
+    this.recipeId = recipe.getId(); // Store the recipe ID
+  }
+
 
   @FXML
   public void sendShare(ActionEvent event) {
@@ -44,7 +53,7 @@ public class ShareDialogController {
       message.setMessageId((long) 1);
       message.setSenderId((long) 1);
       message.setReceiverId((long) 2);
-      message.setRecipeId("1");
+      message.setRecipeId(getRecipeId());
       message.setContent(getContent());
       message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
 
@@ -62,6 +71,10 @@ public class ShareDialogController {
 
   private String getContent() {
     return messageField.getText();
+  }
+
+  private String getRecipeId() {
+    return recipeId;
   }
 
   @FXML
