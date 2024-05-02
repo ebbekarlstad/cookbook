@@ -13,7 +13,7 @@ import cookbook.backend.be_objects.Recipe;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+
 public class WeeklyViewController {
      @FXML
     private TableView<Map.Entry<String, List<Recipe>>> weeklyListView;
@@ -84,13 +84,10 @@ public class WeeklyViewController {
         ));
     }
 
-
-
     private void loadRecipe() {
         Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(1);
         ObservableList<Map.Entry<String, List<Recipe>>> items = FXCollections.observableArrayList(weeklyRecipes.entrySet());
         weeklyListView.setItems(items);
     }
- 
 
 }
