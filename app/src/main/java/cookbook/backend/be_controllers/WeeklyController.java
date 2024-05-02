@@ -49,37 +49,36 @@ public class WeeklyController {
           return weeklyRecipes;
      }
 
-     // Ändrade lite i metoden ovan, så de under kanske inte gäller, behöver göras om
 
-  // public boolean addWeeklyRecipe(int userId, String recipeId, String dayOfWeek) {
-  //   String sql = "INSERT INTO weekly_recipes (user_id, recipe_id, day_of_week) Values (?, ?, ?)";
-  //   try (Connection conn = dbManager.getConnection();
-  //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-  //         pstmt.setInt(1, userId);
-  //         pstmt.setString(2, recipeId);
-  //         pstmt.setString(3, dayOfWeek);
-  //         int affectedRows = pstmt.executeUpdate();
-  //         return affectedRows > 0;
-  //       } catch (SQLException e) {
-  //         System.out.println("Error adding weekly recipe: " + e.getMessage());
-  //         return false;
-  //       }
-  //  }
+  public boolean addWeeklyRecipe(int userId, String recipeId, String dayOfWeek) {
+    String sql = "INSERT INTO weekly_recipes (user_id, recipe_id, day_of_week) Values (?, ?, ?)";
+    try (Connection conn = dbManager.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setInt(1, userId);
+          pstmt.setString(2, recipeId);
+          pstmt.setString(3, dayOfWeek);
+          int affectedRows = pstmt.executeUpdate();
+          return affectedRows > 0;
+        } catch (SQLException e) {
+          System.out.println("Error adding weekly recipe: " + e.getMessage());
+          return false;
+        }
+   }
 
 
-  //  public boolean deleteWeeklyRecipe(int userId, String recipeId) {
-  //   String sql = "DELETE FROM weekly_recipes WHERE user_id = ? AND recipe_id = ?";
-  //   try (Connection conn = dbManager.getConnection();
-  //     PreparedStatement pstmt = conn.prepareStatement(sql)) {
-  //       pstmt.setInt(1, userId);
-  //       pstmt.setString(2, recipeId);
-  //       int affectedRows = pstmt.executeUpdate();
-  //       return affectedRows > 0;
-  //    } catch (SQLException e) {
-  //     System.out.println("Error removing weekly recipe: " + e.getMessage());
-  //     return false;
-  //    }
-  // }
+   public boolean deleteWeeklyRecipe(int userId, String recipeId) {
+    String sql = "DELETE FROM weekly_recipes WHERE user_id = ? AND recipe_id = ?";
+    try (Connection conn = dbManager.getConnection();
+      PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, recipeId);
+        int affectedRows = pstmt.executeUpdate();
+        return affectedRows > 0;
+     } catch (SQLException e) {
+      System.out.println("Error removing weekly recipe: " + e.getMessage());
+      return false;
+     }
+  }
 
   }
   
