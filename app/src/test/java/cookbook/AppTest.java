@@ -135,4 +135,3 @@ class AppTest {
     //     assertFalse(recipes.stream().anyMatch(r -> r.getId().equals(recipeId)), "Recipe should be removed from weekly");
 
     }
-}

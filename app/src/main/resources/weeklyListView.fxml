@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="weeklyListView" layoutY="115.0" prefHeight="422.0" prefWidth="657.0">
+        <columns>
+          <TableColumn fx:id="mondayColumn" maxWidth="66.0" minWidth="-1.0" prefWidth="100.0" text="Monday" />
+          <TableColumn fx:id="tuesdayColumn" prefWidth="100.0" text="Tuesday" />
+            <TableColumn fx:id="wednesdayColumn" prefWidth="100.0" text="Wednesday" />
+            <TableColumn fx:id="thursdayColumn" prefWidth="100.0" text="Thursday" />
+            <TableColumn fx:id="fridayColumn" prefWidth="100.0" text="Friday" />
+            <TableColumn fx:id="SaturdayColumn" prefWidth="100.0" text="Saturday" />
+            <TableColumn fx:id="sundayColumn" prefWidth="100.0" text="Sunday" />
+        </columns>
+      </TableView>
+      <MenuBar layoutY="1.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</Pane>
