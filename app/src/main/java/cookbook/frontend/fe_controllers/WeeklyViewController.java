@@ -13,12 +13,19 @@ import cookbook.backend.be_objects.Recipe;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 public class WeeklyViewController {
      @FXML
     private TableView<Map.Entry<String, List<Recipe>>> weeklyListView;
 
     @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> mondayColumn;
+    private TableColumn<Map.Entry<String, List<Recipe>>, String> tuesdayColumn;
+    private TableColumn<Map.Entry<String, List<Recipe>>, String> wednesdayColumn;
+    private TableColumn<Map.Entry<String, List<Recipe>>, String> thursdayColumn;
+    private TableColumn<Map.Entry<String, List<Recipe>>, String> fridayColumn;
+    private TableColumn<Map.Entry<String, List<Recipe>>, String> saturdayColumn;
+    private TableColumn<Map.Entry<String, List<Recipe>>, String> sundayColumn;
     
     private WeeklyController weeklyController;
     private DatabaseMng dbManager = new DatabaseMng();
@@ -39,7 +46,18 @@ public class WeeklyViewController {
         mondayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
         ));
+    
+        tuesdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
+        ));
+    
+        wednesdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
+        ));
+        //rest of the week
     }
+
+
 
     private void loadRecipe() {
         Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(1);
