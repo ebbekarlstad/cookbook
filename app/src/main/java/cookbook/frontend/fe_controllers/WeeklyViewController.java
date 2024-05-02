@@ -20,11 +20,23 @@ public class WeeklyViewController {
 
     @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> mondayColumn;
+
+    @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> tuesdayColumn;
+
+    @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> wednesdayColumn;
+
+    @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> thursdayColumn;
+
+    @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> fridayColumn;
+
+    @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> saturdayColumn;
+
+    @FXML
     private TableColumn<Map.Entry<String, List<Recipe>>, String> sundayColumn;
     
     private WeeklyController weeklyController;
@@ -45,16 +57,33 @@ public class WeeklyViewController {
     private void setupTableView() {
         mondayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        ));
+        )));
     
         tuesdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        ));
+        )));
     
         wednesdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        ));
-        //rest of the week
+        )));
+        
+        thursdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
+        )));
+
+        fridayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
+        )));
+
+        saturdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
+        )));
+
+        sundayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+            cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
+        )));
+
+
     }
 
 
