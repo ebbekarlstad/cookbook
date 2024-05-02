@@ -57,33 +57,31 @@ public class WeeklyViewController {
     private void setupTableView() {
         mondayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
+        ));
     
         tuesdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
+        ));
     
         wednesdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
+        ));
         
         thursdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
+        ));
 
         fridayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
+        ));
 
         saturdayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
+        ));
 
         sundayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
             cellData.getValue().getValue().stream().map(Recipe::getRecipeName).reduce("", (a, b) -> a.isEmpty() ? b : a + ", " + b)
-        )));
-
-
+        ));
     }
 
 
