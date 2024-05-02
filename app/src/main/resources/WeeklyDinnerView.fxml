@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="986.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ComboBox layoutX="20.0" layoutY="65.0" prefHeight="39.0" prefWidth="172.0" />
+      <Label layoutX="24.0" layoutY="11.0" prefHeight="46.0" prefWidth="128.0" text="Dinner ">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <ListView layoutX="473.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="6.0" layoutY="346.0" prefHeight="39.0" prefWidth="200.0" text="Thursday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <ListView layoutX="238.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView layoutX="711.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView layoutX="473.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView layoutX="238.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView layoutX="6.0" layoutY="392.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView layoutX="711.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="238.0" layoutY="346.0" prefHeight="39.0" prefWidth="200.0" text="  Friday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="473.0" layoutY="346.0" prefHeight="39.0" prefWidth="200.0" text="Satarday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="711.0" layoutY="346.0" prefHeight="39.0" prefWidth="200.0" text="Sunday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="238.0" layoutY="81.0" prefHeight="39.0" prefWidth="200.0" text="Monday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="473.0" layoutY="81.0" prefHeight="39.0" prefWidth="200.0" text="Tuesday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="711.0" layoutY="81.0" prefHeight="39.0" prefWidth="200.0" text="Wednesday">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
