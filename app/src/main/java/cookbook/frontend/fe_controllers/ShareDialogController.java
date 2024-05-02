@@ -10,6 +10,7 @@ import javafx.util.StringConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import cookbook.backend.DatabaseMng;
 
 import cookbook.backend.be_objects.Message;
@@ -32,6 +33,9 @@ public class ShareDialogController {
   private String content; 
 
   @FXML
+  private TextField messageField;
+
+  @FXML
   public void sendShare(ActionEvent event) {
     User recipient = recipientComboBox.getValue();
     if (recipient != null) {
@@ -41,7 +45,7 @@ public class ShareDialogController {
       message.setSenderId((long) 1);
       message.setReceiverId((long) 2);
       message.setRecipeId("1");
-      message.setContent("This is the message content");
+      message.setContent(getContent());
       message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
 
       MessageController messageManager = new MessageController(dbManager);
@@ -54,6 +58,10 @@ public class ShareDialogController {
     } else {
       System.out.println("No recipient selected.");
     }
+  }
+
+  private String getContent() {
+    return messageField.getText();
   }
 
   @FXML
