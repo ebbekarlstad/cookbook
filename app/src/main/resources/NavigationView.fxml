@@ -94,7 +94,7 @@
                   <Image url="@images/Shoppinglist.png" />
                </image>
             </ImageView>
-            <Button layoutX="22.0" layoutY="390.0" minHeight="52.0" minWidth="272.0" mnemonicParsing="false" text="Weekly Recipes">
+            <Button fx:id="weeklyButton" layoutX="22.0" layoutY="384.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
