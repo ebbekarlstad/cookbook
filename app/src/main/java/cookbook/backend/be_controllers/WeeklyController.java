@@ -114,13 +114,13 @@ public class WeeklyController {
           }
     }
 
-    public boolean removeRecipeFromWeeklyList(int userId, Date weekStartDate, String recipeId, String dayOfweek) {
+    public boolean removeRecipeFromWeeklyList(int userId, Date weekStartDate, String recipeId, String dayOfWeek) {
       String sql = "DELETE FROM weekly_recipes where user_id = ? AND week = ? AND recipe_id = ? AND day_of_week = ?";
       try (Connection conn = dbManager.getConnection());
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setInt(1, userId);
           pstmt.setDate(2, weekStartDate);
-          pstmt.setString(3, reicipeId);
+          pstmt.setString(3, recipeId);
           pstmt.setString(4, dayOfWeek);
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
