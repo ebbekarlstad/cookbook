@@ -13,9 +13,11 @@ import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
@@ -44,6 +46,8 @@ public class WeeklyViewController {
     @FXML
     private Button backButton;
 
+
+
     
     @FXML
     public void goBackToNavigator(MouseEvent event) {
@@ -67,39 +71,42 @@ public class WeeklyViewController {
     public void initialize() {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
-        userId = 1; 
+        userId = getCurrentUserId(); 
         loadWeeklyRecipes();
+        populateYearlyWeeksComboBox();  // Call this method to load the weeks into the ComboBox
+    }
+    
+
+    private void populateYearlyWeeksComboBox() {
+    List<Date> weeks = weeklyController.getYearlyWeeks(); // Retrieve yearly weeks from the backend
+    if (weeks != null) {
+        weeksComboBox.getItems().clear(); // Clear existing items
+        // Format and add weeks to the ComboBox
+        weeksComboBox.getItems().addAll(weeks.stream().map(date -> new SimpleDateFormat("w-YYYY").format(date)).collect(Collectors.toList()));
+    } else {
+        System.out.println("Error loading yearly weeks.");
     }
 
-    private void populateWeeksComboBox() {
-        List<Date> weeks = weeklyController.getWeeklyList(userId);
-        if (weeks != null) {
-            weeksComboBox.getItems().setAll(weeks.stream().map(Date::toString).collect(Collectors.toList()));
-        } else {
-            System.out.println("Error loading weeks.");
+    weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        if (newSelection != null) {
+            // Optional: Load recipes for the selected week
+            // You need to convert the string back to Date or adjust the method to handle date selection
+            Date selectedWeek = Date.valueOf(newSelection);
+            loadWeeklyRecipesForSelectedWeek(selectedWeek);
         }
-        weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                loadWeeklyRecipes(); // You might need to modify this to accept the selected week
-            }
-        });
-    }
+    });
+}
+
 
     
 
-    private void loadWeeklyRecipes() {
-        Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId);
-        Map<String, ListView<Recipe>> listViewMap = getDayToListViewMap();
-        for (String day : listViewMap.keySet()) {
-            ListView<Recipe> listView = listViewMap.get(day);
-            List<Recipe> recipes = weeklyRecipes.getOrDefault(day, new ArrayList<>());
-            if (listView != null) {
-                listView.getItems().setAll(recipes);
-            } else {
-                System.out.println("ListView for " + day + " is null");
-            }
-        }
-    }
+private void loadWeeklyRecipesForSelectedWeek(Date weekStartDate) {
+    Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, weekStartDate);
+    updateRecipeViews(weeklyRecipes);
+}
+
+
+
 
     private Map<String, ListView<Recipe>> getDayToListViewMap() {
         Map<String, ListView<Recipe>> map = new HashMap<>();
@@ -119,5 +126,5 @@ public class WeeklyViewController {
         return 1; // Placeholder
     }
 
-
+    
 }
