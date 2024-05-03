@@ -154,5 +154,18 @@ public class WeeklyController {
       return new Date(cal.getTimeInMillis());
     }
 
+    public List<Date> getYearlyWeeks() {
+      List<Date> yearlyWeeks = new ArrayList<>();
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+      int year = cal.get(Calendar.YEAR);
+      while(cal.get(Calendar.YEAR) == year) {
+        yearlyWeeks.add(new Date(cal.getTimeInMillis()));
+        cal.add(Calendar.WEEK_OF_YEAR, 1);
+      }
+      return yearlyWeeks;
+    }
+
 }
   
