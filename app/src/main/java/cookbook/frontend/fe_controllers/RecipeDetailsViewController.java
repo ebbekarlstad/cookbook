@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.io.IOException;
 
 public class RecipeDetailsViewController {
 
@@ -218,4 +219,20 @@ public class RecipeDetailsViewController {
         this.userId = 1L;
         favoritesController.removeFavorite(userId, recipe);
       }
+
+      @FXML
+      private void handleweekButtonAction(ActionEvent event) {
+      try {
+
+        Parent favoriteRecipesParent = FXMLLoader.load(getClass().getResource("/weekList.fxml"));
+        Scene favoriteRecipesScene = new Scene(favoriteRecipesParent);
+
+      
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(favoriteRecipesScene);
+        window.show();
+      } catch (IOException e) {
+        e.printStackTrace();
+        }
+    }
 }
