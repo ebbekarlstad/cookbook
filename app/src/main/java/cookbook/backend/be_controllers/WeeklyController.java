@@ -138,20 +138,13 @@ public class WeeklyController {
           }
     }
 
-    public Map<String, List<Recipe>> getWeeklyRecipes(int userId) {
+    public Map<String, List<Recipe>> getWeeklyRecipes(int userId, Date weekStartDate) {
       Map<String, List<Recipe>> recipesForWeek = new HashMap<>();
       String[] daysOfWeek = {"Monady", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-      Date weekStartDate = getCurrentWeekStartDate();
       for (String day : daysOfWeek) {
         recipesForWeek.put(day, getRecipesForDay(userId, weekStartDate, day));
       }
       return recipesForWeek;
-    }
-
-    private Date getCurrentWeekStartDate() {
-      Calendar cal = Calendar.getInstance();
-      cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-      return new Date(cal.getTimeInMillis());
     }
 
     public List<Date> getYearlyWeeks() {
