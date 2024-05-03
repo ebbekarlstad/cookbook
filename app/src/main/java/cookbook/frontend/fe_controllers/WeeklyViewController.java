@@ -113,6 +113,11 @@ public class WeeklyViewController {
         return map;
     }
 
+     // Method to retrieve current user ID, which needs to be implemented
+     private int getCurrentUserId() {
+       
+        return 1; // Placeholder
+    }
 
 
 }
