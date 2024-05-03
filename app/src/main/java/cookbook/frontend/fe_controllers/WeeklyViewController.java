@@ -133,6 +133,17 @@ private void loadWeeklyRecipesForSelectedWeek(Date weekStartDate) {
         updateRecipeViews(weeklyRecipes);
     }
 
+    private void updateRecipeViews(Map<String, List<Recipe>> weeklyRecipes) {
+        Map<String, ListView<Recipe>> listViewMap = getDayToListViewMap();
+        for (String day : listViewMap.keySet()) {
+            ListView<Recipe> listView = listViewMap.get(day);
+            List<Recipe> recipes = weeklyRecipes.getOrDefault(day, new ArrayList<>());
+            listView.getItems().setAll(recipes);
+        }
+    }
+
+
+
 
 
     
