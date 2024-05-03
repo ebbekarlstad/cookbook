@@ -431,11 +431,11 @@ public class DatabaseSeeder {
     String dropTableSQL = "DROP TABLE IF EXISTS `shopping_lists`;";
 
     String createTableSQL = "CREATE TABLE `shopping_lists` ("
-        + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
-        + "`UserID` int NOT NULL, "
-        + "`CreatedDate` DATE NOT NULL, "
-        + "PRIMARY KEY (`ShoppingListID`), "
-        + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+            + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
+            + "`UserID` int NOT NULL, "
+            + "`CreatedDate` DATE NOT NULL, "
+            + "PRIMARY KEY (`ShoppingListID`), "
+            + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
 
     seedTable(dropTableSQL);
     seedTable(createTableSQL);

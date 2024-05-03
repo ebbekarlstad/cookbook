@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="shoppingPage" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShoppingListViewController">
+<AnchorPane fx:id="shoppingPage" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShoppingListViewController_old">
    <children>
       <Label contentDisplay="CENTER" layoutX="-11.0" layoutY="45.0" prefHeight="62.0" prefWidth="411.0" text="Shopping List" textFill="#db5442" AnchorPane.leftAnchor="-11.0">
          <font>

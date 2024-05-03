@@ -1,258 +1,71 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.be_controllers.UserController;
-import cookbook.backend.be_objects.AmountOfIngredients;
-import cookbook.backend.be_objects.User;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-
-public class ShoppingListViewController implements Initializable {
+public class ShoppingListViewController {
 
     @FXML
-    private ListView<AmountOfIngredients> ingView;
-    @FXML
-    private Button deleteBtn;
-    @FXML
-    private Button modifyBtn;
-    @FXML
-    private Button amounttUp;
-    @FXML
-    private Button amounttDown;
-    @FXML
-    private Label currentIng;
-    @FXML
-    private Label amount_text;
+    private TextField itemName;
 
-    private LocalDate startDateglobal;
+    @FXML
+    private TextField quantity;
 
-    private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
-    private ObservableList<AmountOfIngredients> x = FXCollections.observableArrayList();
+    @FXML
+    private Button addShoppingItem;
 
-    /**
-     * Clears the shopping list by removing all items from the list view and ingredients list.
-     */
+    @FXML
+    private Button back;
 
-    private void clear() {
-        ingView.getItems().clear();
-        ingredients.clear();
+    @FXML
+    private ComboBox<String> unit;
+
+    private final String connectionString = "jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false";
+    private static final Logger LOGGER = Logger.getLogger(ShoppingListViewController.class.getName());
+
+    @FXML
+    private void initialize() {
+        // Populate ComboBox with filler values
+        unit.getItems().addAll("g", "kg", "oz", "lb");
     }
 
-    /**
-     * Returns a string representation of the shopping list.
-     *
-     * @return The string representation of the shopping list.
-     */
+    @FXML
+    void createShoppingItem(ActionEvent event) {
+        String itemNameText = itemName.getText();
+        String quantityText = quantity.getText();
+        String unitText = unit.getValue();
 
-    public String stringRep() {
-        StringBuilder s = new StringBuilder();
-        for (AmountOfIngredients Quantity : ingView.getItems()) {
-            s.append(Quantity.toData() + "\n");
-        }
-        String outstring = s.toString();
-        return outstring;
-    }
-
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        clear();
-        ingView.setCellFactory(ingr -> new ShoppingListCellView());
-        ingView.setItems(ingredients);
-
-        ingView.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<AmountOfIngredients>() {
-                    @Override
-                    public void changed(ObservableValue<? extends AmountOfIngredients> ob, AmountOfIngredients oldQe, AmountOfIngredients newQe) {
-                        selectQe(newQe);
-                    }
-                });
-    }
-
-
-
-    public void getShoppingList(ObservableList<AmountOfIngredients> shoppingList, LocalDate ld) {
-        startDateglobal = ld;
-
-        // Clear the ingredients list
-        ingredients.clear();
-
-        // Iterate over the shoppingList and add ingredients to the ingredients list,
-        // checking for duplicates and keeping only one occurrence
-        for (AmountOfIngredients ingredient : shoppingList) {
-            boolean isDuplicate = false;
-            for (AmountOfIngredients existingIngredient : ingredients) {
-                if (ingredient.getName().equals(existingIngredient.getName())) {
-                    isDuplicate = true;
-                    break;
-                }
-            }
-            if (!isDuplicate) {
-                ingredients.add(ingredient);
-            }
-        }
-
-        // Update the ingView with the updated ingredients list
-        ingView.setItems(ingredients);
-    }
-
-
-    public void selectQe(AmountOfIngredients quantity) {
-        if (quantity != null){
-            amount_text.setText(String.valueOf(quantity.getAmount()));
-            currentIng.setText(quantity.getName());
-        } else {
+        if (itemNameText.isEmpty() || quantityText.isEmpty() || unitText == null) {
+            // Handle empty fields error
             return;
         }
-    }
 
-    @FXML
-    public void onModifyBtn(ActionEvent event) {
-        AmountOfIngredients quantity = ingView.getSelectionModel().getSelectedItem();
-        if (quantity == null) {
-            return;
-        } else {
-            quantity.setAmount(Float.valueOf(amount_text.getText()));
-            ingView.setItems(x);
-            ingView.setItems(ingredients);
-            save();
-        }
-    }
-
-    @FXML
-    public void onDeleteBtn (ActionEvent event) {
-        AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
-        if (qe == null) {
-            return;
-        } else {
-            ingredients.remove(qe);
-            ingView.setItems(x);
-            ingView.setItems(ingredients);
-            save();
-        }
-    }
-
-
-    @FXML
-    public void onUpButton(ActionEvent event) {
-        AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
-        if (qe == null) {
-            return;
-        } else {
-            Float currentAmt = Float.valueOf(amount_text.getText());
-            String newAmt = String.valueOf(currentAmt+1);
-            amount_text.setText(newAmt);
-        }
-    }
-
-
-    @FXML
-    public void onDownButton(ActionEvent event) {
-        AmountOfIngredients qe = ingView.getSelectionModel().getSelectedItem();
-        if (qe == null) {
-            return;
-        } else {
-            Float currentAmt = Float.valueOf(amount_text.getText());
-            if (currentAmt > 0) {
-                String newAmt = String.valueOf(currentAmt-1);
-                amount_text.setText(newAmt);
-            } else {
-                amount_text.setText("0");
+        try (Connection conn = DriverManager.getConnection(connectionString)) {
+            String query = "INSERT INTO shopping_list (item_name, quantity, unit) VALUES (?, ?, ?)";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setString(1, itemNameText);
+                statement.setString(2, quantityText);
+                statement.setString(3, unitText);
+                int rowsAffected = statement.executeUpdate();
+                LOGGER.log(Level.INFO, "Rows affected: " + rowsAffected);
             }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occurred while inserting into database", e);
         }
     }
 
-
-    public void save() {
-        String pathdate = startDateglobal.toString();
-//        User user = UserController.loggedInUser; // needs to be fixed later.
-        Long userId = user.getUserId();
-        String basePath = "generatedDinnerList";
-        String folderPath = basePath + "/" + userId;
-        String fullPath = folderPath + "/" + pathdate + ".data";
-
-        try {
-            File folder = new File(folderPath);
-            if (!folder.exists()) {
-                folder.mkdirs();
-            }
-
-            File file = new File(fullPath);
-            file.createNewFile();
-
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-            BufferedWriter bWriter = new BufferedWriter(out);
-            bWriter.write(stringRep());
-            bWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public List<AmountOfIngredients> read() {
-        String datePath = startDateglobal.toString();
-//        User user = UserController.loggedInUser; // needs to be fixed later.
-        Long userId = user.getUserId();
-        String basePath = "generatedDinnerList";
-        String fullPath = basePath + "/" + userId + "/" + datePath + ".data";
-
-        List<AmountOfIngredients> x = new ArrayList<>();
-
-        try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fullPath);
-            if (inputStream != null) {
-                Scanner scanner = new Scanner(inputStream, "utf-8");
-
-                if (!scanner.hasNextLine()) {
-                    scanner.close();
-                    return null;
-                }
-
-                String line = scanner.nextLine();
-                String[] data = line.split(":");
-                if (!data[0].equals("INGREDIENT")) {
-                    scanner.close();
-                    return null;
-                }
-
-                AmountOfIngredients ingredient = new AmountOfIngredients(data[2], Float.valueOf(data[1]), data[3]);
-                x.add(ingredient);
-
-                while (scanner.hasNext()) {
-                    String ingredientLine = scanner.nextLine();
-                    data = ingredientLine.split(":");
-
-                    if (data[0].equals("INGREDIENT")) {
-                        ingredient = new AmountOfIngredients(data[2], Float.valueOf(data[1]), data[3]);
-                        x.add(ingredient);
-                    }
-                }
-                scanner.close();
-                return x;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    @FXML
+    void backButton(ActionEvent event) {
+        // Handle back button action
     }
 }
