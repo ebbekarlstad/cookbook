@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import cookbook.backend.DatabaseMng;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
@@ -116,7 +114,7 @@ public class WeeklyController {
 
     public boolean removeRecipeFromWeeklyList(int userId, Date weekStartDate, String recipeId, String dayOfWeek) {
       String sql = "DELETE FROM weekly_recipes where user_id = ? AND week = ? AND recipe_id = ? AND day_of_week = ?";
-      try (Connection conn = dbManager.getConnection());
+      try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setInt(1, userId);
           pstmt.setDate(2, weekStartDate);
