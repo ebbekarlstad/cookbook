@@ -11,7 +11,7 @@
    <children>
       
 
-      <ComboBox layoutX="20.0" layoutY="65.0" prefHeight="39.0" prefWidth="172.0" />
+      <ComboBox fx:id="weeksComboBox" layoutX="20.0" layoutY="65.0" prefHeight="39.0" prefWidth="172.0" />
       <Label layoutX="24.0" layoutY="11.0" prefHeight="46.0" prefWidth="128.0" text="Dinner ">
          <font>
             <Font name="System Bold" size="30.0" />

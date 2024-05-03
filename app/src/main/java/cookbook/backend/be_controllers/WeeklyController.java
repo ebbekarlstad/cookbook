@@ -78,7 +78,11 @@ public class WeeklyController {
 
     public List <Recipe> getRecipesForDay(int userId, Date weekStartDate, String dayOfWeek) {
       List <Recipe> recipes = new ArrayList<>();
-      String sql = "SELECT r.recipe_id, r.recipe_name, r.short_desc, r.detailed_desc FROM recipes r INNER JOIN weekly_recipes wr ON r.recipe_id = wr.recipe_id, INNER JOIN weekly_dinner_lists wl ON wr.WeeklyDinnerListID = w1.WeeklyDinnerListID WHERE w1.UserID = ? w1.Week = ? AND wr.day_of_week = ?";
+      String sql = "SELECT r.recipe_id, r.recipe_name, r.short_desc, r.detailed_desc " +
+      "FROM recipes r " +
+      "INNER JOIN weekly_recipes wr ON r.recipe_id = wr.recipe_id " +
+      "INNER JOIN weekly_dinner_lists wl ON wr.WeeklyDinnerListID = wl.WeeklyDinnerListID " +
+      "WHERE wl.UserID = ? AND wl.Week = ? AND wr.day_of_week = ?";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
