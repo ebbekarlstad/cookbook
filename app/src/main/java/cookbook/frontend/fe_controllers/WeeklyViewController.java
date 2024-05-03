@@ -88,7 +88,16 @@ public class WeeklyViewController {
     
 
     private void loadWeeklyRecipes() {
-        
+        Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId);
+        Map<String, ListView<Recipe>> listViewMap = getDayToListViewMap();
+        for (String day : listViewMap.keySet()) {
+            ListView<Recipe> listView = listViewMap.get(day);
+            List<Recipe> recipes = weeklyRecipes.getOrDefault(day, new ArrayList<>());
+            if (listView != null) {
+                listView.getItems().setAll(recipes);
+            } else {
+                System.out.println("ListView for " + day + " is null");
+            }
         }
     }
 
