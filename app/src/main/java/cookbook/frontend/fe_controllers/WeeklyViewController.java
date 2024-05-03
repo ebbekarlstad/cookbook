@@ -101,5 +101,18 @@ public class WeeklyViewController {
         }
     }
 
+    private Map<String, ListView<Recipe>> getDayToListViewMap() {
+        Map<String, ListView<Recipe>> map = new HashMap<>();
+        map.put("Monday", mondayListView);
+        map.put("Tuesday", tuesdayListView);
+        map.put("Wednesday", wednesdayListView);
+        map.put("Thursday", thursdayListView);
+        map.put("Friday", fridayListView);
+        map.put("Saturday", saturdayListView);
+        map.put("Sunday", sundayListView);
+        return map;
+    }
+
+
 
 }
