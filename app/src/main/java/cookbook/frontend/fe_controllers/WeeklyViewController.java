@@ -12,6 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+import java.sql.Date;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
@@ -66,6 +70,8 @@ public class WeeklyViewController {
         userId = 1; 
         loadWeeklyRecipes();
     }
+
+    
 
     private void loadWeeklyRecipes() {
         Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId);
