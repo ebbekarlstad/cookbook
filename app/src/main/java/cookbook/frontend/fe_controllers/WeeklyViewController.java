@@ -126,5 +126,14 @@ private void loadWeeklyRecipesForSelectedWeek(Date weekStartDate) {
         return 1; // Placeholder
     }
 
+    private void loadWeeklyRecipes() {
+        // Assuming you have a method in your backend to get recipes for the current week
+        Date currentWeek = getCurrentWeekStartDate(); // This should match your backend logic
+        Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, currentWeek);
+        updateRecipeViews(weeklyRecipes);
+    }
+
+
+
     
 }
