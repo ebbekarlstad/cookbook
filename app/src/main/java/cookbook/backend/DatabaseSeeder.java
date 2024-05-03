@@ -363,7 +363,7 @@ public class DatabaseSeeder {
     String createTableSQL = "CREATE TABLE `weekly_dinner_lists` ("
         + "`WeeklyDinnerListID` int NOT NULL, "
         + "`UserID` int NOT NULL, "
-        + "`Week` date NOT NULL, "
+        + "`Week` date NOT NULL, " // change to data format yyyy-mm-dd
         + "PRIMARY KEY (`WeeklyDinnerListID`), "
         + "KEY `UserID1_idx` (`UserID`), "
         + "CONSTRAINT `UserID1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`))";

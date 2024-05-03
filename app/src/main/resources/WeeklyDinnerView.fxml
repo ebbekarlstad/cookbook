@@ -15,18 +15,18 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="wednesdayListView" layoutX="473.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="wednesdayListView" layoutX="220.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="20.0" layoutY="346.0" prefHeight="39.0" prefWidth="200.0" text="Thursday">
          <font>
             <Font size="31.0" />
          </font>
       </Label>
-      <ListView fx:id="mondayListView" layoutX="238.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
-      <ListView fx:id="tuesdayListView" layoutX="711.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
-      <ListView fx:id="thursdayListView" layoutX="473.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
-      <ListView fx:id="fridayListView" layoutX="238.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
-      <ListView fx:id="saturdayListView" layoutX="6.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
-      <ListView fx:id="sundayListView" layoutX="711.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="tuesdayListView" layoutX="438.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="mondayListView" layoutX="673.0" layoutY="135.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="thursdayListView" layoutX="6.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="fridayListView" layoutX="220.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="saturdayListView" layoutX="438.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView id="days" fx:id="sundayListView" layoutX="673.0" layoutY="396.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="238.0" layoutY="346.0" prefHeight="39.0" prefWidth="200.0" text="Friday">
          <font>
             <Font size="31.0" />

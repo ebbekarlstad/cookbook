@@ -3,6 +3,7 @@ package cookbook.frontend.fe_controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
@@ -23,6 +24,9 @@ import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
 import cookbook.backend.be_objects.Recipe;
 
+import java.util.Calendar;
+import java.time.LocalDate;
+ 
 public class WeeklyViewController {
 
     @FXML
@@ -39,6 +43,8 @@ public class WeeklyViewController {
     private ListView<Recipe> saturdayListView;
     @FXML
     private ListView<Recipe> sundayListView;
+
+    ListView<ListView<Recipe>> listOfDaysOfWeek;
     @FXML
     private ComboBox<String> weeksComboBox;
     @FXML
@@ -46,7 +52,7 @@ public class WeeklyViewController {
     @FXML
     private Button backButton;
 
-
+    List<Date> weeks;
 
     
     @FXML
@@ -72,13 +78,16 @@ public class WeeklyViewController {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
         userId = getCurrentUserId(); 
+        // for (Node node : mondayListView.getParent()) {
+        // // get all days, put them in listOfDaysOfWeek
+        // }
         loadWeeklyRecipes();
         populateYearlyWeeksComboBox();  // Call this method to load the weeks into the ComboBox
     }
     
 
     private void populateYearlyWeeksComboBox() {
-    List<Date> weeks = weeklyController.getYearlyWeeks(); // Retrieve yearly weeks from the backend
+    weeks = weeklyController.getYearlyWeeks(); // Retrieve yearly weeks from the backend
     if (weeks != null) {
         weeksComboBox.getItems().clear(); // Clear existing items
         // Format and add weeks to the ComboBox
@@ -92,6 +101,8 @@ public class WeeklyViewController {
             // Optional: Load recipes for the selected week
             // You need to convert the string back to Date or adjust the method to handle date selection
             Date selectedWeek = Date.valueOf(newSelection);
+            LocalDate date = weeks.get(weeksComboBox.getSelectionModel().getSelectedIndex()).toLocalDate();
+            
             loadWeeklyRecipesForSelectedWeek(selectedWeek);
         }
     });
@@ -129,6 +140,10 @@ private void loadWeeklyRecipesForSelectedWeek(Date weekStartDate) {
     private void loadWeeklyRecipes() {
         // Assuming you have a method in your backend to get recipes for the current week
         Date currentWeek = getCurrentWeekStartDate(); // This should match your backend logic
+        // get date from database "date"
+        Calendar calendar = Calendar.getInstance();
+        //LocalDate dt = dt.of(date.getYear(), date.getMonth(), date.getDay());
+
         Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, currentWeek);
         updateRecipeViews(weeklyRecipes);
     }
