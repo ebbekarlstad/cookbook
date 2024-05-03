@@ -88,15 +88,7 @@ public class WeeklyViewController {
     
 
     private void loadWeeklyRecipes() {
-        Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId);
-        if (weeklyRecipes != null) {
-            mondayListView.getItems().setAll(weeklyRecipes.getOrDefault("Monday", List.of()));
-            tuesdayListView.getItems().setAll(weeklyRecipes.getOrDefault("Tuesday", List.of()));
-            wednesdayListView.getItems().setAll(weeklyRecipes.getOrDefault("Wednesday", List.of()));
-            thursdayListView.getItems().setAll(weeklyRecipes.getOrDefault("Thursday", List.of()));
-            fridayListView.getItems().setAll(weeklyRecipes.getOrDefault("Friday", List.of()));
-            saturdayListView.getItems().setAll(weeklyRecipes.getOrDefault("Saturday", List.of()));
-            sundayListView.getItems().setAll(weeklyRecipes.getOrDefault("Sunday", List.of()));
+        
         }
     }
 
