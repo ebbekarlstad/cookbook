@@ -71,6 +71,20 @@ public class WeeklyViewController {
         loadWeeklyRecipes();
     }
 
+    private void populateWeeksComboBox() {
+        List<Date> weeks = weeklyController.getWeeklyList(userId);
+        if (weeks != null) {
+            weeksComboBox.getItems().setAll(weeks.stream().map(Date::toString).collect(Collectors.toList()));
+        } else {
+            System.out.println("Error loading weeks.");
+        }
+        weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                loadWeeklyRecipes(); // You might need to modify this to accept the selected week
+            }
+        });
+    }
+
     
 
     private void loadWeeklyRecipes() {
