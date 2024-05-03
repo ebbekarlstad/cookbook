@@ -98,5 +98,21 @@ public class WeeklyController {
           return recipes;
     }
 
+    public boolean addRecipeToWeeklyList(int userId, Date weekStartDate, String recipeId, String dayOfWeek) {
+      String sql = "INSERT INTO weekly_recipes (user_id, week, recipe_id, day_of_week) VALUE (?, ?, ?, ?)";
+      try (Connection conn = dbManager.getConnection();
+          PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setDate(2, weekStartDate);
+            pstmt.setString(3, recipeId);
+            pstmt.setString(4, dayOfWeek);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+          } catch (SQLException e) {
+            System.out.println("Erron adding recipe to weekly list: " + e.getMessage());
+            return false;
+          }
+    }
+
 }
   
