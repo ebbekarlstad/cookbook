@@ -142,6 +142,12 @@ private void loadWeeklyRecipesForSelectedWeek(Date weekStartDate) {
         }
     }
 
+    private Date getCurrentWeekStartDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        return new Date(cal.getTimeInMillis());
+    }
+
 
 
 
