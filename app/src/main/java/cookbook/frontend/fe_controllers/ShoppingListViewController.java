@@ -94,7 +94,6 @@ public class ShoppingListViewController {
     }
     @FXML
     void addItem(ActionEvent event) {
-        populateTableView();
 
         String itemName = ItemName.getText();
         float quantity = Float.parseFloat(Quantity.getText());
@@ -112,6 +111,8 @@ public class ShoppingListViewController {
         } catch (SQLException e) {
           throw new RuntimeException("The connect is not established ... bruh" + e);
         }
+        populateTableView();
+
     }
 
     @FXML
@@ -177,6 +178,30 @@ public class ShoppingListViewController {
         }
     }
 
+    @FXML
+    void deleteShoppingItem(ActionEvent event) {
+        // Get the selected item from the TableView
+        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
+                String query = "DELETE FROM Shopping_List WHERE ItemID = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setInt(1, selectedItem.getId());
+
+                // Execute the delete query
+                preparedStatement.executeUpdate();
+
+                // Remove the selected item from the TableView
+                ShoppingColumn.getItems().remove(selectedItem);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // If no item is selected, display a message or handle it according to your application's requirements
+            System.out.println("No item selected for deletion.");
+        }
+    }
     @FXML
     void backButton(ActionEvent event) {
         try {

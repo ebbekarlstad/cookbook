@@ -96,7 +96,7 @@
                   <Font name="PT Sans Narrow" size="19.0" />
                </font>
             </Button>
-            <Button fx:id="deleteShoppingItem" layoutX="715.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#DeleteItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Delete">
+             <Button fx:id="deleteShoppingItem" layoutX="715.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#deleteShoppingItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Delete">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
