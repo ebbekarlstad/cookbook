@@ -41,7 +41,7 @@
         <!-- Right panel for displaying the selected message -->
         <VBox prefHeight="162.0" prefWidth="649.0">
           <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 5px;" text="Message Details" />
-          <TextArea fx:id="messageContent" prefHeight="643.0" prefWidth="649.0" wrapText="true" VBox.vgrow="ALWAYS" />
+          <TextArea fx:id="messageContent" editable="false" prefHeight="643.0" prefWidth="649.0" wrapText="true" VBox.vgrow="ALWAYS" />
         </VBox>
       </items>
     </SplitPane>
