@@ -11,6 +11,7 @@ public class Message {
   private String recipeId;  // Foreign key to the recipes table
   private String content;  // Optional message text about the recipe
   private Timestamp sentTime;  // Timestamp when the message was created
+  private String senderName;
 
   // Constructor
   public Message(Long senderId, Long receiverId, String recipeId, String content) {
@@ -28,6 +29,14 @@ public class Message {
 
   public void setMessageId(Long messageId) {
     this.messageId = messageId;
+  }
+
+  public String getSenderName() {
+    return senderName;
+  }
+
+  public void setSenderName(String senderName) {
+    this.senderName = senderName;
   }
 
   public Long getSenderId() {
