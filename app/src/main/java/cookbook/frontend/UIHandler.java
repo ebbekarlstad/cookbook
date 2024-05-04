@@ -12,7 +12,7 @@ public class UIHandler extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     // Load the FXML layout
-    Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/MessagesView.fxml"));
 
     // Set the application icon
     primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
