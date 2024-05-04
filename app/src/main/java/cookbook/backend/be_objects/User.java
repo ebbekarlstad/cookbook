@@ -14,7 +14,7 @@ public class User {
   private List<Recipe> favoriteRecipes = new ArrayList<>();
 
   public User(Long userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites) {
-    this.userId = userId;
+    this.userId = userId != null ? userId : 1L;
     setUserName(userName);
     setDisplayName(displayName);
     setIsAdmin(isAdmin);

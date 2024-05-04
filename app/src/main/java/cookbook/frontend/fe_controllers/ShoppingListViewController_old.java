@@ -1,20 +1,31 @@
 //package cookbook.frontend.fe_controllers;
 //
+//import cookbook.backend.be_controllers.UserController;
 //import cookbook.backend.be_objects.AmountOfIngredients;
+//import cookbook.backend.be_objects.CommentObject;
+//import cookbook.backend.be_objects.User;
 //import javafx.beans.value.ChangeListener;
 //import javafx.beans.value.ObservableValue;
 //import javafx.collections.FXCollections;
 //import javafx.collections.ObservableList;
 //import javafx.event.ActionEvent;
 //import javafx.fxml.FXML;
+//import javafx.fxml.FXMLLoader;
 //import javafx.fxml.Initializable;
+//import javafx.scene.Node;
+//import javafx.scene.Parent;
+//import javafx.scene.Scene;
 //import javafx.scene.control.Button;
 //import javafx.scene.control.Label;
+//import javafx.scene.control.ListCell;
 //import javafx.scene.control.ListView;
+//import javafx.stage.Stage;
+//import javafx.util.Callback;
 //
 //import java.io.*;
 //import java.net.URL;
 //import java.nio.charset.StandardCharsets;
+//import java.sql.SQLException;
 //import java.time.LocalDate;
 //import java.util.ArrayList;
 //import java.util.List;
@@ -22,7 +33,10 @@
 //import java.util.Scanner;
 //
 //
-//public class ShoppingListViewController_old implements Initializable {
+//public class ShoppingListViewController implements Initializable {
+//
+//    @FXML
+//    private Button back;
 //
 //    @FXML
 //    private ListView<AmountOfIngredients> ingView;
@@ -72,42 +86,32 @@
 //    @Override
 //    public void initialize(URL location, ResourceBundle resources) {
 //        clear();
-//        ingView.setCellFactory(ingr -> new ShoppingListCellView_old());
-//        ingView.setItems(ingredients);
-//
-//        ingView.getSelectionModel().selectedItemProperty().addListener(
-//                new ChangeListener<AmountOfIngredients>() {
+//        ingView.setCellFactory(new Callback<ListView<AmountOfIngredients>, ListCell<AmountOfIngredients>>() {
+//            @Override
+//            public ListCell<AmountOfIngredients> call(ListView<AmountOfIngredients> listView) {
+//                return new ListCell<AmountOfIngredients>() {
 //                    @Override
-//                    public void changed(ObservableValue<? extends AmountOfIngredients> ob, AmountOfIngredients oldQe, AmountOfIngredients newQe) {
-//                        selectQe(newQe);
+//                    protected void updateItem(AmountOfIngredients item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (empty || item == null) {
+//                            setText(null);
+//                        } else {
+//                            setText(item.getName() + " - " + item.getAmount());
+//                        }
 //                    }
-//                });
+//                };
+//            }
+//        });
 //    }
 //
 //
 //
 //    public void getShoppingList(ObservableList<AmountOfIngredients> shoppingList, LocalDate ld) {
 //        startDateglobal = ld;
-//
-//        // Clear the ingredients list
 //        ingredients.clear();
-//
-//        // Iterate over the shoppingList and add ingredients to the ingredients list,
-//        // checking for duplicates and keeping only one occurrence
-//        for (AmountOfIngredients ingredient : shoppingList) {
-//            boolean isDuplicate = false;
-//            for (AmountOfIngredients existingIngredient : ingredients) {
-//                if (ingredient.getName().equals(existingIngredient.getName())) {
-//                    isDuplicate = true;
-//                    break;
-//                }
-//            }
-//            if (!isDuplicate) {
-//                ingredients.add(ingredient);
-//            }
-//        }
-//
-//        // Update the ingView with the updated ingredients list
+//        shoppingList.stream()
+//                .distinct()
+//                .forEach(ingredients::add);
 //        ingView.setItems(ingredients);
 //    }
 //
@@ -116,8 +120,6 @@
 //        if (quantity != null){
 //            amount_text.setText(String.valueOf(quantity.getAmount()));
 //            currentIng.setText(quantity.getName());
-//        } else {
-//            return;
 //        }
 //    }
 //
@@ -180,7 +182,7 @@
 //
 //    public void save() {
 //        String pathdate = startDateglobal.toString();
-////        User user = UserController.loggedInUser; // needs to be fixed later.
+//        User user = UserController.loggedInUser; // assume this is set correctly
 //        Long userId = user.getUserId();
 //        String basePath = "generatedDinnerList";
 //        String folderPath = basePath + "/" + userId;
@@ -206,11 +208,11 @@
 //
 //
 //    public List<AmountOfIngredients> read() {
-//        String datePath = startDateglobal.toString();
-////        User user = UserController.loggedInUser; // needs to be fixed later.
+//        String pathdate = startDateglobal.toString();
+//        User user = UserController.loggedInUser; // assume this is set correctly
 //        Long userId = user.getUserId();
 //        String basePath = "generatedDinnerList";
-//        String fullPath = basePath + "/" + userId + "/" + datePath + ".data";
+//        String fullPath = basePath + "/" + userId + "/" + pathdate + ".data";
 //
 //        List<AmountOfIngredients> x = new ArrayList<>();
 //
@@ -251,6 +253,21 @@
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            return null;
+//        }
+//    }
+//
+//    public void backButton(ActionEvent event) throws SQLException, IOException {
+//        try {
+//            //Load the navigation page FXML
+//            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+//            Scene navigationPageScene = new Scene(navigationPageParent);
+//
+//            // Get the current stage and replace it
+//            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+//            window.setScene(navigationPageScene);
+//            window.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
 //        }
 //    }
 //}

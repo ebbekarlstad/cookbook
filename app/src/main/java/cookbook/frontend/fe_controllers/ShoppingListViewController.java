@@ -2,6 +2,7 @@ package cookbook.frontend.fe_controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -40,7 +41,7 @@ public class ShoppingListViewController {
     }
 
     @FXML
-    void createShoppingItem(ActionEvent event) {
+    private void createShoppingItem(ActionEvent event) {
         String itemNameText = itemName.getText();
         String quantityText = quantity.getText();
         String unitText = unit.getValue();
@@ -50,18 +51,33 @@ public class ShoppingListViewController {
             return;
         }
 
-        try (Connection conn = DriverManager.getConnection(connectionString)) {
-            String query = "INSERT INTO shopping_list (item_name, quantity, unit) VALUES (?, ?, ?)";
-            try (PreparedStatement statement = conn.prepareStatement(query)) {
-                statement.setString(1, itemNameText);
-                statement.setString(2, quantityText);
-                statement.setString(3, unitText);
-                int rowsAffected = statement.executeUpdate();
-                LOGGER.log(Level.INFO, "Rows affected: " + rowsAffected);
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+             PreparedStatement statement = conn.prepareStatement("INSERT INTO shopping_list (item_name, quantity, unit) VALUES (?, ?, ?)")) {
+            statement.setString(1, itemNameText);
+            statement.setString(2, quantityText);
+            statement.setString(3, unitText);
+            int rowsAffected = statement.executeUpdate();
+            LOGGER.log(Level.INFO, "Rows affected: " + rowsAffected);
+
+            // Show alert message
+            String message;
+            if (rowsAffected > 0) {
+                message = "Item added successfully!";
+            } else {
+                message = "Failed to add item.";
             }
+            showAlert(Alert.AlertType.INFORMATION, "Add Item", message);
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error occurred while inserting into database", e);
+            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while adding the item.");
         }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML

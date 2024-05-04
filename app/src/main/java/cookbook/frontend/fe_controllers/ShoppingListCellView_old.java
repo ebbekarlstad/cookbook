@@ -16,7 +16,7 @@
 // * Custom ListCell for displaying QuanitityIngredients in a ListView.
 // */
 //
-//public class ShoppingListCellView_old extends ListCell<AmountOfIngredients> {
+//public class ShoppingListCellView extends ListCell<AmountOfIngredients> {
 //    @FXML
 //    private Label ingrString;
 //

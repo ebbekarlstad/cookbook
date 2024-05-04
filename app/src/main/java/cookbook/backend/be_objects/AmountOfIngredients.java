@@ -16,7 +16,13 @@ public class AmountOfIngredients {
    * @param ingredient the ingredient object
    */
   public AmountOfIngredients(String Unit, float Amount, Ingredient ingredient) {
-    this.Unit = (Unit != null && !Unit.equals("unit")) ? Unit : "";
+    this.Unit = Unit;
+    if(Unit == null) {
+      this.Unit = "";
+    }
+    if(Unit == "Unit") {
+      this.Unit = "";
+    }
     this.Amount = Amount;
     this.ingredient = ingredient;
     this.IngredientName = ingredient.getIngredientName();
@@ -30,7 +36,13 @@ public class AmountOfIngredients {
    * @param IngredientName   the name of the ingredient
    */
   public AmountOfIngredients(String Unit, float Amount, String IngredientName) {
-    this.Unit = (Unit != null && !Unit.equals("unit")) ? Unit : "";
+    this.Unit = Unit;
+    if(Unit == null) {
+      this.Unit = "";
+    }
+    if(Unit == "Unit") {
+      this.Unit = "";
+    }
     this.Amount = Amount;
     this.IngredientName = IngredientName;
   }
