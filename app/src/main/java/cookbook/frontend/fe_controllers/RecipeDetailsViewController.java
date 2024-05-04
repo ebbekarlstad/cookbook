@@ -229,14 +229,22 @@ public class RecipeDetailsViewController {
         Parent parent = loader.load();
 
         PopupWeeklyController popupController = loader.getController();
-        popupController.initData(this.recipe, this.userId);
-      
+        if (popupController != null) {
+            popupController.initData(recipe, userId);
+        } else {
+            System.out.println("Popupcontroller was not initialized.");
+            return; //to avoid further execusion
+        }
+        Scene scene = new Scene(parent);
         Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setTitle("Weeckly Recipe Planner");
+        stage.initModality(Modality.APPLICATION_MODAL); // restricts interaction to the other windows
         stage.showAndWait();
       } catch (IOException e) {
+        System.out.println("Failed to load the weekly list popup: " + e.getMessage());
         e.printStackTrace();
+        System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
 

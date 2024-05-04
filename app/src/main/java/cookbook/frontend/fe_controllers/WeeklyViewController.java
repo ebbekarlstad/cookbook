@@ -72,7 +72,7 @@ public class WeeklyViewController {
     }
 
     private WeeklyController weeklyController;
-    private int userId;
+    private Long userId;
 
     public void initialize() {
         DatabaseMng dbManager = new DatabaseMng();
@@ -132,9 +132,9 @@ private void loadWeeklyRecipesForSelectedWeek(Date weekStartDate) {
     }
 
      // Method to retrieve current user ID, which needs to be implemented
-     private int getCurrentUserId() {
+     private Long getCurrentUserId() {
        
-        return 1; // Placeholder
+        return 1L; // Placeholder
     }
 
     private void loadWeeklyRecipes() {

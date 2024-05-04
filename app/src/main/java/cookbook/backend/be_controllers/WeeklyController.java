@@ -34,12 +34,12 @@ public class WeeklyController {
 
 
 
-     public List<Date> getWeeklyList(int userId) {
+     public List<Date> getWeeklyList(Long userId) {
       List<Date> weeklyLists = new ArrayList<>();
       String sql = "SELECT week FROM weekly_dinner_lists WHERE UserID = ?";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
+            pstmt.setLong(1, userId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
               weeklyLists.add(rs.getDate("Week"));
@@ -82,7 +82,7 @@ public class WeeklyController {
     // }
 
 
-    public List <Recipe> getRecipesForDay(int userId, Date weekStartDate, String dayOfWeek) {
+    public List <Recipe> getRecipesForDay(Long userId, Date weekStartDate, String dayOfWeek) {
       List <Recipe> recipes = new ArrayList<>();
       String sql = "SELECT r.recipe_id, r.recipe_name, r.short_desc, r.detailed_desc " +
       "FROM recipes r " +
@@ -91,7 +91,7 @@ public class WeeklyController {
       "WHERE wl.UserID = ? AND wl.Week = ? AND wr.day_of_week = ?";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
+            pstmt.setLong(1, userId);
             pstmt.setDate(2, weekStartDate);
             pstmt.setString(3, dayOfWeek);
             ResultSet rs = pstmt.executeQuery();
@@ -112,11 +112,11 @@ public class WeeklyController {
 
 
 
-    public boolean addRecipeToWeeklyList(int userId, Date weekStartDate, String recipeId, String dayOfWeek) {
+    public boolean addRecipeToWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
       String sql = "INSERT INTO weekly_recipes (user_id, week, recipe_id, day_of_week) VALUE (?, ?, ?, ?)";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
+            pstmt.setLong(1, userId);
             pstmt.setDate(2, weekStartDate);
             pstmt.setString(3, recipeId);
             pstmt.setString(4, dayOfWeek);
@@ -128,11 +128,11 @@ public class WeeklyController {
           }
     }
 
-    public boolean removeRecipeFromWeeklyList(int userId, Date weekStartDate, String recipeId, String dayOfWeek) {
+    public boolean removeRecipeFromWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
       String sql = "DELETE FROM weekly_recipes where user_id = ? AND week = ? AND recipe_id = ? AND day_of_week = ?";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setInt(1, userId);
+          pstmt.setLong(1, userId);
           pstmt.setDate(2, weekStartDate);
           pstmt.setString(3, recipeId);
           pstmt.setString(4, dayOfWeek);
@@ -144,7 +144,7 @@ public class WeeklyController {
           }
     }
 
-    public Map<String, List<Recipe>> getWeeklyRecipes(int userId, Date weekStartDate) {
+    public Map<String, List<Recipe>> getWeeklyRecipes(Long userId, Date weekStartDate) {
       Map<String, List<Recipe>> recipesForWeek = new HashMap<>();
       String[] daysOfWeek = {"Monady", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
       for (String day : daysOfWeek) {
@@ -153,11 +153,11 @@ public class WeeklyController {
       return recipesForWeek;
     }
 
-    public int ensureWeeklyDinnerListExists(int userId, Date weekStartDate) {
+    public int ensureWeeklyDinnerListExists(Long userId, Date weekStartDate) {
       try (Connection conn = dbManager.getConnection()) {
         String checkSql = "SELECT WeeklyDinnerListID FROM weekly_dinner_list WHERE UserID = ? AND Week = ?";
         try (PreparedStatement check = conn.prepareStatement(checkSql)) {
-          check.setInt(1, userId);
+          check.setLong(1, userId);
           check.setDate(2, weekStartDate);
           ResultSet rs = check.executeQuery();
           if (rs.next()) {
@@ -166,7 +166,7 @@ public class WeeklyController {
         }
         String insertSql = "INSERT INTO weekly_dinner_list (UserID, Week) VALUES (?, ?)";
         try (PreparedStatement insert = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
-          insert.setInt(1, userId);
+          insert.setLong(1, userId);
           insert.setDate(2, weekStartDate);
           int affectedRows = insert.executeUpdate();
           if (affectedRows > 0) {

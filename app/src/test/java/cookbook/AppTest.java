@@ -94,7 +94,7 @@ class AppTest {
 
     @Test
     void weeklyControllerTest() {
-        int userId = 1;
+        Long userId = 1L;
         Map<String, List <Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, null);
 
         assertNotNull(weeklyRecipes, "The map of recipes should not be null!");

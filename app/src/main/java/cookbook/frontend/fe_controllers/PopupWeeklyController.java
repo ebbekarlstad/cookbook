@@ -27,6 +27,7 @@ public class PopupWeeklyController {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
         loadWeeksIntoComboBox();
+        setupComboBoxListeners();
     }
 
     public void initData(Recipe recipe, Long userId) {
@@ -62,7 +63,25 @@ public class PopupWeeklyController {
 
     private void saveSelectionToDatabase(String week, String day) {
         try {
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+            java.util.Date parsedWeekDate = sdf.parse(week);
+            java.sql.Date weekStartDate = new java.sql.Date(parsedWeekDate.getTime());
+
+
+            int weeklyDinnerListId = weeklyController.ensureWeeklyDinnerListExists(userId, weekStartDate);
+            if (weeklyDinnerListId == -1) {
+                System.out.println("Failed to ensure weeklyd inner list exists.");
+                return;
+            }
+
+            if (recipe != null && weeklyController.addRecipeToWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
+                System.out.println("Recipe successfully added to weekly list.");
+            } else {
+                System.out.println("Failed to add recipe to weekly list.");
+            }
+        } catch (ParseException e) {
+            System.out.println("Error parsing week start date: " + e.getMessage());
+        }
     }
     
 }
