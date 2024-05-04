@@ -425,36 +425,50 @@ public class DatabaseSeeder {
     seedTable(createTableSQL);
   }
 
-  // Existing methods...
 
-  public void seedShoppingLists() {
-    String dropTableSQL = "DROP TABLE IF EXISTS `shopping_lists`;";
+//  public void seedShoppingLists() {
+//    String dropTableSQL = "DROP TABLE IF EXISTS `shopping_lists`;";
+//
+//    String createTableSQL = "CREATE TABLE `shopping_lists` ("
+//            + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
+//            + "`UserID` int NOT NULL, "
+//            + "`CreatedDate` DATE NOT NULL, "
+//            + "PRIMARY KEY (`ShoppingListID`), "
+//            + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+//
+//    seedTable(dropTableSQL);
+//    seedTable(createTableSQL);
+//  }
 
-    String createTableSQL = "CREATE TABLE `shopping_lists` ("
-            + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
-            + "`UserID` int NOT NULL, "
-            + "`CreatedDate` DATE NOT NULL, "
-            + "PRIMARY KEY (`ShoppingListID`), "
-            + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+//  public void seedShoppingListItems() {
+//    String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
+//
+//    String createTableSQL = "CREATE TABLE `shopping_list_items` ("
+//        + "`ItemID` int NOT NULL AUTO_INCREMENT, "
+//        + "`ShoppingListID` int NOT NULL, "
+//        + "`IngredientID` varchar(45) NOT NULL, "
+//        + "`Quantity` varchar(100) NOT NULL, "
+//        + "PRIMARY KEY (`ItemID`), "
+//        + "FOREIGN KEY (`ShoppingListID`) REFERENCES `shopping_lists` (`ShoppingListID`), "
+//        + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`));";
+//
+//    seedTable(dropTableSQL);
+//    seedTable(createTableSQL);
+//  }
 
-    seedTable(dropTableSQL);
-    seedTable(createTableSQL);
-  }
 
-  public void seedShoppingListItems() {
-    String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
+  public void seedShoppingList() {
+    String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list`;";
 
-    String createTableSQL = "CREATE TABLE `shopping_list_items` ("
-        + "`ItemID` int NOT NULL AUTO_INCREMENT, "
-        + "`ShoppingListID` int NOT NULL, "
-        + "`IngredientID` varchar(45) NOT NULL, " // Ensure this matches the `IngredientID` data type in `ingredients`
-        + "`Quantity` varchar(100) NOT NULL, "
-        + "PRIMARY KEY (`ItemID`), "
-        + "FOREIGN KEY (`ShoppingListID`) REFERENCES `shopping_lists` (`ShoppingListID`), "
-        + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`));";
+    String createTableSQL = "CREATE TABLE `Shopping_List` ("
+            + "`ItemID` INT NOT NULL AUTO_INCREMENT,"
+            + "`ItemName` VARCHAR(45) NOT NULL,"
+            + "`Amount` FLOAT NOT NULL,"
+            + "`Unit` VARCHAR(45) NOT NULL,"
+            + " PRIMARY KEY (`ItemID`));";
 
-    seedTable(dropTableSQL);
-    seedTable(createTableSQL);
+     seedTable(dropTableSQL);
+     seedTable(createTableSQL);
   }
 
   public static void main(String[] args) {
@@ -469,8 +483,9 @@ public class DatabaseSeeder {
     seeder.seedComments();
     seeder.seedWeeklyDinnerLists();
     seeder.seedDinnerListRecipes();
-    seeder.seedShoppingLists();
-    seeder.seedShoppingListItems();
+//    seeder.seedShoppingLists();
+//    seeder.seedShoppingListItems();
+    seeder.seedShoppingList(); // made a new schema for the shopping list
     seeder.seedSentRecipes();
     seeder.seedHelpSystem();
   }

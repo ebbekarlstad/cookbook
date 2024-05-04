@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Test"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="491.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Test">
+   <children>
+      <Label layoutX="62.0" layoutY="71.0" text="Name" />
+      <Label layoutX="62.0" layoutY="112.0" text="Mobile" />
+      <Label layoutX="61.0" layoutY="155.0" text="Course" />
+      <TextField fx:id="txtName" layoutX="112.0" layoutY="67.0" />
+      <TextField fx:id="txtMobile" layoutX="112.0" layoutY="108.0" />
+      <TextField fx:id="txtCourse" layoutX="112.0" layoutY="151.0" />
+      <TableView layoutX="287.0" layoutY="34.0" prefHeight="295.0" prefWidth="361.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="ID" />
+          <TableColumn prefWidth="98.0" text="Name" />
+            <TableColumn prefWidth="82.0" text="Mobile" />
+            <TableColumn prefWidth="104.0" text="Course" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnAdd" layoutX="73.0" layoutY="387.0" mnemonicParsing="false" onAction="#Add" text="Add" />
+      <Button fx:id="btnUpdate" layoutX="126.0" layoutY="387.0" mnemonicParsing="false" onAction="#Update" text="Update" />
+      <Button fx:id="btnDelete" layoutX="192.0" layoutY="387.0" mnemonicParsing="false" onAction="#Delete" text="Delete" />
+   </children>
 </AnchorPane>

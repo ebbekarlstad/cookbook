@@ -34,7 +34,7 @@
                   <Font size="38.0" />
                </font>
             </Text>
-            <Button fx:id="addShoppingItem" layoutX="74.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#CreateShoppingItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Add Item">
+             <Button fx:id="addShoppingItem" layoutX="74.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#addItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Add Item">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -57,16 +57,16 @@
             <TextField fx:id="ItemName" layoutX="69.0" layoutY="214.0" prefHeight="30.0" prefWidth="147.0" promptText="Name Of The Item" />
             <TextField fx:id="Quantity" layoutX="224.0" layoutY="214.0" prefHeight="30.0" prefWidth="147.0" promptText="Quantitiy" />
             <ComboBox fx:id="unit" layoutX="380.0" layoutY="213.0" prefHeight="32.0" prefWidth="77.0" promptText="Unit" style="-fx-background-color: #FFBF00;" />
-            <TableView layoutX="493.0" layoutY="141.0" prefHeight="416.0" prefWidth="413.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="ItemID" />
-                <TableColumn prefWidth="120.0" text="Item" />
-                  <TableColumn prefWidth="127.0" text="Quantity" />
-                  <TableColumn prefWidth="89.0" text="Unit" />
-                  <TableColumn prefWidth="131.0" text="Unit" />
-              </columns>
-            </TableView>
-            <Button fx:id="addShoppingItem1" layoutX="290.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#CreateShoppingItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Edit">
+             <TableView fx:id="ShoppingColumn" layoutX="493.0" layoutY="141.0" prefHeight="416.0" prefWidth="413.0">
+                 <columns>
+                     <TableColumn fx:id="IDColumn" prefWidth="75.0" text="ItemID" />
+                     <TableColumn fx:id="ItemNameColumn" prefWidth="120.0" text="Item" />
+                     <TableColumn fx:id="AmountColumn" prefWidth="127.0" text="Quantity" />
+                     <TableColumn fx:id="UnitColumn" prefWidth="89.0" text="Unit" />
+                 </columns>
+             </TableView>
+
+            <Button fx:id="editShoppingItem" layoutX="290.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#EditItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Edit">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -81,7 +81,7 @@
                   <Font name="PT Sans Narrow" size="19.0" />
                </font>
             </Button>
-            <Button fx:id="addShoppingItem11" layoutX="503.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#CreateShoppingItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Save">
+            <Button fx:id="saveShoppingItem" layoutX="503.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#SaveItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Save">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -96,7 +96,7 @@
                   <Font name="PT Sans Narrow" size="19.0" />
                </font>
             </Button>
-            <Button fx:id="addShoppingItem111" layoutX="715.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#CreateShoppingItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Delete">
+            <Button fx:id="deleteShoppingItem" layoutX="715.0" layoutY="598.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#DeleteItem" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #FFE5B4;" text="Delete">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -111,12 +111,6 @@
                   <Font name="PT Sans Narrow" size="19.0" />
                </font>
             </Button>
-            <TextField layoutX="551.0" layoutY="103.0" prefHeight="25.0" prefWidth="354.0" promptText="Search..." />
-            <Text layoutX="480.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search:" wrappingWidth="71.0">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Text>
          </children>
         </AnchorPane>
     </children>
