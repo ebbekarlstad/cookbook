@@ -225,12 +225,12 @@ public class RecipeDetailsViewController {
       private void handleweekButtonAction(ActionEvent event) {
       try {
 
-        Parent favoriteRecipesParent = FXMLLoader.load(getClass().getResource("/weekList.fxml"));
-        Scene favoriteRecipesScene = new Scene(favoriteRecipesParent);
+        Parent parent = FXMLLoader.load(getClass().getResource("/PopupWeekList.fxml"));
+        Scene scene = new Scene(parent);
 
       
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(favoriteRecipesScene);
+        window.setScene(scene);
         window.show();
       } catch (IOException e) {
         e.printStackTrace();
