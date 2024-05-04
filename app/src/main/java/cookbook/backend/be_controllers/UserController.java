@@ -1,6 +1,15 @@
 package cookbook.backend.be_controllers;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.DatabaseMng;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.sql.Statement; 
+import java.sql.ResultSet;
+
 
 import java.sql.*;
 
@@ -43,33 +52,23 @@ public class    UserController {
     }
   }
 
-  // For later when logged in user has been implemented.
+  // Method to get all users from the database.
+  public List<User> getAllUsers() {
+    List<User> users = new ArrayList<>();
+    String sql = "SELECT UserID, DisplayName FROM users"; // Adjust SQL as needed
+    try (Connection conn = this.dbManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql)) {
 
-//    public static User searchForUser(String UserName, String Password) throws SQLException {
-//
-//        String query = "SELECT * FROM user WHERE username=(?) AND password=(?) LIMIT 1;";
-//
-//        // If theres no user with that information, return null.
-//        loggedInUser = null;
-//        Connection conn = DriverManager
-//                .getConnection("jdbc:mysql://localhost/cookbook?user=root&password=root&useSSL=false");
-//
-//        try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-//            sqlStatement.setString(1, UserName);
-//            sqlStatement.setString(2, Password);
-//            ResultSet result = sqlStatement.executeQuery();
-//            if (result.next()) {
-//                loggedInUser = new User(
-//                        result.getLong("UserID"),
-//                        result.getString("Username"),
-//                        result.getString("password"),
-//                        result.getBoolean("IsAdmin"));
-//            }
-//            result.close();
-//        } catch (SQLException x) {
-//            System.out.println(x);
-//        }
-//        return loggedInUser;
-//    }
+        while (rs.next()) {
+          User user = new User(rs.getLong("UserID"), rs.getString("DisplayName"), sql, sql, null, dbManager, sql);
+          users.add(user);
+        }
+    } catch (SQLException e) {
+      System.err.println("Error retrieving users: " + e.getMessage());
+      return Collections.emptyList();
+    }
+    return users;
+  }
 }
 

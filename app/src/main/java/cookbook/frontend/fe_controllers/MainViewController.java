@@ -152,6 +152,23 @@ public class MainViewController {
           e.printStackTrace();
       }
   }
+
+  @FXML
+  private void handleInbox(ActionEvent event) {
+      try {
+          // Load the main navigation menu FXML
+          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/MessagesView.fxml"));
+          Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
+  
+          // Get the current stage and replace it
+          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+          window.setScene(mainNavigationMenuScene);
+          window.show();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
   @FXML
     private void handleFavoriteButtonAction(ActionEvent event) {
       try {

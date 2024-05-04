@@ -109,7 +109,7 @@ public class RecipeListViewController {
 
               // Setup and show the new stage (or scene)
               Scene commentViewScene = new Scene(commentViewParent);
-              Stage window = new Stage(); 
+              Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow(); // Fixed this to not open in a new tab 
               window.setScene(commentViewScene);
               window.show();
             } catch (IOException e) {
