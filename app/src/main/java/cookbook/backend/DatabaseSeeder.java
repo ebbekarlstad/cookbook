@@ -467,8 +467,11 @@ public class DatabaseSeeder {
             + "`Unit` VARCHAR(45) NOT NULL,"
             + " PRIMARY KEY (`ItemID`));";
 
+    String insertDataSQL = "INSERT INTO Shopping_List (ItemName, Amount, Unit)"
+            + "VALUES ('test', 0.0, 'x');";
      seedTable(dropTableSQL);
      seedTable(createTableSQL);
+     seedTable(insertDataSQL);
   }
 
   public static void main(String[] args) {

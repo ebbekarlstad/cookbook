@@ -59,6 +59,8 @@ public class ShoppingListViewController {
     @FXML
     private void initialize() {
         unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
+        populateTableView();
+
     }
 
     private void populateTableView() {
@@ -89,9 +91,12 @@ public class ShoppingListViewController {
         UnitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
 
         ShoppingColumn.setItems(items);
+        populateTableView();
     }
     @FXML
     void addItem(ActionEvent event) {
+        populateTableView();
+
         String itemName = ItemName.getText();
         float quantity = Float.parseFloat(Quantity.getText());
         String selectedUnit = unit.getValue();
@@ -104,7 +109,6 @@ public class ShoppingListViewController {
             preparedStatement.setString(3, selectedUnit);
 
             preparedStatement.executeUpdate();
-            populateTableView();
 
         } catch (SQLException e) {
           throw new RuntimeException("The connect is not established ... bruh" + e);
@@ -118,12 +122,60 @@ public class ShoppingListViewController {
 
     @FXML
     void EditItem(ActionEvent event) {
+        // Get the selected item from the TableView
+        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
 
+        if (selectedItem != null) {
+            // Populate the text fields with the data of the selected item
+            ItemName.setText(selectedItem.getName());
+            Quantity.setText(Float.toString(selectedItem.getAmount()));
+            unit.setValue(selectedItem.getUnit());
+        } else {
+            // If no item is selected, display a message to the user
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Item Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an item to edit.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void SaveItem(ActionEvent event) {
+        // Get the selected item from the TableView
+        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
 
+        if (selectedItem != null) {
+            // Update the selected item with the edited values
+            selectedItem.setName(ItemName.getText());
+            selectedItem.setAmount(Float.parseFloat(Quantity.getText()));
+            selectedItem.setUnit(unit.getValue());
+
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
+                // Update the database with the edited item
+                String query = "UPDATE Shopping_List SET ItemName = ?, Amount = ?, Unit = ? WHERE ItemID = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setString(1, selectedItem.getName());
+                preparedStatement.setFloat(2, selectedItem.getAmount());
+                preparedStatement.setString(3, selectedItem.getUnit());
+                preparedStatement.setInt(4, selectedItem.getId());
+
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to update item in the database: " + e);
+            }
+
+
+            // Refresh the TableView to reflect the changes
+            populateTableView();
+        } else {
+            // If no item is selected, display a message to the user
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Item Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an item to edit.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
