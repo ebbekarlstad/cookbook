@@ -16,6 +16,7 @@ public class PopupWeeklyController {
 
     @FXML
     private ComboBox<String> weeksComboBox;
+
     @FXML
     private ComboBox<String> daysComboBox;
 
@@ -24,10 +25,14 @@ public class PopupWeeklyController {
     private Long userId;
 
     public void initialize() {
-        DatabaseMng dbManager = new DatabaseMng();
-        weeklyController = new WeeklyController(dbManager);
-        loadWeeksIntoComboBox();
-        setupComboBoxListeners();
+        try {
+            DatabaseMng dbManager = new DatabaseMng();
+            weeklyController = new WeeklyController(dbManager);
+            loadWeeksIntoComboBox();
+            setupComboBoxListeners();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initData(Recipe recipe, Long userId) {
@@ -44,8 +49,17 @@ public class PopupWeeklyController {
     }
 
     private void loadWeeksIntoComboBox() {
-        List<Date> weeks = weeklyController.getYearlyWeeks();
-        weeksComboBox.getItems().addAll(weeks.stream().map(date -> new SimpleDateFormat("w-YYYY").format(date)).collect(Collectors.toList()));
+        try {
+            List<Date> weeks = weeklyController.getYearlyWeeks();
+            if (weeks != null) {
+                weeksComboBox.getItems().addAll(weeks.stream().map(date -> new SimpleDateFormat("w-YYYY").format(date)).collect(Collectors.toList()));
+            } else {
+                System.out.println("No weeks data available.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error loading weeks data: " + e.getMessage());
+        }
     }
 
     private void setupComboBoxListeners() {
@@ -54,10 +68,14 @@ public class PopupWeeklyController {
     }
 
     private void handleSelectionChange() {
-        String selectedWeek = weeksComboBox.getSelectionModel().getSelectedItem();
-        String selectedDay = daysComboBox.getSelectionModel().getSelectedItem();
-        if (selectedWeek != null && selectedDay != null) {
-            saveSelectionToDatabase(selectedWeek, selectedDay);
+        try {
+            String selectedWeek = weeksComboBox.getSelectionModel().getSelectedItem();
+            String selectedDay = daysComboBox.getSelectionModel().getSelectedItem();
+            if (selectedWeek != null && selectedDay != null) {
+                saveSelectionToDatabase(selectedWeek, selectedDay);
+            }
+        } catch (Exception e) {
+            System.out.println("Error handling selection change: " + e.getMessage());
         }
     }
 

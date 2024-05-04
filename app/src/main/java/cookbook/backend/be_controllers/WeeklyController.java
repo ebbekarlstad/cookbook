@@ -146,7 +146,7 @@ public class WeeklyController {
 
     public Map<String, List<Recipe>> getWeeklyRecipes(Long userId, Date weekStartDate) {
       Map<String, List<Recipe>> recipesForWeek = new HashMap<>();
-      String[] daysOfWeek = {"Monady", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+      String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
       for (String day : daysOfWeek) {
         recipesForWeek.put(day, getRecipesForDay(userId, weekStartDate, day));
       }
