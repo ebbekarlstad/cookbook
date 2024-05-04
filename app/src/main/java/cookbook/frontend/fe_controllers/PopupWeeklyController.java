@@ -21,6 +21,17 @@ public class PopupWeeklyController {
     private WeeklyController weeklyController;
     private int userId = 1;
 
+    public void initialize() {
+        DatabaseMng dbManager = new DatabaseMng();
+        weeklyController = new WeeklyController(dbManager);
+        loadWeeksIntoComboBox();
+        // loadDaysIntoComboBox();
+        // setupComboBoxListeners();
+    }
 
+    private void loadWeeksIntoComboBox() {
+        List<String> days = weeklyController.getWeekdays();
+        daysComboBox.getItems().setAll(days);
+    }
     
 }
