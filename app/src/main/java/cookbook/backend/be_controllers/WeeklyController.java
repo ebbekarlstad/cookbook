@@ -3,12 +3,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import cookbook.backend.DatabaseMng;
 
 import java.util.Map;
+
+
 import java.util.HashMap;
 import java.util.Calendar;
 import java.util.ArrayList;
@@ -148,6 +151,35 @@ public class WeeklyController {
         recipesForWeek.put(day, getRecipesForDay(userId, weekStartDate, day));
       }
       return recipesForWeek;
+    }
+
+    public int ensureWeeklyDinnerListExists(int userId, Date weekStartDate) {
+      try (Connection conn = dbManager.getConnection()) {
+        String checkSql = "SELECT WeeklyDinnerListID FROM weekly_dinner_list WHERE UserID = ? AND Week = ?";
+        try (PreparedStatement check = conn.prepareStatement(checkSql)) {
+          check.setInt(1, userId);
+          check.setDate(2, weekStartDate);
+          ResultSet rs = check.executeQuery();
+          if (rs.next()) {
+            return rs.getInt("WeeklyDinnerListID");
+          }
+        }
+        String insertSql = "INSERT INTO weekly_dinner_list (UserID, Week) VALUES (?, ?)";
+        try (PreparedStatement insert = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+          insert.setInt(1, userId);
+          insert.setDate(2, weekStartDate);
+          int affectedRows = insert.executeUpdate();
+          if (affectedRows > 0) {
+            ResultSet rs = insert.getGeneratedKeys();
+            if (rs.next()) {
+              return rs.getInt(1);
+            }
+          }
+        }
+      } catch (SQLException e) {
+        System.out.println("Error ensuring weekly dinner lists exist: " + e.getMessage());
+      }
+      return -1;
     }
 
     public List<Date> getYearlyWeeks() {

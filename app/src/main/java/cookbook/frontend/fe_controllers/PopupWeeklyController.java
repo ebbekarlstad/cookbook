@@ -26,7 +26,7 @@ public class PopupWeeklyController {
         weeklyController = new WeeklyController(dbManager);
         loadWeeksIntoComboBox();
         loadDaysIntoComboBox();
-        // setupComboBoxListeners();
+        setupComboBoxListeners();
     }
 
     private void loadDaysIntoComboBox() {
@@ -37,6 +37,26 @@ public class PopupWeeklyController {
     private void loadWeeksIntoComboBox() {
         List<Date> weeks = weeklyController.getYearlyWeeks();
         weeksComboBox.getItems().addAll(weeks.stream().map(date -> new SimpleDateFormat("w-YYYY").format(date)).collect(Collectors.toList()));
+    }
+
+    private void setupComboBoxListeners() {
+        weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> handleSelectionChange());
+        daysComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> handleSelectionChange());
+    }
+
+    private void handleSelectionChange() {
+        String selectedWeek = weeksComboBox.getSelectionModel().getSelectedItem();
+        String selectedDay = daysComboBox.getSelectionModel().getSelectedItem();
+        if (selectedWeek != null && selectedDay != null) {
+            saveSelectionToDatabase(selectedWeek, selectedDay);
+        }
+    }
+
+    private void saveSelectionToDatabase(String week, String day) {
+        // try { method here, link to ensureweeklydinnerlists exist
+            
+        // }
+
     }
     
 }
