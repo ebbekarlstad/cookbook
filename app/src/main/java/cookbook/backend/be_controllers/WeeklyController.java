@@ -3,6 +3,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import cookbook.backend.DatabaseMng;
 
 import java.util.Map;
@@ -158,6 +161,23 @@ public class WeeklyController {
         cal.add(Calendar.WEEK_OF_YEAR, 1);
       }
       return yearlyWeeks;
+    }
+
+    public List<String> getWeekdays() {
+      List<String> weekdays = new ArrayList<>();
+      List<Date> yearlyWeeks = getYearlyWeeks();
+      Calendar cal = Calendar.getInstance();
+
+      for (Date weekStartDate : yearlyWeeks) {
+        cal.setTime(weekStartDate);
+
+        for (int i = 0; i < 7; i++) {
+          String dayOfWeek = new SimpleDateFormat("EEEE", Locale.getDefault()).format(cal.getTime());
+          weekdays.add(dayOfWeek);
+          cal.add(Calendar.DAY_OF_WEEK, 1);
+        }
+      }
+      return weekdays;
     }
 
 }
