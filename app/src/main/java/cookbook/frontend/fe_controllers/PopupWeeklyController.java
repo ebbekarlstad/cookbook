@@ -25,13 +25,18 @@ public class PopupWeeklyController {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
         loadWeeksIntoComboBox();
-        // loadDaysIntoComboBox();
+        loadDaysIntoComboBox();
         // setupComboBoxListeners();
     }
 
-    private void loadWeeksIntoComboBox() {
+    private void loadDaysIntoComboBox() {
         List<String> days = weeklyController.getWeekdays();
         daysComboBox.getItems().setAll(days);
+    }
+
+    private void loadWeeksIntoComboBox() {
+        List<Date> weeks = weeklyController.getYearlyWeeks();
+        weeksComboBox.getItems().addAll(weeks.stream().map(date -> new SimpleDateFormat("w-YYYY").format(date)).collect(Collectors.toList()));
     }
     
 }
