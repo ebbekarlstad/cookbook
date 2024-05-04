@@ -91,7 +91,6 @@ public class ShoppingListViewController {
         UnitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
 
         ShoppingColumn.setItems(items);
-        populateTableView();
     }
     @FXML
     void addItem(ActionEvent event) {
