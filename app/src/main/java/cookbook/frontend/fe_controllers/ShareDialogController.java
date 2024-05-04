@@ -3,6 +3,8 @@ package cookbook.frontend.fe_controllers;
 import java.util.List;
 
 import java.lang.String;
+import java.sql.SQLException;
+
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_objects.User;
 import javafx.collections.FXCollections;
@@ -78,12 +80,12 @@ public class ShareDialogController {
   }
 
   @FXML
-  public void initialize() {
+  public void initialize() throws SQLException {
     loadUsers();
   }
 
   // Method to load all users to dropdown combobox.
-  private void loadUsers() {
+  private void loadUsers() throws SQLException {
     UserController userController = new UserController(dbManager);
     List<User> users = userController.getAllUsers();
     recipientComboBox.setItems(FXCollections.observableArrayList(users));

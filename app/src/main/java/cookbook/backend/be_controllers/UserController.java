@@ -11,9 +11,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 
-import java.sql.*;
-
-public class    UserController {
+public class UserController {
   private DatabaseMng dbManager;
   private User user;
 

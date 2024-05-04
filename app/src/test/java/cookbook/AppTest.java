@@ -14,6 +14,8 @@ import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_controllers.FavoritesController;
+
+import java.sql.SQLException;
 import java.util.List;
 
 class AppTest {
@@ -28,7 +30,7 @@ class AppTest {
      private FavoritesController favoritesController;
 
     @BeforeEach
-    void setup() {
+    void setup() throws SQLException {
         dbManager = new DatabaseMng();
         userController = new UserController(dbManager);
         login = new LogIn(dbManager);
