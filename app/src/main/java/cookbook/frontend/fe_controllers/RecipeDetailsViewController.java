@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -224,14 +225,16 @@ public class RecipeDetailsViewController {
       @FXML
       private void handleweekButtonAction(ActionEvent event) {
       try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
+        Parent parent = loader.load();
 
-        Parent parent = FXMLLoader.load(getClass().getResource("/PopupWeekList.fxml"));
-        Scene scene = new Scene(parent);
-
+        PopupWeeklyController popupController = loader.getController();
+        popupController.initData(this.recipe, this.userId);
       
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(parent));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
       } catch (IOException e) {
         e.printStackTrace();
         }

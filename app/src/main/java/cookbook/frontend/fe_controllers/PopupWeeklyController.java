@@ -10,6 +10,7 @@ import java.sql.Date;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
+import cookbook.backend.be_objects.Recipe;
 
 public class PopupWeeklyController {
 
@@ -19,14 +20,21 @@ public class PopupWeeklyController {
     private ComboBox<String> daysComboBox;
 
     private WeeklyController weeklyController;
-    private int userId = 1;
+    private Recipe recipe;
+    private Long userId;
 
     public void initialize() {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
         loadWeeksIntoComboBox();
+    }
+
+    public void initData(Recipe recipe, Long userId) {
+        this.recipe = recipe;
+        this.userId = userId;
+        loadWeeksIntoComboBox();
         loadDaysIntoComboBox();
-        setupComboBoxListeners();
+
     }
 
     private void loadDaysIntoComboBox() {
@@ -53,10 +61,8 @@ public class PopupWeeklyController {
     }
 
     private void saveSelectionToDatabase(String week, String day) {
-        // try { method here, link to ensureweeklydinnerlists exist
+        try {
             
-        // }
-
     }
     
 }
