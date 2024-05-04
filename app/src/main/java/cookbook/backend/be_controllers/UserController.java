@@ -11,11 +11,14 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 
-public class UserController {
-  private DatabaseMng dbManager;
-    private User user;
+import java.sql.*;
 
-  public UserController(DatabaseMng dbManager) {
+public class    UserController {
+  private DatabaseMng dbManager;
+  private User user;
+
+
+  public UserController(DatabaseMng dbManager) throws SQLException {
     this.dbManager = dbManager;
   }
 
@@ -23,7 +26,9 @@ public class UserController {
     this.user = user;
   }
 
-  public boolean saveToDatabase() {
+    public static User loggedInUser;
+
+    public boolean saveToDatabase() {
     String sql = "INSERT INTO users (UserName, DisplayName, Password, IsAdmin) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); // Använder dbManager för att få en Connection
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -66,3 +71,4 @@ public class UserController {
     return users;
   }
 }
+
