@@ -9,7 +9,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="cookbook.frontend.fe_controllers.PopupWeeklyController">
    <children>
       <ComboBox fx:id="weeksComboBox" layoutX="376.0" layoutY="83.0" prefHeight="39.0" prefWidth="172.0" />
-      <ComboBox fx:id="weeksComboBox1" layoutX="51.0" layoutY="83.0" prefHeight="39.0" prefWidth="172.0" />
+      <ComboBox fx:id="daysComboBox" layoutX="51.0" layoutY="83.0" prefHeight="39.0" prefWidth="172.0" />
       <Label layoutX="47.0" layoutY="44.0" prefHeight="39.0" prefWidth="180.0" text="  Day" />
       <Label layoutX="376.0" layoutY="44.0" prefHeight="39.0" prefWidth="172.0" text="   Week " />
 
