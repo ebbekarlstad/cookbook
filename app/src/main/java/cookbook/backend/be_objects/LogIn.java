@@ -47,6 +47,7 @@ public class LogIn {
         Optional<Integer> userId = dbManager.getUserId(userName);
         if (userId.isPresent()) {
           UserSession.getInstance().setUserId(userId.get());  // Set the userId in UserSession
+          System.out.println("Debug: User logged in successfully - UserID: " + userId.get() + ", Username: " + userName);
           return true;  // Login successful
         }
       }
