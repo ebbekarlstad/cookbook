@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem fx:id="help_button" mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <children>
+            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
+               <image>
+                  <Image url="@images/abstract-textured-backgound.jpg" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="703.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="340.0" />
+            <Button fx:id="newRecipeButton" layoutX="22.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" text="    New Recipe" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button layoutX="22.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="50.0" fitWidth="67.0" layoutX="22.0" layoutY="123.0">
+               <image>
+                  <Image url="@images/search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="39.0" layoutY="42.0">
+               <image>
+                  <Image url="@images/plus.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="22.0" layoutY="566.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="566.0">
+               <image>
+                  <Image url="@images/mail.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="help_button" layoutX="22.0" layoutY="629.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="634.0">
+               <image>
+                  <Image url="@images/question.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="favoriteButton" layoutX="22.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Favorite" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="30.0" layoutY="215.0">
+               <image>
+                  <Image url="@images/star.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="favoriteButton1" layoutX="22.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="29.0" layoutY="307.0">
+               <image>
+                  <Image url="@images/Shoppinglist.png" />
+               </image>
+            </ImageView>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
