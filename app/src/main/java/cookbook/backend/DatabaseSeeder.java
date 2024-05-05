@@ -361,12 +361,12 @@ public class DatabaseSeeder {
     String dropTableSQL = "DROP TABLE IF EXISTS `weekly_dinner_lists`;";
 
     String createTableSQL = "CREATE TABLE `weekly_dinner_lists` ("
-        + "`WeeklyDinnerListID` int NOT NULL, "
+        + "`WeeklyDinnerListID` int NOT NULL AUTO_INCREMENT, "
         + "`UserID` int NOT NULL, "
-        + "`Week` date NOT NULL, " // change to data format yyyy-mm-dd
+        + "`Week` date NOT NULL, "
         + "PRIMARY KEY (`WeeklyDinnerListID`), "
-        + "KEY `UserID1_idx` (`UserID`), "
-        + "CONSTRAINT `UserID1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`))";
+        + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
 
     seedTable(dropTableSQL);
     seedTable(createTableSQL);

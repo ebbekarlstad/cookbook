@@ -100,6 +100,7 @@ public class WeeklyViewController {
         if (newSelection != null) {
             // Optional: Load recipes for the selected week
             // You need to convert the string back to Date or adjust the method to handle date selection
+            System.out.println(newSelection);
             Date selectedWeek = Date.valueOf(newSelection);
             LocalDate date = weeks.get(weeksComboBox.getSelectionModel().getSelectedIndex()).toLocalDate();
             

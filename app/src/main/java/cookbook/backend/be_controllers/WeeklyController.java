@@ -113,20 +113,29 @@ public class WeeklyController {
 
 
     public boolean addRecipeToWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
-      String sql = "INSERT INTO weekly_recipes (user_id, week, recipe_id, day_of_week) VALUE (?, ?, ?, ?)";
+      // Först kontrollera att det finns en WeeklyDinnerListID för den angivna veckan
+      int weeklyDinnerListId = ensureWeeklyDinnerListExists(userId, weekStartDate);
+      if (weeklyDinnerListId == -1) {
+          // Hantera fel om det inte finns något WeeklyDinnerListID
+          return false;
+      }
+  
+      String sql = "INSERT INTO dinner_list_recipes (WeeklyDinnerListID, RecipeID, DayOfWeek) VALUES (?, ?, ?)";
       try (Connection conn = dbManager.getConnection();
-          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setLong(1, userId);
-            pstmt.setDate(2, weekStartDate);
-            pstmt.setString(3, recipeId);
-            pstmt.setString(4, dayOfWeek);
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-          } catch (SQLException e) {
-            System.out.println("Erron adding recipe to weekly list: " + e.getMessage());
-            return false;
-          }
-    }
+           PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setInt(1, weeklyDinnerListId);
+          pstmt.setString(2, recipeId);
+          pstmt.setString(3, dayOfWeek);
+          int affectedRows = pstmt.executeUpdate();
+          return affectedRows > 0;
+      } catch (SQLException e) {
+          System.out.println("Error adding recipe to weekly list: " + e.getMessage());
+          return false;
+      }
+  }
+  
+    
+    
 
     public boolean removeRecipeFromWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
       String sql = "DELETE FROM weekly_recipes where user_id = ? AND week = ? AND recipe_id = ? AND day_of_week = ?";
