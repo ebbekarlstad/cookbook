@@ -43,7 +43,13 @@
             </Text>
             <TextField fx:id="searchByNameField" layoutX="17.0" layoutY="114.0" prefHeight="250.0" prefWidth="242.0" promptText="Enter keyword here..." style="-fx-background-color: White;" />
             <Button fx:id="searchByNameButton" layoutX="66.0" layoutY="380.0" mnemonicParsing="false" onAction="#searchHelp" prefHeight="26.0" prefWidth="120.0" text="Search" />
-            <TextArea fx:id="helpResultField" layoutX="293.0" layoutY="48.0" prefHeight="631.0" prefWidth="633.0" editable="false" promptText="Search results will appear here..." wrapText="true" style="-fx-background-color: White;" />
+            <TextArea fx:id="helpResultField" layoutX="293.0" layoutY="48.0" prefHeight="631.0" prefWidth="633.0" editable="false" wrapText="true" style="-fx-background-color: White;">
+                <!-- The tutorial text goes here -->
+                <text>
+                    Welcome to the Digital Cookbook Help System...
+                    (Include the entire tutorial text here)
+                </text>
+            </TextArea>
          </children>
         </AnchorPane>
     </children>

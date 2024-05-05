@@ -20,29 +20,15 @@ public class SearchHelpController {
   @FXML
   private void searchHelp() {
       String keyword = searchByNameField.getText().trim();
-      if (keyword.isEmpty()) {
-          helpResultField.setText("Please enter a keyword to search.");
-      } else {
           int startIndex = helpResultField.getText().toLowerCase().indexOf(keyword.toLowerCase());
           if (startIndex == -1) {
-              helpResultField.setText("No help found for '" + keyword + "'. Try different keywords.");
           } else {
               helpResultField.selectRange(startIndex, startIndex + keyword.length());
-              helpResultField.requestFocus();  // Optional: Brings the focus to the TextArea to highlight the text.
+              helpResultField.requestFocus();  // This will bring the focus to the TextArea and highlight the text.
           }
       }
-  }
   
-
-  private String findHelpContent(String keyword) {
-    // Simulated response
-    switch (keyword.toLowerCase()) {
-      case "add recipe":
-        return "To add a recipe, go to the 'Add Recipe' section, fill in the details and click 'Save'.";
-      default:
-        return "No help found for '" + keyword + "'. Try different keywords.";
-    }
-  }
+  
 
 @FXML
 private void handleHelpBackButton(ActionEvent event) {
