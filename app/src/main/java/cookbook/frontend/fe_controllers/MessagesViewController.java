@@ -41,7 +41,9 @@ public class MessagesViewController {
     messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
       if (newSelection != null) {
         try {
-          messageContent.setText(messageController.getName(newSelection.getSenderId()) +"\n" + newSelection.getContent());
+          messageContent.setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t" + newSelection.getSentTime() 
+          +"\n" + newSelection.getContent()
+          );
         } catch (SQLException e) {
           e.printStackTrace();
         }

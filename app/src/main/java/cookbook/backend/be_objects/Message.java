@@ -55,7 +55,7 @@ public class Message {
   }
 
   public String getContent() {
-    return "Message: " + content;
+    return content;
   }
 
   public void setContent(String content) {
