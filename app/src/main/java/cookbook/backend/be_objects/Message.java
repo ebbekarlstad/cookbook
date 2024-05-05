@@ -8,17 +8,21 @@ public class Message {
   private Long messageId;
   private Long senderId;
   private Long receiverId;
-  private String recipeId;  // Foreign key to the recipes table
+  private Long recipeId;  // Foreign key to the recipes table
   private String content;  // Optional message text about the recipe
   private Timestamp sentTime;  // Timestamp when the message was created
 
   // Constructor
-  public Message(Long senderId, Long receiverId, String recipeId, String content) {
+  public Message(Long senderId, Long receiverId, Long string, String content) {
     this.senderId = senderId;
     this.receiverId = receiverId;
-    this.recipeId = recipeId;
+    this.recipeId = string;
     this.content = content;
     this.sentTime = new Timestamp(System.currentTimeMillis()); // Set current time as the timestamp
+  }
+
+  public Message(long long1, long long2, String string, String string2) {
+    //TODO Auto-generated constructor stub
   }
 
   // Getters and Setters
@@ -46,11 +50,11 @@ public class Message {
     this.receiverId = receiverId;
   }
 
-  public String getRecipeId() {
+  public Long getRecipeId() {
     return recipeId;
   }
 
-  public void setRecipeId(String recipeId) {
+  public void setRecipeId(Long recipeId) {
     this.recipeId = recipeId;
   }
 
