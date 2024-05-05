@@ -228,7 +228,7 @@ public class RecipeDetailsViewController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
         Parent parent = loader.load();
 
-        PopupWeeklyController popupController = loader.getController();
+        PopupWeeklyViewController popupController = loader.getController();
         if (popupController != null) {
             popupController.initData(recipe, userId);
         } else {
