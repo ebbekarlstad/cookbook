@@ -40,7 +40,11 @@ public class MessagesViewController {
 
     messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
       if (newSelection != null) {
-        messageContent.setText(newSelection.getContent());
+        try {
+          messageContent.setText(messageController.getName(newSelection.getSenderId()) +"\n" + newSelection.getContent());
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
       }
     });
   }
