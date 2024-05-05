@@ -517,5 +517,6 @@ public class DatabaseSeeder {
     seeder.seedShoppingList(); // made a new schema for the shopping list
     seeder.seedSentRecipes();
     seeder.seedHelpSystem();
+    seeder.seedMessages();
   }
 }
