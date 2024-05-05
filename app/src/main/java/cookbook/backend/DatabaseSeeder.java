@@ -22,7 +22,7 @@ public class DatabaseSeeder {
 		public void seedMessages() {
 			String dropTableSql = "DROP TABLE IF EXISTS `messages`;";
 			String createTableSQL = "CREATE TABLE `messages` ("
-					+ "`message_id` BIGINT AUTO_INCREMENT PRIMARY KEY,"
+					+ "`message_id` INT AUTO_INCREMENT PRIMARY KEY,"
 					+ "`sender_id` INT NOT NULL,"
 					+ "`receiver_id` INT NOT NULL,"
 					+ "`recipe_id` VARCHAR(255) NOT NULL,"
@@ -517,5 +517,6 @@ public class DatabaseSeeder {
     seeder.seedShoppingList(); // made a new schema for the shopping list
     seeder.seedSentRecipes();
     seeder.seedHelpSystem();
+    seeder.seedMessages();
   }
 }
