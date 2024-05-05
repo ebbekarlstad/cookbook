@@ -19,15 +19,20 @@ public class SearchHelpController {
   private TextArea helpResultField;
   @FXML
   private void searchHelp() {
-    String keyword = searchByNameField.getText().trim();
-    if (keyword.isEmpty()) {
-      helpResultField.setText("Please enter a keyword to search.");
-    } else {
-      // Implement search logic here
-      String helpContent = findHelpContent(keyword);
-      helpResultField.setText(helpContent);
-    }
+      String keyword = searchByNameField.getText().trim();
+      if (keyword.isEmpty()) {
+          helpResultField.setText("Please enter a keyword to search.");
+      } else {
+          int startIndex = helpResultField.getText().toLowerCase().indexOf(keyword.toLowerCase());
+          if (startIndex == -1) {
+              helpResultField.setText("No help found for '" + keyword + "'. Try different keywords.");
+          } else {
+              helpResultField.selectRange(startIndex, startIndex + keyword.length());
+              helpResultField.requestFocus();  // Optional: Brings the focus to the TextArea to highlight the text.
+          }
+      }
   }
+  
 
   private String findHelpContent(String keyword) {
     // Simulated response
