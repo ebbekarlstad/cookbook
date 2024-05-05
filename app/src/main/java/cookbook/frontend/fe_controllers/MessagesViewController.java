@@ -6,6 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import cookbook.backend.be_objects.Message;
+import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.MessageController;
 import javafx.collections.FXCollections;
@@ -53,7 +54,7 @@ public class MessagesViewController {
 
   private void loadMessages() {
     try {
-      int userId = 2; // This should be dynamic
+      int userId = UserSession.getInstance().getUserId();
       List<Message> messages = messageController.getInbox(userId);
       ObservableList<Message> observableMessages = FXCollections.observableArrayList(messages);
       messageTableView.setItems(observableMessages);

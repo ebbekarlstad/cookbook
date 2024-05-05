@@ -18,15 +18,14 @@ public class MessageController {
     }
 
     public boolean saveMessage(Message messageObject) {
-        String sql = "INSERT INTO messages (message_id, sender_id, receiver_id, recipe_id, content, sent_time) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO messages (sender_id, receiver_id, recipe_id, content, sent_time) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = dbManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setLong(1, messageObject.getMessageId());
-            pstmt.setLong(2, messageObject.getSenderId());
-            pstmt.setLong(3, messageObject.getReceiverId());
-            pstmt.setString(4, messageObject.getRecipeId());
-            pstmt.setString(5, messageObject.getContent());
-            pstmt.setTimestamp(6, messageObject.getSentTime());
+            pstmt.setLong(1, messageObject.getSenderId());
+            pstmt.setLong(2, messageObject.getReceiverId());
+            pstmt.setString(3, messageObject.getRecipeId());
+            pstmt.setString(4, messageObject.getContent());
+            pstmt.setTimestamp(5, messageObject.getSentTime());
     
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
