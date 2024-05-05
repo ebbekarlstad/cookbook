@@ -155,7 +155,7 @@ public class WeeklyController {
 
     public int ensureWeeklyDinnerListExists(Long userId, Date weekStartDate) {
       try (Connection conn = dbManager.getConnection()) {
-        String checkSql = "SELECT WeeklyDinnerListID FROM weekly_dinner_list WHERE UserID = ? AND Week = ?";
+        String checkSql = "SELECT WeeklyDinnerListID FROM weekly_dinner_lists WHERE UserID = ? AND Week = ?";
         try (PreparedStatement check = conn.prepareStatement(checkSql)) {
           check.setLong(1, userId);
           check.setDate(2, weekStartDate);
@@ -164,10 +164,10 @@ public class WeeklyController {
             return rs.getInt("WeeklyDinnerListID");
           }
         }
-        String insertSql = "INSERT INTO weekly_dinner_list (UserID, Week) VALUES (?, ?)";
+        String insertSql = "INSERT INTO weekly_dinner_lists (UserID, Week, WeeklyDinnerListID) VALUES (?, ?, ?)";
         try (PreparedStatement insert = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
           insert.setLong(1, userId);
-          insert.setDate(2, weekStartDate);
+          insert.setDate(2, weekStartDate); 
           int affectedRows = insert.executeUpdate();
           if (affectedRows > 0) {
             ResultSet rs = insert.getGeneratedKeys();

@@ -22,7 +22,7 @@ public class PopupWeeklyViewController {
 
     private WeeklyController weeklyController;
     private Recipe recipe;
-    private Long userId;
+    private Long userId = 1L;
 
     public void initialize() {
         try {

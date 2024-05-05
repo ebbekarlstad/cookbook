@@ -230,6 +230,7 @@ private void handleweekButtonAction(ActionEvent event) {
 
         PopupWeeklyViewController popupController = loader.getController();
         this.userId = 1L; // Sätter userId direkt här
+        System.out.println(userId + " " + recipe.getId());
         if (popupController != null) {
             popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
         } else {
