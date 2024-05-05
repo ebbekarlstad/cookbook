@@ -212,5 +212,12 @@ public class WeeklyController {
       return weekdays;
     }
 
+
+
+    public static void addRecipeToWeeklyList(Long userId, Recipe recipe) {
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'addRecipeToWeeklyList'");
+    }
+
 }
   

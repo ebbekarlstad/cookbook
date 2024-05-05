@@ -222,31 +222,33 @@ public class RecipeDetailsViewController {
         favoritesController.removeFavorite(userId, recipe);
       }
 
-      @FXML
-      private void handleweekButtonAction(ActionEvent event) {
-      try {
+@FXML
+private void handleweekButtonAction(ActionEvent event) {
+    try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
         Parent parent = loader.load();
 
         PopupWeeklyViewController popupController = loader.getController();
+        this.userId = 1L; // Sätter userId direkt här
         if (popupController != null) {
-            popupController.initData(recipe, userId);
+            popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
         } else {
-            System.out.println("Popupcontroller was not initialized.");
-            return; //to avoid further execusion
+            System.out.println("Popup controller was not initialized.");
+            return; // To avoid further execution
         }
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Weeckly Recipe Planner");
-        stage.initModality(Modality.APPLICATION_MODAL); // restricts interaction to the other windows
+        stage.setTitle("Weekly Recipe Planner");
+        stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
         stage.showAndWait();
-      } catch (IOException e) {
+    } catch (IOException e) {
         System.out.println("Failed to load the weekly list popup: " + e.getMessage());
         e.printStackTrace();
         System.out.println("Error when opening the popup: " + e.getMessage());
-        }
     }
+}
+
 
 
     

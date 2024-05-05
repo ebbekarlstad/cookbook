@@ -35,12 +35,12 @@ public class PopupWeeklyViewController {
         }
     }
 
+
     public void initData(Recipe recipe, Long userId) {
         this.recipe = recipe;
-        this.userId = userId;
+        this.userId = 1L;  // Hårdkodat för nuvarande användare som test
         loadWeeksIntoComboBox();
         loadDaysIntoComboBox();
-
     }
 
     private void loadDaysIntoComboBox() {
