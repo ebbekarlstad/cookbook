@@ -86,9 +86,9 @@ public class WeeklyController {
       List <Recipe> recipes = new ArrayList<>();
       String sql = "SELECT r.recipe_id, r.recipe_name, r.short_desc, r.detailed_desc " +
       "FROM recipes r " +
-      "INNER JOIN weekly_recipes wr ON r.recipe_id = wr.recipe_id " +
-      "INNER JOIN weekly_dinner_lists wl ON wr.WeeklyDinnerListID = wl.WeeklyDinnerListID " +
-      "WHERE wl.UserID = ? AND wl.Week = ? AND wr.day_of_week = ?";
+      "INNER JOIN dinner_list_recipes dr ON r.recipe_id = dr.RecipeID " +
+      "INNER JOIN weekly_dinner_lists wl ON dr.WeeklyDinnerListID = wl.WeeklyDinnerListID " +
+      "WHERE wl.UserID = ? AND wl.Week = ? AND dr.DayOfWeek = ?";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, userId);
@@ -138,13 +138,16 @@ public class WeeklyController {
     
 
     public boolean removeRecipeFromWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
-      String sql = "DELETE FROM weekly_recipes where user_id = ? AND week = ? AND recipe_id = ? AND day_of_week = ?";
+      int weeklyDinnerListId = ensureWeeklyDinnerListExists(userId, weekStartDate);
+      if (weeklyDinnerListId == -1) {
+        return false;
+      }
+      String sql = "DELETE FROM dinner_list_recipes WHERE WeeklyDinnerListID = ? AND RecipeID = ? AND DayOfWeek = ?";
       try (Connection conn = dbManager.getConnection();
           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setLong(1, userId);
-          pstmt.setDate(2, weekStartDate);
-          pstmt.setString(3, recipeId);
-          pstmt.setString(4, dayOfWeek);
+          pstmt.setInt(1, weeklyDinnerListId);
+          pstmt.setString(2, recipeId);
+          pstmt.setString(3, dayOfWeek);
           int affectedRows = pstmt.executeUpdate();
           return affectedRows > 0;
           } catch (SQLException e) {
@@ -173,7 +176,7 @@ public class WeeklyController {
             return rs.getInt("WeeklyDinnerListID");
           }
         }
-        String insertSql = "INSERT INTO weekly_dinner_lists (UserID, Week, WeeklyDinnerListID) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO weekly_dinner_lists (UserID, Week) VALUES (?, ?)";
         try (PreparedStatement insert = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
           insert.setLong(1, userId);
           insert.setDate(2, weekStartDate); 
