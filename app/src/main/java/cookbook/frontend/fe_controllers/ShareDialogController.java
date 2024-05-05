@@ -52,7 +52,6 @@ public class ShareDialogController {
     if (recipient != null) {
       Message message = new Message(this.senderId, this.receiverId, this.recipeId, this.content);
       
-      message.setMessageId((long) 1);
       message.setSenderId((long) 1);
       message.setReceiverId((long) 2);
       message.setRecipeId(getRecipeId());
