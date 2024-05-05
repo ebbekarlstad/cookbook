@@ -70,4 +70,25 @@ public class MessageController {
         }
         return messages;
     }
-}
+
+	public String getName(long userId) throws SQLException {
+		String displayName = null;
+		String query = "SELECT U.DisplayName FROM users U WHERE U.UserID = ?;";
+
+      // Try-with-resources to ensure that resources are closed after the program is finished with them
+      try (Connection conn = dbManager.getConnection();
+           PreparedStatement pstmt = conn.prepareStatement(query)) {
+           
+          pstmt.setLong(1, userId);  // Set the user ID parameter
+          ResultSet rs = pstmt.executeQuery();  // Execute the query
+          if (rs.next()) {  // If the result set is not empty
+              displayName = rs.getString("DisplayName");  // Get the display name from the result set
+          }
+          rs.close();
+      } catch (SQLException e) {
+          // Properly handle exception, could log it and/or rethrow if needed
+          throw new SQLException("Error fetching user display name", e);
+      }
+      return displayName; // Return the display name, or null if not found
+    }
+	}

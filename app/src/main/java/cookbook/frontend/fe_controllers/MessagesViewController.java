@@ -1,61 +1,65 @@
 package cookbook.frontend.fe_controllers;
 
-import java.util.*;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
+import cookbook.backend.be_objects.Message;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.MessageController;
-import cookbook.backend.be_objects.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MessagesViewController {
-    private DatabaseMng dbManager;
-    private MessageController messageController;
+  private DatabaseMng dbManager;
+  private MessageController messageController;
 
-    public MessagesViewController() {
-      this.dbManager = new DatabaseMng();
-    }
+  @FXML
+  private TableView<Message> messageTableView;
+  @FXML
+  private TableColumn<Message, String> fromColumn;
+  @FXML
+  private TextArea messageContent;
 
-    @FXML
-    private ListView<Message> messageListView;
+  public MessagesViewController() {
+    this.dbManager = new DatabaseMng();
+  }
 
-    @FXML
-    private void initialize() {
-        messageController = new MessageController(dbManager);
+  @FXML
+  private void initialize() {
+    messageController = new MessageController(dbManager);
+    setupMessageTable();
+    loadMessages();
+  }
 
-        setupMessageListView();
-        loadMessages();
-    }
+  private void setupMessageTable() {
+    fromColumn.setCellValueFactory(new PropertyValueFactory<>("senderId")); // Assumes that senderId will be converted to a name or identifier
 
-    private void loadMessages() {
+    messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+      if (newSelection != null) {
         try {
-            int userId = 2;  // Change this to be dynamic later (and to be a String)
-            List<Message> messages = messageController.getInbox(userId); // Create the list
-            ObservableList<Message> observableMessages = FXCollections.observableArrayList(messages);
-            messageListView.setItems(observableMessages);
-        
+          messageContent.setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t" + newSelection.getSentTime() 
+          +"\n" + newSelection.getContent()
+          );
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Failed to load messages: " + e.getMessage());  // Debug output
+          e.printStackTrace();
         }
-    }
-
-    private void setupMessageListView() {
-    messageListView.setCellFactory(listView -> new ListCell<Message>() {
-        @Override
-        protected void updateItem(Message message, boolean empty) {
-            super.updateItem(message, empty);
-            if (empty || message == null) {
-                setText(null);
-            } else {
-                // Custom display format: could include message content, sender ID, etc.
-                setText(message.getContent() + " - From: " + message.getSenderId());
-            }
-        }
+      }
     });
-}
+  }
+
+  private void loadMessages() {
+    try {
+      int userId = 2; // This should be dynamic
+      List<Message> messages = messageController.getInbox(userId);
+      ObservableList<Message> observableMessages = FXCollections.observableArrayList(messages);
+      messageTableView.setItems(observableMessages);
+    } catch (SQLException e) {
+      System.err.println("Failed to load messages: " + e.getMessage());
+    }
+  }
+
 }
