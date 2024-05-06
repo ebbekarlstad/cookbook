@@ -63,9 +63,17 @@
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
             </ImageView>
-            <Text fill="#fff1e4" layoutX="391.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADMIN">
+            <ImageView fitHeight="229.0" fitWidth="229.0" layoutX="353.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/protection.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="285.0" layoutY="340.0" mnemonicParsing="false" text="Register User" />
+            <Button layoutX="419.0" layoutY="340.0" mnemonicParsing="false" text="Modify User" />
+            <Button layoutX="542.0" layoutY="340.0" mnemonicParsing="false" text="Delete User" />
+            <Text fill="#fff1e4" layoutX="334.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADMIN">
                <font>
-                  <Font name="SansSerif Bold" size="40.0" />
+                  <Font name="SansSerif Bold" size="70.0" />
                </font>
               <effect>
                   <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
@@ -75,14 +83,6 @@
                   </DropShadow>
                </effect>
             </Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="392.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/protection.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="285.0" layoutY="340.0" mnemonicParsing="false" text="Register User" />
-            <Button layoutX="419.0" layoutY="340.0" mnemonicParsing="false" text="Modify User" />
-            <Button layoutX="542.0" layoutY="340.0" mnemonicParsing="false" text="Delete User" />
       </children>
     </AnchorPane>
   </children>
