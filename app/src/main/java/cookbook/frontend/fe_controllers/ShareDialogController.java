@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_objects.User;
+import cookbook.backend.be_objects.UserSession;
 import javafx.collections.FXCollections;
 import javafx.util.StringConverter;
 import javafx.event.ActionEvent;
@@ -33,10 +34,7 @@ public class ShareDialogController {
   @FXML
   private TextField messageField;
 
-  private Long senderId;
-  private Long receiverId;
   private String recipeId;
-  private String content;
 
   Recipe recipe;
 
@@ -48,27 +46,29 @@ public class ShareDialogController {
 
   @FXML
   public void sendShare(ActionEvent event) {
-    User recipient = recipientComboBox.getValue();
-    if (recipient != null) {
-      Message message = new Message(this.senderId, this.receiverId, this.recipeId, this.content);
-      
-      message.setMessageId((long) 1);
-      message.setSenderId((long) 1);
-      message.setReceiverId((long) 2);
-      message.setRecipeId(getRecipeId());
-      message.setContent(getContent());
-      message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
+      User recipient = recipientComboBox.getValue();
+      if (recipient != null) {
+          
+          long senderId = UserSession.getInstance().getUserId();
+          long receiverId = recipient.getUserId();
+          String content = getContent();
+          String recipeId = getRecipeId();
 
-      MessageController messageManager = new MessageController(dbManager);
-      boolean result = messageManager.saveMessage(message);
-      if (result) {
-          System.out.println("Message sent successfully!");
+          // Create the message with dynamic sender and receiver IDs
+          Message message = new Message(senderId, receiverId, recipeId, content);
+          message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
+
+          // Attempt to save the message using the MessageController
+          MessageController messageManager = new MessageController(dbManager);
+          boolean result = messageManager.saveMessage(message);
+          if (result) {
+              System.out.println("Message sent successfully!");
+          } else {
+              System.out.println("Failed to send message.");
+          }
       } else {
-          System.out.println("Failed to send message.");
+          System.out.println("No recipient selected.");
       }
-    } else {
-      System.out.println("No recipient selected.");
-    }
   }
 
   private String getContent() {

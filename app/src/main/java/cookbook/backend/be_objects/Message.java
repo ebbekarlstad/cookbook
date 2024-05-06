@@ -21,6 +21,7 @@ public class Message {
     this.sentTime = new Timestamp(System.currentTimeMillis()); // Set current time as the timestamp
   }
 
+
   // Getters and Setters
   public Long getMessageId() {
     return messageId;

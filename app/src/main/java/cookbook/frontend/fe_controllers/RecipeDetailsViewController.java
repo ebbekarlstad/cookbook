@@ -19,11 +19,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.io.IOException;
 
 public class RecipeDetailsViewController {
 
     private String recipeId;
-    private Long userId;
+    private Long userId = 1L;
     private int commentId;
     Recipe recipe;
     
@@ -241,4 +242,36 @@ public class RecipeDetailsViewController {
         this.userId = 1L;
         favoritesController.removeFavorite(userId, recipe);
       }
+
+@FXML
+private void handleweekButtonAction(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
+        Parent parent = loader.load();
+
+        PopupWeeklyViewController popupController = loader.getController();
+        this.userId = 1L; // Sätter userId direkt här
+        System.out.println(userId + " " + recipe.getId());
+        if (popupController != null) {
+            popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
+        } else {
+            System.out.println("Popup controller was not initialized.");
+            return; // To avoid further execution
+        }
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Weekly Recipe Planner");
+        stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
+        stage.showAndWait();
+    } catch (IOException e) {
+        System.out.println("Failed to load the weekly list popup: " + e.getMessage());
+        e.printStackTrace();
+        System.out.println("Error when opening the popup: " + e.getMessage());
+    }
+}
+
+
+
+    
 }

@@ -9,10 +9,10 @@ import java.util.List;
 
 public class RecipeController {
 
-  private DatabaseMng dbManager;
+  private static DatabaseMng dbManager;
 
   public RecipeController(DatabaseMng dbManager) {
-    this.dbManager = dbManager;
+    RecipeController.dbManager = dbManager;
   }
   
   // ArrayList with the current recipes
@@ -242,11 +242,11 @@ public class RecipeController {
     return recipeList;
   }
 
-  public Recipe getRecipeById(Integer recipeId) {
+  public Recipe getRecipeById(String recipeId) {
     String sql = "SELECT * FROM recipes WHERE RecipeID = ?";
     try (Connection conn = dbManager.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setLong(1, recipeId);
+        pstmt.setString(1, recipeId);
         ResultSet rs = pstmt.executeQuery();
         if (rs.next()) {
             return new Recipe(rs.getString("RecipeID"), rs.getString("RecipeName"), rs.getString("ShortDesc"), rs.getString("DetailedDesc"));

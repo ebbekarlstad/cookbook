@@ -14,9 +14,11 @@ import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_controllers.FavoritesController;
+import cookbook.backend.be_controllers.WeeklyController;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 class AppTest {
     // Commented out Greeting Test Case
@@ -28,6 +30,7 @@ class AppTest {
      private DatabaseMng dbManager;
      private UserController userController;
      private FavoritesController favoritesController;
+     private WeeklyController weeklyController;
 
     @BeforeEach
     void setup() throws SQLException {
@@ -35,6 +38,7 @@ class AppTest {
         userController = new UserController(dbManager);
         login = new LogIn(dbManager);
         favoritesController = new FavoritesController(dbManager);
+        weeklyController = new WeeklyController(dbManager);
 
     }
 
@@ -50,7 +54,7 @@ class AppTest {
 
     @Test
     void testUserSaveToDatabase() {
-        User testUser = new User(1L, "user", "test user", "user", false, dbManager, null);
+        User testUser = new User(1L, "user", "test user", "user", false, dbManager, "some favourites");
         userController.setUser(testUser);
         boolean isSaved = userController.saveToDatabase();
 
@@ -89,4 +93,47 @@ class AppTest {
         List<Recipe> favorites = favoritesController.getFavorites(userId);
         assertFalse(favorites.contains(recipe), "Recipe should not be in users favorites");
         }
-}
+
+    @Test
+    void weeklyControllerTest() {
+        Long userId = 1L;
+        Map<String, List <Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, null);
+
+        assertNotNull(weeklyRecipes, "The map of recipes should not be null!");
+        assertFalse(weeklyRecipes.isEmpty(), "The map of weekly shouldnt be empty");
+
+        assertTrue(weeklyRecipes.containsKey("Monday"), "There should be entries for Monday");
+        assertNotNull(weeklyRecipes.get("Monday"), "The list for monday shouldnt be null");
+        assertFalse(weeklyRecipes.get("Monday").isEmpty(), "The list for monday shoudlnt be empty");
+
+        assertEquals("Expected Recipe Name", weeklyRecipes.get("Monday").get(0).getRecipeName(), "Recipe name for monday should match value");
+
+    }
+
+    // @Test
+    // void testAddWeeklly() {
+    //     int userId = 1;
+    //     String recipeId = "101";
+    //     String dayOfWeek = "Monday";
+
+    //     boolean addResult = weeklyController.addWeeklyRecipe(userId, recipeId, dayOfWeek);
+    //     assertTrue(addResult, "Adding weeklyrecipe should be true");
+
+    //     List<Recipe> recipes = weeklyController.getWeeklyRecipes(userId):
+    //     assertTrue(recipes.stream().anyMatch(r -> r.getRecipeId().equals(recipeId)), "recipe should be added to weekly");
+    // }
+
+    // @Test 
+    // void deleteWeekly() {
+    //     int userId = 1;
+    //     String recipeId = "101";
+
+    //     weeklyController.addWeeklyRecipe(userId, recipeId, "Monday");
+
+    //     boolean deleteResult = weeklyController.deleteWeeklyRecipe(userId, recipeId);
+    //     assertTrue(deleteResult, "Removing weekly recipe should return true");
+
+    //     List<Recipe> recipes = weeklyController.getWeeklyRecipes(userId);
+    //     assertFalse(recipes.stream().anyMatch(r -> r.getId().equals(recipeId)), "Recipe should be removed from weekly");
+
+    }

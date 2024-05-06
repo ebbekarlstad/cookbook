@@ -106,21 +106,7 @@ public class MainViewController {
     }
   }
 
-  @FXML
-  private void handleHelpBackButton(ActionEvent event) {
-    try {
-      //Load the navigation page FXML
-      Parent helpPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-      Scene helpPageScene = new Scene(helpPageParent);
 
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(helpPageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 
   @FXML
   private void handleNewButton(ActionEvent event) {
@@ -191,6 +177,22 @@ private void handleShoppingListButton(ActionEvent event) {
     try {
         // Load the Shopping List view FXML
         Parent shoppingListPageParent = FXMLLoader.load(getClass().getResource("/ShoppingListView.fxml"));
+        Scene shoppingListPageScene = new Scene(shoppingListPageParent);
+
+        // Get the current stage and replace it
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(shoppingListPageScene);
+        window.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+@FXML
+private void handleWeeklyButtonAction(ActionEvent event) {
+    try {
+        // Load the Shopping List view FXML
+        Parent shoppingListPageParent = FXMLLoader.load(getClass().getResource("/WeeklyDinnerView.fxml"));
         Scene shoppingListPageScene = new Scene(shoppingListPageParent);
 
         // Get the current stage and replace it

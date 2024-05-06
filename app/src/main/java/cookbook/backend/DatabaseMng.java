@@ -24,6 +24,23 @@ public class DatabaseMng {
         }
     }
 
+    // Returns the UserID.
+    public Optional<Integer> getUserId(String userName) {
+      String sql = "SELECT UserID FROM users WHERE UserName = ?";
+      try (Connection conn = getConnection();
+           PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setString(1, userName);
+          ResultSet rs = pstmt.executeQuery();
+          if (rs.next()) {
+              return Optional.of(rs.getInt("UserID"));
+          }
+      } catch (SQLException e) {
+          System.err.println("SQL Exception in getUserId: " + e.getMessage());
+          lastErrorMessage = e.getMessage();
+      }
+      return Optional.empty();
+  }
+
     public Optional<String> getPasswordHashForUser(String userName) {
       String sql = "SELECT Password FROM users WHERE UserName = ?";
       try (Connection conn = getConnection();
