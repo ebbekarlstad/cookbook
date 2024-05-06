@@ -387,12 +387,12 @@ public class DatabaseSeeder {
     String dropTableSQL = "DROP TABLE IF EXISTS `weekly_dinner_lists`;";
 
     String createTableSQL = "CREATE TABLE `weekly_dinner_lists` ("
-        + "`WeeklyDinnerListID` int NOT NULL, "
+        + "`WeeklyDinnerListID` int NOT NULL AUTO_INCREMENT, "
         + "`UserID` int NOT NULL, "
         + "`Week` date NOT NULL, "
         + "PRIMARY KEY (`WeeklyDinnerListID`), "
-        + "KEY `UserID1_idx` (`UserID`), "
-        + "CONSTRAINT `UserID1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`))";
+        + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
 
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
@@ -402,7 +402,7 @@ public class DatabaseSeeder {
     String dropTableSQL = "DROP TABLE IF EXISTS `dinner_list_recipes`;";
 
     String createTableSQL = "CREATE TABLE `dinner_list_recipes` ("
-        + "`DinnerListRecipeID` int NOT NULL, "
+        + "`DinnerListRecipeID` int NOT NULL AUTO_INCREMENT,"
         + "`WeeklyDinnerListID` int NOT NULL, "
         + "`RecipeID` varchar(255) NOT NULL, "
         + "`DayOfWeek` varchar(45) NOT NULL, "
@@ -410,7 +410,8 @@ public class DatabaseSeeder {
         + "KEY `WeeklyDinnerListID0_idx` (`WeeklyDinnerListID`), "
         + "KEY `RecipeID3_idx` (`RecipeID`), "
         + "CONSTRAINT `RecipeID3` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
-        + "CONSTRAINT `WeeklyDinnerListID0` FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists` (`WeeklyDinnerListID`))";
+        + "CONSTRAINT `WeeklyDinnerListID0` FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists` (`WeeklyDinnerListID`)"
+        + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
