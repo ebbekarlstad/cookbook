@@ -34,22 +34,23 @@ public class WeeklyController {
 
 
 
-     public List<Date> getWeeklyList(Long userId) {
-      List<Date> weeklyLists = new ArrayList<>();
-      String sql = "SELECT week FROM weekly_dinner_lists WHERE UserID = ?";
-      try (Connection conn = dbManager.getConnection();
-          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setLong(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-              weeklyLists.add(rs.getDate("Week"));
-            }
-          } catch (SQLException e) {
-            System.out.println("Error retrieving weekly recipes: " + e.getMessage());
-            return null;
-          }
-          return weeklyLists;
-     }
+  public List<Date> getWeeklyList(Long userId) {
+    List<Date> weeklyLists = new ArrayList<>();
+    String sql = "SELECT DISTINCT Week FROM weekly_dinner_lists WHERE UserID = ? ORDER BY Week DESC";
+    try (Connection conn = dbManager.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setLong(1, userId);
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            weeklyLists.add(rs.getDate("Week"));
+        }
+    } catch (SQLException e) {
+        System.out.println("Error retrieving weekly lists: " + e.getMessage());
+        return null;
+    }
+    return weeklyLists;
+}
+
 
 
     // public boolean addWeeklyList(int userId, Date weekStartDate) {
@@ -82,33 +83,36 @@ public class WeeklyController {
     // }
 
 
-    public List <Recipe> getRecipesForDay(Long userId, Date weekStartDate, String dayOfWeek) {
-      List <Recipe> recipes = new ArrayList<>();
-      String sql = "SELECT r.recipe_id, r.recipe_name, r.short_desc, r.detailed_desc " +
-      "FROM recipes r " +
-      "INNER JOIN dinner_list_recipes dr ON r.recipe_id = dr.RecipeID " +
-      "INNER JOIN weekly_dinner_lists wl ON dr.WeeklyDinnerListID = wl.WeeklyDinnerListID " +
-      "WHERE wl.UserID = ? AND wl.Week = ? AND dr.DayOfWeek = ?";
+    public List<Recipe> getRecipesForDay(Long userId, Date weekStartDate, String dayOfWeek) {
+      List<Recipe> recipes = new ArrayList<>();
+      String sql = "SELECT r.RecipeID, r.RecipeName, r.ShortDesc, r.DetailedDesc " +
+                   "FROM recipes r " +
+                   "INNER JOIN dinner_list_recipes dr ON r.RecipeID = dr.RecipeID " +
+                   "INNER JOIN weekly_dinner_lists wl ON dr.WeeklyDinnerListID = wl.WeeklyDinnerListID " +
+                   "WHERE wl.UserID = ? AND wl.Week = ? AND dr.DayOfWeek = ?";
       try (Connection conn = dbManager.getConnection();
-          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setLong(1, userId);
-            pstmt.setDate(2, weekStartDate);
-            pstmt.setString(3, dayOfWeek);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
+           PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setLong(1, userId);
+          pstmt.setDate(2, weekStartDate);
+          pstmt.setString(3, dayOfWeek);
+          ResultSet rs = pstmt.executeQuery();
+          while (rs.next()) {
               Recipe recipe = new Recipe(
-                rs.getString("recipe_id"),
-                rs.getString("recipe_name"),
-                rs.getString("short_desc"),
-                rs.getString("detailed_desc")
+                  rs.getString("RecipeID"),
+                  rs.getString("RecipeName"),
+                  rs.getString("ShortDesc"),
+                  rs.getString("DetailedDesc")
               );
               recipes.add(recipe);
-            }
-          } catch (SQLException e) {
-            System.out.println("Error retrieving recipes for day: " + e.getMessage());
+              System.out.println("Recipe fetched for " + dayOfWeek + ": " + recipe);
           }
-          return recipes;
-    }
+      } catch (SQLException e) {
+          System.out.println("Error retrieving recipes for day " + dayOfWeek + ": " + e.getMessage());
+      }
+      return recipes;
+  }
+  
+  
 
 
 
@@ -179,7 +183,7 @@ public class WeeklyController {
         String insertSql = "INSERT INTO weekly_dinner_lists (UserID, Week) VALUES (?, ?)";
         try (PreparedStatement insert = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
           insert.setLong(1, userId);
-          insert.setDate(2, weekStartDate); 
+          insert.setDate(2, weekStartDate);
           int affectedRows = insert.executeUpdate();
           if (affectedRows > 0) {
             ResultSet rs = insert.getGeneratedKeys();
@@ -232,4 +236,3 @@ public class WeeklyController {
     }
 
 }
-  
