@@ -24,7 +24,7 @@ import java.io.IOException;
 public class RecipeDetailsViewController {
 
     private String recipeId;
-    private Long userId;
+    private Long userId = 1L;
     private int commentId;
     Recipe recipe;
     
