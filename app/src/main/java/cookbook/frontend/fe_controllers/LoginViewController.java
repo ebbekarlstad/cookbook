@@ -99,6 +99,8 @@ public class LoginViewController {
   }
 
   private void loadNavigationView(ActionEvent event) {
+    //Implement if here to check if user is admin
+    //If user is admin loadAdminPanelView
     try {
       //Load the navigation page FXML
       Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
