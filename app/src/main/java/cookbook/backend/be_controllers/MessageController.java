@@ -23,7 +23,7 @@ public class MessageController {
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, messageObject.getSenderId());
             pstmt.setLong(2, messageObject.getReceiverId());
-            pstmt.setLong(3, messageObject.getRecipeId());
+            pstmt.setString(3, messageObject.getRecipeId());
             pstmt.setString(4, messageObject.getContent());
             pstmt.setTimestamp(5, messageObject.getSentTime());
     
@@ -55,7 +55,7 @@ public class MessageController {
                 Message message = new Message(
                     rs.getLong("sender_id"),
                     rs.getLong("receiver_id"),
-                    rs.getLong("recipe_id"),
+                    rs.getString("recipe_id"),
                     rs.getString("content")
                 );
 

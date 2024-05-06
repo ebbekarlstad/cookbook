@@ -93,7 +93,7 @@ private void setupMessageTable() {
     });
 }
 
-  private void openRecipeDetails(Long recipeId) {
+  private void openRecipeDetails(String recipeId) {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetails.fxml"));
         Parent detailsView = loader.load();
