@@ -511,5 +511,6 @@ public void seedDinnerListRecipes() {
     seeder.seedShoppingListItems();
     seeder.seedSentRecipes();
     seeder.seedHelpSystem();
+    seeder.seedMessages();
   }
 }
