@@ -14,6 +14,7 @@ import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_controllers.FavoritesController;
+import cookbook.backend.be_controllers.WeeklyController;
 
 import java.sql.SQLException;
 import java.util.List;
