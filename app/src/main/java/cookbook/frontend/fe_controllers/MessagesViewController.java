@@ -30,7 +30,7 @@ public class MessagesViewController {
   private MessageController messageController;
 
   @FXML
-  private TableColumn<Message, Long> actionColumn;
+  private TableColumn<Message, String> actionColumn;
 
   @FXML
   private TableView<Message> messageTableView;
@@ -56,7 +56,7 @@ private void setupMessageTable() {
     // Setup for the action column
     actionColumn.setCellValueFactory(new PropertyValueFactory<>("recipeId"));
     actionColumn.setCellFactory(column -> {
-        return new TableCell<Message, Long>() {
+        return new TableCell<Message, String>() {
             private final Hyperlink hyperlink = new Hyperlink("View Recipe");
     
             {
@@ -69,7 +69,7 @@ private void setupMessageTable() {
             }
     
             @Override
-            protected void updateItem(Long item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
