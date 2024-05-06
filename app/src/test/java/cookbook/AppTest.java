@@ -14,7 +14,8 @@ import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_controllers.FavoritesController;
-import cookbook.backend.be_controllers.WeeklyController;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ class AppTest {
      private WeeklyController weeklyController;
 
     @BeforeEach
-    void setup() {
+    void setup() throws SQLException {
         dbManager = new DatabaseMng();
         userController = new UserController(dbManager);
         login = new LogIn(dbManager);

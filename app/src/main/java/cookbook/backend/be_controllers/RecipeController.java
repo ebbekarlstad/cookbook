@@ -1,5 +1,6 @@
 package cookbook.backend.be_controllers;
 
+import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.*;
 
 import java.sql.*;
@@ -7,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeController {
+
+  private static DatabaseMng dbManager;
+
+  public RecipeController(DatabaseMng dbManager) {
+    RecipeController.dbManager = dbManager;
+  }
   
   // ArrayList with the current recipes
   public ArrayList<Recipe> allRecipes = new ArrayList<>();
@@ -234,4 +241,19 @@ public class RecipeController {
     }
     return recipeList;
   }
+
+  public Recipe getRecipeById(Long recipeId) {
+    String sql = "SELECT * FROM recipes WHERE RecipeID = ?";
+    try (Connection conn = dbManager.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setLong(1, recipeId);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return new Recipe(rs.getString("RecipeID"), rs.getString("RecipeName"), rs.getString("ShortDesc"), rs.getString("DetailedDesc"));
+        }
+    } catch (SQLException e) {
+        System.err.println("Error retrieving recipe: " + e.getMessage());
+    }
+    return null;
+}
 }

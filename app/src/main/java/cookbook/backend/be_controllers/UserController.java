@@ -4,12 +4,19 @@ import cookbook.backend.DatabaseMng;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.sql.Statement; 
+import java.sql.ResultSet;
+
 
 public class UserController {
   private DatabaseMng dbManager;
-    private User user;
+  private User user;
 
-  public UserController(DatabaseMng dbManager) {
+
+  public UserController(DatabaseMng dbManager) throws SQLException {
     this.dbManager = dbManager;
   }
 
@@ -17,7 +24,9 @@ public class UserController {
     this.user = user;
   }
 
-  public boolean saveToDatabase() {
+    public static User loggedInUser;
+
+    public boolean saveToDatabase() {
     String sql = "INSERT INTO users (UserName, DisplayName, Password, IsAdmin) VALUES (?, ?, ?, ?)";
     try (Connection conn = dbManager.getConnection(); // Använder dbManager för att få en Connection
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -40,4 +49,24 @@ public class UserController {
         return false;
     }
   }
+
+  // Method to get all users from the database.
+  public List<User> getAllUsers() {
+    List<User> users = new ArrayList<>();
+    String sql = "SELECT UserID, DisplayName FROM users"; // Adjust SQL as needed
+    try (Connection conn = this.dbManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+          User user = new User(rs.getLong("UserID"), rs.getString("DisplayName"), sql, sql, null, dbManager, sql);
+          users.add(user);
+        }
+    } catch (SQLException e) {
+      System.err.println("Error retrieving users: " + e.getMessage());
+      return Collections.emptyList();
+    }
+    return users;
+  }
 }
+

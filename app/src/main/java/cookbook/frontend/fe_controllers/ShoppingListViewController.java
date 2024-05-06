@@ -1,154 +1,221 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.DatabaseMng;
+import cookbook.backend.be_objects.ShoppingListItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
 import java.sql.*;
 
 public class ShoppingListViewController {
 
     @FXML
-    private TableView<ShoppingIngredient> ingredientTable;
+    private TableColumn<ShoppingListItem, Integer> IDColumn;
 
     @FXML
-    private TableColumn<ShoppingIngredient, String> ingredientColumn;
+    private TableColumn<ShoppingListItem, String> ItemNameColumn;
 
     @FXML
-    private TableColumn<ShoppingIngredient, String> amountColumn;
+    private TableColumn<ShoppingListItem, Float> AmountColumn;
 
     @FXML
-    private TextField ingredientName;
+    private TableColumn<ShoppingListItem, String> UnitColumn;
 
     @FXML
-    private TextField amount;
+    private TableView<ShoppingListItem> ShoppingColumn;
+
 
     @FXML
-    private Button addIngredient;
-
-    private final ObservableList<ShoppingIngredient> ingredientList = FXCollections.observableArrayList();
-    private DatabaseMng dbManager = new DatabaseMng();
-    private int currentShoppingListId = -1;  // Default to -1, indicating no valid shopping list is selected
+    private TextField ItemName;
 
     @FXML
-    public void initialize() {
-        ingredientColumn.setCellValueFactory(new PropertyValueFactory<>("ingredientName"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        ingredientTable.setItems(ingredientList);
-        initShoppingList(); // Initialize a valid shopping list ID
-        loadIngredients();    }
+    private TextField Quantity;
 
-    private void initShoppingList() {
-      try (Connection conn = dbManager.getConnection();
-           Statement stmt = conn.createStatement()) {
-          ResultSet rs = stmt.executeQuery("SELECT MAX(ShoppingListID) as ShoppingListID FROM shopping_lists;");
-          if (rs.next()) {
-              currentShoppingListId = rs.getInt("ShoppingListID");
-              // Optionally create a new list if none exists:
-              if (currentShoppingListId == 0) { 
-              }
-          }
-      } catch (SQLException ex) {
-          System.err.println("Error initializing shopping list: " + ex.getMessage());
-      }
-  }
+    @FXML
+    private Button addShoppingItem;
 
-  private void loadIngredients() {
-    if (currentShoppingListId != -1) {
-        String sql = "SELECT IngredientID, Quantity FROM shopping_list_items WHERE ShoppingListID = " + currentShoppingListId;
-        try (Connection conn = dbManager.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+    @FXML
+    private Button back;
 
-            while (rs.next()) {
-                String ingName = rs.getString("IngredientID");
-                String qty = rs.getString("Quantity");
-                ingredientList.add(new ShoppingIngredient(ingName, qty));
-                // System.out.println("Loaded: " + ingName + " " + qty); // Comment out or remove this line
+    @FXML
+    private Button deleteShoppingItem;
+
+    @FXML
+    private Button editShoppingItem;
+
+    @FXML
+    private Button saveShoppingItem;
+
+    @FXML
+    private ComboBox<String> unit;
+
+    @FXML
+    private void initialize() {
+        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
+        populateTableView();
+
+    }
+
+    private void populateTableView() {
+        ObservableList<ShoppingListItem> items = FXCollections.observableArrayList();
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
+            String query = "SELECT * FROM Shopping_List";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("ItemID");
+                String name = resultSet.getString("ItemName");
+                float amount = resultSet.getFloat("Amount");
+                String unit = resultSet.getString("Unit");
+
+                items.add(new ShoppingListItem(id, name, amount, unit));
             }
-        } catch (SQLException ex) {
-            System.err.println("Error loading ingredients from database: " + ex.getMessage());
-        }
-    }
-}
 
-  
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        IDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        ItemNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        AmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
+        UnitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
+
+        ShoppingColumn.setItems(items);
+    }
+    @FXML
+    void addItem(ActionEvent event) {
+
+        String itemName = ItemName.getText();
+        float quantity = Float.parseFloat(Quantity.getText());
+        String selectedUnit = unit.getValue();
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
+            String query = "INSERT INTO Shopping_List (ItemName, Amount, Unit) VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, itemName);
+            preparedStatement.setFloat(2, quantity);
+            preparedStatement.setString(3, selectedUnit);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+          throw new RuntimeException("The connect is not established ... bruh" + e);
+        }
+        populateTableView();
+
+    }
 
     @FXML
-    void addIngredientToList(ActionEvent event) {
-        String name = ingredientName.getText();
-        String qty = amount.getText();
-        if (!name.isEmpty() && !qty.isEmpty() && currentShoppingListId != -1) {
-            if (validateOrAddIngredient(name)) {  // Ensure the ingredient is valid or added
-                ShoppingIngredient newIngredient = new ShoppingIngredient(name, qty);
-                ingredientList.add(newIngredient);
-                saveIngredientToDatabase(newIngredient);
-                ingredientName.clear();
-                amount.clear();
+    void DeleteItem(ActionEvent event) {
+
+    }
+
+    @FXML
+    void EditItem(ActionEvent event) {
+        // Get the selected item from the TableView
+        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            // Populate the text fields with the data of the selected item
+            ItemName.setText(selectedItem.getName());
+            Quantity.setText(Float.toString(selectedItem.getAmount()));
+            unit.setValue(selectedItem.getUnit());
+        } else {
+            // If no item is selected, display a message to the user
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Item Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an item to edit.");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    void SaveItem(ActionEvent event) {
+        // Get the selected item from the TableView
+        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            // Update the selected item with the edited values
+            selectedItem.setName(ItemName.getText());
+            selectedItem.setAmount(Float.parseFloat(Quantity.getText()));
+            selectedItem.setUnit(unit.getValue());
+
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
+                // Update the database with the edited item
+                String query = "UPDATE Shopping_List SET ItemName = ?, Amount = ?, Unit = ? WHERE ItemID = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setString(1, selectedItem.getName());
+                preparedStatement.setFloat(2, selectedItem.getAmount());
+                preparedStatement.setString(3, selectedItem.getUnit());
+                preparedStatement.setInt(4, selectedItem.getId());
+
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to update item in the database: " + e);
             }
+
+
+            // Refresh the TableView to reflect the changes
+            populateTableView();
+        } else {
+            // If no item is selected, display a message to the user
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Item Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an item to edit.");
+            alert.showAndWait();
         }
     }
-    
-    private boolean validateOrAddIngredient(String ingredientName) {
-        try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM ingredients WHERE IngredientID = ?")) {
-            pstmt.setString(1, ingredientName);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;  // Ingredient exists
-            } else {
-                // Add ingredient if it doesn't exist
-                try (PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO ingredients (IngredientID, IngredientName) VALUES (?, ?)")) {
-                    insertStmt.setString(1, ingredientName);
-                    insertStmt.setString(2, ingredientName);  // Assuming IngredientName is the same as IngredientID for simplicity
-                    insertStmt.executeUpdate();
-                    return true;  // Ingredient added
-                }
+
+    @FXML
+    void deleteShoppingItem(ActionEvent event) {
+        // Get the selected item from the TableView
+        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
+                String query = "DELETE FROM Shopping_List WHERE ItemID = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setInt(1, selectedItem.getId());
+
+                // Execute the delete query
+                preparedStatement.executeUpdate();
+
+                // Remove the selected item from the TableView
+                ShoppingColumn.getItems().remove(selectedItem);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException ex) {
-            System.err.println("Error validating or adding ingredient: " + ex.getMessage());
-            return false;
+        } else {
+            // If no item is selected, display a message or handle it according to your application's requirements
+            System.out.println("No item selected for deletion.");
         }
     }
-    
+    @FXML
+    void backButton(ActionEvent event) {
+        try {
+            //Load the navigation page FXML
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+            Scene navigationPageScene = new Scene(navigationPageParent);
 
-    private void saveIngredientToDatabase(ShoppingIngredient ingredient) {
-        String sql = "INSERT INTO shopping_list_items (ShoppingListID, IngredientID, Quantity) VALUES (?, ?, ?)";
-        try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, currentShoppingListId);
-            pstmt.setString(2, ingredient.getIngredientName());
-            pstmt.setString(3, ingredient.getAmount());
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            System.err.println("Error saving ingredient to database: " + ex.getMessage());
+            // Get the current stage and replace it
+            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            window.setScene(navigationPageScene);
+            window.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-
-  
-
-    public static class ShoppingIngredient {
-        private final String ingredientName;
-        private final String amount;
-
-        public ShoppingIngredient(String ingredientName, String amount) {
-            this.ingredientName = ingredientName;
-            this.amount = amount;
-        }
-
-        public String getIngredientName() {
-            return ingredientName;
-        }
-
-        public String getAmount() {
-            return amount;
-        }
-    }
 }

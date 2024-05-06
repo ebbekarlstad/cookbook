@@ -54,7 +54,7 @@
                   <Image url="@images/plus.png" />
                </image>
             </ImageView>
-            <Button layoutX="22.0" layoutY="566.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
+            <Button layoutX="22.0" layoutY="566.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

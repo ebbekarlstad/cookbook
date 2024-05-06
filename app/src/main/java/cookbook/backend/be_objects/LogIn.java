@@ -42,14 +42,20 @@ public class LogIn {
   public boolean doLogin(String userName, String inputPassword) {
     try {
       Optional<String> storedPasswordHash = dbManager.getPasswordHashForUser(userName);
-      if (storedPasswordHash.isPresent()) {
-        return checkPassword(inputPassword, storedPasswordHash.get());
-      } 
-      return false;
+      if (storedPasswordHash.isPresent() && checkPassword(inputPassword, storedPasswordHash.get())) {
+        // Fetch the userId
+        Optional<Integer> userId = dbManager.getUserId(userName);
+        if (userId.isPresent()) {
+          UserSession.getInstance().setUserId(userId.get());  // Set the userId in UserSession
+          System.out.println("Debug: User logged in successfully - UserID: " + userId.get() + ", Username: " + userName);
+          return true;  // Login successful
+        }
+      }
+      return false;  // Password incorrect or username not found
     } catch (Exception e) {
         System.err.println("Error during login: " + e.getMessage());
-      }
-      return false;
+        return false;
     }
+  }
     
   }
