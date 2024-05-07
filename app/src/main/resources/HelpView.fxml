@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,11 +16,7 @@
     <children>
         <MenuBar prefHeight="0.0" prefWidth="633.0" VBox.vgrow="NEVER">
             <menus>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-                    </items>
-                </Menu>
+                <Menu mnemonicParsing="false" />
             </menus>
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="679.0" prefWidth="903.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
