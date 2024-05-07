@@ -65,7 +65,14 @@ public class SearchHelpController {
     listTutorials.setItems(titles);
   }
 
-
+  @FXML
+  private void tutorialSelected(MouseEvent event) {
+    String selected = listTutorials.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        searchByNameField.setText(selected);
+        searchHelp();
+    }
+  }
 
   @FXML
   private void searchHelp() {
