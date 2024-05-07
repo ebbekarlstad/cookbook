@@ -49,13 +49,16 @@ public class SearchHelpController {
     );
 
     StringBuilder helpTextBuilder = new StringBuilder();
-    helpTextBuilder.append("## **Welcome to the Digital Cookbook Help System**\n\n");
+    helpTextBuilder.append("Welcome to the Digital Cookbook Help System\n\n");
+    int topicNumber = 1;
     for (HelpMain topic : helpTopics) {
-        helpTextBuilder.append("## **").append(topic.getTitle()).append("**\n\n")
+        helpTextBuilder.append(topicNumber).append("- ").append(topic.getTitle()).append("\n\n")
                        .append(topic.getDescription()).append("\n\n");
+        topicNumber++;
     }
     helpResultField.setText(helpTextBuilder.toString());
-  }
+}
+
 
   private void loadListView() {
     ObservableList<String> titles = FXCollections.observableArrayList();
