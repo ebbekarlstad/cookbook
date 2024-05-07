@@ -90,19 +90,37 @@ public class SearchHelpController {
   
   @FXML
   private void searchHelp() {
-      String keyword = searchByNameField.getText().trim();
-      int topicNumber = listTutorials.getItems().indexOf(keyword) + 1;  // Calculate the number based on position in list
-      if (topicNumber > 0) {
-          String content = helpResultField.getText().toLowerCase();
-          String searchKeyword = topicNumber + "- " + keyword.toLowerCase(); // Form the search keyword with the number
-          int startIndex = content.indexOf(searchKeyword);
-          if (startIndex != -1) {
-              int endIndex = content.indexOf("\n\n", startIndex + searchKeyword.length());
-              helpResultField.selectRange(startIndex, endIndex);
-              helpResultField.requestFocus();
+      String keyword = searchByNameField.getText().trim().toLowerCase();
+      if (!keyword.isEmpty()) {
+          StringBuilder content = new StringBuilder(helpResultField.getText().toLowerCase());
+          int topicNumber = 1;
+          boolean found = false;
+  
+          for (HelpMain topic : helpTopics) {
+              String topicIdentifier = topicNumber + "- " + topic.getTitle().toLowerCase() + "\n\n" + topic.getDescription().toLowerCase() + "\n\n";
+              if (topicIdentifier.contains(keyword)) {
+                  int startIndex = content.indexOf(keyword);
+                  int endIndex = content.indexOf("\n\n", startIndex + keyword.length());
+                  if (startIndex != -1) {
+                      helpResultField.selectRange(startIndex, endIndex); // Highlight the text where keyword is found
+                      helpResultField.requestFocus();
+                      found = true;
+                      break; // Break after the first match is found
+                  }
+              }
+              topicNumber++;
           }
+  
+          // If no topic contains the keyword, do nothing
+          if (!found) {
+              helpResultField.deselect(); // Deselect any previous selection
+          }
+      } else {
+          
       }
   }
+  
+  
   
   
 
