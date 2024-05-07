@@ -35,11 +35,19 @@ private void initializeHelpText() {
         new HelpMain("How do I send a recipe to another person?",
             "To send a recipe: Click on the recipe you would like to send, then click the Mail icon on the bottom. Then, click on the user you would like to send the recipe to, and fill in an optional message. Once done, click 'Send' and you are finished."),
         new HelpMain("How do I check my messages?",
-            "To check your messages: Click the 'Messages' icon. This takes you to your messages menu. Click the user you'd like to see your messages from, which shows your inbox from them."),
+            "To check your messages: Click the 'Messages' icon. This takes you to your messages menu. Click the user you'd like to see your messages from, which shows your inbox from them.")
         // Add all other help topics similarly
     );
-      helpResultField.setText(helpText);
-  }
+    StringBuilder helpTextBuilder = new StringBuilder();
+    helpTextBuilder.append("## **Welcome to the Digital Cookbook Help System**\n\n");
+    for (HelpMain topic : helpTopics) {
+        helpTextBuilder.append("## **").append(topic.getTitle()).append("**\n\n")
+                       .append(topic.getDescription()).append("\n\n");
+    }
+    helpResultField.setText(helpTextBuilder.toString());
+}
+
+
 
   @FXML
   private void searchHelp() {
