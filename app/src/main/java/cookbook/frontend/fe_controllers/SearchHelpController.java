@@ -70,24 +70,40 @@ public class SearchHelpController {
 
   @FXML
   private void tutorialSelected(MouseEvent event) {
-    String selected = listTutorials.getSelectionModel().getSelectedItem();
-    if (selected != null) {
-        searchByNameField.setText(selected);
-        searchHelp();
-    }
+      String selected = listTutorials.getSelectionModel().getSelectedItem();
+      if (selected != null) {
+          searchByNameField.setText(selected);
+          int index = listTutorials.getSelectionModel().getSelectedIndex() + 1;  // This gets the correct numbering
+          String keyword = index + "- " + selected;
+          String content = helpResultField.getText().toLowerCase();
+          int startIndex = content.indexOf(keyword.toLowerCase());
+          if (startIndex != -1) {
+              int endIndex = content.indexOf("\n\n", startIndex + keyword.length());
+              helpResultField.selectRange(startIndex, endIndex);
+              helpResultField.requestFocus();
+          }
+      }
   }
+  
 
   
   @FXML
   private void searchHelp() {
-    String keyword = searchByNameField.getText().trim().toLowerCase();
-    String content = helpResultField.getText().toLowerCase();
-    int startIndex = content.indexOf("## **" + keyword);
-    if (startIndex != -1) {
-      helpResultField.selectRange(startIndex, startIndex + keyword.length());
-      helpResultField.requestFocus();
-    }
+      String keyword = searchByNameField.getText().trim();
+      int topicNumber = listTutorials.getItems().indexOf(keyword) + 1;  // Calculate the number based on position in list
+      if (topicNumber > 0) {
+          String content = helpResultField.getText().toLowerCase();
+          String searchKeyword = topicNumber + "- " + keyword.toLowerCase(); // Form the search keyword with the number
+          int startIndex = content.indexOf(searchKeyword);
+          if (startIndex != -1) {
+              int endIndex = content.indexOf("\n\n", startIndex + searchKeyword.length());
+              helpResultField.selectRange(startIndex, endIndex);
+              helpResultField.requestFocus();
+          }
+      }
   }
+  
+  
 
   @FXML
   private void handleHelpBackButton(ActionEvent event) {
