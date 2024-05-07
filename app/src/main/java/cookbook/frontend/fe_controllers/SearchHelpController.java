@@ -37,15 +37,11 @@ public class SearchHelpController {
     loadListView();
   }
 
+  
   private void initializeHelpText() {
     helpTopics = Arrays.asList(
-        new HelpMain("How to add a new recipe?",
-            "To add a new recipe, click on the 'Add Recipe' option from the main menu..."),
-        new HelpMain("How do I send a recipe to another person?",
-            "To send a recipe: Click on the recipe you would like to send, then click the Mail icon..."),
-        new HelpMain("How do I check my messages?",
-            "To check your messages: Click the 'Messages' icon...")
-        // Add other topics similarly
+      new HelpMain("How to login to Cookbook?",
+      "To log in, enter your username and password on the login screen and click the 'Login' button.")
     );
 
     StringBuilder helpTextBuilder = new StringBuilder();
@@ -85,9 +81,6 @@ public class SearchHelpController {
       }
   }
   
-  
-
-  
   @FXML
   private void searchHelp() {
       String keyword = searchByNameField.getText().trim().toLowerCase();
@@ -120,10 +113,6 @@ public class SearchHelpController {
       }
   }
   
-  
-  
-  
-
   @FXML
   private void handleHelpBackButton(ActionEvent event) {
     try {
