@@ -74,6 +74,7 @@ public class SearchHelpController {
     }
   }
 
+  
   @FXML
   private void searchHelp() {
     String keyword = searchByNameField.getText().trim().toLowerCase();
