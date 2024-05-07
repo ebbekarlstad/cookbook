@@ -72,9 +72,9 @@ public class SearchHelpController {
   private void tutorialSelected(MouseEvent event) {
       String selected = listTutorials.getSelectionModel().getSelectedItem();
       if (selected != null) {
+          int topicNumber = listTutorials.getSelectionModel().getSelectedIndex() + 1;  // This gets the correct numbering
           searchByNameField.setText(selected);
-          int index = listTutorials.getSelectionModel().getSelectedIndex() + 1;  // This gets the correct numbering
-          String keyword = index + "- " + selected;
+          String keyword = topicNumber + "- " + selected;
           String content = helpResultField.getText().toLowerCase();
           int startIndex = content.indexOf(keyword.toLowerCase());
           if (startIndex != -1) {
@@ -84,6 +84,7 @@ public class SearchHelpController {
           }
       }
   }
+  
   
 
   
