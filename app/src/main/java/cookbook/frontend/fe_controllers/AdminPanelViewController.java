@@ -18,13 +18,13 @@ public class AdminPanelViewController {
   @FXML
   private void redirectToRegister (ActionEvent event) {
     try {
-      //Load the login page FXML
-      Parent loginPageParent = FXMLLoader.load(getClass().getResource("/RegisterView.fxml"));
-      Scene loginPageScene = new Scene(loginPageParent);
+      //Load the registration page FXML
+      Parent registrationPageParent = FXMLLoader.load(getClass().getResource("/RegistrationView.fxml"));
+      Scene registrationPageScene = new Scene(registrationPageParent);
 
       // Get the current stage and replace it
       Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(loginPageScene);
+      window.setScene(registrationPageScene);
       window.show();
     } catch (Exception e) {
       e.printStackTrace();
