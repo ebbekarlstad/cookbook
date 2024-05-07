@@ -1,5 +1,12 @@
 package cookbook.backend.be_objects;
 
 public class HelpMain {
-  
+
+    private String title;
+    private String description;
+
+    public HelpMain(String title, String description) {
+      this.title = title;
+      this.description = description;
+  }
 }
