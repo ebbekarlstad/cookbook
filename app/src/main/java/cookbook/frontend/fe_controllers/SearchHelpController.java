@@ -57,7 +57,13 @@ public class SearchHelpController {
     helpResultField.setText(helpTextBuilder.toString());
   }
 
-
+  private void loadListView() {
+    ObservableList<String> titles = FXCollections.observableArrayList();
+    for (HelpMain topic : helpTopics) {
+        titles.add(topic.getTitle());
+    }
+    listTutorials.setItems(titles);
+  }
 
 
 
