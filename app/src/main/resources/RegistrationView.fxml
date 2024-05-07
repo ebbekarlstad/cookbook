@@ -67,8 +67,8 @@
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
             </ImageView>
-            <PasswordField layoutX="382.0" layoutY="428.0" />
-            <TextField layoutX="382.0" layoutY="352.0" />
+            <PasswordField fx:id="passwordField" layoutX="382.0" layoutY="428.0" />
+            <TextField fx:id="usernameField" layoutX="382.0" layoutY="352.0" />
             <Button layoutX="428.0" layoutY="499.0" mnemonicParsing="false" text="Register">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -101,7 +101,7 @@
                   </DropShadow>
                </effect>
             </Text>
-            <TextField layoutX="382.0" layoutY="389.0" />
+            <TextField fx:id="displayNameField" layoutX="382.0" layoutY="389.0" />
             <Text layoutX="275.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                <font>
                   <Font name="SansSerif Bold" size="13.0" />
