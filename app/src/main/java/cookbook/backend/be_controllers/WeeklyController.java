@@ -202,6 +202,8 @@ public class WeeklyController {
       List<Date> yearlyWeeks = new ArrayList<>();
       Calendar cal = Calendar.getInstance();
       cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+      cal.set(Calendar.MONTH, Calendar.JANUARY);
+      cal.set(Calendar.DAY_OF_MONTH, 1);
 
       int year = cal.get(Calendar.YEAR);
       while(cal.get(Calendar.YEAR) == year) {
@@ -213,18 +215,14 @@ public class WeeklyController {
 
     public List<String> getWeekdays() {
       List<String> weekdays = new ArrayList<>();
-      List<Date> yearlyWeeks = getYearlyWeeks();
       Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
-      for (Date weekStartDate : yearlyWeeks) {
-        cal.setTime(weekStartDate);
-
-        for (int i = 0; i < 7; i++) {
-          String dayOfWeek = new SimpleDateFormat("EEEE", Locale.getDefault()).format(cal.getTime());
-          weekdays.add(dayOfWeek);
-          cal.add(Calendar.DAY_OF_WEEK, 1);
-        }
-      }
+      for (int i = 0; i < 7; i++) {
+        String dayOfWeek = new SimpleDateFormat("EEEE", Locale.getDefault()).format(cal.getTime());
+        weekdays.add(dayOfWeek);
+        cal.add(Calendar.DAY_OF_WEEK, 1);
+       }
       return weekdays;
     }
 
