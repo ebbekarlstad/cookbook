@@ -5,12 +5,19 @@ import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
+import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_controllers.IngredientController;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+
+import java.sql.*;
 import java.util.*;
 
 import javafx.fxml.FXML;
@@ -24,22 +31,32 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
+import java.sql.SQLException;
+
 import java.io.IOException;
 
 public class RecipeDetailsViewController {
 
     @FXML
     private TableView<AmountOfIngredients> ingredientTable;
-    @FXML
-    private TableColumn<AmountOfIngredients, String> amountColumn;
+
     @FXML
     private TableColumn<AmountOfIngredients, String> ingredientColumn;
+
+    @FXML
+    private TableColumn<AmountOfIngredients, String> amountColumn;
+
+    @FXML
+    private TableColumn<AmountOfIngredients, String> unitColumn;
+
+    private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
+
 
     private String recipeId;
     private Long userId = 1L;
     private int commentId;
     Recipe recipe;
-    
+
     @FXML
     private Label titleLabel; // Label for the recipe title.
     @FXML
@@ -49,15 +66,64 @@ public class RecipeDetailsViewController {
 
     @FXML
     private Button shareRecipeButton;
-    
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-    
+
     DatabaseMng myDbManager;
-    
-    private FavoritesController favoritesController = new FavoritesController(myDbManager); 
-    
+
+    private FavoritesController favoritesController = new FavoritesController(myDbManager);
+
+
+
+    private Ingredient fetchIngredientDetails(String ingredientID) {
+      try {
+        // Retrieve ingredient details from the database using IngredientController queries that is already been specified
+        List<Ingredient> ingredients = IngredientController.getIngredients();
+        for (Ingredient ingredient : ingredients) {
+          if (ingredient.getIngredientID().equals(ingredientID)) {
+            return ingredient;
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+
+
+    private void fetchIngredientsFromDatabase(String recipeID) {
+      try {
+        // I should implement the DBmanager class inside of here somehow but will change it later.
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
+        statement.setString(1, recipeID);
+
+        // Execute query to fetch ingredients
+        ResultSet resultSet = statement.executeQuery();
+
+        // Process the result set with a while loop
+        while (resultSet.next()) {
+          String ingredientID = resultSet.getString("IngredientID");
+          String amount = resultSet.getString("Amount");
+          String unit = resultSet.getString("Unit");
+
+          Ingredient ingredient = fetchIngredientDetails(ingredientID);
+          AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
+
+          ingredients.add(amountOfIngredient);
+        }
+        resultSet.close();
+        statement.close();
+        connection.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      // Set the items of the table view to the list of ingredients
+      ingredientTable.setItems(ingredients);
+    }
+
     public void initData(Recipe recipe) {
         this.recipe = recipe;
         // Set the recipe information
@@ -67,22 +133,28 @@ public class RecipeDetailsViewController {
 
         this.recipeId = recipe.getId();
         loadComments();
-        // Populate the TableView with ingredients
-        List<AmountOfIngredients> ingredientsList = recipe.getIngredientsList();
-        if (ingredientsList != null) {
-            ingredientTable.getItems().addAll(ingredientsList);
-        }
 
-        // Configure the columns
-        amountColumn.setCellValueFactory(cellData -> {
-            FloatProperty amountProperty = cellData.getValue().amountProperty();
-            StringProperty stringProperty = new SimpleStringProperty(String.valueOf(amountProperty.getValue()));
-            // Convert float value to string using StringConverter
-            StringConverter<Number> converter = new NumberStringConverter();
-            Bindings.bindBidirectional(stringProperty, amountProperty, converter);
-            return stringProperty;
+        ingredientColumn.setCellValueFactory(cellData -> {
+            AmountOfIngredients ingredient = cellData.getValue();
+            Ingredient ingredientObject = ingredient.getIngredient();
+            if (ingredientObject != null) {
+                return new SimpleStringProperty(ingredientObject.getIngredientName());
+            } else {
+                return new SimpleStringProperty("Null Ingredient");
+            }
         });
-        ingredientColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        amountColumn.setCellValueFactory(cellData -> {
+            AmountOfIngredients ingredient = cellData.getValue();
+            return new SimpleStringProperty(String.valueOf(ingredient.getAmount()));
+        });
+        unitColumn.setCellValueFactory(cellData -> {
+            AmountOfIngredients ingredient = cellData.getValue();
+            return new SimpleStringProperty(ingredient.getUnit());
+        });
+
+        //Fetches everything from the databse and inserts it in the Table View
+        fetchIngredientsFromDatabase(recipeId);
+
     }
 
     private CommentController commentController;
@@ -90,10 +162,10 @@ public class RecipeDetailsViewController {
     // Constructor
     public RecipeDetailsViewController() {
         myDbManager = new DatabaseMng();
-        this.commentController = new CommentController(myDbManager);  
-        favoritesController = new FavoritesController(myDbManager); 
+        this.commentController = new CommentController(myDbManager);
+        favoritesController = new FavoritesController(myDbManager);
     }
-    
+
     private void loadComments() {
         List<String> comments = commentController.fetchComments(this.recipeId);
         commentsListView.getItems().setAll(comments); // Clears existing items and adds all fetched comments
@@ -111,7 +183,7 @@ public class RecipeDetailsViewController {
     private void addComment(ActionEvent event) {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
-        
+
             CommentObject newComment = new CommentObject(this.commentId, this.recipeId, 1, commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
             commentsListView.getItems().add(commentText);  // Add comment to ListView
             commentInput.clear();  // Clear the input field
@@ -171,48 +243,48 @@ public class RecipeDetailsViewController {
 
     public void handleHelpBackButton(ActionEvent event){
         try {
-          //Load the navigation page FXML
-          Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-          Scene navigationPageScene = new Scene(navigationPageParent);
-    
-          // Get the current stage and replace it
-          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-          window.setScene(navigationPageScene);
-          window.show();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-		
-		// When user clicks share recipe.
-		public void shareRecipe(ActionEvent event) {
-            try {
-                // Load the ShareDialog FXML and get the controller
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShareDialog.fxml"));
-                Parent sharePageParent = loader.load();
-                ShareDialogController shareDialogController = loader.getController();
-        
-                // Pass the recipe data to the ShareDialogController
-                shareDialogController.initData(this.recipe);
-        
-                // Create a new stage (window)
-                Stage shareStage = new Stage();
-                shareStage.setTitle("Share Recipe");
-                shareStage.setScene(new Scene(sharePageParent));
-                shareStage.initModality(Modality.APPLICATION_MODAL); // This will make it so user cant interact with old window
-                shareStage.show(); // Showw the new stage
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+            //Load the navigation page FXML
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+            Scene navigationPageScene = new Scene(navigationPageParent);
 
-      @FXML
-      public void addToFavorites(ActionEvent event) {
+            // Get the current stage and replace it
+            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            window.setScene(navigationPageScene);
+            window.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // When user clicks share recipe.
+    public void shareRecipe(ActionEvent event) {
+        try {
+            // Load the ShareDialog FXML and get the controller
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShareDialog.fxml"));
+            Parent sharePageParent = loader.load();
+            ShareDialogController shareDialogController = loader.getController();
+
+            // Pass the recipe data to the ShareDialogController
+            shareDialogController.initData(this.recipe);
+
+            // Create a new stage (window)
+            Stage shareStage = new Stage();
+            shareStage.setTitle("Share Recipe");
+            shareStage.setScene(new Scene(sharePageParent));
+            shareStage.initModality(Modality.APPLICATION_MODAL); // This will make it so user cant interact with old window
+            shareStage.show(); // Showw the new stage
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void addToFavorites(ActionEvent event) {
         //   try {
         //       // Skriv ut userID och recipeID för att verifiera att de inte är null
         //       System.out.println("UserId: " + (this.userId != null ? this.userId: "null"));
         //       System.out.println("Recipe: " + (this.recipe != null ? this.recipe.getId() : "null"));
-      
+
         //       // Kontrollera att både userId och recipe är korrekt innan du fortsätter
         //       if (this.userId != null && this.recipe != null) {
         //           if (favoritesController.addFavorite(this.userId, this.recipe)) {
@@ -241,12 +313,12 @@ public class RecipeDetailsViewController {
         // }
         this.userId = 1L;
         favoritesController.addFavorite(userId, recipe);
-      }
-    
+    }
 
 
-      @FXML
-      public void removeFromFavorites(ActionEvent event) {
+
+    @FXML
+    public void removeFromFavorites(ActionEvent event) {
 
         //   // Använd favoritesController för att ta bort från databasen istället
         //   if (favoritesController.removeFavorite(this.userId, this.recipe)) {
@@ -269,37 +341,37 @@ public class RecipeDetailsViewController {
 
         this.userId = 1L;
         favoritesController.removeFavorite(userId, recipe);
-      }
-
-@FXML
-private void handleweekButtonAction(ActionEvent event) {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
-        Parent parent = loader.load();
-
-        PopupWeeklyViewController popupController = loader.getController();
-        this.userId = 1L; // Sätter userId direkt här
-        System.out.println(userId + " " + recipe.getId());
-        if (popupController != null) {
-            popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
-        } else {
-            System.out.println("Popup controller was not initialized.");
-            return; // To avoid further execution
-        }
-        Scene scene = new Scene(parent);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Weekly Recipe Planner");
-        stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
-        stage.showAndWait();
-    } catch (IOException e) {
-        System.out.println("Failed to load the weekly list popup: " + e.getMessage());
-        e.printStackTrace();
-        System.out.println("Error when opening the popup: " + e.getMessage());
     }
-}
+
+    @FXML
+    private void handleweekButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
+            Parent parent = loader.load();
+
+            PopupWeeklyViewController popupController = loader.getController();
+            this.userId = 1L; // Sätter userId direkt här
+            System.out.println(userId + " " + recipe.getId());
+            if (popupController != null) {
+                popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
+            } else {
+                System.out.println("Popup controller was not initialized.");
+                return; // To avoid further execution
+            }
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Weekly Recipe Planner");
+            stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
+            stage.showAndWait();
+        } catch (IOException e) {
+            System.out.println("Failed to load the weekly list popup: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error when opening the popup: " + e.getMessage());
+        }
+    }
 
 
 
-    
+
 }

@@ -33,12 +33,12 @@ public class AmountOfIngredients {
   }
 
 
-  public SimpleFloatProperty amountProperty() {
-    return new SimpleFloatProperty(Amount);
-  }
-
-  public SimpleStringProperty nameProperty() {
-    return new SimpleStringProperty(IngredientName);
+  public String getIngredientName() {
+    if (ingredient != null) {
+      return ingredient.getIngredientName();
+    } else {
+      return "UnknownIngredient";
+    }
   }
   /**
    * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient name.
