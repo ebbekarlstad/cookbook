@@ -10,12 +10,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
@@ -51,6 +53,7 @@ public class WeeklyViewController {
         setupRecipeListView(sundayListView);
 
         populateWeeksComboBox();
+        
         weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 loadWeeklyRecipesForSelectedWeek(newVal);
@@ -59,14 +62,44 @@ public class WeeklyViewController {
     }
 
     private void populateWeeksComboBox() {
-        List<Date> weeks = weeklyController.getWeeklyList(userId);
-        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+        List<Date> weeks = weeklyController.getYearlyWeeks();
+        SimpleDateFormat sdf = new SimpleDateFormat("w");
+        String currentWeek = sdf.format(new java.util.Date());
+
         weeksComboBox.getItems().clear();
-        weeksComboBox.getItems().addAll(weeks.stream().map(sdf::format).collect(Collectors.toList()));
+        weeksComboBox.setPromptText("Select a week");
+        weeksComboBox.getItems().addAll(
+            weeks.stream()
+                .map(date -> {
+                    String weekString = sdf.format(date);
+                    return weekString.equals(currentWeek) ? weekString + " (Current Week)" : weekString;
+                })
+                .collect(Collectors.toList()));
+        
+        // current week visible in red
+        weeksComboBox.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    if (item.contains("Current Week")) {
+                        setTextFill(Color.RED);
+                        setStyle("-fx-font-weight: bold;");
+                    } else {
+                        setTextFill(Color.BLACK);
+                        setStyle("");
+                    }
+                }
+            }
+        });
+            
     }
 
     private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
-        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+        SimpleDateFormat sdf = new SimpleDateFormat("w");
         try {
             java.util.Date parsedDate = sdf.parse(selectedWeek);
             java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
