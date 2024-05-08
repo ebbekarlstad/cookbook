@@ -1,5 +1,6 @@
 package cookbook.frontend.fe_controllers;
 
+import cookbook.backend.be_controllers.ModifyUserController;
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_objects.User;
 import cookbook.backend.DatabaseMng;
@@ -46,10 +47,12 @@ public class ModifyUserViewController {
     // Reference the UserController and the Database
     private UserController userController;
     private DatabaseMng dbManager;
+    private ModifyUserController modifyUserController;
     
     public ModifyUserViewController() throws SQLException {
         this.dbManager = new DatabaseMng();
         this.userController = new UserController(dbManager);
+        this.modifyUserController = new ModifyUserController(dbManager);
     }
     
     // Method to load all users to the dropdown combobox.
@@ -61,7 +64,7 @@ public class ModifyUserViewController {
             public java.lang.String toString(User user) {
                 return user.getUserName(); 
             }
-            
+    
             @Override
             public User fromString(String string) {
                 return null;
@@ -70,55 +73,60 @@ public class ModifyUserViewController {
     }
     
     @FXML
-    private void modifyUser(ActionEvent event) {
-        // Empty the errorlabel
+    private void submitUserChanges(ActionEvent event) {
+        // Error label and progress bar
         errorLabel.setText("");
+        progressCircle.setVisible(true);
         
         // Get the input from the admin.
         String username = newUsernameField.getText();
         String displayname = newDisplayNameField.getText();
         String password = newPasswordField.getText();
-        
-        // Show progress indicator
-        progressCircle.setVisible(true);
+        User selectedUser = userComboBox.getValue();
         
         // Boolean that initializes a new Task object
-        Task<Boolean> modifyTask = new Task<>() {
-            @Override
-            protected Boolean call() throws Exception {
-                Thread.sleep(2000);  // Sleep for 2 seconds
-                User newUser = new User(null, username, displayname, password, null, dbManager, password);
-                userController.setUser(newUser);
-                return userController.saveToDatabase();
-            }
-        };
-        
-        // If modification succededs
-        modifyTask.setOnSucceeded(e -> {
-            progressCircle.setVisible(false);
+        if (selectedUser != null) {
+            Task<Boolean> modifyTask = new Task<>() {
+                @Override
+                protected Boolean call() throws Exception {
+                    return modifyUserController.modifyUser(selectedUser.getUserId(), username, displayname, password);
+                }
+            };
             
-            if (modifyTask.getValue()) {
-                errorLabel.setTextFill(Color.GREEN);
-                System.out.println("Modification Successful!");
-                errorLabel.setText("Modification Successful!");
-                
-            } else {
+            // If task succeeds
+            modifyTask.setOnSucceeded(e -> {
+                progressCircle.setVisible(false);
+                if (modifyTask.getValue()) {
+                    errorLabel.setTextFill(Color.GREEN);
+                    errorLabel.setText("Modification Successful!");
+                } else {
+                    errorLabel.setTextFill(Color.RED);
+                    errorLabel.setText("Modification Failed.");
+                }
+            });
+
+            // If task fails
+            modifyTask.setOnFailed(e -> {
+                progressCircle.setVisible(false);
                 errorLabel.setTextFill(Color.RED);
-                errorLabel.setText("Modification Failed.");
-            }
-        });
-        
-        modifyTask.setOnFailed(e -> {
+                errorLabel.setText("Error during modification.");
+            });
+
+            new Thread(modifyTask).start();
+        } else {
             progressCircle.setVisible(false);
             errorLabel.setTextFill(Color.RED);
-            errorLabel.setText("Error during modification.");
-        });
-        // Start login task
-        new Thread(modifyTask).start();
+            errorLabel.setText("No user selected.");
+        }
     }
     
     @FXML
     public void initialize() throws SQLException {
-        loadUsers();
+        System.out.println("Initializing: userComboBox is " + (userComboBox == null ? "null" : "not null"));
+        try {
+            loadUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
