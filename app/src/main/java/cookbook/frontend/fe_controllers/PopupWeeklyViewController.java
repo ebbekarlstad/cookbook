@@ -52,6 +52,12 @@ public class PopupWeeklyViewController {
 
     private void loadDaysIntoComboBox() {
         List<String> days = weeklyController.getWeekdays();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        String today = sdf.format(new java.util.Date());
+
+        days = days.stream()
+                    .map(day -> day.equals(today) ? day + " (Today)" : day)
+                    .collect(Collectors.toList());
         daysComboBox.getItems().setAll(days);
     }
 
@@ -78,6 +84,7 @@ public class PopupWeeklyViewController {
     }
 
     private void setupComboBoxListeners() {
+        //Setting up for weeks, highlighting current week in red
         weeksComboBox.setCellFactory(lv -> new ListCell<String>() {
             @Override 
             protected void updateItem(String item, boolean empty) {
@@ -96,6 +103,8 @@ public class PopupWeeklyViewController {
                 }
             }
         });
+
+        //Setting up for days, highlighting current day in red
 
         weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> handleSelectionChange());
         daysComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> handleSelectionChange());
