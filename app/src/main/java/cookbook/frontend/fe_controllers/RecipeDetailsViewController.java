@@ -188,6 +188,23 @@ public class RecipeDetailsViewController {
         updateMultipliedAmount();
     }
 
+    // Method to update the multiplied amount
+    private void updateMultipliedAmount() {
+        multipliedAmount = (float) numberOfPersons;
+        MultipliedAmount.setText(String.valueOf(multipliedAmount));
+        updateIngredientsAmount(); // Update ingredients amount based on the new multiplied amount
+    }
+
+
+    // Method to update the amount of each ingredient based on the multiplied amount
+    private void updateIngredientsAmount() {
+        for (AmountOfIngredients ingredient : ingredients) {
+            float originalAmount = ingredient.getAmount();
+            float adjustedAmount = originalAmount * multipliedAmount;
+            ingredient.setAmount(adjustedAmount);
+        }
+        ingredientTable.refresh(); // Refresh the table view to reflect the changes
+    }
 
     private CommentController commentController;
 
