@@ -3,8 +3,10 @@ package cookbook.frontend.fe_controllers;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
+import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Recipe;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import java.util.*;
 
@@ -21,11 +23,12 @@ import java.io.IOException;
 public class RecipeDetailsViewController {
 
     @FXML
-    private TableView<?> IngredientTable;
+    private TableView<AmountOfIngredients> ingredientTable;
     @FXML
-    private TableColumn<?, ?> amountColumn;
+    private TableColumn<AmountOfIngredients, String> amountColumn;
     @FXML
-    private TableColumn<?, ?> ingredientColumn;
+    private TableColumn<AmountOfIngredients, String> ingredientColumn;
+
     private String recipeId;
     private Long userId = 1L;
     private int commentId;
@@ -58,6 +61,15 @@ public class RecipeDetailsViewController {
 
         this.recipeId = recipe.getId();
         loadComments();
+        // Populate the TableView with ingredients
+        List<AmountOfIngredients> ingredientsList = recipe.getIngredientsList();
+        if (ingredientsList != null) {
+            ingredientTable.getItems().addAll(ingredientsList);
+        }
+
+        // Configure the columns
+        amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty());
+        ingredientColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
     }
 
     private CommentController commentController;

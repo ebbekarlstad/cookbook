@@ -67,13 +67,13 @@ public class DatabaseSeeder {
     String dropTableSQL = "DROP TABLE IF EXISTS `recipes`;";
 
     String createTableSQL = "CREATE TABLE `recipes` ("
-        + "`RecipeID` INT AUTO_INCREMENT NOT NULL, "
+        + "`RecipeID` varchar(255) NOT NULL, "
         + "`UserID` int NOT NULL, "
         + "`RecipeName` varchar(1000) NOT NULL, "
         + "`ShortDesc` varchar(1000) NOT NULL, "
         + "`DetailedDesc` varchar(1000) NOT NULL, "
-//        + "`Unit` varchar(1000) NOT NULL, "
-//        + "`Amount` varchar(1000) NOT NULL, "
+        + "`Unit` varchar(1000) NOT NULL, "
+        + "`Amount` varchar(1000) NOT NULL, "
         + "`IsFavorite` tinyint, "
         + "PRIMARY KEY (`RecipeID`), "
         + "UNIQUE KEY `RecipeID_UNIQUE` (`RecipeID`), "
@@ -81,8 +81,8 @@ public class DatabaseSeeder {
         + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
 
      String insertDataSQL = "INSERT INTO recipes (RecipeID, UserID, RecipeName,"
-     + "ShortDesc, DetailedDesc)"
-     + " VALUES (1, 1, 'placeHolderName', 'placeHolderShort', 'placeHolderLong');";
+     + "ShortDesc, DetailedDesc, Unit, Amount)"
+     + " VALUES (1, 1, 'placeHolderName', 'placeHolderShort', 'placeHolderLong', 'Servings amount test', '10');";
 
 //    String insertDataSQL1 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
 //        + "VALUES (1, 1, 'Creamy Tomato Soup', 'A comforting and creamy soup made with fresh tomatoes and herbs.', 'This recipe is a classic comfort food dish that''s perfect for a chilly evening. The creamy texture comes from a mixture of heavy cream and Parmesan cheese, while the fresh tomatoes add a burst of flavor.', 'Servings', 6);";
