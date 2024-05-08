@@ -4,16 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.paint.Color;
-import javafx.scene.control.ListView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 
 import java.sql.Date;
-import java.util.Map;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
@@ -64,7 +61,7 @@ public class PopupWeeklyViewController {
     private void loadWeeksIntoComboBox() {
         try {
             List<Date> weeks = weeklyController.getYearlyWeeks();
-            SimpleDateFormat sdf = new SimpleDateFormat("w");
+            SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
             Date now = new Date(System.currentTimeMillis());
             String currentWeekString = sdf.format(now);
 

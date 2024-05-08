@@ -63,7 +63,7 @@ public class WeeklyViewController {
 
     private void populateWeeksComboBox() {
         List<Date> weeks = weeklyController.getYearlyWeeks();
-        SimpleDateFormat sdf = new SimpleDateFormat("w");
+        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
         String currentWeek = sdf.format(new java.util.Date());
 
         weeksComboBox.getItems().clear();
@@ -99,7 +99,7 @@ public class WeeklyViewController {
     }
 
     private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
-        SimpleDateFormat sdf = new SimpleDateFormat("w");
+        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
         try {
             java.util.Date parsedDate = sdf.parse(selectedWeek);
             java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
