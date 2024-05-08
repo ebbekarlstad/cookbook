@@ -170,7 +170,8 @@ public class RecipeDetailsViewController {
 
 
     private int numberOfPersons = 1;
-    private float multipliedAmount = 1.0f;
+    private float originalMultipliedAmount = 1.0f;
+    private float currentMultipliedAmount = 1.0f;
 
 
     //for incrementing and decrementing the amount based on how many people.
@@ -190,17 +191,18 @@ public class RecipeDetailsViewController {
 
     // Method to update the multiplied amount
     private void updateMultipliedAmount() {
-        multipliedAmount = (float) numberOfPersons;
-        MultipliedAmount.setText(String.valueOf(multipliedAmount));
+        currentMultipliedAmount = (float) numberOfPersons;
+        MultipliedAmount.setText(String.valueOf(currentMultipliedAmount));
         updateIngredientsAmount(); // Update ingredients amount based on the new multiplied amount
     }
 
 
     // Method to update the amount of each ingredient based on the multiplied amount
     private void updateIngredientsAmount() {
+        float adjustmentFactor = currentMultipliedAmount / originalMultipliedAmount;
         for (AmountOfIngredients ingredient : ingredients) {
             float originalAmount = ingredient.getAmount();
-            float adjustedAmount = originalAmount * multipliedAmount;
+            float adjustedAmount = originalAmount / adjustmentFactor; // Divide by the adjustment factor
             ingredient.setAmount(adjustedAmount);
         }
         ingredientTable.refresh(); // Refresh the table view to reflect the changes
