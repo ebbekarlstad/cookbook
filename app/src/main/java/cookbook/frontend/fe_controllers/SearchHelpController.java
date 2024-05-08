@@ -41,8 +41,11 @@ public class SearchHelpController {
   private void initializeHelpText() {
     helpTopics = Arrays.asList(
       new HelpMain("How to login to Cookbook?",
-      "To log in, enter your username and password on the login screen and click the 'Login' button.")
-    );
+      "To log in, enter your username and password on the login screen and click the 'Login' button."),
+      new HelpMain("How to add a new recipe?",
+                     "Navigate to 'New Recipe' and fill in the recipe details to add it to your cookbook.")
+    
+      );
 
     StringBuilder helpTextBuilder = new StringBuilder();
     helpTextBuilder.append("Welcome to the Digital Cookbook Help System\n\n");
