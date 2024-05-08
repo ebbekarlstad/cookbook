@@ -52,6 +52,17 @@ public class RecipeDetailsViewController {
     private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
 
 
+
+    @FXML
+    private Button LessPersons;
+
+    @FXML
+    private Button MorePersons;
+
+    @FXML
+    private TextField MultipliedAmount;
+
+
     private String recipeId;
     private Long userId = 1L;
     private int commentId;
@@ -156,6 +167,27 @@ public class RecipeDetailsViewController {
         fetchIngredientsFromDatabase(recipeId);
 
     }
+
+
+    private int numberOfPersons = 1;
+    private float multipliedAmount = 1.0f;
+
+
+    //for incrementing and decrementing the amount based on how many people.
+    @FXML
+    void DecrementPeople(ActionEvent event) {
+        if (numberOfPersons > 1) {
+            numberOfPersons--;
+            updateMultipliedAmount();
+        }
+    }
+
+    @FXML
+    void IncrementPeople(ActionEvent event) {
+        numberOfPersons++;
+        updateMultipliedAmount();
+    }
+
 
     private CommentController commentController;
 
@@ -370,8 +402,6 @@ public class RecipeDetailsViewController {
             System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
-
-
 
 
 }
