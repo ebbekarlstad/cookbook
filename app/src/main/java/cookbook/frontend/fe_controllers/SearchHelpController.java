@@ -43,7 +43,7 @@ public class SearchHelpController {
       new HelpMain("How to login to Cookbook?",
       "To log in, enter your username and password on the login screen and click the 'Login' button."),
       new HelpMain("How to add a new recipe?",
-                     "Navigate to 'New Recipe' and fill in the recipe details to add it to your cookbook.")
+      "Navigate to 'New Recipe'. Enter the 'Recipe Name', and provide a 'Short Description' of the recipe. Under 'Ingredients', enter the name, amount, and select the unit for each ingredient, then click 'Add ingredient' to list it. Fill in the 'Instructions' section with the steps required to prepare the dish. Optionally, add 'Tags' to categorize your recipe, which can be selected from existing tags or by creating new ones. Click 'Add Recipe' to save the recipe to your cookbook.")
     
       );
 
