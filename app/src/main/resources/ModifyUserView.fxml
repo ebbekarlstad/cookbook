@@ -67,14 +67,14 @@
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
             </ImageView>
-            <TextField id="new_username" fx:id="usernameField" layoutX="459.0" layoutY="315.0" prefHeight="25.0" prefWidth="164.0" />
+            <TextField id="newUsernameField" fx:id="usernameField" layoutX="459.0" layoutY="315.0" prefHeight="25.0" prefWidth="164.0" />
             <Text fill="WHITE" layoutX="294.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Username:" wrappingWidth="164.000020345052">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
             </Text>
-            <ComboBox layoutX="343.0" layoutY="237.0" prefHeight="25.0" prefWidth="229.0" />
-            <Button fx:id="registerButton" layoutX="380.0" layoutY="602.0" mnemonicParsing="false" onAction="#registerUser" prefHeight="62.0" prefWidth="171.0" text="SUBMIT">
+            <ComboBox id="userComboBox" layoutX="343.0" layoutY="237.0" prefHeight="25.0" prefWidth="229.0" />
+            <Button fx:id="submitButton" layoutX="380.0" layoutY="602.0" mnemonicParsing="false" onAction="#submitNewUser" prefHeight="62.0" prefWidth="171.0" text="SUBMIT">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
@@ -107,13 +107,13 @@
                   <Font name="System Bold" size="21.0" />
                </font>
             </Text>
-            <TextField id="new_displayname" fx:id="usernameField1" layoutX="459.0" layoutY="355.0" prefHeight="25.0" prefWidth="164.0" />
+            <TextField id="newDisplayNameField" fx:id="usernameField1" layoutX="459.0" layoutY="355.0" prefHeight="25.0" prefWidth="164.0" />
             <Text fill="WHITE" layoutX="294.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Password:" wrappingWidth="164.000020345052">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
             </Text>
-            <TextField id="new_displayname" fx:id="usernameField11" layoutX="459.0" layoutY="398.0" prefHeight="25.0" prefWidth="164.0" />
+            <TextField id="newPasswordField" fx:id="usernameField11" layoutX="459.0" layoutY="398.0" prefHeight="25.0" prefWidth="164.0" />
       </children>
     </AnchorPane>
   </children>
