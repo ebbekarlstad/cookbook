@@ -67,7 +67,7 @@ public class WeeklyViewController {
         String currentWeek = sdf.format(new java.util.Date());
 
         weeksComboBox.getItems().clear();
-        weeksComboBox.setPromptText("Select a week");
+        weeksComboBox.setPromptText("Select Week");
         weeksComboBox.getItems().addAll(
             weeks.stream()
                 .map(date -> {

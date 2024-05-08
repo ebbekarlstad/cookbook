@@ -64,7 +64,7 @@ public class PopupWeeklyViewController {
     private void loadWeeksIntoComboBox() {
         try {
             List<Date> weeks = weeklyController.getYearlyWeeks();
-            SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+            SimpleDateFormat sdf = new SimpleDateFormat("w");
             Date now = new Date(System.currentTimeMillis());
             String currentWeekString = sdf.format(now);
 
@@ -84,6 +84,9 @@ public class PopupWeeklyViewController {
     }
 
     private void setupComboBoxListeners() {
+        // setting prompt text
+        weeksComboBox.setPromptText("Select Week");
+        daysComboBox.setPromptText("Select Day");
         //Setting up for weeks, highlighting current week in red
         weeksComboBox.setCellFactory(lv -> new ListCell<String>() {
             @Override 
