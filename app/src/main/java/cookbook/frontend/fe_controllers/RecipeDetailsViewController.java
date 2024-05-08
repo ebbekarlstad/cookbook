@@ -6,7 +6,10 @@ import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Recipe;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import java.util.*;
 
@@ -18,6 +21,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
+
 import java.io.IOException;
 
 public class RecipeDetailsViewController {
@@ -68,7 +74,14 @@ public class RecipeDetailsViewController {
         }
 
         // Configure the columns
-        amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty());
+        amountColumn.setCellValueFactory(cellData -> {
+            FloatProperty amountProperty = cellData.getValue().amountProperty();
+            StringProperty stringProperty = new SimpleStringProperty(String.valueOf(amountProperty.getValue()));
+            // Convert float value to string using StringConverter
+            StringConverter<Number> converter = new NumberStringConverter();
+            Bindings.bindBidirectional(stringProperty, amountProperty, converter);
+            return stringProperty;
+        });
         ingredientColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
     }
 
