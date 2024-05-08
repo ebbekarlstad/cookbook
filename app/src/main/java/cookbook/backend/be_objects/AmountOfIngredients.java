@@ -11,6 +11,7 @@ public class AmountOfIngredients {
   private float Amount;
   private Ingredient ingredient;
   private String IngredientName;
+  private float originalAmount;
 
   /**
    * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient.
@@ -28,6 +29,7 @@ public class AmountOfIngredients {
       this.Unit = "";
     }
     this.Amount = Amount;
+    this.originalAmount = Amount;
     this.ingredient = ingredient;
     this.IngredientName = ingredient.getIngredientName();
   }
@@ -57,6 +59,7 @@ public class AmountOfIngredients {
     }
     this.Amount = Amount;
     this.IngredientName = IngredientName;
+
   }
 
   /**
@@ -122,6 +125,13 @@ public class AmountOfIngredients {
     this.Amount = Amount;
   }
 
+  public float getOriginalAmount() {
+    return originalAmount;
+  }
+
+  public void setOriginalAmount(float originalAmount) {
+    this.originalAmount = originalAmount;
+  }
   /**
    * Convert the object to a string representation.
    *

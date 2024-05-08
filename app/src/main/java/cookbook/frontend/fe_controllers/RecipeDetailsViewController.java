@@ -168,10 +168,10 @@ public class RecipeDetailsViewController {
 
     }
 
-
+    // The variables needed to make this logic work.
     private int numberOfPersons = 1;
-    private float originalMultipliedAmount = 1.0f;
     private float currentMultipliedAmount = 1.0f;
+
 
 
     //for incrementing and decrementing the amount based on how many people.
@@ -179,34 +179,33 @@ public class RecipeDetailsViewController {
     void DecrementPeople(ActionEvent event) {
         if (numberOfPersons > 1) {
             numberOfPersons--;
-            updateMultipliedAmount();
+            updateMultipliedAmountAndIngredients();
         }
     }
 
     @FXML
     void IncrementPeople(ActionEvent event) {
         numberOfPersons++;
-        updateMultipliedAmount();
+        updateMultipliedAmountAndIngredients();
     }
 
-    // Method to update the multiplied amount
-    private void updateMultipliedAmount() {
+    private void updateMultipliedAmountAndIngredients() {
+        // Update the current multiplied amount
         currentMultipliedAmount = (float) numberOfPersons;
         MultipliedAmount.setText(String.valueOf(currentMultipliedAmount));
         updateIngredientsAmount(); // Update ingredients amount based on the new multiplied amount
     }
 
 
-    // Method to update the amount of each ingredient based on the multiplied amount
     private void updateIngredientsAmount() {
-        float adjustmentFactor = currentMultipliedAmount / originalMultipliedAmount;
         for (AmountOfIngredients ingredient : ingredients) {
-            float originalAmount = ingredient.getAmount();
-            float adjustedAmount = originalAmount / adjustmentFactor; // Divide by the adjustment factor
+            float originalAmount = ingredient.getOriginalAmount();
+            float adjustedAmount = originalAmount * currentMultipliedAmount; // Multiply by the current multiplied amount
             ingredient.setAmount(adjustedAmount);
         }
         ingredientTable.refresh(); // Refresh the table view to reflect the changes
     }
+
 
     private CommentController commentController;
 
