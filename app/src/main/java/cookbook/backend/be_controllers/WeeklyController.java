@@ -117,6 +117,11 @@ public class WeeklyController {
 
 
     public boolean addRecipeToWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
+      // if (recipeExistsInWeeklyList(userId, weekStartDate, recipeId, dayOfWeek)) {
+      //   System.out.println("Recipe already exists for this week and day.");
+      //   return false;
+      // }
+
       // Först kontrollera att det finns en WeeklyDinnerListID för den angivna veckan
       int weeklyDinnerListId = ensureWeeklyDinnerListExists(userId, weekStartDate);
       if (weeklyDinnerListId == -1) {
@@ -137,6 +142,22 @@ public class WeeklyController {
           return false;
       }
   }
+
+    // private boolean recipeExistsInWeeklyList(Long userId, Date weekStartDate, String recipeId, String dayOfWeek) {
+    //   String sql = "SELECT 1 FROM dinner_list_recipes dr JOIN weekly_dinner_lists wl ON dr.WeeklyDinnerListID = wl.WeeklyDinnerListID WHERE wl.UserID = ? AND wl.Week = ? AND dr.RecipeID = ? AND dr.DayOfWeek = ?";
+    //   try (Connection conn = dbManager.getConnection();
+    //         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    //         pstmt.setLong(1, userId);
+    //         pstmt.setDate(2, weekStartDate);
+    //         pstmt.setString(3, recipeId);
+    //         pstmt.setString(4, dayOfWeek);
+    //         ResultSet rs = pstmt.executeQuery();
+    //         return rs.next();
+    //       } catch (SQLException e) {
+    //         System.out.println("Error checking if recipe exists in weekly list: " + e.getMessage());
+    //         return false;
+    //       }
+    // }
   
     
     
