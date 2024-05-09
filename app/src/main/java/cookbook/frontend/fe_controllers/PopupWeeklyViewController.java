@@ -1,6 +1,7 @@
 package cookbook.frontend.fe_controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.paint.Color;
@@ -153,14 +154,27 @@ public class PopupWeeklyViewController {
                 return;
             }
 
-            if (recipe != null && weeklyController.addRecipeToWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
-                System.out.println("Recipe successfully added to weekly list.");
+            if (weeklyController.recipeExistsInWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
+                System.out.println("Recipe akready exists for this week and day.");
+                showAlert("Recipe already saved", "This recipe has already been saved for this day.");
             } else {
-                System.out.println("Failed to add recipe to weekly list.");
+                if (weeklyController.addRecipeToWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
+                    System.out.println("Recipe successfully added to weekly list.");
+                } else {
+                    System.out.println("Failed to add recipe to weekly list.");
+                }
             }
         } catch (ParseException e) {
             System.out.println("Error parsing week start date: " + e.getMessage());
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     
 }
