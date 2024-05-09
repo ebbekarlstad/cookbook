@@ -22,4 +22,17 @@ public class IngredientData {
     public String getUnit() {
         return unit;
     }
+
+    // Setter methods
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 }

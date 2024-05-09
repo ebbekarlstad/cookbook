@@ -1,6 +1,8 @@
 package cookbook.frontend.fe_controllers;
 
 import cookbook.backend.be_objects.IngredientData;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,6 +59,17 @@ public class ShoppingListViewController {
         weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             loadDishes(newValue);
             loadAllIngredients();  // Load all ingredients once all dishes are loaded
+        });
+
+        // Listener to update labels when ingredient selection changes
+        ingredientTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<IngredientData>() {
+            @Override
+            public void changed(ObservableValue<? extends IngredientData> observable, IngredientData oldValue, IngredientData newValue) {
+                if (newValue != null) {
+                    currentIngredient.setText(newValue.getName());
+                    amount_text.setText(String.valueOf(newValue.getAmount()));
+                }
+            }
         });
     }
     
@@ -144,24 +157,80 @@ public class ShoppingListViewController {
 
 
 
+
     @FXML
     void onDeleteBtn(ActionEvent event) {
+        TableView.TableViewSelectionModel<IngredientData> selectionModel = ingredientTable.getSelectionModel();
+        if (!selectionModel.isEmpty()) {
+            IngredientData selectedIngredient = selectionModel.getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Delete Ingredient");
+            alert.setContentText("Are you sure you want to delete the ingredient '" + selectedIngredient.getName() + "'?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                ingredientTable.getItems().remove(selectedIngredient);
+            }
+        } else {
+            showAlert("No Ingredient Selected", "Please select an ingredient to delete.");
+        }
     }
 
     @FXML
     void onModifyBtn(ActionEvent event) {
+        TableView.TableViewSelectionModel<IngredientData> selectionModel = ingredientTable.getSelectionModel();
+        if (!selectionModel.isEmpty()) {
+            IngredientData selectedIngredient = selectionModel.getSelectedItem();
 
+            TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedIngredient.getAmount()));
+            dialog.setTitle("Modify Ingredient");
+            dialog.setHeaderText("Modify Amount");
+            dialog.setContentText("Please enter the new amount for '" + selectedIngredient.getName() + "':");
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(newAmount -> {
+                try {
+                    float newAmountFloat = Float.parseFloat(newAmount);
+                    selectedIngredient.setAmount(newAmountFloat);
+                } catch (NumberFormatException e) {
+                    showAlert("Invalid Input", "Please enter a valid number for the amount.");
+                }
+            });
+        } else {
+            showAlert("No Ingredient Selected", "Please select an ingredient to modify.");
+        }
     }
-
+    private void showAlert(String title, String message) {
+      Alert alert = new Alert(Alert.AlertType.WARNING);
+      alert.setTitle(title);
+      alert.setHeaderText(null);
+      alert.setContentText(message);
+      alert.showAndWait();
+    }
     @FXML
     void onUpButton(ActionEvent event) {
-
+        TableView.TableViewSelectionModel<IngredientData> selectionModel = ingredientTable.getSelectionModel();
+        if (!selectionModel.isEmpty()) {
+            IngredientData selectedIngredient = selectionModel.getSelectedItem();
+            float currentAmount = selectedIngredient.getAmount();
+            selectedIngredient.setAmount(currentAmount + 1); // Increment amount
+            amount_text.setText(String.valueOf(selectedIngredient.getAmount()));
+        }
     }
+
 
     @FXML
     void onDownButton(ActionEvent event) {
-
+        TableView.TableViewSelectionModel<IngredientData> selectionModel = ingredientTable.getSelectionModel();
+        if (!selectionModel.isEmpty()) {
+            IngredientData selectedIngredient = selectionModel.getSelectedItem();
+            float currentAmount = selectedIngredient.getAmount();
+            if (currentAmount > 0) {
+                selectedIngredient.setAmount(currentAmount - 1); // Decrement amount if it's greater than 0
+                amount_text.setText(String.valueOf(selectedIngredient.getAmount()));
+            }
+        }
     }
 
 
