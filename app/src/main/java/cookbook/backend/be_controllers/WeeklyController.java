@@ -247,6 +247,15 @@ public class WeeklyController {
       return weekdays;
     }
 
+    public String getCurrentDay() {
+      String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+      Calendar cal = Calendar.getInstance();
+      cal.setFirstDayOfWeek(Calendar.MONDAY);
+      int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+      int adjustIndex = (dayOfWeek == Calendar.SUNDAY) ? 6 : dayOfWeek - 2; //Starts on Monday
+      return days[adjustIndex];
+    }
+
 
 
     public void addRecipeToWeeklyList(Long userId, Recipe recipe) {
