@@ -44,7 +44,7 @@ public class SearchHelpController {
       "To log in, enter your username and password on the login screen and click the 'Login' button."),
       new HelpMain("How to add a new recipe?",
       "Navigate to 'New Recipe'. Enter the 'Recipe Name', and provide a 'Short Description' of the recipe. Under 'Ingredients', enter the name, amount, and select the unit for each ingredient, then click 'Add ingredient' to list it. Fill in the 'Instructions' section with the steps required to prepare the dish. Optionally, add 'Tags' to categorize your recipe, which can be selected from existing tags or by creating new ones. Click 'Add Recipe' to save the recipe to your cookbook."),
-      new HelpMain("Shopping List",
+      new HelpMain("How to view Shopping List",
                   "To generate a shopping list, first navigate to the 'Shopping List' section from the main menu. This page displays three columns: 'Weeks', 'Dishes', and 'Ingredients'. \n\n" +
                   "1. Select a week from the 'Weeks' column to view the dishes planned for that week.\n" +
                   "2. Click on a dish to view its ingredients in the 'Ingredients' column. This column aggregates the quantities of each ingredient needed for the selected dishes, adjusting for overlapping ingredients across different meals.\n" +
@@ -72,7 +72,7 @@ public class SearchHelpController {
                   "3. Search by Ingredients: Use the 'Search by ingredients' field to find recipes based on the ingredients they use. This is useful if you have specific ingredients at hand and want to know what you can cook.\n" +
                   "4. Search by Tags: The 'Search by tags' option allows you to filter recipes based on tags like 'Vegetarian', 'Gluten-Free', etc. This helps you find recipes that meet specific dietary requirements.\n\n" +
                   "Each recipe entry in the list can be clicked to open up the full recipe view where you can see detailed instructions, ingredients, and options to edit, delete, or add the recipe to your favorites."),
-      new HelpMain("Viewing and Managing Favorite Recipes",
+      new HelpMain("How to View and Managing Favorite Recipes",
                   "The 'Favorite Recipes' section allows you to easily access and manage the recipes you love most. Here's how to use this feature:\n\n" +
                   "1. Accessing Favorite Recipes: From the main navigation, select 'Favorite' to open your list of favorite recipes. If no recipes are displayed, it means you haven't added any favorites yet.\n" +
                   "2. Adding Favorites: To add a recipe to your favorites, navigate to the recipe detail page and click 'Add to favorite'. The recipe will then appear in your 'Favorite Recipes' list.\n" +
@@ -87,7 +87,7 @@ public class SearchHelpController {
                   "3. Viewing Adjusted Quantities: After adjusting the servings, the amounts specified for each ingredient in the recipe will reflect the changes, ensuring accurate preparation for the desired number of people.\n\n" +
                   "This tool is designed to help you modify recipes according to your needs, making it easier to cook for varying group sizes without having to manually calculate ingredient proportions."),
               
-      new HelpMain("How tp Add and Managing Comments on Recipes",
+      new HelpMain("How to Add and Managing Comments on Recipes",
                   "The comments section in each recipe allows users to share their experiences, tips, or modifications related to the recipe.\n\n" +
                   "1. Adding a Comment: To add a comment, type your message in the 'Write a comment' box and click 'Add'. Your comment will then appear in the 'Comments' area on the right side of the recipe page.\n" +
                   "2. Editing and Removing Comments: If you need to edit or remove a comment you've posted, use the 'Edit' or 'Remove' buttons associated with your comment. Make the necessary changes in the comment text box and click 'Update' to save edits or 'Remove' to delete the comment.\n" +
