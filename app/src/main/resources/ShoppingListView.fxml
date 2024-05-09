@@ -6,6 +6,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -35,23 +38,41 @@
                </font>
             </Button>
             <ListView fx:id="weeksList" layoutX="26.0" layoutY="189.0" prefHeight="396.0" prefWidth="200.0" />
-            <ListView fx:id="dishesList" layoutX="353.0" layoutY="189.0" prefHeight="396.0" prefWidth="200.0" />
-            <ListView fx:id="ingredientsList" layoutX="648.0" layoutY="196.0" prefHeight="396.0" prefWidth="200.0" />
-            <Label layoutX="82.0" layoutY="159.0" text="Weeks">
+            <ListView fx:id="dishesList" layoutX="226.0" layoutY="189.0" prefHeight="396.0" prefWidth="200.0" />
+            <Label layoutX="29.0" layoutY="164.0" text="Weeks">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="427.0" layoutY="159.0" text="Dishes">
+            <Label layoutX="226.0" layoutY="164.0" text="Dishes">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="718.0" layoutY="164.0" text="Ingredients">
+            <Label layoutX="426.0" layoutY="164.0" text="Ingredients">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+             <TableView fx:id="ingredientTable" layoutX="426.0" layoutY="187.0" prefHeight="400.0" prefWidth="485.0">
+                 <columns>
+                     <TableColumn fx:id="ingredientColumn" prefWidth="202.0" text="Ingredient">
+                         <cellValueFactory>
+                             <PropertyValueFactory property="name" />
+                         </cellValueFactory>
+                     </TableColumn>
+                     <TableColumn fx:id="amountColumn" prefWidth="131.0" text="Amount">
+                         <cellValueFactory>
+                             <PropertyValueFactory property="amount" />
+                         </cellValueFactory>
+                     </TableColumn>
+                     <TableColumn fx:id="unitColumn" prefWidth="151.0" text="Unit">
+                         <cellValueFactory>
+                             <PropertyValueFactory property="unit" />
+                         </cellValueFactory>
+                     </TableColumn>
+                 </columns>
+             </TableView>
          </children>
         </AnchorPane>
     </children>
