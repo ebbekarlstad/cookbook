@@ -13,9 +13,6 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
-
-
-
 import java.sql.*;
 
 public class ShoppingListViewController {
