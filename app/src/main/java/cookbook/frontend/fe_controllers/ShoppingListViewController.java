@@ -16,6 +16,7 @@ import javafx.util.Pair;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ShoppingListViewController {
 
@@ -31,6 +32,13 @@ public class ShoppingListViewController {
 
     @FXML
     private TableColumn<IngredientData, String> unitColumn;
+
+    @FXML
+    private Label amount_text;
+
+    @FXML
+    private Label currentIngredient;
+
     @FXML
     private ListView<String> weeksList;
     @FXML
@@ -133,8 +141,30 @@ public class ShoppingListViewController {
 
         ingredientTable.setItems(allIngredients);
     }
-  
-  
+
+
+
+    @FXML
+    void onDeleteBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onModifyBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onUpButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onDownButton(ActionEvent event) {
+
+    }
+
+
 
     @FXML
     void backButton(ActionEvent event) {
