@@ -72,7 +72,7 @@ public class ShoppingListViewController {
             }
         });
     }
-    
+
 
     private void loadWeeks() {
         ObservableList<String> weeks = FXCollections.observableArrayList();
@@ -92,9 +92,9 @@ public class ShoppingListViewController {
     private void loadDishes(String week) {
         ObservableList<String> dishes = FXCollections.observableArrayList();
         String sql = "SELECT RecipeName FROM recipes " +
-                     "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
-                     "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
-                     "WHERE weekly_dinner_lists.Week = ?";
+                "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
+                "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+                "WHERE weekly_dinner_lists.Week = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDate(1, Date.valueOf(week));
@@ -202,11 +202,11 @@ public class ShoppingListViewController {
         }
     }
     private void showAlert(String title, String message) {
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle(title);
-      alert.setHeaderText(null);
-      alert.setContentText(message);
-      alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     @FXML
     void onUpButton(ActionEvent event) {
