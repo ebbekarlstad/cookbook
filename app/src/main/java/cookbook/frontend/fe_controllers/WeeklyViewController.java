@@ -54,9 +54,16 @@ public class WeeklyViewController {
 
         populateWeeksComboBox();
         
+        String selectedWeek = weeksComboBox.getSelectionModel().getSelectedItem();
+        if (selectedWeek != null) {
+            loadWeeklyRecipesForSelectedWeek(selectedWeek);
+            highlightCurrentDay();
+        }
+
         weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 loadWeeklyRecipesForSelectedWeek(newVal);
+                highlightCurrentDay();
             }
         });
     }
@@ -68,13 +75,17 @@ public class WeeklyViewController {
 
         weeksComboBox.getItems().clear();
         weeksComboBox.setPromptText("Select Week");
-        weeksComboBox.getItems().addAll(
-            weeks.stream()
-                .map(date -> {
-                    String weekString = sdf.format(date);
-                    return weekString.equals(currentWeek) ? weekString + " (Current Week)" : weekString;
-                })
-                .collect(Collectors.toList()));
+
+        List<String> weekLabels = weeks.stream().map(date -> {
+            String weekString = sdf.format(date);
+            return weekString.equals(currentWeek) ? weekString + " (Current Week)" : weekString;
+        }).collect(Collectors.toList());
+
+        weeksComboBox.getItems().addAll(weekLabels);
+        int currentWeekIndex = weekLabels.indexOf(currentWeek + " (Current Week)");
+        if (currentWeekIndex != -1) {
+            weeksComboBox.getSelectionModel().select(currentWeekIndex);
+        }
         
         // current week visible in red
         weeksComboBox.setCellFactory(lv -> new ListCell<String>() {
