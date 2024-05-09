@@ -44,7 +44,7 @@ public class SearchHelpController {
       "To log in, enter your username and password on the login screen and click the 'Login' button."),
       new HelpMain("How to add a new recipe?",
       "Navigate to 'New Recipe'. Enter the 'Recipe Name', and provide a 'Short Description' of the recipe. Under 'Ingredients', enter the name, amount, and select the unit for each ingredient, then click 'Add ingredient' to list it. Fill in the 'Instructions' section with the steps required to prepare the dish. Optionally, add 'Tags' to categorize your recipe, which can be selected from existing tags or by creating new ones. Click 'Add Recipe' to save the recipe to your cookbook."),
-      new HelpMain("Generating a Shopping List",
+      new HelpMain("Shopping List",
                   "To generate a shopping list, first navigate to the 'Shopping List' section from the main menu. This page displays three columns: 'Weeks', 'Dishes', and 'Ingredients'. \n\n" +
                   "1. Select a week from the 'Weeks' column to view the dishes planned for that week.\n" +
                   "2. Click on a dish to view its ingredients in the 'Ingredients' column. This column aggregates the quantities of each ingredient needed for the selected dishes, adjusting for overlapping ingredients across different meals.\n" +
