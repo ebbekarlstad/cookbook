@@ -10,6 +10,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
+
+
 
 import java.sql.*;
 
@@ -38,39 +43,54 @@ public class ShoppingListViewController {
     
 
     private void loadWeeks() {
-        ObservableList<String> weeks = FXCollections.observableArrayList();
-        String sql = "SELECT DISTINCT Week FROM weekly_dinner_lists ORDER BY Week DESC";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                weeks.add(rs.getDate("Week").toString());
-            }
-        } catch (SQLException e) {
-            System.out.println("Error loading weeks: " + e.getMessage());
-        }
-        weeksList.setItems(weeks);
-    }
+      ObservableList<String> weeks = FXCollections.observableArrayList();
+      String sql = "SELECT MIN(Week) AS StartDate, MAX(Week) AS EndDate FROM weekly_dinner_lists " +
+                   "GROUP BY YEAR(Week), WEEK(Week) ORDER BY YEAR(Week) DESC, WEEK(Week) DESC";
+  
+      try (Connection conn = connect();
+           PreparedStatement pstmt = conn.prepareStatement(sql);
+           ResultSet rs = pstmt.executeQuery()) {
+          while (rs.next()) {
+              LocalDate startDate = rs.getDate("StartDate").toLocalDate();
+              LocalDate endDate = rs.getDate("EndDate").toLocalDate();
+              int weekNumber = startDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+              String weekDisplay = "Week " + weekNumber + " (" + startDate + " to " + endDate + ")";
+              weeks.add(weekDisplay);
+          }
+      } catch (SQLException e) {
+          System.out.println("Error loading weeks: " + e.getMessage());
+      }
+      weeksList.setItems(weeks);
+  }
+  
+    
+  private void loadDishes(String weekDisplay) {
+    ObservableList<String> dishes = FXCollections.observableArrayList();
+    // Extract the start and end dates from the week display
+    String[] parts = weekDisplay.split(" to ");
+    String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+    String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
 
-    private void loadDishes(String week) {
-        ObservableList<String> dishes = FXCollections.observableArrayList();
-        String sql = "SELECT RecipeName FROM recipes " +
-                     "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
-                     "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
-                     "WHERE weekly_dinner_lists.Week = ?";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, Date.valueOf(week));
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    dishes.add(rs.getString("RecipeName"));
-                }
+    String sql = "SELECT RecipeName FROM recipes " +
+                 "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
+                 "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+                 "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
+    try (Connection conn = connect();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setDate(1, Date.valueOf(startDatePart));
+        pstmt.setDate(2, Date.valueOf(endDatePart));
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                dishes.add(rs.getString("RecipeName"));
             }
-        } catch (SQLException e) {
-            System.out.println("Error loading dishes: " + e.getMessage());
         }
-        dishesList.setItems(dishes);
+    } catch (SQLException e) {
+        System.out.println("Error loading dishes: " + e.getMessage());
     }
+    dishesList.setItems(dishes);
+}
+
+
 
     private void loadAllIngredients() {
       ObservableList<String> allIngredients = FXCollections.observableArrayList();
@@ -108,8 +128,6 @@ public class ShoppingListViewController {
       ingredientsList.setItems(allIngredients);
   }
   
-  
-
     @FXML
     void backButton(ActionEvent event) {
         try {
