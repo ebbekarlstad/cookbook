@@ -78,9 +78,15 @@ public class SearchHelpController {
                   "2. Adding Favorites: To add a recipe to your favorites, navigate to the recipe detail page and click 'Add to favorite'. The recipe will then appear in your 'Favorite Recipes' list.\n" +
                   "3. Removing Favorites: If you wish to remove a recipe from your favorites, open the recipe detail from the 'Favorite Recipes' list and click 'Remove from favorite'.\n" +
                   "4. Navigating Recipes: Each entry in the favorite list provides easy access to the full recipe details, ensuring you can quickly find and prepare your favorite dishes.\n\n" +
-                  "Utilize the 'Go back' button to return to the main menu or navigate to other sections. This feature is designed to make your cooking experience more personalized and enjoyable by keeping your best-loved recipes at your fingertips.")
+                  "Utilize the 'Go back' button to return to the main menu or navigate to other sections. This feature is designed to make your cooking experience more personalized and enjoyable by keeping your best-loved recipes at your fingertips."),
               
-          
+      new HelpMain("Adjusting the Number of Persons for Recipes",
+                  "This feature allows you to scale the ingredients of a recipe based on the number of people you are preparing the meal for.\n\n" +
+                  "1. Accessing the Feature: Navigate to any recipe and locate the 'Adjust number of people' section, typically found below the ingredients list.\n" +
+                  "2. Adjusting Servings: Use the '+' and '-' buttons to increase or decrease the number of servings. The ingredient amounts will automatically update to match the new serving size.\n" +
+                  "3. Viewing Adjusted Quantities: After adjusting the servings, the amounts specified for each ingredient in the recipe will reflect the changes, ensuring accurate preparation for the desired number of people.\n\n" +
+                  "This tool is designed to help you modify recipes according to your needs, making it easier to cook for varying group sizes without having to manually calculate ingredient proportions."),
+              
           
           
                   );
