@@ -472,14 +472,17 @@ public void seedDinnerListRecipes() {
             + "`ItemName` VARCHAR(45) NOT NULL,"
             + "`Amount` FLOAT NOT NULL,"
             + "`Unit` VARCHAR(45) NOT NULL,"
-            + " PRIMARY KEY (`ItemID`));";
+            + "`WeeklyDinnerListID` INT,"  // Add the WeeklyDinnerListID column as nullable to avoid data loss
+            + " PRIMARY KEY (`ItemID`),"
+            + " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`));";
 
     String insertDataSQL = "INSERT INTO Shopping_List (ItemName, Amount, Unit)"
-            + "VALUES ('test', 0.0, 'x');";
-     seedTable(dropTableSQL);
-     seedTable(createTableSQL);
-     seedTable(insertDataSQL);
-  }
+            + "VALUES ('test', 0.0, 'x');";  // Example insertion, modify according to actual use
+    seedTable(dropTableSQL);
+    seedTable(createTableSQL);
+    seedTable(insertDataSQL);
+}
+
 
    public void seedShoppingListItems() {
      String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
