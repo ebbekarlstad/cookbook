@@ -5,6 +5,8 @@ import cookbook.backend.be_objects.User;
 
 import java.sql.SQLException;
 
+
+
 import cookbook.backend.DatabaseMng;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -84,7 +86,7 @@ public class RegistrationViewController {
       @Override
       protected Boolean call() throws Exception {
         Thread.sleep(2000);  // Sleep for 2 seconds
-        User newUser = new User(null, username, displayname, password, null, dbManager, password);
+        User newUser = new User(null, username, displayname, password, false, dbManager, password);
         userController.setUser(newUser);
         return userController.saveToDatabase();
       }
@@ -109,8 +111,10 @@ public class RegistrationViewController {
 
     registerTask.setOnFailed(e -> {
       progressCircle.setVisible(false);
+      Throwable exception = registerTask.getException();
       errorLabel.setTextFill(Color.RED);
-      errorLabel.setText("Error during registration.");
+      errorLabel.setText("Error during registration." + exception.getMessage());
+      exception.printStackTrace();
     });
     // Start login task
     new Thread(registerTask).start();
