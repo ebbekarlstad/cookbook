@@ -58,7 +58,10 @@ public class ShoppingListViewController {
         loadWeeks();
         weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             loadDishes(newValue);
-            loadAllIngredients();  // Load all ingredients once all dishes are loaded
+            // Store ingredients in shopping list for the selected week
+            storeIngredientsInShoppingList(newValue);
+            // Load ingredients from shopping list for the selected week
+            loadAllIngredients(newValue);
         });
 
         // Listener to update labels when ingredient selection changes
@@ -109,50 +112,72 @@ public class ShoppingListViewController {
         dishesList.setItems(dishes);
     }
 
-    private void loadAllIngredients() {
+    private void loadAllIngredients(String week) {
         ObservableList<IngredientData> allIngredients = FXCollections.observableArrayList();
         // Use a map to accumulate amounts of ingredients by name and unit
         Map<String, Pair<Float, String>> ingredientMap = new HashMap<>();
 
-        // Iterating over all dishes in the dishesList
-        for (String dish : dishesList.getItems()) {
-            String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
-                    "FROM ingredients i " +
-                    "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
-                    "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
-                    "WHERE r.RecipeName = ?";
-            System.out.println("Executing SQL for dish: " + dish);
-            try (Connection conn = connect();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, dish);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (!rs.isBeforeFirst()) {
-                        System.out.println("No data found for dish: " + dish);
+        // SQL query to select ingredients from all recipes associated with the selected week
+        String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+                "FROM recipes r " +
+                "JOIN dinner_list_recipes dl ON r.RecipeID = dl.RecipeID " +
+                "JOIN weekly_dinner_lists wdl ON dl.WeeklyDinnerListID = wdl.WeeklyDinnerListID " +
+                "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID " +
+                "JOIN ingredients i ON ri.IngredientID = i.IngredientID " +
+                "WHERE wdl.Week = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, Date.valueOf(week));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String name = rs.getString("IngredientName");
+                    float amount = rs.getFloat("Amount");
+                    String unit = rs.getString("Unit");
+                    // If ingredient already exists in the map, add the amount to its existing value
+                    if (ingredientMap.containsKey(name)) {
+                        Pair<Float, String> pair = ingredientMap.get(name);
+                        ingredientMap.put(name, new Pair<>(pair.getKey() + amount, unit));
                     } else {
-                        while (rs.next()) {
-                            String name = rs.getString("IngredientName");
-                            float amount = rs.getFloat("Amount");
-                            String unit = rs.getString("Unit");
-                            // If ingredient already exists in the map, add the amount to its existing value
-                            if (ingredientMap.containsKey(name)) {
-                                Pair<Float, String> pair = ingredientMap.get(name);
-                                ingredientMap.put(name, new Pair<>(pair.getKey() + amount, unit));
-                            } else {
-                                ingredientMap.put(name, new Pair<>(amount, unit));
-                            }
-                            System.out.println("Loaded ingredient: " + name);
-                        }
+                        ingredientMap.put(name, new Pair<>(amount, unit));
                     }
+                    System.out.println("Loaded ingredient: " + name);
                 }
-            } catch (SQLException e) {
-                System.out.println("Error loading ingredients for dish " + dish + ": " + e.getMessage());
             }
+        } catch (SQLException e) {
+            System.out.println("Error loading ingredients for week " + week + ": " + e.getMessage());
         }
 
         // Convert the accumulated map entries into IngredientData objects
         ingredientMap.forEach((name, pair) -> allIngredients.add(new IngredientData(name, pair.getKey(), pair.getValue())));
 
         ingredientTable.setItems(allIngredients);
+    }
+
+
+    private void storeIngredientsInShoppingList(String week) {
+        try {
+            // Connect to the database
+            Connection connection = connect();
+
+            // Prepare the SQL statement to insert ingredients into the Shopping_List table
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Shopping_List (ItemName, Amount, Unit) " +
+                    "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+                    "FROM recipes r " +
+                    "JOIN dinner_list_recipes dl ON r.RecipeID = dl.RecipeID " +
+                    "JOIN weekly_dinner_lists wdl ON dl.WeeklyDinnerListID = wdl.WeeklyDinnerListID " +
+                    "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID " +
+                    "JOIN ingredients i ON ri.IngredientID = i.IngredientID " +
+                    "WHERE wdl.Week = ?");
+            // Set the week as a parameter in the SQL statement
+            insertStatement.setDate(1, Date.valueOf(week));
+            insertStatement.executeUpdate();
+
+            // Close the database connections
+            insertStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
