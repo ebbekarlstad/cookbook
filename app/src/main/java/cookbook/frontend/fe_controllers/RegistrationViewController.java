@@ -20,7 +20,7 @@ import javafx.scene.paint.Color;
 
 public class RegistrationViewController {
 
-    /**
+  /**
    * Password Field.
    */
   @FXML
@@ -59,6 +59,11 @@ public class RegistrationViewController {
   private UserController userController;
   private DatabaseMng dbManager;
 
+  /**
+   * Constructor to set the instances of dbManager and Usercontroller.
+   *
+   * @throws SQLException
+   */
   public RegistrationViewController() throws SQLException {
     this.dbManager = new DatabaseMng();
     this.userController = new UserController(dbManager);
@@ -67,10 +72,10 @@ public class RegistrationViewController {
   @FXML
   private void registerUser(ActionEvent event) {
 
-        // Empty the errorlabel
+    // Empty the errorlabel
     errorLabel.setText("");
 
-    // Get the input from the username & password field.
+    // Get the input from the text fields.
     String username = usernameField.getText();
     String displayname = displayNameField.getText();
     String password = passwordField.getText();
@@ -80,6 +85,7 @@ public class RegistrationViewController {
 
     /**
      * Boolean that initializes a new Task object.
+     *
      * @return False if credentials are wrong. True if correct.
      */
     Task<Boolean> registerTask = new Task<>() {
@@ -93,7 +99,7 @@ public class RegistrationViewController {
     };
     
 
-    // If login succeded
+    // If registration succeeded.
     registerTask.setOnSucceeded(e -> {
       progressCircle.setVisible(false);
 
@@ -101,7 +107,6 @@ public class RegistrationViewController {
         errorLabel.setTextFill(Color.GREEN);
         System.out.println("Registration Successful!");
         errorLabel.setText("Registration Successful!");
-        //loadNavigationView(event);
 
       } else {
         errorLabel.setTextFill(Color.RED);
@@ -109,6 +114,7 @@ public class RegistrationViewController {
       }
     });
 
+    // If registration failed.
     registerTask.setOnFailed(e -> {
       progressCircle.setVisible(false);
       Throwable exception = registerTask.getException();
@@ -116,7 +122,7 @@ public class RegistrationViewController {
       errorLabel.setText("Error during registration." + exception.getMessage());
       exception.printStackTrace();
     });
-    // Start login task
+    // Start registration task
     new Thread(registerTask).start();
   }
 }
