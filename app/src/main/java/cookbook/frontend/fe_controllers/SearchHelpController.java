@@ -65,13 +65,20 @@ public class SearchHelpController {
                   "4. Add a Personal Message: Optionally, you can add a personal message to the recipient explaining why you think they might like the recipe or any specific tips you have regarding the preparation.\n" +
                   "5. Send the Recipe: After selecting the recipient and adding your message, click on 'Send'. The recipient will receive a notification in their 'My Inbox' section with your message and a link to the recipe.\n\n" +
                   "This feature makes it easy to share your culinary discoveries and personal favorites with friends and family who also use the app."),
-      new HelpMain("How to browsing Recipes",
+      new HelpMain("How to Browse Recipes",
                   "The 'Browse Recipes' feature allows you to view and search through all the recipes available in the Cookbook. From the main menu, click on 'Browse Recipes' to access the recipe list.\n\n" +
                   "1. View Recipes: All recipes are listed alphabetically. Scroll through the list to see all the available recipes.\n" +
                   "2. Search by Name: Enter a recipe name or a part of it in the 'Search by name' field to quickly find specific recipes.\n" +
                   "3. Search by Ingredients: Use the 'Search by ingredients' field to find recipes based on the ingredients they use. This is useful if you have specific ingredients at hand and want to know what you can cook.\n" +
                   "4. Search by Tags: The 'Search by tags' option allows you to filter recipes based on tags like 'Vegetarian', 'Gluten-Free', etc. This helps you find recipes that meet specific dietary requirements.\n\n" +
-                  "Each recipe entry in the list can be clicked to open up the full recipe view where you can see detailed instructions, ingredients, and options to edit, delete, or add the recipe to your favorites.")
+                  "Each recipe entry in the list can be clicked to open up the full recipe view where you can see detailed instructions, ingredients, and options to edit, delete, or add the recipe to your favorites."),
+      new HelpMain("Viewing and Managing Favorite Recipes",
+                  "The 'Favorite Recipes' section allows you to easily access and manage the recipes you love most. Here's how to use this feature:\n\n" +
+                  "1. Accessing Favorite Recipes: From the main navigation, select 'Favorite' to open your list of favorite recipes. If no recipes are displayed, it means you haven't added any favorites yet.\n" +
+                  "2. Adding Favorites: To add a recipe to your favorites, navigate to the recipe detail page and click 'Add to favorite'. The recipe will then appear in your 'Favorite Recipes' list.\n" +
+                  "3. Removing Favorites: If you wish to remove a recipe from your favorites, open the recipe detail from the 'Favorite Recipes' list and click 'Remove from favorite'.\n" +
+                  "4. Navigating Recipes: Each entry in the favorite list provides easy access to the full recipe details, ensuring you can quickly find and prepare your favorite dishes.\n\n" +
+                  "Utilize the 'Go back' button to return to the main menu or navigate to other sections. This feature is designed to make your cooking experience more personalized and enjoyable by keeping your best-loved recipes at your fingertips.")
               
           
           
