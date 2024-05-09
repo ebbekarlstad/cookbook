@@ -79,7 +79,7 @@ public class LoginViewController {
         errorLabel.setTextFill(Color.GREEN);
         errorLabel.setText("Login Successful!");
         if (result[1]) {
-          //loadAdminPanelView(event);
+          loadAdminPanelView(event);
         } else {
           loadNavigationView(event);
         }
@@ -104,6 +104,26 @@ public class LoginViewController {
     try {
       //Load the navigation page FXML
       Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Actionevent redirects admin user to adminview.
+   *
+   * @param event - Login button click.
+   */
+  private void loadAdminPanelView(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
       Scene navigationPageScene = new Scene(navigationPageParent);
 
       // Get the current stage and replace it
