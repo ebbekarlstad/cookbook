@@ -58,6 +58,12 @@ public class RegistrationViewController {
   private Button registerButton;
 
   /**
+   * Button that takes session back to admin panel.
+   */
+  @FXML
+  private Button backButton;
+
+  /**
    * A checkbox that allows the creation of administrator accounts.
    */
   @FXML
@@ -76,6 +82,13 @@ public class RegistrationViewController {
     this.userController = new UserController(dbManager);
 }
 
+
+  /**
+   * Method to register users in to the system. Connects the UI with 
+   * the UserController methods that save the user to the database.
+   *
+   * @param event Start the registerTask when Register button is pressed.
+   */
   @FXML
   private void registerUser(ActionEvent event) {
 
@@ -86,7 +99,7 @@ public class RegistrationViewController {
     String username = usernameField.getText();
     String displayname = displayNameField.getText();
     String password = passwordField.getText();
-    boolean isAdmin = adminCheckBox.isSelected();
+    boolean isAdmin = adminCheckBox.isSelected();  // Returns true if the box is checked.
 
     // Show progress indicator
     progressCircle.setVisible(true);

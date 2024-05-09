@@ -108,11 +108,16 @@
                   <Font name="SansSerif Bold" size="13.0" />
                </font>
             </Text>
-            <CheckBox fx:id="adminCheckBox" layoutX="266.0" layoutY="502.0" mnemonicParsing="false" text="Administrator">
+            <CheckBox fx:id="adminCheckBox" layoutX="266.0" layoutY="502.0" mnemonicParsing="false" text="Administrator" textFill="#000000d4">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </CheckBox>
+            <Button fxid="backButton" onAction="#exitRegisterPage" alignment="CENTER" contentDisplay="CENTER" layoutX="833.0" layoutY="21.0" mnemonicParsing="false" text="Exit">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
       </children>
     </AnchorPane>
   </children>
