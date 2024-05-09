@@ -50,7 +50,13 @@ public class SearchHelpController {
                   "2. Click on a dish to view its ingredients in the 'Ingredients' column. This column aggregates the quantities of each ingredient needed for the selected dishes, adjusting for overlapping ingredients across different meals.\n" +
                   "3. Review the list of ingredients to ensure it matches your needs. You can edit the list directly to remove items you already have in your kitchen.\n\n" +
                   "This feature simplifies the process of preparing for your weekly meals by providing a consolidated list of everything you need to purchase."),
-      
+      new HelpMain("Creating and Managing Weekly Meal Plans",
+                  "The 'Weekly' section allows you to plan your meals by day for each week. Navigate to this section via the 'Weekly' button on the main navigation bar.\n\n" +
+                  "1. **Select a Week**: Use the dropdown menu to select the week for which you want to plan meals. Weeks are displayed in a YYYY-WW format, where WW is the week number.\n" +
+                  "2. **Add Dishes to Days**: The week's view displays a grid with days from Monday to Sunday. To add a dish to a specific day, click on the day, then search and select the dish from your recipes. Each day can hold multiple dishes.\n" +
+                  "3. **View and Edit Daily Meals**: Click on any day to see a list of dishes planned. You can remove dishes or add more as needed.\n" +
+                  "4. **Link to Recipes**: Each dish listed in the daily plan links directly to its recipe, allowing for quick access to cooking instructions and ingredient lists.\n\n" +
+                  "This feature simplifies meal planning and helps ensure that you have varied and organized meals throughout the week.")
           );
       
     StringBuilder helpTextBuilder = new StringBuilder();
