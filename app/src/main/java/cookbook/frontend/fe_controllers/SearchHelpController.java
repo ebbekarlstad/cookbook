@@ -64,7 +64,14 @@ public class SearchHelpController {
                   "3. **Select a Recipient**: In the popup, select the user you want to share the recipe with from a dropdown list of users. You can only send recipes to registered users.\n" +
                   "4. **Add a Personal Message**: Optionally, you can add a personal message to the recipient explaining why you think they might like the recipe or any specific tips you have regarding the preparation.\n" +
                   "5. **Send the Recipe**: After selecting the recipient and adding your message, click on 'Send'. The recipient will receive a notification in their 'My Inbox' section with your message and a link to the recipe.\n\n" +
-                  "This feature makes it easy to share your culinary discoveries and personal favorites with friends and family who also use the app.")
+                  "This feature makes it easy to share your culinary discoveries and personal favorites with friends and family who also use the app."),
+      new HelpMain("Browsing Recipes",
+                  "The 'Browse Recipes' feature allows you to view and search through all the recipes available in the Cookbook. From the main menu, click on 'Browse Recipes' to access the recipe list.\n\n" +
+                  "1. **View Recipes**: All recipes are listed alphabetically. Scroll through the list to see all the available recipes.\n" +
+                  "2. **Search by Name**: Enter a recipe name or a part of it in the 'Search by name' field to quickly find specific recipes.\n" +
+                  "3. **Search by Ingredients**: Use the 'Search by ingredients' field to find recipes based on the ingredients they use. This is useful if you have specific ingredients at hand and want to know what you can cook.\n" +
+                  "4. **Search by Tags**: The 'Search by tags' option allows you to filter recipes based on tags like 'Vegetarian', 'Gluten-Free', etc. This helps you find recipes that meet specific dietary requirements.\n\n" +
+                  "Each recipe entry in the list can be clicked to open up the full recipe view where you can see detailed instructions, ingredients, and options to edit, delete, or add the recipe to your favorites.")
               
           
           
