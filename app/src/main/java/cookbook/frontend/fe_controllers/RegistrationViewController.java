@@ -11,6 +11,10 @@ import cookbook.backend.DatabaseMng;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -18,6 +22,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class RegistrationViewController {
 
@@ -145,5 +150,22 @@ public class RegistrationViewController {
     });
     // Start registration task
     new Thread(registerTask).start();
+  }
+
+  @FXML
+  private void exitRegisterPage(ActionEvent event) {
+
+    try {
+      //Load the registration page FXML
+      Parent adminPageParent= FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
+      Scene adminPaneScene = new Scene(adminPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(adminPaneScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

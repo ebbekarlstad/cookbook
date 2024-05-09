@@ -113,7 +113,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </CheckBox>
-            <Button fxid="backButton" onAction="#exitRegisterPage" alignment="CENTER" contentDisplay="CENTER" layoutX="833.0" layoutY="21.0" mnemonicParsing="false" text="Exit">
+            <Button fx:id="backButton" onAction="#exitRegisterPage" alignment="CENTER" contentDisplay="CENTER" layoutX="833.0" layoutY="21.0" mnemonicParsing="false" text="Exit">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
