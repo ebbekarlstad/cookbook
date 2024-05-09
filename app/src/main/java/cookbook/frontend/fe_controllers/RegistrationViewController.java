@@ -86,6 +86,7 @@ public class RegistrationViewController {
     String username = usernameField.getText();
     String displayname = displayNameField.getText();
     String password = passwordField.getText();
+    boolean isAdmin = adminCheckBox.isSelected();
 
     // Show progress indicator
     progressCircle.setVisible(true);
@@ -99,7 +100,7 @@ public class RegistrationViewController {
       @Override
       protected Boolean call() throws Exception {
         Thread.sleep(2000);  // Sleep for 2 seconds
-        User newUser = new User(null, username, displayname, password, false, dbManager, password);
+        User newUser = new User(null, username, displayname, password, isAdmin, dbManager, password);
         userController.setUser(newUser);
         return userController.saveToDatabase();
       }
