@@ -12,6 +12,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
@@ -55,6 +56,12 @@ public class RegistrationViewController {
    */
   @FXML
   private Button registerButton;
+
+  /**
+   * A checkbox that allows the creation of administrator accounts.
+   */
+  @FXML
+  private CheckBox adminCheckBox;
 
   private UserController userController;
   private DatabaseMng dbManager;
