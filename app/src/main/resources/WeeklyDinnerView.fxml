@@ -58,5 +58,6 @@
          </font>
       </Label>
       <Button layoutX="795.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#goBackToNavigator" prefHeight="39.0" prefWidth="116.0" text="Go back" />
+      <Button fx:id="GenerateShoppingList" layoutX="694.0" layoutY="628.0" mnemonicParsing="false" text="Generate to shopping list" />
    </children>
 </AnchorPane>

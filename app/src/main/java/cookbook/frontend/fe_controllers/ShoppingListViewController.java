@@ -74,6 +74,12 @@ public class ShoppingListViewController {
                 }
             }
         });
+
+        // Load ingredients for the default week when the view is initialized
+        String defaultWeek = weeksList.getItems().isEmpty() ? null : weeksList.getItems().get(0);
+        if (defaultWeek != null) {
+            loadAllIngredients(defaultWeek);
+        }
     }
 
 
@@ -159,30 +165,47 @@ public class ShoppingListViewController {
             // Connect to the database
             Connection connection = connect();
 
-            // Prepare the SQL statement to insert ingredients into the Shopping_List table
-            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Shopping_List (ItemName, Amount, Unit) " +
-                    "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+            // Prepare the SQL statement to insert or update ingredients in the Shopping_List table
+            String insertOrUpdateSQL = "INSERT INTO Shopping_List (ItemName, Amount, Unit) " +
+                    "VALUES (?, ?, ?) " +
+                    "ON DUPLICATE KEY UPDATE Amount = Amount + VALUES(Amount)";
+            PreparedStatement insertOrUpdateStatement = connection.prepareStatement(insertOrUpdateSQL);
+
+            // Prepare the SQL statement to select ingredients from the recipes for the given week
+            String selectIngredientsSQL = "SELECT i.IngredientName, SUM(ri.Amount) AS TotalAmount, ri.Unit " +
                     "FROM recipes r " +
                     "JOIN dinner_list_recipes dl ON r.RecipeID = dl.RecipeID " +
                     "JOIN weekly_dinner_lists wdl ON dl.WeeklyDinnerListID = wdl.WeeklyDinnerListID " +
                     "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID " +
                     "JOIN ingredients i ON ri.IngredientID = i.IngredientID " +
-                    "WHERE wdl.Week = ?");
-            // Set the week as a parameter in the SQL statement
-            insertStatement.setDate(1, Date.valueOf(week));
-            insertStatement.executeUpdate();
+                    "WHERE wdl.Week = ? " +
+                    "GROUP BY i.IngredientName, ri.Unit";
+            PreparedStatement selectIngredientsStatement = connection.prepareStatement(selectIngredientsSQL);
+            selectIngredientsStatement.setDate(1, Date.valueOf(week));
+            ResultSet resultSet = selectIngredientsStatement.executeQuery();
+
+            // Iterate over the result set and insert or update ingredients in the shopping list table
+            while (resultSet.next()) {
+                String itemName = resultSet.getString("IngredientName");
+                float totalAmount = resultSet.getFloat("TotalAmount");
+                String unit = resultSet.getString("Unit");
+
+                // Set parameters for the insertOrUpdateStatement
+                insertOrUpdateStatement.setString(1, itemName);
+                insertOrUpdateStatement.setFloat(2, totalAmount);
+                insertOrUpdateStatement.setString(3, unit);
+                insertOrUpdateStatement.executeUpdate();
+            }
 
             // Close the database connections
-            insertStatement.close();
+            resultSet.close();
+            selectIngredientsStatement.close();
+            insertOrUpdateStatement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
     @FXML
     void onDeleteBtn(ActionEvent event) {
         TableView.TableViewSelectionModel<IngredientData> selectionModel = ingredientTable.getSelectionModel();
@@ -257,6 +280,7 @@ public class ShoppingListViewController {
             }
         }
     }
+
 
 
 
