@@ -71,7 +71,29 @@ public class DatabaseMng {
       return lastErrorMessage;
     }
 
+  /**
+   * Method that checks the isAdmin attribute of a userName.
+   *
+   * @param userId - UserID.
+   * @return - Returns a boolean value true / false.
+   * @throws SQLException - SQL error.
+   */
+  public boolean isAdminUser(int userId) throws SQLException {
+  String sql = "SELECT IsAdmin FROM users WHERE UserID = ?";
+  try (Connection conn = this.getConnection();
+       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setInt(1, userId);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return rs.getBoolean("IsAdmin");
+      }
+  } catch (SQLException e) {
+      System.err.println("SQL Exception in isAdminUser: " + e.getMessage());
+      throw e;
+    }
+  return false;
   }
+}
 
 
   
