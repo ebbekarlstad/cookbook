@@ -80,14 +80,20 @@ public class SearchHelpController {
                   "4. Navigating Recipes: Each entry in the favorite list provides easy access to the full recipe details, ensuring you can quickly find and prepare your favorite dishes.\n\n" +
                   "Utilize the 'Go back' button to return to the main menu or navigate to other sections. This feature is designed to make your cooking experience more personalized and enjoyable by keeping your best-loved recipes at your fingertips."),
               
-      new HelpMain("Adjusting the Number of Persons for Recipes",
+      new HelpMain("How to Adjust the Number of Persons for Recipes",
                   "This feature allows you to scale the ingredients of a recipe based on the number of people you are preparing the meal for.\n\n" +
                   "1. Accessing the Feature: Navigate to any recipe and locate the 'Adjust number of people' section, typically found below the ingredients list.\n" +
                   "2. Adjusting Servings: Use the '+' and '-' buttons to increase or decrease the number of servings. The ingredient amounts will automatically update to match the new serving size.\n" +
                   "3. Viewing Adjusted Quantities: After adjusting the servings, the amounts specified for each ingredient in the recipe will reflect the changes, ensuring accurate preparation for the desired number of people.\n\n" +
                   "This tool is designed to help you modify recipes according to your needs, making it easier to cook for varying group sizes without having to manually calculate ingredient proportions."),
               
-          
+      new HelpMain("How tp Add and Managing Comments on Recipes",
+                  "The comments section in each recipe allows users to share their experiences, tips, or modifications related to the recipe.\n\n" +
+                  "1. Adding a Comment: To add a comment, type your message in the 'Write a comment' box and click 'Add'. Your comment will then appear in the 'Comments' area on the right side of the recipe page.\n" +
+                  "2. Editing and Removing Comments: If you need to edit or remove a comment you've posted, use the 'Edit' or 'Remove' buttons associated with your comment. Make the necessary changes in the comment text box and click 'Update' to save edits or 'Remove' to delete the comment.\n" +
+                  "3. Interacting with Comments: Scroll through the comments section to read insights from other users. This can provide valuable information and different perspectives on the recipe.\n\n" +
+                  "Use the comments feature to engage with the community, share your culinary successes or challenges, and gain insights from other home cooks.")
+              
           
                   );
       
