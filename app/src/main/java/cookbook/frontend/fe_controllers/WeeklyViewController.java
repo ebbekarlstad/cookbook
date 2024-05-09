@@ -1,6 +1,7 @@
 package cookbook.frontend.fe_controllers;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -110,16 +111,27 @@ public class WeeklyViewController {
     }
 
     private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
-        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
-        try {
-            java.util.Date parsedDate = sdf.parse(selectedWeek);
-            java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
-            Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, weekStartDate);
+        Task<Map<String, List<Recipe>>> fetchRecipeTask = new Task<>() {
+            @Override
+            protected Map<String, List<Recipe>> call() throws Exception {
+                SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+                java.util.Date parsedDate = sdf.parse(selectedWeek);
+                java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
+                return weeklyController.getWeeklyRecipes(userId, weekStartDate);
+            }
+        };
+
+        fetchRecipeTask.setOnSucceeded(event -> {
+            Map<String, List<Recipe>> weeklyRecipes = fetchRecipeTask.getValue();
             updateRecipeViews(weeklyRecipes);
             highlightCurrentDay();
-        } catch (Exception e) {
+        });
+        fetchRecipeTask.setOnFailed(event -> {
+            Throwable e = fetchRecipeTask.getException();
             e.printStackTrace();
-        }
+        });
+
+        new Thread(fetchRecipeTask).start();
     }
     private String getCurrentDayOfWeek() {
         return weeklyController.getCurrentDay();
