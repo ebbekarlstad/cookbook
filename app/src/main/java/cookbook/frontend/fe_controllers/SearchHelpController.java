@@ -50,27 +50,27 @@ public class SearchHelpController {
                   "2. Click on a dish to view its ingredients in the 'Ingredients' column. This column aggregates the quantities of each ingredient needed for the selected dishes, adjusting for overlapping ingredients across different meals.\n" +
                   "3. Review the list of ingredients to ensure it matches your needs. You can edit the list directly to remove items you already have in your kitchen.\n\n" +
                   "This feature simplifies the process of preparing for your weekly meals by providing a consolidated list of everything you need to purchase."),
-      new HelpMain("Creating and Managing Weekly Meal Plans",
+      new HelpMain("How to create and Managing Weekly Meal Plans",
                   "The 'Weekly' section allows you to plan your meals by day for each week. Navigate to this section via the 'Weekly' button on the main navigation bar.\n\n" +
-                  "1. **Select a Week**: Use the dropdown menu to select the week for which you want to plan meals. Weeks are displayed in a YYYY-WW format, where WW is the week number.\n" +
-                  "2. **Add Dishes to Days**: The week's view displays a grid with days from Monday to Sunday. To add a dish to a specific day, click on the day, then search and select the dish from your recipes. Each day can hold multiple dishes.\n" +
-                  "3. **View and Edit Daily Meals**: Click on any day to see a list of dishes planned. You can remove dishes or add more as needed.\n" +
-                  "4. **Link to Recipes**: Each dish listed in the daily plan links directly to its recipe, allowing for quick access to cooking instructions and ingredient lists.\n\n" +
+                  "1. Select a Week: Use the dropdown menu to select the week for which you want to plan meals. Weeks are displayed in a YYYY-WW format, where WW is the week number.\n" +
+                  "2. Add Dishes to Days: The week's view displays a grid with days from Monday to Sunday. To add a dish to a specific day, click on the day, then search and select the dish from your recipes. Each day can hold multiple dishes.\n" +
+                  "3. View and Edit Daily Meals: Click on any day to see a list of dishes planned. You can remove dishes or add more as needed.\n" +
+                  "4. Link to Recipes: Each dish listed in the daily plan links directly to its recipe, allowing for quick access to cooking instructions and ingredient lists.\n\n" +
                   "This feature simplifies meal planning and helps ensure that you have varied and organized meals throughout the week."),
-      new HelpMain("Sharing Recipes with Other Users",
+      new HelpMain("How to share Recipes with Other Users",
                   "The 'Share Recipe' feature allows you to send your favorite recipes to other users of the cookbook. This function fosters a community environment and encourages sharing of culinary ideas and experiences.\n\n" +
-                  "1. **Access the Recipe**: Navigate to the recipe you wish to share. You can do this by browsing recipes or by viewing your list of favorite recipes.\n" +
-                  "2. **Share the Recipe**: Click on the 'Share Recipe' button located at the top of the recipe page. A popup will appear.\n" +
-                  "3. **Select a Recipient**: In the popup, select the user you want to share the recipe with from a dropdown list of users. You can only send recipes to registered users.\n" +
-                  "4. **Add a Personal Message**: Optionally, you can add a personal message to the recipient explaining why you think they might like the recipe or any specific tips you have regarding the preparation.\n" +
-                  "5. **Send the Recipe**: After selecting the recipient and adding your message, click on 'Send'. The recipient will receive a notification in their 'My Inbox' section with your message and a link to the recipe.\n\n" +
+                  "1. Access the Recipe: Navigate to the recipe you wish to share. You can do this by browsing recipes or by viewing your list of favorite recipes.\n" +
+                  "2. Share the Recipe: Click on the 'Share Recipe' button located at the top of the recipe page. A popup will appear.\n" +
+                  "3. Select a Recipient: In the popup, select the user you want to share the recipe with from a dropdown list of users. You can only send recipes to registered users.\n" +
+                  "4. Add a Personal Message: Optionally, you can add a personal message to the recipient explaining why you think they might like the recipe or any specific tips you have regarding the preparation.\n" +
+                  "5. Send the Recipe: After selecting the recipient and adding your message, click on 'Send'. The recipient will receive a notification in their 'My Inbox' section with your message and a link to the recipe.\n\n" +
                   "This feature makes it easy to share your culinary discoveries and personal favorites with friends and family who also use the app."),
-      new HelpMain("Browsing Recipes",
+      new HelpMain("How to browsing Recipes",
                   "The 'Browse Recipes' feature allows you to view and search through all the recipes available in the Cookbook. From the main menu, click on 'Browse Recipes' to access the recipe list.\n\n" +
-                  "1. **View Recipes**: All recipes are listed alphabetically. Scroll through the list to see all the available recipes.\n" +
-                  "2. **Search by Name**: Enter a recipe name or a part of it in the 'Search by name' field to quickly find specific recipes.\n" +
-                  "3. **Search by Ingredients**: Use the 'Search by ingredients' field to find recipes based on the ingredients they use. This is useful if you have specific ingredients at hand and want to know what you can cook.\n" +
-                  "4. **Search by Tags**: The 'Search by tags' option allows you to filter recipes based on tags like 'Vegetarian', 'Gluten-Free', etc. This helps you find recipes that meet specific dietary requirements.\n\n" +
+                  "1. View Recipes: All recipes are listed alphabetically. Scroll through the list to see all the available recipes.\n" +
+                  "2. Search by Name: Enter a recipe name or a part of it in the 'Search by name' field to quickly find specific recipes.\n" +
+                  "3. Search by Ingredients: Use the 'Search by ingredients' field to find recipes based on the ingredients they use. This is useful if you have specific ingredients at hand and want to know what you can cook.\n" +
+                  "4. Search by Tags: The 'Search by tags' option allows you to filter recipes based on tags like 'Vegetarian', 'Gluten-Free', etc. This helps you find recipes that meet specific dietary requirements.\n\n" +
                   "Each recipe entry in the list can be clicked to open up the full recipe view where you can see detailed instructions, ingredients, and options to edit, delete, or add the recipe to your favorites.")
               
           
