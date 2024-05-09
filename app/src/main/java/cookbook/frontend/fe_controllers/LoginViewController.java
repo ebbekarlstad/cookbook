@@ -46,27 +46,23 @@ public class LoginViewController {
   @FXML
   private void handleLoginButton(ActionEvent event) {
 
-    
-
-    
-    
     // Empty the errorlabel
     errorLabel.setText("");
+
+    // Show progress indicator
+    loginProgress.setVisible(true);
 
     // Get the input from the username & password field.
     String username = usernameField.getText();
     String password = passwordField.getText();
 
-    // Show progress indicator
-    loginProgress.setVisible(true);
-
     /**
      * Boolean that initializes a new Task object.
      * @return False if credentials are wrong. True if correct.
      */
-    Task<Boolean> loginTask = new Task<>() {
+    Task<boolean[]> loginTask = new Task<>() {
       @Override
-      protected Boolean call() throws Exception {
+      protected boolean[] call() throws Exception {
         Thread.sleep(2000);  // Sleep for 2 seconds
         return new LogIn(dbManager).doLogin(username, password);
       }
@@ -76,14 +72,19 @@ public class LoginViewController {
     // If login succeded
     loginTask.setOnSucceeded(e -> {
       loginProgress.setVisible(false);
+      boolean[] result = loginTask.getValue();
 
-      if (loginTask.getValue()) {
+      if (result[0]) { // Login successful
         System.out.println("Login successful!");
         errorLabel.setTextFill(Color.GREEN);
         errorLabel.setText("Login Successful!");
-        loadNavigationView(event);
+        if (result[1]) {
+          //loadAdminPanelView(event);
+        } else {
+          loadNavigationView(event);
+        }
 
-      } else {
+    } else {
         errorLabel.setTextFill(Color.RED);
         errorLabel.setText("Invalid username or password.");
       }
@@ -91,8 +92,9 @@ public class LoginViewController {
 
     loginTask.setOnFailed(e -> {
       loginProgress.setVisible(false);
+      Throwable th = loginTask.getException();
       errorLabel.setTextFill(Color.RED);
-      errorLabel.setText("Login Failed.");
+      errorLabel.setText("Login Failed" + (th != null ? th.getMessage() : "Unknown Error"));
     });
     // Start login task
     new Thread(loginTask).start();
@@ -112,6 +114,4 @@ public class LoginViewController {
       e.printStackTrace();
     }
   }
-
-  
 }
