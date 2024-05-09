@@ -485,12 +485,12 @@ public void seedDinnerListRecipes() {
      String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
 
      String createTableSQL = "CREATE TABLE `shopping_list_items` ("
-         + "`ItemID` int NOT NULL AUTO_INCREMENT, "
-         + "`ShoppingListID` int NOT NULL, "
-         + "`IngredientID` varchar(45) NOT NULL, "
-         + "`Quantity` varchar(100) NOT NULL, "
-         + "PRIMARY KEY (`ItemID`), "
-         + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`));";
+             + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
+             + "`UserID` int NOT NULL, "
+             + "`CreatedDate` DATE NOT NULL, "
+             + "PRIMARY KEY (`ShoppingListID`), "
+             + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
 
      seedTable(dropTableSQL);
      seedTable(createTableSQL);
