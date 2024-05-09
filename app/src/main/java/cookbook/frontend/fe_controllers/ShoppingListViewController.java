@@ -30,9 +30,12 @@ public class ShoppingListViewController {
     @FXML
     public void initialize() {
         loadWeeks();
-        weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadDishes(newValue));
-        dishesList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadIngredients(newValue));
+        weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            loadDishes(newValue);
+            loadAllIngredients();  // Load all ingredients once all dishes are loaded
+        });
     }
+    
 
     private void loadWeeks() {
         ObservableList<String> weeks = FXCollections.observableArrayList();
@@ -69,37 +72,42 @@ public class ShoppingListViewController {
         dishesList.setItems(dishes);
     }
 
-    private void loadIngredients(String dish) {
-      ObservableList<String> ingredients = FXCollections.observableArrayList();
-      // Update the SQL to reflect the correct table and column names based on the seeding setup.
-      String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
-                   "FROM ingredients i " +
-                   "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
-                   "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
-                   "WHERE r.RecipeName = ?";
-      System.out.println("Executing SQL: " + sql + " with dish: " + dish);
-      try (Connection conn = connect();
-           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, dish);
-          try (ResultSet rs = pstmt.executeQuery()) {
-              if (!rs.isBeforeFirst()) {
-                  System.out.println("No data found for dish: " + dish);
-                  ingredientsList.setItems(FXCollections.observableArrayList("No ingredients found."));
-              } else {
-                  while (rs.next()) {
-                      String ingredientDetail = rs.getString("IngredientName") + " - " +
-                                                rs.getString("Amount") + " " +
-                                                rs.getString("Unit");
-                      ingredients.add(ingredientDetail);
-                      System.out.println("Loaded ingredient: " + ingredientDetail);
+    private void loadAllIngredients() {
+      ObservableList<String> allIngredients = FXCollections.observableArrayList();
+  
+      // Iterating over all dishes in the dishesList
+      for (String dish : dishesList.getItems()) {
+          String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+                       "FROM ingredients i " +
+                       "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
+                       "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
+                       "WHERE r.RecipeName = ?";
+          System.out.println("Executing SQL for dish: " + dish);
+          try (Connection conn = connect();
+               PreparedStatement pstmt = conn.prepareStatement(sql)) {
+              pstmt.setString(1, dish);
+              try (ResultSet rs = pstmt.executeQuery()) {
+                  if (!rs.isBeforeFirst()) {
+                      System.out.println("No data found for dish: " + dish);
+                  } else {
+                      while (rs.next()) {
+                          String ingredientDetail = rs.getString("IngredientName") + " - " +
+                                                    rs.getString("Amount") + " " +
+                                                    rs.getString("Unit");
+                          if (!allIngredients.contains(ingredientDetail)) {
+                              allIngredients.add(ingredientDetail);
+                          }
+                          System.out.println("Loaded ingredient: " + ingredientDetail);
+                      }
                   }
-                  ingredientsList.setItems(ingredients);
               }
+          } catch (SQLException e) {
+              System.out.println("Error loading ingredients for dish " + dish + ": " + e.getMessage());
           }
-      } catch (SQLException e) {
-          System.out.println("Error loading ingredients: " + e.getMessage());
       }
+      ingredientsList.setItems(allIngredients);
   }
+  
   
 
     @FXML
