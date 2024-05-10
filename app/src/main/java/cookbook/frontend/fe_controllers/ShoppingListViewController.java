@@ -80,29 +80,39 @@ public class ShoppingListViewController {
     }
 
 
+    /**
+     * Loads the dishes associated with a selected week from the database and updates the dishesList ListView.
+     * The week range is parsed from the provided weekDisplay string.
+     *
+     * @param weekDisplay A string representation of the week, typically formatted as "Week <number> (startDate to endDate)"
+     */
     private void loadDishes(String weekDisplay) {
-        ObservableList<String> dishes = FXCollections.observableArrayList();
-        String[] parts = weekDisplay.split(" to ");
-        String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
-        String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
-        String sql = "SELECT RecipeName FROM recipes " +
-                     "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
-                     "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
-                     "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, Date.valueOf(startDatePart));
-            pstmt.setDate(2, Date.valueOf(endDatePart));
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    dishes.add(rs.getString("RecipeName"));
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error loading dishes: " + e.getMessage());
-        }
-        dishesList.setItems(dishes);
-    }
+      ObservableList<String> dishes = FXCollections.observableArrayList(); // List to hold names of dishes for the UI
+      // Split the weekDisplay string to extract the start and end dates
+      String[] parts = weekDisplay.split(" to ");
+      String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1); // Extract the start date from the week display
+      String endDatePart = parts[1].substring(0, parts[1].indexOf(')')); // Extract the end date from the week display
+      
+      // SQL query to fetch recipe names within the specified week range
+      String sql = "SELECT RecipeName FROM recipes " +
+                   "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
+                   "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+                   "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
+      try (Connection conn = connect(); // Establish a database connection
+           PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL query
+          pstmt.setDate(1, Date.valueOf(startDatePart)); // Set the start date in the query
+          pstmt.setDate(2, Date.valueOf(endDatePart)); // Set the end date in the query
+          try (ResultSet rs = pstmt.executeQuery()) { // Execute the query and get the result set
+              while (rs.next()) {
+                  dishes.add(rs.getString("RecipeName")); // Add each fetched recipe name to the list
+              }
+          }
+      } catch (SQLException e) {
+          System.out.println("Error loading dishes: " + e.getMessage()); // Log error if SQL operation fails
+      }
+      dishesList.setItems(dishes); // Set the items in the ListView to the loaded dishes
+  }
+
 
     private void loadAllIngredients() {
         ObservableList<String> allIngredients = FXCollections.observableArrayList();
