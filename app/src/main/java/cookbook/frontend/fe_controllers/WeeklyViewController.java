@@ -82,6 +82,11 @@ private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
     }
 }
 
+private Long getCurrentUserId() {
+    // Fetching the current user's ID from the UserSession singleton
+    return Long.valueOf(UserSession.getInstance().getUserId());
+}
+
 
 
 
