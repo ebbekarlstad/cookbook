@@ -426,7 +426,59 @@ public class ShoppingListViewController {
 
     @FXML
     void ModifyIngredient(ActionEvent event) {
+        // Retrieve the selected item from the ShoppingList ListView
+        String selectedItem = ShoppingList.getSelectionModel().getSelectedItem();
 
+        // Check if an item is selected
+        if (selectedItem != null) {
+            // Extract the item name and amount from the selected item string
+            String[] parts = selectedItem.split(" - ");
+            String itemName = parts[0];
+            String amountString = parts[1].split(" ")[0]; // Extract the amount value
+            float currentAmount = Float.parseFloat(amountString); // Parse the amount value
+
+            // Create a TextInputDialog to prompt the user for the new amount
+            TextInputDialog dialog = new TextInputDialog(Float.toString(currentAmount));
+            dialog.setTitle("Modify Ingredient Amount");
+            dialog.setHeaderText(null);
+            dialog.setContentText("Enter the new amount for " + itemName + ":");
+
+            // Show the dialog and wait for user input
+            Optional<String> result = dialog.showAndWait();
+
+            // Process the user input if available
+            result.ifPresent(newAmount -> {
+                try {
+                    // Convert the new amount to float
+                    float updatedAmount = Float.parseFloat(newAmount);
+
+                    // Construct the SQL UPDATE statement to modify the amount in the database
+                    String sql = "UPDATE Shopping_List SET Amount = ? WHERE ItemName = ?";
+
+                    try (Connection conn = connect(); // Establish a database connection
+                         PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL statement
+                        // Set the parameters in the prepared statement
+                        pstmt.setFloat(1, updatedAmount);
+                        pstmt.setString(2, itemName);
+
+                        // Execute the SQL UPDATE statement
+                        pstmt.executeUpdate();
+
+                        // Refresh the ShoppingList ListView to reflect the updated list after modification
+                        loadShoppingListItems(weeksList.getSelectionModel().getSelectedItem());
+                    } catch (SQLException e) {
+                        // Handle any SQL exceptions
+                        System.out.println("Error modifying ingredient amount: " + e.getMessage());
+                    }
+                } catch (NumberFormatException e) {
+                    // Handle the case where the user enters a non-numeric value
+                    System.out.println("Invalid amount format. Please enter a numeric value.");
+                }
+            });
+        } else {
+            // If no item is selected, display a message to the user
+            System.out.println("Please select an item to modify.");
+        }
     }
 
 }
