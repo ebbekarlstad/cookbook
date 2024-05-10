@@ -1,6 +1,5 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.be_objects.ShoppingListItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,199 +16,105 @@ import java.sql.*;
 public class ShoppingListViewController {
 
     @FXML
-    private TableColumn<ShoppingListItem, Integer> IDColumn;
-
+    private ListView<String> weeksList;
     @FXML
-    private TableColumn<ShoppingListItem, String> ItemNameColumn;
-
+    private ListView<String> dishesList;
     @FXML
-    private TableColumn<ShoppingListItem, Float> AmountColumn;
+    private ListView<String> ingredientsList;
 
-    @FXML
-    private TableColumn<ShoppingListItem, String> UnitColumn;
-
-    @FXML
-    private TableView<ShoppingListItem> ShoppingColumn;
-
-
-    @FXML
-    private TextField ItemName;
-
-    @FXML
-    private TextField Quantity;
-
-    @FXML
-    private Button addShoppingItem;
-
-    @FXML
-    private Button back;
-
-    @FXML
-    private Button deleteShoppingItem;
-
-    @FXML
-    private Button editShoppingItem;
-
-    @FXML
-    private Button saveShoppingItem;
-
-    @FXML
-    private ComboBox<String> unit;
-
-    @FXML
-    private void initialize() {
-        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
-        populateTableView();
-
+    private Connection connect() throws SQLException {
+        // Ensure these credentials match your database configuration
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/cookbookdb", "root", "root");
     }
 
-    private void populateTableView() {
-        ObservableList<ShoppingListItem> items = FXCollections.observableArrayList();
+    @FXML
+    public void initialize() {
+        loadWeeks();
+        weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            loadDishes(newValue);
+            loadAllIngredients();  // Load all ingredients once all dishes are loaded
+        });
+    }
+    
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-            String query = "SELECT * FROM Shopping_List";
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int id = resultSet.getInt("ItemID");
-                String name = resultSet.getString("ItemName");
-                float amount = resultSet.getFloat("Amount");
-                String unit = resultSet.getString("Unit");
-
-                items.add(new ShoppingListItem(id, name, amount, unit));
+    private void loadWeeks() {
+        ObservableList<String> weeks = FXCollections.observableArrayList();
+        String sql = "SELECT DISTINCT Week FROM weekly_dinner_lists ORDER BY Week DESC";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                weeks.add(rs.getDate("Week").toString());
             }
-
-            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error loading weeks: " + e.getMessage());
         }
-
-        IDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
-        ItemNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        AmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
-        UnitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
-
-        ShoppingColumn.setItems(items);
+        weeksList.setItems(weeks);
     }
-    @FXML
-    void addItem(ActionEvent event) {
 
-        String itemName = ItemName.getText();
-        float quantity = Float.parseFloat(Quantity.getText());
-        String selectedUnit = unit.getValue();
-
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-            String query = "INSERT INTO Shopping_List (ItemName, Amount, Unit) VALUES (?, ?, ?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, itemName);
-            preparedStatement.setFloat(2, quantity);
-            preparedStatement.setString(3, selectedUnit);
-
-            preparedStatement.executeUpdate();
-
+    private void loadDishes(String week) {
+        ObservableList<String> dishes = FXCollections.observableArrayList();
+        String sql = "SELECT RecipeName FROM recipes " +
+                     "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
+                     "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+                     "WHERE weekly_dinner_lists.Week = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, Date.valueOf(week));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    dishes.add(rs.getString("RecipeName"));
+                }
+            }
         } catch (SQLException e) {
-          throw new RuntimeException("The connect is not established ... bruh" + e);
+            System.out.println("Error loading dishes: " + e.getMessage());
         }
-        populateTableView();
-
+        dishesList.setItems(dishes);
     }
 
-    @FXML
-    void DeleteItem(ActionEvent event) {
+    private void loadAllIngredients() {
+      ObservableList<String> allIngredients = FXCollections.observableArrayList();
+  
+      // Iterating over all dishes in the dishesList
+      for (String dish : dishesList.getItems()) {
+          String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+                       "FROM ingredients i " +
+                       "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
+                       "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
+                       "WHERE r.RecipeName = ?";
+          System.out.println("Executing SQL for dish: " + dish);
+          try (Connection conn = connect();
+               PreparedStatement pstmt = conn.prepareStatement(sql)) {
+              pstmt.setString(1, dish);
+              try (ResultSet rs = pstmt.executeQuery()) {
+                  if (!rs.isBeforeFirst()) {
+                      System.out.println("No data found for dish: " + dish);
+                  } else {
+                      while (rs.next()) {
+                          String ingredientDetail = rs.getString("IngredientName") + " - " +
+                                                    rs.getString("Amount") + " " +
+                                                    rs.getString("Unit");
+                          if (!allIngredients.contains(ingredientDetail)) {
+                              allIngredients.add(ingredientDetail);
+                          }
+                          System.out.println("Loaded ingredient: " + ingredientDetail);
+                      }
+                  }
+              }
+          } catch (SQLException e) {
+              System.out.println("Error loading ingredients for dish " + dish + ": " + e.getMessage());
+          }
+      }
+      ingredientsList.setItems(allIngredients);
+  }
+  
+  
 
-    }
-
-    @FXML
-    void EditItem(ActionEvent event) {
-        // Get the selected item from the TableView
-        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            // Populate the text fields with the data of the selected item
-            ItemName.setText(selectedItem.getName());
-            Quantity.setText(Float.toString(selectedItem.getAmount()));
-            unit.setValue(selectedItem.getUnit());
-        } else {
-            // If no item is selected, display a message to the user
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Item Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select an item to edit.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    void SaveItem(ActionEvent event) {
-        // Get the selected item from the TableView
-        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            // Update the selected item with the edited values
-            selectedItem.setName(ItemName.getText());
-            selectedItem.setAmount(Float.parseFloat(Quantity.getText()));
-            selectedItem.setUnit(unit.getValue());
-
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-                // Update the database with the edited item
-                String query = "UPDATE Shopping_List SET ItemName = ?, Amount = ?, Unit = ? WHERE ItemID = ?";
-                PreparedStatement preparedStatement = conn.prepareStatement(query);
-                preparedStatement.setString(1, selectedItem.getName());
-                preparedStatement.setFloat(2, selectedItem.getAmount());
-                preparedStatement.setString(3, selectedItem.getUnit());
-                preparedStatement.setInt(4, selectedItem.getId());
-
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException("Failed to update item in the database: " + e);
-            }
-
-
-            // Refresh the TableView to reflect the changes
-            populateTableView();
-        } else {
-            // If no item is selected, display a message to the user
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Item Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select an item to edit.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    void deleteShoppingItem(ActionEvent event) {
-        // Get the selected item from the TableView
-        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-                String query = "DELETE FROM Shopping_List WHERE ItemID = ?";
-                PreparedStatement preparedStatement = conn.prepareStatement(query);
-                preparedStatement.setInt(1, selectedItem.getId());
-
-                // Execute the delete query
-                preparedStatement.executeUpdate();
-
-                // Remove the selected item from the TableView
-                ShoppingColumn.getItems().remove(selectedItem);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // If no item is selected, display a message or handle it according to your application's requirements
-            System.out.println("No item selected for deletion.");
-        }
-    }
     @FXML
     void backButton(ActionEvent event) {
         try {
-            //Load the navigation page FXML
             Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
             Scene navigationPageScene = new Scene(navigationPageParent);
-
-            // Get the current stage and replace it
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
             window.setScene(navigationPageScene);
             window.show();
@@ -217,5 +122,4 @@ public class ShoppingListViewController {
             e.printStackTrace();
         }
     }
-
 }

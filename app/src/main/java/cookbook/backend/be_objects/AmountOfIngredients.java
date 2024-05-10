@@ -1,4 +1,8 @@
 package cookbook.backend.be_objects;
+
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  * The AmountOfIngredients class represents the quantity of an ingredient, including its unit, amount, and name.
  */
@@ -7,6 +11,7 @@ public class AmountOfIngredients {
   private float Amount;
   private Ingredient ingredient;
   private String IngredientName;
+  private float originalAmount;
 
   /**
    * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient.
@@ -24,10 +29,19 @@ public class AmountOfIngredients {
       this.Unit = "";
     }
     this.Amount = Amount;
+    this.originalAmount = Amount;
     this.ingredient = ingredient;
     this.IngredientName = ingredient.getIngredientName();
   }
 
+
+  public String getIngredientName() {
+    if (ingredient != null) {
+      return ingredient.getIngredientName();
+    } else {
+      return "UnknownIngredient";
+    }
+  }
   /**
    * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient name.
    *
@@ -45,6 +59,7 @@ public class AmountOfIngredients {
     }
     this.Amount = Amount;
     this.IngredientName = IngredientName;
+
   }
 
   /**
@@ -110,6 +125,13 @@ public class AmountOfIngredients {
     this.Amount = Amount;
   }
 
+  public float getOriginalAmount() {
+    return originalAmount;
+  }
+
+  public void setOriginalAmount(float originalAmount) {
+    this.originalAmount = originalAmount;
+  }
   /**
    * Convert the object to a string representation.
    *
