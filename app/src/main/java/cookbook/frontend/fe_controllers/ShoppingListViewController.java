@@ -41,35 +41,44 @@ public class ShoppingListViewController {
   }
 
 
+    /**
+     * Initializes the controller class. This method is automatically called after the FXML fields have been injected.
+     * It sets up the initial state of the UI components and registers event listeners.
+     */
     @FXML
     public void initialize() {
-        loadWeeks();
+        loadWeeks(); // Load the list of weeks into the weeksList ListView
         weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            loadDishes(newValue);
-            loadAllIngredients();
+            loadDishes(newValue); // Load dishes based on the selected week
+            loadAllIngredients(); // Load all ingredients for the selected dishes
             loadShoppingListItems(newValue); // Load shopping list for the selected week
         });
     }
 
+    /**
+     * Loads weeks from the database and populates the weeksList ListView with week ranges.
+     * Each week range is represented by its starting and ending dates along with a week number.
+     */
     private void loadWeeks() {
-        ObservableList<String> weeks = FXCollections.observableArrayList();
+        ObservableList<String> weeks = FXCollections.observableArrayList(); // List to hold week ranges for the UI
         String sql = "SELECT MIN(Week) AS StartDate, MAX(Week) AS EndDate FROM weekly_dinner_lists " +
                      "GROUP BY YEAR(Week), WEEK(Week) ORDER BY YEAR(Week) DESC, WEEK(Week) DESC";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = connect(); // Establish a database connection
+             PreparedStatement pstmt = conn.prepareStatement(sql); // Prepare SQL query
+             ResultSet rs = pstmt.executeQuery()) { // Execute query and get the result set
             while (rs.next()) {
-                LocalDate startDate = rs.getDate("StartDate").toLocalDate();
-                LocalDate endDate = rs.getDate("EndDate").toLocalDate();
-                int weekNumber = startDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
-                String weekDisplay = "Week " + weekNumber + " (" + startDate + " to " + endDate + ")";
-                weeks.add(weekDisplay);
+                LocalDate startDate = rs.getDate("StartDate").toLocalDate(); // Get the start date of the week
+                LocalDate endDate = rs.getDate("EndDate").toLocalDate(); // Get the end date of the week
+                int weekNumber = startDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()); // Calculate week number
+                String weekDisplay = "Week " + weekNumber + " (" + startDate + " to " + endDate + ")"; // Format display string for the week
+                weeks.add(weekDisplay); // Add the formatted week range to the list
             }
         } catch (SQLException e) {
-            System.out.println("Error loading weeks: " + e.getMessage());
+            System.out.println("Error loading weeks: " + e.getMessage()); // Log error if the SQL operation fails
         }
-        weeksList.setItems(weeks);
+        weeksList.setItems(weeks); // Set the items in the ListView to the loaded week ranges
     }
+
 
     private void loadDishes(String weekDisplay) {
         ObservableList<String> dishes = FXCollections.observableArrayList();
