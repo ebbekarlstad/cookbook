@@ -56,7 +56,7 @@
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField style="-fx-background-color: WHITE;" />
+                  <TextField fx:id="searchByIngredientsField" style="-fx-background-color: WHITE;" />
                   <Button fx:id="searchByIngredientsButton" onAction="#searchByIngredients" mnemonicParsing="false" text="Search" />
                   <Separator prefHeight="21.0" prefWidth="186.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search by tags">
@@ -64,7 +64,7 @@
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <TextField style="-fx-background-color: WHITE;" />
+                  <TextField fx:id="searchByTagsField" style="-fx-background-color: WHITE;" />
                   <Button fx:id="searchByTagsButton" onAction="#searchByTags" mnemonicParsing="false" text="Search" />
                </children>
             </VBox>
