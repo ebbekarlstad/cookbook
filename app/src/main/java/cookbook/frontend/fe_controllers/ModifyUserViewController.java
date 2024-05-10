@@ -3,6 +3,7 @@ package cookbook.frontend.fe_controllers;
 import cookbook.backend.be_controllers.ModifyUserController;
 import cookbook.backend.be_controllers.UserController;
 import cookbook.backend.be_objects.User;
+import cookbook.backend.be_objects.LogIn;
 import cookbook.backend.DatabaseMng;
 
 import javafx.fxml.FXML;
@@ -48,11 +49,13 @@ public class ModifyUserViewController {
     private UserController userController;
     private DatabaseMng dbManager;
     private ModifyUserController modifyUserController;
+    private LogIn login;
     
     public ModifyUserViewController() throws SQLException {
         this.dbManager = new DatabaseMng();
         this.userController = new UserController(dbManager);
         this.modifyUserController = new ModifyUserController(dbManager);
+        this.login = new LogIn(dbManager);
     }
     
     // Method to load all users to the dropdown combobox.
@@ -62,7 +65,7 @@ public class ModifyUserViewController {
         userComboBox.setConverter(new StringConverter<User>() {
             @Override
             public java.lang.String toString(User user) {
-                return user.getUserName(); 
+                return (user != null) ? user.getUserName() : "Select user";
             }
     
             @Override
@@ -83,13 +86,15 @@ public class ModifyUserViewController {
         String displayname = newDisplayNameField.getText();
         String password = newPasswordField.getText();
         User selectedUser = userComboBox.getValue();
+
+        String hashedPassword = login.hashPassword(password);
         
         // Boolean that initializes a new Task object
         if (selectedUser != null) {
             Task<Boolean> modifyTask = new Task<>() {
                 @Override
                 protected Boolean call() throws Exception {
-                    return modifyUserController.modifyUser(selectedUser.getUserId(), username, displayname, password);
+                    return modifyUserController.modifyUser(selectedUser.getUserId(), username, displayname, hashedPassword);
                 }
             };
             
@@ -122,7 +127,6 @@ public class ModifyUserViewController {
     
     @FXML
     public void initialize() throws SQLException {
-        System.out.println("Initializing: userComboBox is " + (userComboBox == null ? "null" : "not null"));
         try {
             loadUsers();
         } catch (SQLException e) {

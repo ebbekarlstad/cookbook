@@ -113,7 +113,7 @@
                   <Font name="System Bold" size="21.0" />
                </font>
             </Text>
-            <TextField fx:id="newPasswordField" layoutX="459.0" layoutY="355.0" prefHeight="25.0" prefWidth="164.0" />
+            <TextField fx:id="newPasswordField" layoutX="459.0" layoutY="398.0" prefHeight="25.0" prefWidth="164.0" />
       </children>
     </AnchorPane>
   </children>
