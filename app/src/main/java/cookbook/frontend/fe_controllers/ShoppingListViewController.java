@@ -148,31 +148,51 @@ public class ShoppingListViewController {
   }
 
 
-    private void loadShoppingListItems(String weekDisplay) {
-      ObservableList<String> shoppingItems = FXCollections.observableArrayList();
-      String[] parts = weekDisplay.split(" to ");
-      String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
-      String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
-      String sql = "SELECT ItemName, Amount, Unit FROM Shopping_List " +
-                   "JOIN weekly_dinner_lists ON Shopping_List.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
-                   "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
-      try (Connection conn = connect();
-           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setDate(1, Date.valueOf(startDatePart));
-          pstmt.setDate(2, Date.valueOf(endDatePart));
-          try (ResultSet rs = pstmt.executeQuery()) {
-              while (rs.next()) {
-                  String itemDetail = rs.getString("ItemName") + " - " +
-                                      rs.getFloat("Amount") + " " +
-                                      rs.getString("Unit");
-                  shoppingItems.add(itemDetail);
-              }
+/**
+ * Loads the shopping list items for a selected week from the database and updates the ShoppingList ListView.
+ * The week range is parsed from the provided weekDisplay string to determine which items to load.
+ * 
+ * @param weekDisplay A string representation of the week, typically formatted as "Week <number> (startDate to endDate)"
+ */
+private void loadShoppingListItems(String weekDisplay) {
+  // Initialize an observable list to hold the shopping list items for display in the UI
+  ObservableList<String> shoppingItems = FXCollections.observableArrayList();
+
+  // Split the weekDisplay string to extract the start and end dates
+  String[] parts = weekDisplay.split(" to ");
+  String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+  String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
+
+  // SQL query to fetch shopping list items for the specified week range
+  String sql = "SELECT ItemName, Amount, Unit FROM Shopping_List " +
+               "JOIN weekly_dinner_lists ON Shopping_List.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+               "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
+
+  // Establish a database connection and prepare the SQL statement
+  try (Connection conn = connect();
+       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setDate(1, Date.valueOf(startDatePart)); // Set the start date parameter in the SQL query
+      pstmt.setDate(2, Date.valueOf(endDatePart));   // Set the end date parameter in the SQL query
+
+      // Execute the query and process the result set
+      try (ResultSet rs = pstmt.executeQuery()) {
+          while (rs.next()) {
+              // Format each shopping list item detail and add it to the observable list
+              String itemDetail = rs.getString("ItemName") + " - " +
+                                  rs.getFloat("Amount") + " " +
+                                  rs.getString("Unit");
+              shoppingItems.add(itemDetail);
           }
-      } catch (SQLException e) {
-          System.out.println("Error loading shopping list items: " + e.getMessage());
       }
-      ShoppingList.setItems(shoppingItems);
+  } catch (SQLException e) {
+      // Log the SQL error if there is an issue loading the shopping list items
+      System.out.println("Error loading shopping list items: " + e.getMessage());
   }
+
+  // Update the ShoppingList ListView with the loaded items
+  ShoppingList.setItems(shoppingItems);
+}
+
 
     @FXML
     void addIngredient(ActionEvent event) {
