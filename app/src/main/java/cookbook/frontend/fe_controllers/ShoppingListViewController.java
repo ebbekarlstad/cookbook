@@ -282,33 +282,63 @@ private int getWeeklyDinnerListID(Date weekStartDate) {
 
     
 
-    @FXML
-    void backButton(ActionEvent event) {
-        try {
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-            Scene navigationPageScene = new Scene(navigationPageParent);
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(navigationPageScene);
-            window.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+/**
+ * Handles the action triggered by pressing the "Back" button. This method changes the scene
+ * to the navigation view, allowing the user to return to the main menu of the application.
+ *
+ * @param event The action event triggered by the user interaction.
+ */
+@FXML
+void backButton(ActionEvent event) {
+    // Attempt to load the navigation view FXML and switch scenes
+    try {
+        // Load the FXML for the navigation page
+        Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+        Scene navigationPageScene = new Scene(navigationPageParent);
 
-
-    @FXML
-    void generateShoppingListFile(ActionEvent event) {
-        File file = new File(Paths.get("ShoppingList.txt").toAbsolutePath().toString());
-        try (FileWriter writer = new FileWriter(file, false)) { // false to overwrite.
-            ObservableList<String> items = ShoppingList.getItems();
-            for (String item : items) {
-                writer.write(item + System.lineSeparator());
-            }
-            writer.flush();
-            System.out.println("Shopping list saved to " + file.getAbsolutePath());
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-        }
+        // Get the current window from the event source and set the new scene
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(navigationPageScene);
+        window.show();
+    } catch (Exception e) {
+        // Print stack trace if there's an exception during scene change (usually FXML loading issues)
+        e.printStackTrace();
     }
 }
 
+
+
+/**
+ * Handles the action triggered by pressing the "Generate Shopping List" button.
+ * This method writes the contents of the shopping list to a text file.
+ * Each item from the shopping list UI component is written to a file named "ShoppingList.txt",
+ * which is saved in the current working directory.
+ *
+ * @param event The action event triggered by the user interaction.
+ */
+@FXML
+void generateShoppingListFile(ActionEvent event) {
+    // Define the path for the file where the shopping list will be saved
+    File file = new File(Paths.get("ShoppingList.txt").toAbsolutePath().toString());
+
+    // Attempt to open a FileWriter to write to the file, 'false' to overwrite any existing content
+    try (FileWriter writer = new FileWriter(file, false)) {
+        // Retrieve the items from the ShoppingList ListView
+        ObservableList<String> items = ShoppingList.getItems();
+
+        // Iterate over each item in the shopping list and write it to the file with a newline
+        for (String item : items) {
+            writer.write(item + System.lineSeparator());
+        }
+
+        // Ensure all data is written to the file before closing the FileWriter
+        writer.flush();
+
+        // Log the location of the saved file to the console for confirmation
+        System.out.println("Shopping list saved to " + file.getAbsolutePath());
+    } catch (IOException e) {
+        // Log any I/O errors that occur during the file writing process
+        System.out.println("Error writing to file: " + e.getMessage());
+    }
+}
+}
