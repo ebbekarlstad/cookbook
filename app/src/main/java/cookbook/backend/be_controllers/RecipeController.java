@@ -182,7 +182,7 @@ public class RecipeController {
 
                  + "JOIN ingredients i ON ri.IngredientID = i.IngredientID "
 
-                 + "WHERE i.IngredientName = ?";
+                 + "WHERE i.IngredientName LIKE ?";
 
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 
@@ -219,7 +219,7 @@ public class RecipeController {
 
                  + "JOIN tags t ON rt.TagID = t.TagID "
 
-                 + "WHERE t.TagName = ?";
+                 + "WHERE t.TagName LIKE ?";
 
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
          PreparedStatement sqlStatement = conn.prepareStatement(query)) {
