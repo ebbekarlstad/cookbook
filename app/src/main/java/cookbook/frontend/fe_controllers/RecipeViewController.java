@@ -84,7 +84,8 @@ public class RecipeViewController {
   public List<AmountOfIngredients> selectedIngredients = new ArrayList<>();
 
   public List<Tag> tags;
-  public List<Tag> selectedTags;
+  public List<Tag> selectedTags = new ArrayList<>();
+
 
   @FXML
     private void initialize() {
