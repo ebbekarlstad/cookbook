@@ -83,7 +83,7 @@
                   </DropShadow>
                </effect>
             </Text>
-            <Button onAction="#handleLogoutbutton" layoutX="814.0" layoutY="38.0" mnemonicParsing="false" text="Logout">
+            <Button fx:id="logoutButton" onAction="#handleLogoutButton" layoutX="814.0" layoutY="38.0" mnemonicParsing="false" text="Logout">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
