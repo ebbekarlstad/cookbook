@@ -1,13 +1,20 @@
 package cookbook.frontend.fe_controllers;
 
+import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
+import javafx.util.StringConverter;
+import java.sql.SQLException;
+import java.util.List;
 
 public class EditingRecipeController {
 
@@ -18,10 +25,10 @@ public class EditingRecipeController {
   private Button EditTag;
 
   @FXML
-  private Button SaveRecipe;
+  private ComboBox<Recipe> RecipesComboBox;
 
   @FXML
-  private ListView<?> UserCurrentRecipes;
+  private Button SaveRecipe;
 
   @FXML
   private Button addIngredient;
@@ -54,13 +61,37 @@ public class EditingRecipeController {
   private TextField tagName;
 
   @FXML
-  private ComboBox<?> tagsDropdown;
+  private ComboBox<String> tagsDropdown;
 
   @FXML
   private Label tagsLabel;
 
   @FXML
-  private ComboBox<?> unit;
+  private ComboBox<String> unit;
+
+  private void loadRecipes() throws SQLException {
+    List<Recipe> recipes = RecipeController.getRecipesByUserID(UserSession.getInstance().getUserId());
+    RecipesComboBox.setItems(FXCollections.observableArrayList(recipes));
+    RecipesComboBox.setConverter(new StringConverter<Recipe>() {
+
+      public java.lang.String toString(Recipe recipe) {
+        return (recipe != null) ? recipe.getRecipeName() : "Select user";
+      }
+
+      @Override
+      public Recipe fromString(String string) {
+        return null;
+      }
+    });
+  }
+
+  @FXML
+  private void initialize() {
+    unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
+
+  }
+
+
 
   @FXML
   void EditIngredientToList(ActionEvent event) {

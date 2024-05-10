@@ -256,4 +256,77 @@ public class RecipeController {
     }
     return null;
 }
+
+  public static List<Recipe> getRecipesByUserID(Long userId) throws SQLException {
+
+    ArrayList<Recipe> currentRecipeObjects = new ArrayList<>();
+    String query = "SELECT * FROM recipes WHERE UserID = ?";
+
+
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+     PreparedStatement pstmt = conn.prepareStatement(query)) {
+      pstmt.setLong(1, UserSession.getInstance().getUserId());
+      ResultSet result = pstmt.executeQuery();
+
+      while (result.next()) {
+        Recipe newRecipe = new Recipe(
+                result.getString("RecipeID"),
+                result.getString("RecipeName"),
+                result.getString("ShortDesc"),
+                result.getString("DetailedDesc"));
+
+        // Updates the class ArrayList.
+        currentRecipeObjects.add(newRecipe);
+      }
+
+      // Adding ingredients for each recipe.
+      for (Recipe recipeObject : currentRecipeObjects) {
+        String id = recipeObject.getId();
+        String ingQuery = "SELECT * " +
+                "FROM ingredients " +
+                "JOIN recipe_ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientName " +
+                "WHERE recipe_ingredients.IngredientID = ?";
+        try (PreparedStatement ingStatement = conn.prepareStatement(ingQuery)) {
+          ingStatement.setString(1, id);
+          ResultSet ingResultSet = ingStatement.executeQuery();
+          while (ingResultSet.next()) {
+            recipeObject.addIngredient(new AmountOfIngredients(
+                    ingResultSet.getString("Unit"),
+                    ingResultSet.getFloat("Amount"),
+                    new Ingredient(ingResultSet.getString("IngredientID"), ingResultSet.getString("IngredientName")))
+            );
+          }
+
+          // Adding tags to the object.
+          String tagQuery = "SELECT tags.TagID, tags.TagName " +
+                  "FROM tags " +
+                  "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
+                  "WHERE recipe_tags.RecipeID = ?";
+
+          try (PreparedStatement tagsStatement = conn.prepareStatement(tagQuery)) {
+            tagsStatement.setString(1, id);
+            ResultSet tagResultSet = tagsStatement.executeQuery();
+            while (tagResultSet.next()) {
+              Tag newTag = new Tag(
+                      tagResultSet.getString("TagID"),
+                      tagResultSet.getString("TagName"));
+              recipeObject.addTag(newTag);
+            }
+
+          } catch (SQLException e) {
+            System.out.println("Error adding tags: " + e);
+          }
+
+        } catch (SQLException e) {
+          System.out.println("Adding ingredients query" + e);
+        }
+      }
+
+      result.close();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+    return currentRecipeObjects;
+  }
 }
