@@ -28,4 +28,16 @@ public class ModifyUserController {
             return false;
         }
     }
+
+  public boolean deleteUser(Long userId, String userName, String displayName, String password) {
+		String sql = "DELETE FROM users WHERE UserID = ?;";
+		try (PreparedStatement statement = dbManager.getConnection().prepareStatement(sql)) {
+				statement.setLong(1, userId);
+				statement.executeUpdate();
+				return true;
+		} catch (SQLException e) {
+				System.out.println("Error updating user: " + e.getMessage());
+				return false;
+		}
+	}
 }
