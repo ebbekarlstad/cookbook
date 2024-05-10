@@ -23,44 +23,46 @@
             </menus>
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
-         <children>
-            <Text layoutX="55.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shopping List" wrappingWidth="247.1171875">
-               <font>
-                  <Font size="38.0" />
-               </font>
-            </Text>
-            <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
-               <font>
-                  <Font name="PT Sans Narrow" size="14.0" />
-               </font>
-            </Button>
-            <ListView fx:id="weeksList" layoutX="14.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-            <ListView fx:id="dishesList" layoutX="227.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-            <ListView fx:id="ingredientsList" layoutX="446.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-            <Label layoutX="29.0" layoutY="97.0" text="Weeks">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="235.0" layoutY="97.0" text="Dishes">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="446.0" layoutY="97.0" text="Ingredients">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <ListView fx:id="ShoppingList" layoutX="720.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-            <Label layoutX="766.0" layoutY="103.0" text="Shopping List">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Button layoutX="451.0" layoutY="527.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping Lst" />
-            <Button layoutX="726.0" layoutY="527.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate" />
-         </children>
+            <children>
+                <Text layoutX="55.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shopping List" wrappingWidth="247.1171875">
+                    <font>
+                        <Font size="38.0" />
+                    </font>
+                </Text>
+                <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
+                    <font>
+                        <Font name="PT Sans Narrow" size="14.0" />
+                    </font>
+                </Button>
+                <ListView fx:id="weeksList" layoutX="14.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+                <ListView fx:id="dishesList" layoutX="227.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+                <ListView fx:id="ingredientsList" layoutX="446.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+                <Label layoutX="29.0" layoutY="97.0" text="Weeks">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <Label layoutX="235.0" layoutY="97.0" text="Dishes">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <Label layoutX="446.0" layoutY="97.0" text="Ingredients">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <ListView fx:id="ShoppingList" layoutX="666.0" layoutY="129.0" prefHeight="396.0" prefWidth="200.0" />
+                <Label layoutX="714.0" layoutY="95.0" text="Shopping List">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <Button layoutX="451.0" layoutY="527.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping Lst" />
+                <Button layoutX="673.0" layoutY="580.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate" />
+            <Button fx:id="ModifyIngredient" layoutX="792.0" layoutY="539.0" mnemonicParsing="false" onAction="#ModifyIngredient" text="Modify" />
+            <Button fx:id="DeleteIngredient" layoutX="686.0" layoutY="539.0" mnemonicParsing="false" onAction="#DeleteIngredient" text="Delete" />
+            </children>
         </AnchorPane>
     </children>
 </VBox>
