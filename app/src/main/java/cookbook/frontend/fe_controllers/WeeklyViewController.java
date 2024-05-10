@@ -36,13 +36,11 @@ public class WeeklyViewController {
     @FXML private ComboBox<String> weeksComboBox;
 
     private WeeklyController weeklyController;
-    private Long userId;
 
     @FXML
     public void initialize() {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
-        userId = getCurrentUserId();  // Assume this method fetches a valid user ID
 
         setupRecipeListView(mondayListView);
         setupRecipeListView(tuesdayListView);
@@ -61,7 +59,7 @@ public class WeeklyViewController {
     }
 
     private void populateWeeksComboBox() {
-        List<Date> weeks = weeklyController.getWeeklyList(userId);
+        List<Date> weeks = weeklyController.getWeeklyList(UserSession.getInstance().getUserId());
         SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
         weeksComboBox.getItems().clear();
         weeksComboBox.getItems().addAll(weeks.stream().map(sdf::format).collect(Collectors.toList()));
@@ -74,7 +72,7 @@ private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
     try {
         java.util.Date parsedDate = sdf.parse(selectedWeek);
         java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
-        Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(userId, weekStartDate);
+        Map<String, List<Recipe>> weeklyRecipes = weeklyController.getWeeklyRecipes(UserSession.getInstance().getUserId(), weekStartDate);
         updateRecipeViews(weeklyRecipes);
     } catch (Exception e) {
         System.out.println("Failed to parse date or load recipes: " + e.getMessage());
@@ -82,10 +80,6 @@ private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
     }
 }
 
-private Long getCurrentUserId() {
-    // Fetching the current user's ID from the UserSession singleton
-    return Long.valueOf(UserSession.getInstance().getUserId());
-}
 
 
 

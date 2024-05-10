@@ -2,7 +2,7 @@ package cookbook.backend.be_objects;
 
 public class UserSession {
     private static UserSession instance;
-    private int userId;
+    private Long userId;
   
     private UserSession() {}
   
@@ -13,11 +13,11 @@ public class UserSession {
       return instance;
     }
   
-    public int getUserId() {
+    public Long getUserId() {
       return userId;
     }
   
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
       this.userId = userId;
     }
   }
