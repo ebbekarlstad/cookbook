@@ -22,19 +22,24 @@ import javafx.scene.control.ListView;
 
 public class ShoppingListViewController {
 
-    @FXML
-    private ListView<String> weeksList;
-    @FXML
-    private ListView<String> dishesList;
-    @FXML
-    private ListView<String> ingredientsList;
-    @FXML
-    private ListView<String> ShoppingList; // ListView to display the shopping list items
+  @FXML
+  private ListView<String> weeksList; // ListView to display the list of weeks, each representing a time range
+  @FXML
+  private ListView<String> dishesList; // ListView to display the list of dishes planned for the selected week
+  @FXML
+  private ListView<String> ingredientsList; // ListView to display the list of ingredients for the selected dishes
+  @FXML
+  private ListView<String> ShoppingList; // ListView to display the items in the shopping list for the selected week
 
-    private Connection connect() throws SQLException {
-        // Ensure these credentials match your database configuration
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/cookbookdb", "root", "root");
-    }
+  /**
+   * Establishes a connection to the MySQL database using JDBC.
+   * @return A Connection object to interact with the database.
+   * @throws SQLException If a database access error occurs or the url is null.
+   */
+  private Connection connect() throws SQLException {
+      return DriverManager.getConnection("jdbc:mysql://localhost:3306/cookbookdb", "root", "root");
+  }
+
 
     @FXML
     public void initialize() {
