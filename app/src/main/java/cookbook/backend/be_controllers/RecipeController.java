@@ -329,4 +329,71 @@ public class RecipeController {
     }
     return currentRecipeObjects;
   }
+
+  public static boolean updateRecipeDetails(String recipeId, String newName, String newShortDesc, String newLongDesc) throws SQLException {
+    String sql = "UPDATE recipes SET RecipeName = ?, ShortDesc = ?, DetailedDesc = ? WHERE RecipeID = ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setString(1, newName);
+      pstmt.setString(2, newShortDesc);
+      pstmt.setString(3, newLongDesc);
+      pstmt.setString(4, recipeId);
+      int affectedRows = pstmt.executeUpdate();
+      return affectedRows > 0;
+    } catch (SQLException e) {
+      System.err.println("Error updating recipe details: " + e.getMessage());
+      return false;
+    }
+  }
+
+  public static boolean updateRecipeIngredients(String recipeId, List<AmountOfIngredients> newIngredients) throws SQLException {
+    String deleteSql = "DELETE FROM recipe_ingredients WHERE RecipeID = ?";
+    String insertSql = "INSERT INTO recipe_ingredients (RecipeID, IngredientID, Amount, Unit) VALUES (?, ?, ?, ?)";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
+         PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+
+      // Delete old ingredients
+      deletePstmt.setString(1, recipeId);
+      deletePstmt.executeUpdate();
+
+      // Insert new ingredients
+      for (AmountOfIngredients ingredient : newIngredients) {
+        insertPstmt.setString(1, recipeId);
+        insertPstmt.setString(2, ingredient.getIngredient().getIngredientID());
+        insertPstmt.setFloat(3, ingredient.getAmount());
+        insertPstmt.setString(4, ingredient.getUnit());
+        insertPstmt.executeUpdate();
+      }
+      return true;
+    } catch (SQLException e) {
+      System.err.println("Error updating recipe ingredients: " + e.getMessage());
+      return false;
+    }
+  }
+  public static boolean updateRecipeTags(String recipeId, List<Tag> newTags) throws SQLException {
+    String deleteSql = "DELETE FROM recipe_tags WHERE RecipeID = ?";
+    String insertSql = "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
+         PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+
+      // Delete old tags
+      deletePstmt.setString(1, recipeId);
+      deletePstmt.executeUpdate();
+
+      // Insert new tags
+      for (Tag tag : newTags) {
+        insertPstmt.setString(1, recipeId);
+        insertPstmt.setString(2, tag.getTagID());
+        insertPstmt.executeUpdate();
+      }
+      return true;
+    } catch (SQLException e) {
+      System.err.println("Error updating recipe tags: " + e.getMessage());
+      return false;
+    }
+  }
 }

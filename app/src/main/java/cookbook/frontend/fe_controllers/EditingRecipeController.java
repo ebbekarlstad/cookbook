@@ -6,13 +6,20 @@ import cookbook.backend.be_objects.UserSession;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -105,7 +112,28 @@ public class EditingRecipeController {
 
   @FXML
   void SaveRecipe(ActionEvent event) {
-
+    try {
+      Recipe selectedRecipe = RecipesComboBox.getValue();
+      if (selectedRecipe == null) {
+        System.out.println("No recipe selected");
+        return;
+      }
+      String newRecipeName = recipeName.getText().trim();
+      String newShortDesc = recipeShortDesc.getText().trim();
+      String newLongDesc = ingredientName.getText().trim();
+      boolean updated = RecipeController.updateRecipeDetails(
+              selectedRecipe.getId(),
+              newRecipeName,
+              newShortDesc,
+              newLongDesc);
+      if (updated) {
+        System.out.println("Recipe updated successfully");
+      } else {
+        System.out.println("Recipe update failed");
+      }
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
   }
 
   @FXML
@@ -118,9 +146,19 @@ public class EditingRecipeController {
 
   }
 
-  @FXML
-  void backButton(ActionEvent event) {
+  public void backButton(ActionEvent event) throws SQLException, IOException {
+    try {
+      //Load the navigation page FXML
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationPageScene = new Scene(navigationPageParent);
 
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 }
