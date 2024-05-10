@@ -58,8 +58,9 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button layoutX="451.0" layoutY="527.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add" />
-            </children>
+            <Button layoutX="451.0" layoutY="527.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping Lst" />
+            <Button layoutX="726.0" layoutY="527.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate" />
+         </children>
         </AnchorPane>
     </children>
 </VBox>

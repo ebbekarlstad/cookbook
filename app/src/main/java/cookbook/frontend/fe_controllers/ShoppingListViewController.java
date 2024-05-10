@@ -14,6 +14,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 
 public class ShoppingListViewController {
 
@@ -205,4 +213,19 @@ public class ShoppingListViewController {
             e.printStackTrace();
         }
     }
+    @FXML
+    void generateShoppingListFile(ActionEvent event) {
+        File file = new File(Paths.get("ShoppingList.txt").toAbsolutePath().toString());
+        try (FileWriter writer = new FileWriter(file, false)) { // false to overwrite.
+            ObservableList<String> items = ShoppingList.getItems();
+            for (String item : items) {
+                writer.write(item + System.lineSeparator());
+            }
+            writer.flush();
+            System.out.println("Shopping list saved to " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
 }
+
