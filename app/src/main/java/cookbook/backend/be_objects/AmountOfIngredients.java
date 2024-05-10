@@ -1,8 +1,5 @@
 package cookbook.backend.be_objects;
 
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 /**
  * The AmountOfIngredients class represents the quantity of an ingredient, including its unit, amount, and name.
  */
