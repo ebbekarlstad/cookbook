@@ -1,6 +1,5 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.be_objects.ShoppingListItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,213 +8,336 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import javafx.scene.control.ListView;
 
 public class ShoppingListViewController {
 
+  @FXML
+  private ListView<String> weeksList; // ListView to display the list of weeks, each representing a time range
+  @FXML
+  private ListView<String> dishesList; // ListView to display the list of dishes planned for the selected week
+  @FXML
+  private ListView<String> ingredientsList; // ListView to display the list of ingredients for the selected dishes
+  @FXML
+  private ListView<String> ShoppingList; // ListView to display the items in the shopping list for the selected week
+
+  /**
+   * Establishes a connection to the MySQL database using JDBC.
+   * @return A Connection object to interact with the database.
+   * @throws SQLException If a database access error occurs or the url is null.
+   */
+  private Connection connect() throws SQLException {
+      return DriverManager.getConnection("jdbc:mysql://localhost:3306/cookbookdb", "root", "root");
+  }
+
+
+    /**
+     * Initializes the controller class. This method is automatically called after the FXML fields have been injected.
+     * It sets up the initial state of the UI components and registers event listeners.
+     */
     @FXML
-    private TableColumn<ShoppingListItem, Integer> IDColumn;
-
-    @FXML
-    private TableColumn<ShoppingListItem, String> ItemNameColumn;
-
-    @FXML
-    private TableColumn<ShoppingListItem, Float> AmountColumn;
-
-    @FXML
-    private TableColumn<ShoppingListItem, String> UnitColumn;
-
-    @FXML
-    private TableView<ShoppingListItem> ShoppingColumn;
-
-
-    @FXML
-    private TextField ItemName;
-
-    @FXML
-    private TextField Quantity;
-
-    @FXML
-    private Button addShoppingItem;
-
-    @FXML
-    private Button back;
-
-    @FXML
-    private Button deleteShoppingItem;
-
-    @FXML
-    private Button editShoppingItem;
-
-    @FXML
-    private Button saveShoppingItem;
-
-    @FXML
-    private ComboBox<String> unit;
-
-    @FXML
-    private void initialize() {
-        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
-        populateTableView();
-
+    public void initialize() {
+        loadWeeks(); // Load the list of weeks into the weeksList ListView
+        weeksList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            loadDishes(newValue); // Load dishes based on the selected week
+            loadAllIngredients(); // Load all ingredients for the selected dishes
+            loadShoppingListItems(newValue); // Load shopping list for the selected week
+        });
     }
 
-    private void populateTableView() {
-        ObservableList<ShoppingListItem> items = FXCollections.observableArrayList();
-
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-            String query = "SELECT * FROM Shopping_List";
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int id = resultSet.getInt("ItemID");
-                String name = resultSet.getString("ItemName");
-                float amount = resultSet.getFloat("Amount");
-                String unit = resultSet.getString("Unit");
-
-                items.add(new ShoppingListItem(id, name, amount, unit));
+    /**
+     * Loads weeks from the database and populates the weeksList ListView with week ranges.
+     * Each week range is represented by its starting and ending dates along with a week number.
+     */
+    private void loadWeeks() {
+        ObservableList<String> weeks = FXCollections.observableArrayList(); // List to hold week ranges for the UI
+        String sql = "SELECT MIN(Week) AS StartDate, MAX(Week) AS EndDate FROM weekly_dinner_lists " +
+                     "GROUP BY YEAR(Week), WEEK(Week) ORDER BY YEAR(Week) DESC, WEEK(Week) DESC";
+        try (Connection conn = connect(); // Establish a database connection
+             PreparedStatement pstmt = conn.prepareStatement(sql); // Prepare SQL query
+             ResultSet rs = pstmt.executeQuery()) { // Execute query and get the result set
+            while (rs.next()) {
+                LocalDate startDate = rs.getDate("StartDate").toLocalDate(); // Get the start date of the week
+                LocalDate endDate = rs.getDate("EndDate").toLocalDate(); // Get the end date of the week
+                int weekNumber = startDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()); // Calculate week number
+                String weekDisplay = "Week " + weekNumber + " (" + startDate + " to " + endDate + ")"; // Format display string for the week
+                weeks.add(weekDisplay); // Add the formatted week range to the list
             }
-
-            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error loading weeks: " + e.getMessage()); // Log error if the SQL operation fails
+        }
+        weeksList.setItems(weeks); // Set the items in the ListView to the loaded week ranges
+    }
+
+
+    /**
+     * Loads the dishes associated with a selected week from the database and updates the dishesList ListView.
+     * The week range is parsed from the provided weekDisplay string.
+     *
+     * @param weekDisplay A string representation of the week, typically formatted as "Week <number> (startDate to endDate)"
+     */
+    private void loadDishes(String weekDisplay) {
+      ObservableList<String> dishes = FXCollections.observableArrayList(); // List to hold names of dishes for the UI
+      // Split the weekDisplay string to extract the start and end dates
+      String[] parts = weekDisplay.split(" to ");
+      String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1); // Extract the start date from the week display
+      String endDatePart = parts[1].substring(0, parts[1].indexOf(')')); // Extract the end date from the week display
+      
+      // SQL query to fetch recipe names within the specified week range
+      String sql = "SELECT RecipeName FROM recipes " +
+                   "JOIN dinner_list_recipes ON recipes.RecipeID = dinner_list_recipes.RecipeID " +
+                   "JOIN weekly_dinner_lists ON dinner_list_recipes.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+                   "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
+      try (Connection conn = connect(); // Establish a database connection
+           PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL query
+          pstmt.setDate(1, Date.valueOf(startDatePart)); // Set the start date in the query
+          pstmt.setDate(2, Date.valueOf(endDatePart)); // Set the end date in the query
+          try (ResultSet rs = pstmt.executeQuery()) { // Execute the query and get the result set
+              while (rs.next()) {
+                  dishes.add(rs.getString("RecipeName")); // Add each fetched recipe name to the list
+              }
+          }
+      } catch (SQLException e) {
+          System.out.println("Error loading dishes: " + e.getMessage()); // Log error if SQL operation fails
+      }
+      dishesList.setItems(dishes); // Set the items in the ListView to the loaded dishes
+  }
+
+
+     /**
+     * Loads all ingredients for the dishes currently displayed in the dishesList ListView.
+     * For each dish, it fetches ingredient details from the database and updates the ingredientsList ListView.
+     */
+    private void loadAllIngredients() {
+      ObservableList<String> allIngredients = FXCollections.observableArrayList(); // List to hold ingredient details for the UI
+      // Loop through each dish listed in dishesList
+      for (String dish : dishesList.getItems()) {
+          // SQL query to fetch the name, amount, and unit of each ingredient used in the dish
+          String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+                       "FROM ingredients i " +
+                       "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
+                       "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
+                       "WHERE r.RecipeName = ?";
+          try (Connection conn = connect(); // Establish a database connection
+               PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL query
+              pstmt.setString(1, dish); // Set the dish name in the query
+              try (ResultSet rs = pstmt.executeQuery()) { // Execute the query and get the result set
+                  while (rs.next()) {
+                      // Format the ingredient detail and add to the list
+                      String ingredientDetail = rs.getString("IngredientName") + " - " +
+                                                rs.getString("Amount") + " " +
+                                                rs.getString("Unit");
+                      allIngredients.add(ingredientDetail);
+                  }
+              }
+          } catch (SQLException e) {
+              System.out.println("Error loading ingredients: " + e.getMessage()); // Log error if SQL operation fails
+          }
+      }
+      ingredientsList.setItems(allIngredients); // Set the items in the ListView to the loaded ingredients
+  }
+
+
+/**
+ * Loads the shopping list items for a selected week from the database and updates the ShoppingList ListView.
+ * The week range is parsed from the provided weekDisplay string to determine which items to load.
+ * 
+ * @param weekDisplay A string representation of the week, typically formatted as "Week <number> (startDate to endDate)"
+ */
+private void loadShoppingListItems(String weekDisplay) {
+  // Initialize an observable list to hold the shopping list items for display in the UI
+  ObservableList<String> shoppingItems = FXCollections.observableArrayList();
+
+  // Split the weekDisplay string to extract the start and end dates
+  String[] parts = weekDisplay.split(" to ");
+  String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+  String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
+
+  // SQL query to fetch shopping list items for the specified week range
+  String sql = "SELECT ItemName, Amount, Unit FROM Shopping_List " +
+               "JOIN weekly_dinner_lists ON Shopping_List.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+               "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
+
+  // Establish a database connection and prepare the SQL statement
+  try (Connection conn = connect();
+       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setDate(1, Date.valueOf(startDatePart)); // Set the start date parameter in the SQL query
+      pstmt.setDate(2, Date.valueOf(endDatePart));   // Set the end date parameter in the SQL query
+
+      // Execute the query and process the result set
+      try (ResultSet rs = pstmt.executeQuery()) {
+          while (rs.next()) {
+              // Format each shopping list item detail and add it to the observable list
+              String itemDetail = rs.getString("ItemName") + " - " +
+                                  rs.getFloat("Amount") + " " +
+                                  rs.getString("Unit");
+              shoppingItems.add(itemDetail);
+          }
+      }
+  } catch (SQLException e) {
+      // Log the SQL error if there is an issue loading the shopping list items
+      System.out.println("Error loading shopping list items: " + e.getMessage());
+  }
+
+  // Update the ShoppingList ListView with the loaded items
+  ShoppingList.setItems(shoppingItems);
+}
+
+
+    /**
+ * Handles the action triggered by pressing the "Add Ingredient" button. This method adds selected
+ * ingredients to the shopping list for a specified week.
+ *
+ * @param event The action event triggered by the user interaction.
+ */
+@FXML
+void addIngredient(ActionEvent event) {
+    // Retrieve the selected ingredients from the ingredients list UI component
+    ObservableList<String> selectedIngredients = ingredientsList.getSelectionModel().getSelectedItems();
+    
+    // Check if no ingredients are selected and exit the method if true
+    if (selectedIngredients.isEmpty()) {
+        return;  // No ingredient selected, so do nothing
+    }
+
+    // Extract the week identifier from the UI and parse its start date
+    String weekDisplay = weeksList.getSelectionModel().getSelectedItem();
+    String[] parts = weekDisplay.split(" to ");
+    String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+
+    // Retrieve the WeeklyDinnerListID from the database based on the week's start date
+    int weeklyDinnerListID = getWeeklyDinnerListID(Date.valueOf(startDatePart));
+
+    // Establish a database connection and prepare to insert new shopping list items
+    try (Connection conn = connect();
+         PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Shopping_List (ItemName, Amount, Unit, WeeklyDinnerListID) VALUES (?, ?, ?, ?)")) {
+        // Loop through each selected ingredient and prepare it for batch insertion
+        for (String ingredientDetail : selectedIngredients) {
+            String[] ingredientParts = ingredientDetail.split(" - ");
+            String itemName = ingredientParts[0];
+            String amountUnit = ingredientParts[1];
+            String[] amountUnitParts = amountUnit.split(" ");
+            String amount = amountUnitParts[0];
+            String unit = amountUnitParts[1];
+
+            // Set parameters for the prepared statement
+            pstmt.setString(1, itemName);
+            pstmt.setFloat(2, Float.parseFloat(amount));
+            pstmt.setString(3, unit);
+            pstmt.setInt(4, weeklyDinnerListID);
+            pstmt.addBatch();
+        }
+        // Execute the batch of inserts
+        pstmt.executeBatch();
+    } catch (SQLException e) {
+        // Handle SQL exceptions by logging the error
+        System.out.println("Error adding ingredient to shopping list: " + e.getMessage());
+    }
+
+    // Refresh the shopping list in the UI to reflect the newly added items
+    loadShoppingListItems(weekDisplay);
+}
+
+    
+/**
+ * Retrieves the WeeklyDinnerListID for a given week's start date from the database.
+ * This ID is used to link shopping list entries with their corresponding week in the weekly_dinner_lists table.
+ *
+ * @param weekStartDate The start date of the week for which the ID is required.
+ * @return The WeeklyDinnerListID if found, otherwise returns -1 as an invalid identifier.
+ */
+private int getWeeklyDinnerListID(Date weekStartDate) {
+  // SQL query to find the WeeklyDinnerListID for the given week start date
+  String sql = "SELECT WeeklyDinnerListID FROM weekly_dinner_lists WHERE Week = ?";
+  
+  // Try-with-resources statement to handle the database connection and query execution
+  try (Connection conn = connect();
+       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setDate(1, weekStartDate); // Set the date parameter for the SQL query
+      
+      // Execute the query and process the result set
+      try (ResultSet rs = pstmt.executeQuery()) {
+          if (rs.next()) {
+              // Return the WeeklyDinnerListID if found
+              return rs.getInt("WeeklyDinnerListID");
+          }
+      }
+  } catch (SQLException e) {
+      // Log any SQL errors encountered during the operation
+      System.out.println("Error retrieving WeeklyDinnerListID: " + e.getMessage());
+  }
+  // Return -1 if no valid ID was found
+  return -1;
+}
+
+    
+
+/**
+ * Handles the action triggered by pressing the "Back" button. This method changes the scene
+ * to the navigation view, allowing the user to return to the main menu of the application.
+ *
+ * @param event The action event triggered by the user interaction.
+ */
+@FXML
+void backButton(ActionEvent event) {
+    // Attempt to load the navigation view FXML and switch scenes
+    try {
+        // Load the FXML for the navigation page
+        Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+        Scene navigationPageScene = new Scene(navigationPageParent);
+
+        // Get the current window from the event source and set the new scene
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(navigationPageScene);
+        window.show();
+    } catch (Exception e) {
+        // Print stack trace if there's an exception during scene change (usually FXML loading issues)
+        e.printStackTrace();
+    }
+}
+
+
+
+/**
+ * Handles the action triggered by pressing the "Generate Shopping List" button.
+ * This method writes the contents of the shopping list to a text file.
+ * Each item from the shopping list UI component is written to a file named "ShoppingList.txt",
+ * which is saved in the current working directory.
+ *
+ * @param event The action event triggered by the user interaction.
+ */
+@FXML
+void generateShoppingListFile(ActionEvent event) {
+    // Define the path for the file where the shopping list will be saved
+    File file = new File(Paths.get("ShoppingList.txt").toAbsolutePath().toString());
+
+    // Attempt to open a FileWriter to write to the file, 'false' to overwrite any existing content
+    try (FileWriter writer = new FileWriter(file, false)) {
+        // Retrieve the items from the ShoppingList ListView
+        ObservableList<String> items = ShoppingList.getItems();
+
+        // Iterate over each item in the shopping list and write it to the file with a newline
+        for (String item : items) {
+            writer.write(item + System.lineSeparator());
         }
 
-        IDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
-        ItemNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        AmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
-        UnitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
+        // Ensure all data is written to the file before closing the FileWriter
+        writer.flush();
 
-        ShoppingColumn.setItems(items);
+        // Log the location of the saved file to the console for confirmation
+        System.out.println("Shopping list saved to " + file.getAbsolutePath());
+    } catch (IOException e) {
+        // Log any I/O errors that occur during the file writing process
+        System.out.println("Error writing to file: " + e.getMessage());
     }
-    @FXML
-    void addItem(ActionEvent event) {
-
-        String itemName = ItemName.getText();
-        float quantity = Float.parseFloat(Quantity.getText());
-        String selectedUnit = unit.getValue();
-
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-            String query = "INSERT INTO Shopping_List (ItemName, Amount, Unit) VALUES (?, ?, ?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, itemName);
-            preparedStatement.setFloat(2, quantity);
-            preparedStatement.setString(3, selectedUnit);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-          throw new RuntimeException("The connect is not established ... bruh" + e);
-        }
-        populateTableView();
-
-    }
-
-    @FXML
-    void DeleteItem(ActionEvent event) {
-
-    }
-
-    @FXML
-    void EditItem(ActionEvent event) {
-        // Get the selected item from the TableView
-        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            // Populate the text fields with the data of the selected item
-            ItemName.setText(selectedItem.getName());
-            Quantity.setText(Float.toString(selectedItem.getAmount()));
-            unit.setValue(selectedItem.getUnit());
-        } else {
-            // If no item is selected, display a message to the user
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Item Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select an item to edit.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    void SaveItem(ActionEvent event) {
-        // Get the selected item from the TableView
-        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            // Update the selected item with the edited values
-            selectedItem.setName(ItemName.getText());
-            selectedItem.setAmount(Float.parseFloat(Quantity.getText()));
-            selectedItem.setUnit(unit.getValue());
-
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-                // Update the database with the edited item
-                String query = "UPDATE Shopping_List SET ItemName = ?, Amount = ?, Unit = ? WHERE ItemID = ?";
-                PreparedStatement preparedStatement = conn.prepareStatement(query);
-                preparedStatement.setString(1, selectedItem.getName());
-                preparedStatement.setFloat(2, selectedItem.getAmount());
-                preparedStatement.setString(3, selectedItem.getUnit());
-                preparedStatement.setInt(4, selectedItem.getId());
-
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException("Failed to update item in the database: " + e);
-            }
-
-
-            // Refresh the TableView to reflect the changes
-            populateTableView();
-        } else {
-            // If no item is selected, display a message to the user
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Item Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select an item to edit.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    void deleteShoppingItem(ActionEvent event) {
-        // Get the selected item from the TableView
-        ShoppingListItem selectedItem = ShoppingColumn.getSelectionModel().getSelectedItem();
-
-        if (selectedItem != null) {
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false")) {
-                String query = "DELETE FROM Shopping_List WHERE ItemID = ?";
-                PreparedStatement preparedStatement = conn.prepareStatement(query);
-                preparedStatement.setInt(1, selectedItem.getId());
-
-                // Execute the delete query
-                preparedStatement.executeUpdate();
-
-                // Remove the selected item from the TableView
-                ShoppingColumn.getItems().remove(selectedItem);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // If no item is selected, display a message or handle it according to your application's requirements
-            System.out.println("No item selected for deletion.");
-        }
-    }
-    @FXML
-    void backButton(ActionEvent event) {
-        try {
-            //Load the navigation page FXML
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-            Scene navigationPageScene = new Scene(navigationPageParent);
-
-            // Get the current stage and replace it
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(navigationPageScene);
-            window.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+}
 }

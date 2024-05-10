@@ -60,6 +60,8 @@ private void setupMessageTable() {
             private final Hyperlink hyperlink = new Hyperlink("View Recipe");
     
             {
+              // Changed color to black to be more visible
+              hyperlink.setStyle("-fx-text-fill: black;");
                 hyperlink.setOnAction(event -> {
                     Message msg = getTableView().getItems().get(getIndex());
                     if (msg != null) {
