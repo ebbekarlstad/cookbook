@@ -74,6 +74,45 @@ public class ModifyUserViewController {
             }
         });
     }
+  
+		@FXML
+		private void deleteUser(ActionEvent event) {
+			errorLabel.setText("");
+			progressCircle.setVisible(true);
+
+			User selectUser = userComboBox.getValue();
+
+			if (selectUser != null) {
+				Task<Boolean> deleteTask = new Task<>() {
+					protected Boolean call() throws Exception {
+						return modifyUserController.deleteUser(selectUser.getUserId(), selectUser.getUserName(), selectUser.getDisplayName(), selectUser.getPasswordHash());
+					}
+				};
+
+				deleteTask.setOnSucceeded(e -> {
+					progressCircle.setVisible(false);
+					if (deleteTask.getValue()) {
+						errorLabel.setTextFill(Color.GREEN);
+						errorLabel.setText("Deletion successful!");
+					} else {
+							errorLabel.setTextFill(Color.RED);
+							errorLabel.setText("Deletion Failed.");
+					}
+				});
+
+				deleteTask.setOnFailed(e -> {
+					progressCircle.setVisible(false);
+					errorLabel.setTextFill(Color.RED);
+					errorLabel.setText("Error during deletion.");
+				});
+
+				new Thread(deleteTask).start();
+			} else {
+					progressCircle.setVisible(false);
+					errorLabel.setTextFill(Color.RED);
+					errorLabel.setText("No user selected");
+			}
+		}
     
     @FXML
     private void submitUserChanges(ActionEvent event) {

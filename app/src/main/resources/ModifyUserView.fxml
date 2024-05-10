@@ -132,7 +132,7 @@
                </effect>
             </Text>
             <TextField fx:id="newPasswordField" layoutX="383.0" layoutY="405.0" prefHeight="25.0" prefWidth="164.0" />
-            <Button fx:id="submitButton1" layoutX="403.0" layoutY="514.0" mnemonicParsing="false" onAction="#submitUserChanges" prefHeight="29.0" prefWidth="124.0" text="DELETE">
+            <Button fx:id="deleteButton" layoutX="403.0" layoutY="514.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="29.0" prefWidth="124.0" text="DELETE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
