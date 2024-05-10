@@ -7,11 +7,16 @@ import cookbook.backend.be_objects.LogIn;
 import cookbook.backend.DatabaseMng;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -172,4 +177,20 @@ public class ModifyUserViewController {
             e.printStackTrace();
         }
     }
+
+  @FXML
+  private void handleBackButton (ActionEvent event) {
+    try {
+      //Load the registration page FXML
+      Parent registrationPageParent = FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
+      Scene registrationPageScene = new Scene(registrationPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(registrationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

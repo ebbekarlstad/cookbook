@@ -140,6 +140,7 @@
                   <DropShadow />
                </effect>
             </Button>
+            <Button onAction="#handleBackButton" layoutX="813.0" layoutY="31.0" mnemonicParsing="false" text="Back" />
       </children>
     </AnchorPane>
   </children>
