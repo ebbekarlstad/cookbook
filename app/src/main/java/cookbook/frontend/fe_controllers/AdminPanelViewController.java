@@ -34,6 +34,23 @@ public class AdminPanelViewController {
   }
 
   @FXML
+  private void redirectToModify (ActionEvent event) {
+    try {
+      //Load the registration page FXML
+      Parent registrationPageParent = FXMLLoader.load(getClass().getResource("/ModifyUserView.fxml"));
+      Scene registrationPageScene = new Scene(registrationPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(registrationPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+
+  @FXML
   private void handleLogoutButton (ActionEvent event) {
     try {
       //Load the navigation page FXML
