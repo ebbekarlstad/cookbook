@@ -86,9 +86,9 @@ public class EditingRecipeController {
   }
 
   @FXML
-  private void initialize() {
+  private void initialize() throws SQLException {
     unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
-
+    loadRecipes();
   }
 
 
