@@ -114,31 +114,39 @@ public class ShoppingListViewController {
   }
 
 
+     /**
+     * Loads all ingredients for the dishes currently displayed in the dishesList ListView.
+     * For each dish, it fetches ingredient details from the database and updates the ingredientsList ListView.
+     */
     private void loadAllIngredients() {
-        ObservableList<String> allIngredients = FXCollections.observableArrayList();
-        for (String dish : dishesList.getItems()) {
-            String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
-                         "FROM ingredients i " +
-                         "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
-                         "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
-                         "WHERE r.RecipeName = ?";
-            try (Connection conn = connect();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, dish);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    while (rs.next()) {
-                        String ingredientDetail = rs.getString("IngredientName") + " - " +
-                                                  rs.getString("Amount") + " " +
-                                                  rs.getString("Unit");
-                        allIngredients.add(ingredientDetail);
-                    }
-                }
-            } catch (SQLException e) {
-                System.out.println("Error loading ingredients: " + e.getMessage());
-            }
-        }
-        ingredientsList.setItems(allIngredients);
-    }
+      ObservableList<String> allIngredients = FXCollections.observableArrayList(); // List to hold ingredient details for the UI
+      // Loop through each dish listed in dishesList
+      for (String dish : dishesList.getItems()) {
+          // SQL query to fetch the name, amount, and unit of each ingredient used in the dish
+          String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+                       "FROM ingredients i " +
+                       "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
+                       "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
+                       "WHERE r.RecipeName = ?";
+          try (Connection conn = connect(); // Establish a database connection
+               PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL query
+              pstmt.setString(1, dish); // Set the dish name in the query
+              try (ResultSet rs = pstmt.executeQuery()) { // Execute the query and get the result set
+                  while (rs.next()) {
+                      // Format the ingredient detail and add to the list
+                      String ingredientDetail = rs.getString("IngredientName") + " - " +
+                                                rs.getString("Amount") + " " +
+                                                rs.getString("Unit");
+                      allIngredients.add(ingredientDetail);
+                  }
+              }
+          } catch (SQLException e) {
+              System.out.println("Error loading ingredients: " + e.getMessage()); // Log error if SQL operation fails
+          }
+      }
+      ingredientsList.setItems(allIngredients); // Set the items in the ListView to the loaded ingredients
+  }
+
 
     private void loadShoppingListItems(String weekDisplay) {
       ObservableList<String> shoppingItems = FXCollections.observableArrayList();
