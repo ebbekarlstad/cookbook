@@ -13,11 +13,14 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
+import java.util.HashMap;
 import java.util.Locale;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
+
 import javafx.scene.control.ListView;
 
 public class ShoppingListViewController {
@@ -120,10 +123,12 @@ public class ShoppingListViewController {
      */
     private void loadAllIngredients() {
         ObservableList<String> allIngredients = FXCollections.observableArrayList(); // List to hold ingredient details for the UI
+        Map<String, Float> ingredientAmounts = new HashMap<>(); // Map to aggregate ingredient amounts
+
         // Loop through each dish listed in dishesList
         for (String dish : dishesList.getItems()) {
-            // SQL query to fetch the name, amount, and unit of each ingredient used in the dish
-            String sql = "SELECT i.IngredientName, ri.Amount, ri.Unit " +
+            // SQL query to fetch the name and amount of each ingredient used in the dish
+            String sql = "SELECT i.IngredientName, ri.Amount " +
                     "FROM ingredients i " +
                     "JOIN recipe_ingredients ri ON i.IngredientID = ri.IngredientID " +
                     "JOIN recipes r ON ri.RecipeID = r.RecipeID " +
@@ -133,19 +138,26 @@ public class ShoppingListViewController {
                 pstmt.setString(1, dish); // Set the dish name in the query
                 try (ResultSet rs = pstmt.executeQuery()) { // Execute the query and get the result set
                     while (rs.next()) {
-                        // Format the ingredient detail and add to the list
-                        String ingredientDetail = rs.getString("IngredientName") + " - " +
-                                rs.getString("Amount") + " " +
-                                rs.getString("Unit");
-                        allIngredients.add(ingredientDetail);
+                        // Aggregate ingredient amounts using a map
+                        String ingredientName = rs.getString("IngredientName");
+                        float amount = rs.getFloat("Amount");
+                        ingredientAmounts.put(ingredientName, ingredientAmounts.getOrDefault(ingredientName, 0f) + amount);
                     }
                 }
             } catch (SQLException e) {
                 System.out.println("Error loading ingredients: " + e.getMessage()); // Log error if SQL operation fails
             }
         }
+
+        // Format the aggregated ingredient amounts and add them to the list
+        for (Map.Entry<String, Float> entry : ingredientAmounts.entrySet()) {
+            String ingredientDetail = entry.getKey() + " - " + entry.getValue() + " units"; // Modify as needed based on your unit format
+            allIngredients.add(ingredientDetail);
+        }
+
         ingredientsList.setItems(allIngredients); // Set the items in the ListView to the loaded ingredients
     }
+
 
 
     /**
