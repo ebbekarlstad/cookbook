@@ -454,20 +454,6 @@ public void seedDinnerListRecipes() {
     seedTable(createTableSQL);
   }
 
-  public void seedHelpSystem() {
-    String dropTableSQL = "DROP TABLE IF EXISTS `help_system`;";
-
-    String createTableSQL = "CREATE TABLE `help_system` ("
-        + "`HelpID` int NOT NULL, "
-        + "`Title` varchar(45) NOT NULL, "
-        + "`Content` varchar(255) NOT NULL, "
-        + "PRIMARY KEY (`HelpID`))";
-
-    seedTable(dropTableSQL);
-    seedTable(createTableSQL);
-  }
-
-  // Existing methods...
 
   public void seedShoppingList() {
     // SQL command to drop the table if it already exists
@@ -523,7 +509,6 @@ public void seedDinnerListRecipes() {
     seeder.seedShoppingList();
     seeder.seedShoppingListItems();
     seeder.seedSentRecipes();
-    seeder.seedHelpSystem();
     seeder.seedMessages();
   }
 }
