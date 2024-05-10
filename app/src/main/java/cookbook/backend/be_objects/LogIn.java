@@ -44,7 +44,7 @@ public class LogIn {
     try {
       Optional<String> storedPasswordHash = dbManager.getPasswordHashForUser(userName);
       if (storedPasswordHash.isPresent() && checkPassword(inputPassword, storedPasswordHash.get())) {
-        Optional<Integer> userId = dbManager.getUserId(userName);  // Fetch the userId
+        Optional<Long> userId = dbManager.getUserId(userName);  // Fetch the userId
         if (userId.isPresent()) {
           boolean isAdmin = dbManager.isAdminUser(userId.get());
           UserSession.getInstance().setUserId(userId.get());  // Set the userId in UserSession

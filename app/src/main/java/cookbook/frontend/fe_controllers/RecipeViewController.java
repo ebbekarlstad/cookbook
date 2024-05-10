@@ -81,10 +81,11 @@ public class RecipeViewController {
   public List<Recipe> recipes;
 
   public List<Ingredient> ingredients;
-  public List<AmountOfIngredients> selectedIngredients;
+  public List<AmountOfIngredients> selectedIngredients = new ArrayList<>();
 
   public List<Tag> tags;
-  public List<Tag> selectedTags;
+  public List<Tag> selectedTags = new ArrayList<>();
+
 
   @FXML
     private void initialize() {

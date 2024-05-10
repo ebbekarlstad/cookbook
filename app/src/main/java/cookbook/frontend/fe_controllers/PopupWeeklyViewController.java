@@ -11,6 +11,7 @@ import java.sql.Date;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
 
 public class PopupWeeklyViewController {
 
@@ -22,7 +23,7 @@ public class PopupWeeklyViewController {
 
     private WeeklyController weeklyController;
     private Recipe recipe;
-    private Long userId = 1L;
+    private Long userId = UserSession.getInstance().getUserId();
 
     public void initialize() {
         try {
@@ -38,7 +39,7 @@ public class PopupWeeklyViewController {
 
     public void initData(Recipe recipe, Long userId) {
         this.recipe = recipe;
-        this.userId = 1L;  // Hårdkodat för nuvarande användare som test
+        this.userId = UserSession.getInstance().getUserId();
         loadWeeksIntoComboBox();
         loadDaysIntoComboBox();
     }

@@ -42,13 +42,13 @@ public class MessageController {
     }
 
     // Method to get a user's inbox depending on userID
-    public List<Message> getInbox(int userId) throws SQLException {
+    public List<Message> getInbox(Long userId) throws SQLException {
         String query = "SELECT * FROM messages WHERE receiver_id = ? ORDER BY sent_time DESC;";
         List<Message> messages = new ArrayList<>();
         try (Connection conn = dbManager.getConnection();
              PreparedStatement sqlStatement = conn.prepareStatement(query)) {
             
-            sqlStatement.setInt(1, userId);
+            sqlStatement.setLong(1, userId);
             ResultSet rs = sqlStatement.executeQuery();
             while (rs.next()) {
 
