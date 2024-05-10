@@ -393,7 +393,35 @@ public class ShoppingListViewController {
 
     @FXML
     void DeleteIngredient(ActionEvent event) {
+        // Retrieve the selected item from the ShoppingList ListView
+        String selectedItem = ShoppingList.getSelectionModel().getSelectedItem();
 
+        // Check if an item is selected
+        if (selectedItem != null) {
+            // Extract the item name from the selected item string
+            String itemName = selectedItem.split(" - ")[0];
+
+            // Construct the SQL DELETE statement
+            String sql = "DELETE FROM Shopping_List WHERE ItemName = ?";
+
+            try (Connection conn = connect(); // Establish a database connection
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL statement
+                // Set the item name parameter in the prepared statement
+                pstmt.setString(1, itemName);
+
+                // Execute the SQL DELETE statement
+                pstmt.executeUpdate();
+
+                // Refresh the ShoppingList ListView to reflect the updated list after deletion
+                loadShoppingListItems(weeksList.getSelectionModel().getSelectedItem());
+            } catch (SQLException e) {
+                // Handle any SQL exceptions
+                System.out.println("Error deleting ingredient from shopping list: " + e.getMessage());
+            }
+        } else {
+            // If no item is selected, display a message to the user
+            System.out.println("Please select an item to delete.");
+        }
     }
 
     @FXML
