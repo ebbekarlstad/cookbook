@@ -60,8 +60,8 @@
                 </Label>
                 <Button layoutX="451.0" layoutY="527.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping Lst" />
                 <Button layoutX="673.0" layoutY="580.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate" />
-            <Button fx:id="ModifyIngredient" layoutX="792.0" layoutY="539.0" mnemonicParsing="false" onAction="#ModifyIngredient" text="Modify" />
-            <Button fx:id="DeleteIngredient" layoutX="686.0" layoutY="539.0" mnemonicParsing="false" onAction="#DeleteIngredient" text="Delete" />
+                <Button fx:id="ModifyIngredient" layoutX="792.0" layoutY="539.0" mnemonicParsing="false" onAction="#ModifyIngredient" text="Modify" />
+                <Button fx:id="DeleteIngredient" layoutX="686.0" layoutY="539.0" mnemonicParsing="false" onAction="#DeleteIngredient" text="Delete" />
             </children>
         </AnchorPane>
     </children>
