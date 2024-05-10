@@ -34,24 +34,32 @@
                   <Font name="PT Sans Narrow" size="14.0" />
                </font>
             </Button>
-            <ListView fx:id="weeksList" layoutX="26.0" layoutY="189.0" prefHeight="396.0" prefWidth="200.0" />
-            <ListView fx:id="dishesList" layoutX="353.0" layoutY="189.0" prefHeight="396.0" prefWidth="200.0" />
-            <ListView fx:id="ingredientsList" layoutX="648.0" layoutY="196.0" prefHeight="396.0" prefWidth="200.0" />
-            <Label layoutX="82.0" layoutY="159.0" text="Weeks">
+            <ListView fx:id="weeksList" layoutX="14.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+            <ListView fx:id="dishesList" layoutX="227.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+            <ListView fx:id="ingredientsList" layoutX="446.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+            <Label layoutX="29.0" layoutY="97.0" text="Weeks">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="427.0" layoutY="159.0" text="Dishes">
+            <Label layoutX="235.0" layoutY="97.0" text="Dishes">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="718.0" layoutY="164.0" text="Ingredients">
+            <Label layoutX="446.0" layoutY="97.0" text="Ingredients">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+            <ListView fx:id="ShoppingList" layoutX="720.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
+            <Label layoutX="766.0" layoutY="103.0" text="Shopping List">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="451.0" layoutY="527.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping Lst" />
+            <Button layoutX="726.0" layoutY="527.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate" />
          </children>
         </AnchorPane>
     </children>
