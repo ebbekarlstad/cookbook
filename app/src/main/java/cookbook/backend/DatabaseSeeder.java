@@ -289,6 +289,8 @@ public class DatabaseSeeder {
     seedTable(insertDataSQL50);
   }
 
+
+  
   public void seedIngredients() {
     String dropTableSQL = "DROP TABLE IF EXISTS `ingredients`;";
 
@@ -465,23 +467,27 @@ public void seedDinnerListRecipes() {
   // Existing methods...
 
   public void seedShoppingList() {
+    // SQL command to drop the table if it already exists
     String dropTableSQL = "DROP TABLE IF EXISTS `Shopping_List`;";
 
-    String createTableSQL = "CREATE TABLE `Shopping_List` ("
-            + "`ItemID` INT NOT NULL AUTO_INCREMENT,"
-            + "`ItemName` VARCHAR(45) NOT NULL,"
-            + "`Amount` FLOAT NOT NULL,"
-            + "`Unit` VARCHAR(45) NOT NULL,"
-            + "`WeeklyDinnerListID` INT,"  // Add the WeeklyDinnerListID column as nullable to avoid data loss
-            + " PRIMARY KEY (`ItemID`),"
-            + " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`));";
+    // SQL command to create the table
+    String createTableSQL = "CREATE TABLE `Shopping_List` (" +
+        "`ItemID` INT NOT NULL AUTO_INCREMENT," + // Auto-incrementing ID for each item
+        "`ItemName` VARCHAR(45) NOT NULL," +      // Name of the shopping item
+        "`Amount` FLOAT NOT NULL," +              // Amount of each item needed
+        "`Unit` VARCHAR(45) NOT NULL," +          // Unit of measurement for the amount
+        "`WeeklyDinnerListID` INT," +             // Reference to the weekly dinner list
+        " PRIMARY KEY (`ItemID`)," +
+        " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)" + // Foreign key linking to weekly dinner lists
+        ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
-    String insertDataSQL = "INSERT INTO Shopping_List (ItemName, Amount, Unit)"
-            + "VALUES ('test', 0.0, 'x');";  // Example insertion, modify according to actual use
+
+    // Execute the SQL commands to seed the table
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
-    seedTable(insertDataSQL);
+    
 }
+
 
 
    public void seedShoppingListItems() {

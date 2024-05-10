@@ -137,17 +137,58 @@ public class ShoppingListViewController {
     @FXML
     void addIngredient(ActionEvent event) {
         ObservableList<String> selectedIngredients = ingredientsList.getSelectionModel().getSelectedItems();
-        String sql = "INSERT INTO Shopping_List (ItemName) VALUES (?)";
+        if (selectedIngredients.isEmpty()) {
+            return;  // No ingredient selected, so do nothing
+        }
+        String weekDisplay = weeksList.getSelectionModel().getSelectedItem();
+        String[] parts = weekDisplay.split(" to ");
+        String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+    
+        // Get the WeeklyDinnerListID based on the start date of the week
+        int weeklyDinnerListID = getWeeklyDinnerListID(Date.valueOf(startDatePart));
+    
+        // Database connection and insertion logic
         try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            for (String ingredient : selectedIngredients) {
-                pstmt.setString(1, ingredient);
-                pstmt.executeUpdate();
+             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Shopping_List (ItemName, Amount, Unit, WeeklyDinnerListID) VALUES (?, ?, ?, ?)")) {
+            for (String ingredientDetail : selectedIngredients) {
+                String[] ingredientParts = ingredientDetail.split(" - ");
+                String itemName = ingredientParts[0];
+                String amountUnit = ingredientParts[1];
+                String[] amountUnitParts = amountUnit.split(" ");
+                String amount = amountUnitParts[0];
+                String unit = amountUnitParts[1];
+    
+                pstmt.setString(1, itemName);
+                pstmt.setFloat(2, Float.parseFloat(amount));
+                pstmt.setString(3, unit);
+                pstmt.setInt(4, weeklyDinnerListID);
+                pstmt.addBatch();
             }
+            pstmt.executeBatch();
         } catch (SQLException e) {
             System.out.println("Error adding ingredient to shopping list: " + e.getMessage());
         }
+        
+        // Update the Shopping List UI
+        loadShoppingListItems(weekDisplay);
     }
+    
+    private int getWeeklyDinnerListID(Date weekStartDate) {
+        String sql = "SELECT WeeklyDinnerListID FROM weekly_dinner_lists WHERE Week = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, weekStartDate);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("WeeklyDinnerListID");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving WeeklyDinnerListID: " + e.getMessage());
+        }
+        return -1;  // Return an invalid ID if not found
+    }
+    
 
     @FXML
     void backButton(ActionEvent event) {
