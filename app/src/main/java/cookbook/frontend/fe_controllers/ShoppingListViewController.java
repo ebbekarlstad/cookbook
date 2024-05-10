@@ -441,7 +441,7 @@ public class ShoppingListViewController {
             TextInputDialog dialog = new TextInputDialog(Float.toString(currentAmount));
             dialog.setTitle("Modify Ingredient Amount");
             dialog.setHeaderText(null);
-            dialog.setContentText("Enter the new amount for " + itemName + ":");
+            dialog.setContentText("Enter the new amount for selected ingredient:");
 
             // Show the dialog and wait for user input
             Optional<String> result = dialog.showAndWait();
