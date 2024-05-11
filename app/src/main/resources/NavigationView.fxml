@@ -99,7 +99,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="22.0" layoutY="384.0">
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="29" layoutY="350.0">
                <image>
                   <Image url="@images/weekly.png" />
                </image>
