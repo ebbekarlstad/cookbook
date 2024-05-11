@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.util.StringConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import cookbook.backend.DatabaseMng;
@@ -63,8 +64,16 @@ public class ShareDialogController {
           boolean result = messageManager.saveMessage(message);
           if (result) {
               System.out.println("Message sent successfully!");
+              Alert success = new Alert(Alert.AlertType.INFORMATION);
+              success.setTitle("Success!");
+              success.setContentText("Recipe shared!");
+              success.show();
           } else {
               System.out.println("Failed to send message.");
+              Alert failure = new Alert(Alert.AlertType.INFORMATION);
+              failure.setTitle("Error..:(");
+              failure.setContentText("There was a problem with sharing the recipe.");
+              failure.show();
           }
       } else {
           System.out.println("No recipient selected.");
