@@ -347,6 +347,16 @@ public class RecipeDetailsViewController {
     @FXML
     public void removeFromFavorites(ActionEvent event) {
         Long userId = UserSession.getInstance().getUserId();  
+        if (userId != null && this.recipe != null) {
+            try {
+                boolean success = favoritesController.removeFavorite(userId, this.recipe);
+                if (success) {
+                    System.out.println("Favorite removed successfully.");
+                    // Update UI to reflect the removal
+                } else {
+                    System.out.println("Failed to remove favorite.");
+                    // Optionally update UI to show failure message
+                }
     }
 
     @FXML
