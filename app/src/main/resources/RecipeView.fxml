@@ -4,9 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -21,15 +18,6 @@
 
 <VBox prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeViewController">
     <children>
-        <MenuBar prefHeight="0.0" prefWidth="633.0" VBox.vgrow="NEVER">
-            <menus>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
          <children>
             <ImageView fitHeight="703.0" fitWidth="934.0" layoutX="-0.0" opacity="0.85" pickOnBounds="true" preserveRatio="false">

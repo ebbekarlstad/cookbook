@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -14,11 +14,6 @@
 
 <VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.SearchHelpController">
     <children>
-        <MenuBar prefHeight="0.0" prefWidth="633.0" VBox.vgrow="NEVER">
-            <menus>
-                <Menu mnemonicParsing="false" />
-            </menus>
-        </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="679.0" prefWidth="903.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
          <children>
             <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="30.0" prefWidth="120.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back &gt;">
@@ -26,19 +21,31 @@
                   <Font name="PT Sans Narrow" size="14.0" />
                </font>
             </Button>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#878c91" height="678.0" layoutX="-2.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="282.0" />
-            <Text layoutX="34.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need help? Start here!">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#878c91" height="703.0" layoutX="-2.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="298.0">
+               <effect>
+                  <DropShadow />
+               </effect></Rectangle>
+            <Text layoutX="11.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need help? Start here!">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Text>
-            <TextField fx:id="searchByNameField" layoutX="17.0" layoutY="58.0" prefHeight="51.0" prefWidth="242.0" promptText="Enter keyword here..." style="-fx-background-color: White;" />
+            <TextField fx:id="searchByNameField" layoutX="17.0" layoutY="58.0" prefHeight="51.0" prefWidth="242.0" promptText="Enter keyword here..." style="-fx-background-color: White;">
+               <effect>
+                  <InnerShadow />
+               </effect></TextField>
             <Button fx:id="searchByNameButton" layoutX="46.0" layoutY="120.0" mnemonicParsing="false" onAction="#searchHelp" prefHeight="26.0" prefWidth="183.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search" />
-            <TextArea fx:id="helpResultField" editable="false" layoutX="293.0" layoutY="48.0" prefHeight="631.0" prefWidth="633.0" style="-fx-background-color: White;" wrapText="true">
+            <TextArea fx:id="helpResultField" editable="false" layoutX="299.0" layoutY="44.0" prefHeight="657.0" prefWidth="637.0" style="-fx-background-color: White;" wrapText="true">
                <font>
                   <Font name="System Bold" size="22.0" />
-               </font></TextArea>
-            <ListView fx:id="listTutorials" layoutX="18.0" layoutY="164.0" onMouseClicked="#tutorialSelected" prefHeight="498.0" prefWidth="240.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect></TextArea>
+            <ListView fx:id="listTutorials" layoutX="18.0" layoutY="164.0" onMouseClicked="#tutorialSelected" prefHeight="498.0" prefWidth="240.0">
+               <effect>
+                  <InnerShadow />
+               </effect></ListView>
 
          </children>
         </AnchorPane>
