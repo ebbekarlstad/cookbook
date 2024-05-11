@@ -63,14 +63,20 @@
             <TextField fx:id="usernameField" layoutX="382.0" layoutY="352.0" promptText="Username">
                <effect>
                   <DropShadow />
-               </effect></TextField>
+               </effect>
+               <font>
+                  <Font name="System Font SemiBold" size="13.0" />
+               </font></TextField>
             <PasswordField fx:id="passwordField" layoutX="382.0" layoutY="390.0" promptText="Password">
                <effect>
                   <DropShadow />
-               </effect></PasswordField>
-            <Button fx:id="loadNavButton" layoutX="446.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleLoginButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="GO">
+               </effect>
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="System Font SemiBold" size="13.0" />
+               </font></PasswordField>
+            <Button fx:id="loadNavButton" layoutX="445.0" layoutY="432.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="16.0" prefWidth="43.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="GO">
+               <font>
+                  <Font name="System Font Medium" size="12.0" />
                </font>
                <effect>
                   <DropShadow />
@@ -85,9 +91,9 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fill="#fff1e4" layoutX="344.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
+            <Text fill="#fff1e4" layoutX="358.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
                <font>
-                  <Font name="SansSerif Bold" size="70.0" />
+                  <Font name="System Font Heavy" size="70.0" />
                </font>
               <effect>
                   <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
