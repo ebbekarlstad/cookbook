@@ -42,7 +42,7 @@
                </effect>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="703.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="340.0" />
-            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" text="New Recipe" textAlignment="CENTER">
+            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="New Recipe" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -50,7 +50,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" text="Browse Recipes" textAlignment="CENTER">
+            <Button alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Browse Recipes" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -74,7 +74,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="503.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
+            <Button alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="503.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text=" My Inbox">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -90,7 +90,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="help_button" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
+            <Button fx:id="help_button" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Get Help">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -106,7 +106,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="favoriteButton" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Favorites" textAlignment="CENTER">
+            <Button fx:id="favoriteButton" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Favorites" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -122,7 +122,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="favoriteButton1" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="CENTER">
+            <Button fx:id="favoriteButton1" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Shopping List" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -130,7 +130,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="CENTER">
+            <Button fx:id="" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Weekly " textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -146,7 +146,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="logoutButton" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="50.0" prefWidth="189.0" text="Logout">
+            <Button fx:id="logoutButton" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Logout">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -154,7 +154,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="1" alignment="BOTTOM_RIGHT" layoutX="34.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleUserCreatedRecipesButtonAction" prefHeight="52.0" prefWidth="272.0" text="My Own Recipes" textAlignment="CENTER">
+            <Button fx:id="1" alignment="BOTTOM_RIGHT" layoutX="34.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleUserCreatedRecipesButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="My Own Recipes" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

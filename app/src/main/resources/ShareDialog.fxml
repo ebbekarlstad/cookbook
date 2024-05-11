@@ -10,5 +10,5 @@
     <Label text="Share Recipe" />
     <ComboBox fx:id="recipientComboBox" promptText="Select a recipient" />
     <TextField fx:id="messageField" prefHeight="24.0" prefWidth="214.0" promptText="Add a message" />
-    <Button onAction="#sendShare" text="Send" />
+    <Button onAction="#sendShare" text="Send" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" />
 </VBox>

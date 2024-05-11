@@ -61,7 +61,7 @@
                         <DropShadow />
                      </effect>
                   </TextField>
-                  <Button fx:id="searchByNameButton" mnemonicParsing="false" onAction="#searchByName" text="Search">
+                  <Button fx:id="searchByNameButton" mnemonicParsing="false" onAction="#searchByName" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -80,7 +80,7 @@
                         <DropShadow />
                      </effect>
                   </TextField>
-                  <Button fx:id="searchByIngredientsButton" mnemonicParsing="false" onAction="#searchByIngredients" text="Search">
+                  <Button fx:id="searchByIngredientsButton" mnemonicParsing="false" onAction="#searchByIngredients" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -99,7 +99,7 @@
                         <DropShadow />
                      </effect>
                   </TextField>
-                  <Button fx:id="searchByTagsButton" mnemonicParsing="false" onAction="#searchByTags" text="Search">
+                  <Button fx:id="searchByTagsButton" mnemonicParsing="false" onAction="#searchByTags" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -128,7 +128,7 @@
                         </DropShadow>
                      </effect>
                   </Text>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" text="Go back">
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back">
                      <effect>
                         <DropShadow />
                      </effect>

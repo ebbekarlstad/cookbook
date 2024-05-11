@@ -27,13 +27,13 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: #2ab4fb;" VBox.vgrow="ALWAYS">
          <children>
             <ListView fx:id="commentsListView" layoutX="596.0" layoutY="210.0" prefHeight="341.0" prefWidth="324.0">
                <effect>
                   <InnerShadow />
                </effect></ListView>
-            <Button fx:id="back" layoutX="786.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="30.0" prefWidth="134.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
+            <Button fx:id="back" layoutX="786.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="30.0" prefWidth="134.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back &gt;">
                <font>
                   <Font name="PT Sans Narrow" size="14.0" />
                </font>
@@ -57,19 +57,19 @@
                   <InnerShadow />
                </effect>
             </TextField>
-            <Button layoutX="596.0" layoutY="561.0" mnemonicParsing="false" onAction="#addComment" prefHeight="26.0" prefWidth="61.0" text="Add">
+            <Button layoutX="596.0" layoutY="561.0" mnemonicParsing="false" onAction="#addComment" prefHeight="26.0" prefWidth="61.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Add">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button layoutX="836.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="26.0" prefWidth="84.0" text="Remove">
+            <Button layoutX="836.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="26.0" prefWidth="84.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Remove">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button layoutX="671.0" layoutY="561.0" mnemonicParsing="false" onAction="#editComment" prefHeight="26.0" prefWidth="62.0" text="Edit">
+            <Button layoutX="671.0" layoutY="561.0" mnemonicParsing="false" onAction="#editComment" prefHeight="26.0" prefWidth="62.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Edit">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button layoutX="749.0" layoutY="561.0" mnemonicParsing="false" onAction="#updateComment" prefHeight="26.0" prefWidth="73.0" text="Update">
+            <Button layoutX="749.0" layoutY="561.0" mnemonicParsing="false" onAction="#updateComment" prefHeight="26.0" prefWidth="73.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Update">
                <effect>
                   <DropShadow />
                </effect></Button>
@@ -103,11 +103,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="addToFavorites" layoutX="786.0" layoutY="69.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="46.0" prefWidth="134.0" text="Add to favorite">
+            <Button fx:id="addToFavorites" layoutX="786.0" layoutY="69.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="46.0" prefWidth="134.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Add to favorite">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button fx:id="removeFromFavorites" layoutX="786.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="46.0" prefWidth="134.0" text="Remove from favorite">
+            <Button fx:id="removeFromFavorites" layoutX="786.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="46.0" prefWidth="134.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Remove from favorite">
                <effect>
                   <DropShadow />
                </effect></Button>
@@ -133,17 +133,17 @@
                </effect>
              </TableView>
 
-            <Button fx:id="shareRecipeButton" layoutX="657.0" layoutY="17.0" mnemonicParsing="false" onAction="#shareRecipe" text="Share Recipe">
+            <Button fx:id="shareRecipeButton" layoutX="657.0" layoutY="17.0" mnemonicParsing="false" onAction="#shareRecipe" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Share Recipe">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button layoutX="37.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleweekButtonAction" prefHeight="46.0" prefWidth="140" text="Add to weekly list">
+            <Button layoutX="37.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleweekButtonAction" prefHeight="46.0" prefWidth="140" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Add to weekly list">
                <effect>
                   <DropShadow />
                </effect></Button>
             <TextField fx:id="MultipliedAmount" alignment="CENTER" layoutX="324.0" layoutY="622.0" prefHeight="25.0" prefWidth="54.0" promptText="1.0" />
-            <Button fx:id="LessPersons" layoutX="296.0" layoutY="622.0" mnemonicParsing="false" onAction="#DecrementPeople" prefHeight="25.0" prefWidth="27.0" text="-" />
-            <Button fx:id="MorePersons" layoutX="378.0" layoutY="622.0" mnemonicParsing="false" onAction="#IncrementPeople" prefHeight="25.0" prefWidth="27.0" text="+" />
+            <Button fx:id="LessPersons" layoutX="296.0" layoutY="622.0" mnemonicParsing="false" onAction="#DecrementPeople" prefHeight="25.0" prefWidth="27.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="-" />
+            <Button fx:id="MorePersons" layoutX="378.0" layoutY="622.0" mnemonicParsing="false" onAction="#IncrementPeople" prefHeight="25.0" prefWidth="27.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="+" />
             <Text layoutX="269.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of people" wrappingWidth="163.0400390625">
                <font>
                   <Font size="18.0" />
