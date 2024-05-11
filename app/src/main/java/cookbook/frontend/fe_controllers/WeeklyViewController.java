@@ -117,7 +117,7 @@ public class WeeklyViewController {
                 SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
                 java.util.Date parsedDate = sdf.parse(selectedWeek);
                 java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
-                return weeklyController.getWeeklyRecipes(userId, weekStartDate);
+                return weeklyController.getWeeklyRecipes(UserSession.getInstance().getUserId(), weekStartDate);
             }
         };
 
@@ -136,9 +136,6 @@ public class WeeklyViewController {
     private String getCurrentDayOfWeek() {
         return weeklyController.getCurrentDay();
     }
-}
-
-
 
 
 
