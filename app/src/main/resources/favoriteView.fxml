@@ -4,16 +4,30 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.FavoriteViewController">
    <children>
       <ListView fx:id="favoritesListView" layoutX="28.0" layoutY="205.0" prefHeight="424.0" prefWidth="886.0" />
-      <Label layoutX="28.0" layoutY="63.0" prefHeight="58.0" prefWidth="222.0" text="Favorite recepies " textFill="#dc0707">
+      <Label layoutX="28.0" layoutY="63.0" prefHeight="58.0" prefWidth="222.0" text="Favor" textFill="#dc0707">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="798.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#goBackToNavigator" prefHeight="37.0" prefWidth="101.0" text="Go back" />
+      <Button layoutX="797.0" layoutY="63.0" mnemonicParsing="false" onMouseClicked="#goBackToNavigator" prefHeight="37.0" prefWidth="101.0" text="Go back" />
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="1.0" prefHeight="48.0" prefWidth="921.0" style="-fx-background-color: #DC0707;"> <!-- Red background for the entire HBox -->
+         <children>
+            <Label fx:id="sceneTitle" alignment="CENTER" prefHeight="39.0" prefWidth="253.0" text="Favorite Recipes" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="27.0" />
+               </font>
+               <style>
+                  -fx-padding: 10; <!-- Padding to increase spacing around the text -->
+               </style>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
+
