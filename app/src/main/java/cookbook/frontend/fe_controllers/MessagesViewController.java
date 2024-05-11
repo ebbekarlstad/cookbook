@@ -119,7 +119,7 @@ private void setupMessageTable() {
 
   private void loadMessages() {
     try {
-      int userId = UserSession.getInstance().getUserId();
+      Long userId = UserSession.getInstance().getUserId();
       List<Message> messages = messageController.getInbox(userId);
       ObservableList<Message> observableMessages = FXCollections.observableArrayList(messages);
       messageTableView.setItems(observableMessages);

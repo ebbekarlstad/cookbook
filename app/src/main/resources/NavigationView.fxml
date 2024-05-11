@@ -39,12 +39,12 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button layoutX="22.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT">
+            <Button layoutX="22.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="67.0" layoutX="22.0" layoutY="123.0">
+            <ImageView fitHeight="50.0" fitWidth="67.0" layoutX="22.0" layoutY="159.0">
                <image>
                   <Image url="@images/search.png" />
                </image>
@@ -54,47 +54,47 @@
                   <Image url="@images/plus.png" />
                </image>
             </ImageView>
-            <Button layoutX="22.0" layoutY="566.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
+            <Button layoutX="22.0" layoutY="503.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="566.0">
+            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="503.0">
                <image>
                   <Image url="@images/mail.png" />
                </image>
             </ImageView>
-            <Button fx:id="help_button" layoutX="22.0" layoutY="629.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
+            <Button fx:id="help_button" layoutX="22.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="634.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="567.0">
                <image>
                   <Image url="@images/question.png" />
                </image>
             </ImageView>
-            <Button fx:id="favoriteButton" layoutX="22.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Favorite" textAlignment="RIGHT">
+            <Button fx:id="favoriteButton" layoutX="22.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Favorite" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="22.0" layoutY="215.0">
+            <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="22.0" layoutY="224.0">
                <image>
                   <Image url="@images/star.png" />
                </image>
             </ImageView>
-            <Button fx:id="favoriteButton1" layoutX="22.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="RIGHT">
+            <Button fx:id="favoriteButton1" layoutX="22.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="29.0" layoutY="307.0">
+            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="29.0" layoutY="287.0">
                <image>
                   <Image url="@images/Shoppinglist.png" />
                </image>
             </ImageView>
-            <Button fx:id="" layoutX="22.0" layoutY="384.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="RIGHT">
+            <Button fx:id="" layoutX="22.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -104,6 +104,16 @@
                   <Image url="@images/star2.png" />
                </image>
             </ImageView>
+            <Button fx:id="logoutButton" layoutX="22.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="50.0" prefWidth="189.0" text="Logout">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="1" layoutX="21.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleUserCreatedRecipesButtonAction" prefHeight="52.0" prefWidth="272.0" text="My Own Recipes" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
       </children>
     </AnchorPane>
   </children>

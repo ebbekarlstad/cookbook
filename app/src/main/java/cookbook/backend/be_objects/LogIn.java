@@ -39,23 +39,23 @@ public class LogIn {
   }
  
   // Method that habdles login
-  public boolean doLogin(String userName, String inputPassword) {
+  public boolean[] doLogin(String userName, String inputPassword) {
+    boolean[] result = new boolean[2];
     try {
       Optional<String> storedPasswordHash = dbManager.getPasswordHashForUser(userName);
       if (storedPasswordHash.isPresent() && checkPassword(inputPassword, storedPasswordHash.get())) {
-        // Fetch the userId
-        Optional<Integer> userId = dbManager.getUserId(userName);
+        Optional<Long> userId = dbManager.getUserId(userName);  // Fetch the userId
         if (userId.isPresent()) {
+          boolean isAdmin = dbManager.isAdminUser(userId.get());
           UserSession.getInstance().setUserId(userId.get());  // Set the userId in UserSession
           System.out.println("Debug: User logged in successfully - UserID: " + userId.get() + ", Username: " + userName);
-          return true;  // Login successful
+          result[0] = true;
+          result[1] = isAdmin;
         }
       }
-      return false;  // Password incorrect or username not found
     } catch (Exception e) {
         System.err.println("Error during login: " + e.getMessage());
-        return false;
-    }
+      }
+    return result;
   }
-    
-  }
+}

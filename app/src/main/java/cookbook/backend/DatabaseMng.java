@@ -25,14 +25,14 @@ public class DatabaseMng {
     }
 
     // Returns the UserID.
-    public Optional<Integer> getUserId(String userName) {
+    public Optional<Long> getUserId(String userName) {
       String sql = "SELECT UserID FROM users WHERE UserName = ?";
       try (Connection conn = getConnection();
            PreparedStatement pstmt = conn.prepareStatement(sql)) {
           pstmt.setString(1, userName);
           ResultSet rs = pstmt.executeQuery();
           if (rs.next()) {
-              return Optional.of(rs.getInt("UserID"));
+              return Optional.of(rs.getLong("UserID"));
           }
       } catch (SQLException e) {
           System.err.println("SQL Exception in getUserId: " + e.getMessage());
@@ -71,7 +71,29 @@ public class DatabaseMng {
       return lastErrorMessage;
     }
 
+  /**
+   * Method that checks the isAdmin attribute of a userName.
+   *
+   * @param userId - UserID.
+   * @return - Returns a boolean value true / false.
+   * @throws SQLException - SQL error.
+   */
+  public boolean isAdminUser(Long userId) throws SQLException {
+  String sql = "SELECT IsAdmin FROM users WHERE UserID = ?";
+  try (Connection conn = this.getConnection();
+       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setLong(1, userId);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return rs.getBoolean("IsAdmin");
+      }
+  } catch (SQLException e) {
+      System.err.println("SQL Exception in isAdminUser: " + e.getMessage());
+      throw e;
+    }
+  return false;
   }
+}
 
 
   

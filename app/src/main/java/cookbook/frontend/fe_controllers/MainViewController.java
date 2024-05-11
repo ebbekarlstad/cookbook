@@ -75,6 +75,22 @@ public class MainViewController {
   }
 
   @FXML
+  private void handleLogoutButton(ActionEvent event) {
+    try {
+      //Load the login page FXML
+      Parent loginPageParent = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
+      Scene loginPageScene = new Scene(loginPageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(loginPageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
   private void handleNavigationButton(ActionEvent event) {
     try {
       //Load the navigation page FXML
@@ -118,6 +134,21 @@ public class MainViewController {
       // Get the current stage and replace it
       Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
       window.setScene(newRecipePageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  @FXML
+  void handleUserCreatedRecipesButtonAction(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent MyRecipePageParent = FXMLLoader.load(getClass().getResource("/UserRecipesView.fxml"));
+      Scene MyRecipePageScene = new Scene(MyRecipePageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(MyRecipePageScene);
       window.show();
     } catch (Exception e) {
       e.printStackTrace();

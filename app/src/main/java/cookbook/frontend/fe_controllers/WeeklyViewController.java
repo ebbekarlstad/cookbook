@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
+
 import java.sql.Date;
 
 public class WeeklyViewController {
@@ -37,13 +39,11 @@ public class WeeklyViewController {
     @FXML private ComboBox<String> weeksComboBox;
 
     private WeeklyController weeklyController;
-    private Long userId;
 
     @FXML
     public void initialize() {
         DatabaseMng dbManager = new DatabaseMng();
         weeklyController = new WeeklyController(dbManager);
-        userId = getCurrentUserId();  // Assume this method fetches a valid user ID
 
         setupRecipeListView(mondayListView, "Monday");
         setupRecipeListView(tuesdayListView, "Tuesday");
@@ -70,7 +70,7 @@ public class WeeklyViewController {
     }
 
     private void populateWeeksComboBox() {
-        List<Date> weeks = weeklyController.getYearlyWeeks();
+        List<Date> weeks = weeklyController.getWeeklyList(UserSession.getInstance().getUserId());
         SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
         String currentWeek = sdf.format(new java.util.Date());
 
@@ -136,6 +136,12 @@ public class WeeklyViewController {
     private String getCurrentDayOfWeek() {
         return weeklyController.getCurrentDay();
     }
+}
+
+
+
+
+
 
     private void setupRecipeListView(ListView<Recipe> listView, String dayName) {
         listView.setCellFactory(lv -> new ListCell<Recipe>() {
@@ -193,10 +199,7 @@ public class WeeklyViewController {
         return map;
     }
 
-    private Long getCurrentUserId() {
-        // This method should correctly fetch the user's ID
-        return 1L; // Placeholder
-    }
+ 
 
         @FXML
     public void goBackToNavigator(MouseEvent event) {

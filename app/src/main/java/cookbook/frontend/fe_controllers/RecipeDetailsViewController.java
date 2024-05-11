@@ -7,12 +7,12 @@ import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.FloatProperty;
+
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,8 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
+
 
 import java.sql.SQLException;
 
@@ -64,7 +63,6 @@ public class RecipeDetailsViewController {
 
 
     private String recipeId;
-    private Long userId = 1L;
     private int commentId;
     Recipe recipe;
 
@@ -78,9 +76,6 @@ public class RecipeDetailsViewController {
     @FXML
     private Button shareRecipeButton;
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     DatabaseMng myDbManager;
 
@@ -234,7 +229,7 @@ public class RecipeDetailsViewController {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
 
-            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, 1, commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
+            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, UserSession.getInstance().getUserId(), commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
             commentsListView.getItems().add(commentText);  // Add comment to ListView
             commentInput.clear();  // Clear the input field
 
@@ -361,8 +356,7 @@ public class RecipeDetailsViewController {
         // } catch (SQLException e) {
         //   System.err.println("Error adding favorite: " + e.getMessage());
         // }
-        this.userId = 1L;
-        favoritesController.addFavorite(userId, recipe);
+        favoritesController.addFavorite(UserSession.getInstance().getUserId(), recipe);
     }
 
 
@@ -389,8 +383,7 @@ public class RecipeDetailsViewController {
         //   System.err.println("Failed to remove favorite: ");
         // }
 
-        this.userId = 1L;
-        favoritesController.removeFavorite(userId, recipe);
+        favoritesController.removeFavorite(UserSession.getInstance().getUserId(), recipe);
     }
 
     @FXML
@@ -400,10 +393,8 @@ public class RecipeDetailsViewController {
             Parent parent = loader.load();
 
             PopupWeeklyViewController popupController = loader.getController();
-            this.userId = 1L; // Sätter userId direkt här
-            System.out.println(userId + " " + recipe.getId());
             if (popupController != null) {
-                popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
+                popupController.initData(recipe, UserSession.getInstance().getUserId()); // Skickar nu den här lokalt satta userId
             } else {
                 System.out.println("Popup controller was not initialized.");
                 return; // To avoid further execution

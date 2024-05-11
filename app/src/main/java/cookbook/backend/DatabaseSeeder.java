@@ -55,12 +55,15 @@ public class DatabaseSeeder {
 
         String seedUser2Values = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
             + "VALUES ('testuser', 'testuser', '4f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 0);";
-
+    
+        String seedAdminValues = "INSERT INTO `users` (`UserName`, `DisplayName`, `Password`, `IsAdmin`) "
+            + "VALUES ('admin', 'Administrator', '4f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 1);";
 
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
         seedTable(seedUserValues);
         seedTable(seedUser2Values);
+        seedTable(seedAdminValues);
     }
 
   public void seedRecipes() {
@@ -289,6 +292,8 @@ public class DatabaseSeeder {
     seedTable(insertDataSQL50);
   }
 
+
+  
   public void seedIngredients() {
     String dropTableSQL = "DROP TABLE IF EXISTS `ingredients`;";
 
@@ -449,48 +454,41 @@ public void seedDinnerListRecipes() {
     seedTable(createTableSQL);
   }
 
-  public void seedHelpSystem() {
-    String dropTableSQL = "DROP TABLE IF EXISTS `help_system`;";
-
-    String createTableSQL = "CREATE TABLE `help_system` ("
-        + "`HelpID` int NOT NULL, "
-        + "`Title` varchar(45) NOT NULL, "
-        + "`Content` varchar(255) NOT NULL, "
-        + "PRIMARY KEY (`HelpID`))";
-
-    seedTable(dropTableSQL);
-    seedTable(createTableSQL);
-  }
-
-  // Existing methods...
 
   public void seedShoppingList() {
+    // SQL command to drop the table if it already exists
     String dropTableSQL = "DROP TABLE IF EXISTS `Shopping_List`;";
 
-    String createTableSQL = "CREATE TABLE `Shopping_List` ("
-            + "`ItemID` INT NOT NULL AUTO_INCREMENT,"
-            + "`ItemName` VARCHAR(45) NOT NULL,"
-            + "`Amount` FLOAT NOT NULL,"
-            + "`Unit` VARCHAR(45) NOT NULL,"
-            + " PRIMARY KEY (`ItemID`));";
+    // SQL command to create the table
+    String createTableSQL = "CREATE TABLE `Shopping_List` (" +
+        "`ItemID` INT NOT NULL AUTO_INCREMENT," + // Auto-incrementing ID for each item
+        "`ItemName` VARCHAR(45) NOT NULL," +      // Name of the shopping item
+        "`Amount` FLOAT NOT NULL," +              // Amount of each item needed
+        "`Unit` VARCHAR(45) NOT NULL," +          // Unit of measurement for the amount
+        "`WeeklyDinnerListID` INT," +             // Reference to the weekly dinner list
+        " PRIMARY KEY (`ItemID`)," +
+        " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)" + // Foreign key linking to weekly dinner lists
+        ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
-    String insertDataSQL = "INSERT INTO Shopping_List (ItemName, Amount, Unit)"
-            + "VALUES ('test', 0.0, 'x');";
-     seedTable(dropTableSQL);
-     seedTable(createTableSQL);
-     seedTable(insertDataSQL);
-  }
+
+    // Execute the SQL commands to seed the table
+    seedTable(dropTableSQL);
+    seedTable(createTableSQL);
+    
+}
+
+
 
    public void seedShoppingListItems() {
      String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
 
      String createTableSQL = "CREATE TABLE `shopping_list_items` ("
-         + "`ItemID` int NOT NULL AUTO_INCREMENT, "
-         + "`ShoppingListID` int NOT NULL, "
-         + "`IngredientID` varchar(45) NOT NULL, "
-         + "`Quantity` varchar(100) NOT NULL, "
-         + "PRIMARY KEY (`ItemID`), "
-         + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`));";
+             + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
+             + "`UserID` int NOT NULL, "
+             + "`CreatedDate` DATE NOT NULL, "
+             + "PRIMARY KEY (`ShoppingListID`), "
+             + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+
 
      seedTable(dropTableSQL);
      seedTable(createTableSQL);
@@ -511,7 +509,6 @@ public void seedDinnerListRecipes() {
     seeder.seedShoppingList();
     seeder.seedShoppingListItems();
     seeder.seedSentRecipes();
-    seeder.seedHelpSystem();
     seeder.seedMessages();
   }
 }
