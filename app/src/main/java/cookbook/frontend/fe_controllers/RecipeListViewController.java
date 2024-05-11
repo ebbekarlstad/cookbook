@@ -23,69 +23,66 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
+/**
+ * Controller class for the recipe list view.
+ */
 public class RecipeListViewController {
   @FXML
   private TextField searchByNameField;
-
   @FXML
   private Button searchByNameButton;
-
   @FXML
   private TextField searchByIngredientsField;
-
   @FXML
   private Button searchByIngredientsButton;
-
   @FXML
   private TextField searchByTagsField;
-
   @FXML
   private Button searchByTagsButton;
-
   @FXML
-  private ListView<Recipe> mainTable; 
+  private ListView<Recipe> mainTable;
 
   private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
+  /**
+   * Initializes the controller class.
+   */
   @FXML
   private void initialize() {
-  
-      // Set a custom cell factory for the ListView
-      mainTable.setCellFactory(param -> new ListCell<Recipe>() {
-          @Override
-          protected void updateItem(Recipe recipe, boolean empty) {
-              super.updateItem(recipe, empty);
-              if (empty || recipe == null || recipe.getRecipeName() == null) {
-                  setText(null);
-                  setTooltip(null); // Clear toolTip
-              } else {
-                  setText(recipe.getRecipeName());
-                  Tooltip tooltip = new Tooltip(recipe.getShortDesc()); // Create a tooltip with the short description
-                  tooltip.setShowDelay(Duration.millis(100));
-                  setTooltip(tooltip);
-              }
-          }
-
-      });
-
-      // Ideally, fetch the recipes from a RecipeController or similar backend class
-      try {
-          recipeList.addAll(RecipeController.getRecipes());
-          mainTable.setItems(recipeList);
-      } catch (Exception e) {
-          e.printStackTrace();
+    mainTable.setCellFactory(param -> new ListCell<Recipe>() {
+      @Override
+      protected void updateItem(Recipe recipe, boolean empty) {
+        super.updateItem(recipe, empty);
+        if (empty || recipe == null || recipe.getRecipeName() == null) {
+          setText(null);
+          setTooltip(null);
+        } else {
+          setText(recipe.getRecipeName());
+          Tooltip tooltip = new Tooltip(recipe.getShortDesc());
+          tooltip.setShowDelay(Duration.millis(100));
+          setTooltip(tooltip);
+        }
       }
-      mainTable.setOnMouseClicked(this::handleRecipeSelection);
+    });
+
+    try {
+      recipeList.addAll(RecipeController.getRecipes());
+      mainTable.setItems(recipeList);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    mainTable.setOnMouseClicked(this::handleRecipeSelection);
   }
 
+  /**
+   * Handles back button action to navigate to the navigation page.
+   * @param event The action event.
+   */
   public void backButton(ActionEvent event) throws SQLException, IOException {
     try {
-      //Load the navigation page FXML
       Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
       Scene navigationPageScene = new Scene(navigationPageParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(navigationPageScene);
       window.show();
     } catch (Exception e) {
@@ -93,33 +90,34 @@ public class RecipeListViewController {
     }
   }
 
-    private void handleRecipeSelection(MouseEvent event) {
-      if (event.getClickCount() == 2) { // Double-click to handle recipe selection
-          Recipe selectedRecipe = mainTable.getSelectionModel().getSelectedItem();
-          if (selectedRecipe != null) {
-            try {
-              System.out.println("Selected Recipe: " + selectedRecipe.getRecipeName());
-              // Load the FXML for the comments view
-              FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetails.fxml"));
-              Parent commentViewParent = loader.load();
-
-              // Get the controller and pass the selected recipe
-              RecipeDetailsViewController controller = loader.getController();
-              controller.initData(selectedRecipe);
-
-              // Setup and show the new stage (or scene)
-              Scene commentViewScene = new Scene(commentViewParent);
-              Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow(); // Fixed this to not open in a new tab 
-              window.setScene(commentViewScene);
-              window.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-          }
+  /**
+   * Handles selection of a recipe from the list.
+   * @param event The mouse event.
+   */
+  private void handleRecipeSelection(MouseEvent event) {
+    if (event.getClickCount() == 2) {
+      Recipe selectedRecipe = mainTable.getSelectionModel().getSelectedItem();
+      if (selectedRecipe != null) {
+        try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetails.fxml"));
+          Parent commentViewParent = loader.load();
+          RecipeDetailsViewController controller = loader.getController();
+          controller.initData(selectedRecipe);
+          Scene commentViewScene = new Scene(commentViewParent);
+          Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+          window.setScene(commentViewScene);
+          window.show();
+        } catch (IOException e) {
+          e.printStackTrace();
         }
       }
     }
-  
-  // When user clicks search by name.
+  }
+
+  /**
+   * Searches recipes by name.
+   * @param event The action event.
+   */
   @FXML
   private void searchByName(ActionEvent event) {
     String nameQuery = searchByNameField.getText().trim();
@@ -134,15 +132,16 @@ public class RecipeListViewController {
     }
   }
 
-
-  // When user clicks search by ingredients.
+  /**
+   * Searches recipes by ingredients.
+   * @param event The action event.
+   */
   @FXML
   private void searchByIngredients(ActionEvent event) {
     String ingredientQuery = searchByIngredientsField.getText().trim();
     if (!ingredientQuery.isEmpty()) {
       try {
-
-        recipeList.clear(); // Clear the current list
+        recipeList.clear();
         recipeList.addAll(RecipeController.getRecipesByIngredients(ingredientQuery));
         mainTable.setItems(recipeList);
       } catch (Exception e) {
@@ -151,13 +150,16 @@ public class RecipeListViewController {
     }
   }
 
-  // When userclicks search by tags.
+  /**
+   * Searches recipes by tags.
+   * @param event The action event.
+   */
   @FXML
   private void searchByTags(ActionEvent event) {
     String tagQuery = searchByTagsField.getText().trim();
     if (!tagQuery.isEmpty()) {
       try {
-        recipeList.clear(); // Clear the current list
+        recipeList.clear();
         recipeList.addAll(RecipeController.getRecipesByTags(tagQuery));
         mainTable.setItems(recipeList);
       } catch (Exception e) {
@@ -165,6 +167,4 @@ public class RecipeListViewController {
       }
     }
   }
-
-  
 }

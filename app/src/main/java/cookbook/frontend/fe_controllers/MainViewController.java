@@ -44,6 +44,8 @@ public class MainViewController {
     FadeTransition fade = new FadeTransition(Duration.seconds(1.5), welcomeText);
     fade.setFromValue(0.0);
     fade.setToValue(1.0);
+    fade.setCycleCount(FadeTransition.INDEFINITE); // Repeat indefinitely
+    fade.setAutoReverse(true); // Reverse the animation on each iteration
     fade.play();
 
     // Scale animation
@@ -52,11 +54,10 @@ public class MainViewController {
     scaleTransition.setFromY(0.5);
     scaleTransition.setToX(1.0);
     scaleTransition.setToY(1.0);
-    scaleTransition.setCycleCount(1);
-    scaleTransition.setAutoReverse(true);
+    scaleTransition.setCycleCount(ScaleTransition.INDEFINITE); // Repeat indefinitely
+    scaleTransition.setAutoReverse(true); // Reverse the animation on each iteration
     scaleTransition.play();
-
-  }
+}
 
   @FXML
   private void handleLoginButton(ActionEvent event) {

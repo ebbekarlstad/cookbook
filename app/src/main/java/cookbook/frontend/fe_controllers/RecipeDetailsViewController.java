@@ -232,6 +232,11 @@ public class RecipeDetailsViewController {
 
             if (!commentController.addComment(newComment)) {
                 System.out.println("Failed to add comment.");
+                Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                failure.setTitle("Error..:(");
+                failure.setContentText("There was a problem with adding a comment.");
+                failure.show();
+                
             }
         }
     }
@@ -245,8 +250,16 @@ public class RecipeDetailsViewController {
             if (commentController.removeComment(selectedComment)) {
                 commentsListView.getItems().remove(selectedIndex);  // Remove the comment from the ListView
                 System.out.println("Comment removed successfully.");
+                Alert success = new Alert(Alert.AlertType.INFORMATION);
+                success.setTitle("Success!");
+                success.setContentText("You successfully removed the comment!");
+                success.show();
             } else {
                 System.out.println("Failed to remove comment.");
+                Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                failure.setTitle("Error..:(");
+                failure.setContentText("There was a problem deleting the comment.");
+                failure.show();
             }
         } else {
             System.out.println("No comment selected.");
@@ -274,9 +287,17 @@ public class RecipeDetailsViewController {
                     commentsListView.getItems().set(selectedIndex, newCommentText); // Update the comment in the ListView
                     commentInput.clear(); // Clear the text field after updating
                     System.out.println("Comment updated successfully.");
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Success!");
+                    success.setContentText("Comment updated!");
+                    success.show();
                 }
             } else {
                 System.out.println("Failed to update comment.");
+                Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                failure.setTitle("Error..:(");
+                failure.setContentText("YThere was a probelm with updating the comment.");
+                failure.show();
             }
         } else {
             System.out.println("No changes made to the comment.");
@@ -286,7 +307,7 @@ public class RecipeDetailsViewController {
     public void handleHelpBackButton(ActionEvent event){
         try {
             //Load the navigation page FXML
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
             Scene navigationPageScene = new Scene(navigationPageParent);
 
             // Get the current stage and replace it
@@ -315,6 +336,7 @@ public class RecipeDetailsViewController {
             shareStage.setScene(new Scene(sharePageParent));
             shareStage.initModality(Modality.APPLICATION_MODAL); // This will make it so user cant interact with old window
             shareStage.show(); // Showw the new stage
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -328,10 +350,16 @@ public class RecipeDetailsViewController {
                 boolean success = favoritesController.addFavorite(userId, this.recipe);
                 if (success) {
                     System.out.println("Favorite added successfully.");
-                    // Update UI to reflect the addition
+                    Alert success1 = new Alert(Alert.AlertType.INFORMATION);
+                    success1.setTitle("Success!");
+                    success1.setContentText("You successfully added the recipe to your favorites!");
+                    success1.show();
                 } else {
                     System.out.println("Failed to add favorite.");
-                    // Optionally update UI to show failure message
+                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                    failure.setTitle("Error..:(");
+                    failure.setContentText("There was a problem adding this recipe to your favorites.");
+                    failure.show();
                 }
             } catch (Exception e) {
                 System.err.println("Error adding favorite: " + e.getMessage());
@@ -352,10 +380,17 @@ public class RecipeDetailsViewController {
                 boolean success = favoritesController.removeFavorite(userId, this.recipe);
                 if (success) {
                     System.out.println("Favorite removed successfully.");
+                    Alert success1 = new Alert(Alert.AlertType.INFORMATION);
+                    success1.setTitle("Success!");
+                    success1.setContentText("You successfully removed this recipe from your favorites!");
+                    success1.show();                   
                     
                 } else {
                     System.out.println("Failed to remove favorite.");
-                    
+                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                    failure.setTitle("Error..:(");
+                    failure.setContentText("There was a problem removing this recipe from favorites.");
+                    failure.show();                    
                 }
             } catch (Exception e) {
                 System.err.println("Failed to remove favorite: " + e.getMessage());

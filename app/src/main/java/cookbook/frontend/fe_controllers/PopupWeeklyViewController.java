@@ -154,12 +154,12 @@ public class PopupWeeklyViewController {
 
             int weeklyDinnerListId = weeklyController.ensureWeeklyDinnerListExists(userId, weekStartDate);
             if (weeklyDinnerListId == -1) {
-                System.out.println("Failed to ensure weeklyd inner list exists.");
+                System.out.println("Failed to ensure weekly dinner list exists.");
                 return;
             }
 
             if (weeklyController.recipeExistsInWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
-                System.out.println("Recipe akready exists for this week and day.");
+                System.out.println("Recipe already exists for this week and day.");
                 showAlert("Recipe already saved", "This recipe has already been saved for this day.");
             } else {
                 if (weeklyController.addRecipeToWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
