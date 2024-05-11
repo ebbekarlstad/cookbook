@@ -322,7 +322,7 @@ public class RecipeDetailsViewController {
 
     @FXML
     public void addToFavorites(ActionEvent event) {
-        Long userId = UserSession.getInstance().getUserId(); 
+        Long userId = UserSession.getInstance().getUserId();  // Ensures the user is retrieved from the session
         if (userId != null && this.recipe != null) {
             try {
                 boolean success = favoritesController.addFavorite(userId, this.recipe);
@@ -333,7 +333,13 @@ public class RecipeDetailsViewController {
                     System.out.println("Failed to add favorite.");
                     // Optionally update UI to show failure message
                 }
-
+            } catch (Exception e) {
+                System.err.println("Error adding favorite: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("UserId or Recipe is null, cannot add to favorites.");
+        }
     }
 
 
