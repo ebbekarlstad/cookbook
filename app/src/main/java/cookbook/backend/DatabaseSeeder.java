@@ -461,14 +461,16 @@ public void seedDinnerListRecipes() {
 
     // SQL command to create the table
     String createTableSQL = "CREATE TABLE `Shopping_List` (" +
-        "`ItemID` INT NOT NULL AUTO_INCREMENT," + // Auto-incrementing ID for each item
-        "`ItemName` VARCHAR(45) NOT NULL," +      // Name of the shopping item
-        "`Amount` FLOAT NOT NULL," +              // Amount of each item needed
-        "`Unit` VARCHAR(45) NOT NULL," +          // Unit of measurement for the amount
-        "`WeeklyDinnerListID` INT," +             // Reference to the weekly dinner list
-        " PRIMARY KEY (`ItemID`)," +
-        " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)" + // Foreign key linking to weekly dinner lists
-        ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+    "`UserID` INT NOT NULL," +  // Ensure there's a space between `UserID` and its type
+    "`ItemID` INT NOT NULL AUTO_INCREMENT," +  // Auto-incrementing ID for each item
+    "`ItemName` VARCHAR(45) NOT NULL," +  // Name of the shopping item
+    "`Amount` FLOAT NOT NULL," +  // Amount of each item needed
+    "`Unit` VARCHAR(45) NOT NULL," +  // Unit of measurement for the amount
+    "`WeeklyDinnerListID` INT," +  // Reference to the weekly dinner list
+    " PRIMARY KEY (`ItemID`)," +
+    " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)," + // Add a comma here
+    " FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`)" + // Foreign key linking to user
+    ");";  // Ensure the statement ends with a semicolon
 
 
     // Execute the SQL commands to seed the table
