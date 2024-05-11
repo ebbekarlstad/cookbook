@@ -54,7 +54,7 @@ public class FavoriteViewController {
     }
 
 private void loadFavoriteRecipes() {
-    Long userId = UserSession.getInstance()
+    Long userId = UserSession.getInstance().getUserId(); 
     List<Recipe> favorites = favoritesController.getFavorites(userId);
     System.out.println("Favorites for user " + userId + ": " + favorites);
     favoriteRecipes.setAll(favorites);
