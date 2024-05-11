@@ -2,6 +2,7 @@ package cookbook.frontend.fe_controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.paint.Color;
@@ -29,6 +30,8 @@ public class PopupWeeklyViewController {
     private WeeklyController weeklyController;
     private Recipe recipe;
     private Long userId = UserSession.getInstance().getUserId();
+
+    Alert a = new Alert(AlertType.INFORMATION);
 
     public void initialize() {
         try {
@@ -161,6 +164,10 @@ public class PopupWeeklyViewController {
             } else {
                 if (weeklyController.addRecipeToWeeklyList(userId, weekStartDate, recipe.getId(), day)) {
                     System.out.println("Recipe successfully added to weekly list.");
+                    a.show();
+                    a.setTitle("Success");
+                    a.setHeaderText("Recipe successfully added to weekly list.");
+                    a.setContentText("You may now go back, or add the recipe to another day/week.");
                 } else {
                     System.out.println("Failed to add recipe to weekly list.");
                 }
