@@ -29,9 +29,6 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
-import java.sql.SQLException;
-
 import java.io.IOException;
 
 public class RecipeDetailsViewController {
@@ -325,38 +322,7 @@ public class RecipeDetailsViewController {
 
     @FXML
     public void addToFavorites(ActionEvent event) {
-        //   try {
-        //       // Skriv ut userID och recipeID för att verifiera att de inte är null
-        //       System.out.println("UserId: " + (this.userId != null ? this.userId: "null"));
-        //       System.out.println("Recipe: " + (this.recipe != null ? this.recipe.getId() : "null"));
-
-        //       // Kontrollera att både userId och recipe är korrekt innan du fortsätter
-        //       if (this.userId != null && this.recipe != null) {
-        //           if (favoritesController.addFavorite(this.userId, this.recipe)) {
-        //               System.out.println("Favorite added successfully.");
-        //               // Uppdatera UI här
-        //           } else {
-        //               System.out.println("Failed to add favorite.");
-        //           }
-        //       } else {
-        //           System.out.println("UserId or Recipe is null, cannot add to favorites.");
-        //       }
-        //   } catch (Exception e) {
-        //       System.err.println("Error adding favorite: " + e.getMessage());
-        //       e.printStackTrace();
-        //   }
-        // String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
-        // try (Connection conn = myDbManager.getConnection();
-        //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        //     this.userId = 1L;
-        //     pstmt.setLong(1, userId);
-        //     pstmt.setString(2, recipe.getId());  
-        //     int affectedRows = pstmt.executeUpdate();
-        //     if ( affectedRows > 0) System.out.println("Done");;
-        // } catch (SQLException e) {
-        //   System.err.println("Error adding favorite: " + e.getMessage());
-        // }
-        favoritesController.addFavorite(UserSession.getInstance().getUserId(), recipe);
+        Long userId = UserSession.getInstance().getUserId();  // Ensures the user is retrieved from the session
     }
 
 
