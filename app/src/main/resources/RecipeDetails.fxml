@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -32,26 +33,47 @@
                <font>
                   <Font name="PT Sans Narrow" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
             <Label fx:id="titleLabel" layoutX="7.0" layoutY="-2.0" prefHeight="62.0" prefWidth="786.0" text="Recipe Title">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
+               <effect>
+                  <DropShadow height="1.62" radius="0.655" width="3.0" />
+               </effect>
             </Label>
             <TextField fx:id="commentInput" layoutX="596.0" layoutY="601.0" prefHeight="48.0" prefWidth="324.0" promptText="Write a comment ">
                <font>
-                  <Font size="29.0" />
+                  <Font size="17.0" />
                </font>
             </TextField>
-            <Button layoutX="596.0" layoutY="561.0" mnemonicParsing="false" onAction="#addComment" prefHeight="26.0" prefWidth="61.0" text="Add" />
-            <Button layoutX="827.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="26.0" prefWidth="70.0" text="Remove" />
-            <Button layoutX="671.0" layoutY="561.0" mnemonicParsing="false" onAction="#editComment" prefHeight="26.0" prefWidth="62.0" text="Edit" />
-            <Button layoutX="749.0" layoutY="561.0" mnemonicParsing="false" onAction="#updateComment" prefHeight="26.0" prefWidth="62.0" text="Update" />
+            <Button layoutX="596.0" layoutY="561.0" mnemonicParsing="false" onAction="#addComment" prefHeight="26.0" prefWidth="61.0" text="Add">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <Button layoutX="827.0" layoutY="561.0" mnemonicParsing="false" onAction="#removeComment" prefHeight="26.0" prefWidth="70.0" text="Remove">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <Button layoutX="671.0" layoutY="561.0" mnemonicParsing="false" onAction="#editComment" prefHeight="26.0" prefWidth="62.0" text="Edit">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <Button layoutX="749.0" layoutY="561.0" mnemonicParsing="false" onAction="#updateComment" prefHeight="26.0" prefWidth="62.0" text="Update">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
             
-            <Label layoutX="8.0" layoutY="61.0" prefHeight="30.0" prefWidth="192.0" text="Short Description: " textFill="#db5442" wrapText="true">
+            <Label layoutX="8.0" layoutY="61.0" prefHeight="30.0" prefWidth="273.0" text="Short Description: " textFill="#db5442" wrapText="true">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
+               <effect>
+                  <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
+               </effect>
             </Label>
             
             <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="7.0" layoutY="92.0" prefHeight="86.0" prefWidth="768.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
@@ -60,10 +82,13 @@
                </font>
             </Label>
             
-            <Label layoutX="8.0" layoutY="377.0" prefHeight="40.0" prefWidth="184.0" text="Instruction:" textFill="#db5442" wrapText="true">
+            <Label layoutX="8.0" layoutY="377.0" prefHeight="40.0" prefWidth="184.0" text="Instructions:" textFill="#db5442" wrapText="true">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
+               <effect>
+                  <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
+               </effect>
             </Label>
             
             <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="416.0" prefHeight="188.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
@@ -71,14 +96,23 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="addToFavorites" layoutX="786.0" layoutY="69.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="46.0" prefWidth="134.0" text="Add to favorite" />
-            <Button fx:id="removeFromFavorites" layoutX="786.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="46.0" prefWidth="134.0" text="Remove from favorite" />
-            <Label fx:id="commentsLabel" layoutX="689.0" layoutY="181.0" prefHeight="26.0" prefWidth="120.0" text="Comments" textFill="#db5442">
+            <Button fx:id="addToFavorites" layoutX="786.0" layoutY="69.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="46.0" prefWidth="134.0" text="Add to favorite">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <Button fx:id="removeFromFavorites" layoutX="786.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="46.0" prefWidth="134.0" text="Remove from favorite">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <Label fx:id="commentsLabel" layoutX="701.0" layoutY="184.0" prefHeight="26.0" prefWidth="120.0" text="Comments" textFill="#db5442">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
+               <effect>
+                  <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
+               </effect>
             </Label>
-             <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="13.0" layoutY="181.0" prefHeight="196.0" prefWidth="551.0">
+             <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="20.0" layoutY="161.0" prefHeight="196.0" prefWidth="551.0">
                  <columns>
                      <TableColumn fx:id="ingredientColumn" prefWidth="159.20001220703125" text="Ingredient" />
                      <TableColumn fx:id="amountColumn" prefWidth="149.60003662109375" text="Amount" />
@@ -89,15 +123,24 @@
                  </columnResizePolicy>
              </TableView>
 
-            <Button fx:id="shareRecipeButton" layoutX="657.0" layoutY="17.0" mnemonicParsing="false" onAction="#shareRecipe" text="Share Recipe" />
-            <Button layoutX="37.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleweekButtonAction" prefHeight="46.0" prefWidth="140" text="Add to weekly list" />
-            <TextField fx:id="MultipliedAmount" alignment="CENTER" layoutX="310.0" layoutY="619.0" prefHeight="25.0" prefWidth="54.0" promptText="1.0" />
-            <Button fx:id="LessPersons" layoutX="282.0" layoutY="619.0" mnemonicParsing="false" onAction="#DecrementPeople" prefHeight="25.0" prefWidth="27.0" text="-" />
-            <Button fx:id="MorePersons" layoutX="364.0" layoutY="619.0" mnemonicParsing="false" onAction="#IncrementPeople" prefHeight="25.0" prefWidth="27.0" text="+" />
+            <Button fx:id="shareRecipeButton" layoutX="657.0" layoutY="17.0" mnemonicParsing="false" onAction="#shareRecipe" text="Share Recipe">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <Button layoutX="37.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleweekButtonAction" prefHeight="46.0" prefWidth="140" text="Add to weekly list">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
+            <TextField fx:id="MultipliedAmount" alignment="CENTER" layoutX="324.0" layoutY="622.0" prefHeight="25.0" prefWidth="54.0" promptText="1.0" />
+            <Button fx:id="LessPersons" layoutX="296.0" layoutY="622.0" mnemonicParsing="false" onAction="#DecrementPeople" prefHeight="25.0" prefWidth="27.0" text="-" />
+            <Button fx:id="MorePersons" layoutX="378.0" layoutY="622.0" mnemonicParsing="false" onAction="#IncrementPeople" prefHeight="25.0" prefWidth="27.0" text="+" />
             <Text layoutX="238.0" layoutY="608.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adjust number of people">
                <font>
                   <Font size="18.0" />
                </font>
+               <effect>
+                  <DropShadow height="1.62" radius="0.655" width="3.0" />
+               </effect>
             </Text>
          </children>
         </AnchorPane>

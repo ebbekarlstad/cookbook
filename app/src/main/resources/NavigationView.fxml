@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -30,7 +30,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.85" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
@@ -130,11 +130,6 @@
                   <DropShadow />
                </effect>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="38.0" layoutY="293.0">
-               <image>
-                  <Image url="@images/Shoppinglist.png" />
-               </image>
-            </ImageView>
             <Button fx:id="" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
@@ -183,9 +178,17 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="703.0" fitWidth="603.0" layoutX="340.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="702.0" fitWidth="500.0" layoutX="337.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/chef-cooking-kitchen-while-wearing-professional-attire.jpg" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="50.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/ShoppingList.png" />
                </image>
                <effect>
                   <DropShadow />
