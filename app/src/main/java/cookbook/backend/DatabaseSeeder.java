@@ -394,13 +394,8 @@ public class DatabaseSeeder {
         "PRIMARY KEY (`WeeklyDinnerListID`), " +
         "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
 
-    String seedDataSQL = "INSERT INTO `weekly_dinner_lists` (`UserID`, `Week`) VALUES " +
-        "(1, '2024-05-06'), " +  // Assuming user 1 is a valid user ID
-        "(1, '2024-05-13');";    // Additional weeks can be added similarly
-
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
-    seedTable(seedDataSQL);
 }
 
 
@@ -419,17 +414,9 @@ public void seedDinnerListRecipes() {
       "CONSTRAINT `WeeklyDinnerListID0` FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists` (`WeeklyDinnerListID`)" +
       ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
-  // Here we assume '1' is the WeeklyDinnerListID returned after inserting the week '2024-05-06'.
-  String seedDataSQL = "INSERT INTO `dinner_list_recipes` (WeeklyDinnerListID, RecipeID, DayOfWeek) VALUES " +
-      "(1, '1', 'Monday'), " +
-      "(1, '2', 'Tuesday'), " +
-      "(1, '3', 'Wednesday'), " +
-      "(1, '4', 'Thursday'), " +
-      "(1, '5', 'Friday');";  // Ensure the recipe IDs match those inserted in seedRecipes.
-
   seedTable(dropTableSQL);
   seedTable(createTableSQL);
-  seedTable(seedDataSQL);
+
 }
 
   public void seedSentRecipes() {
