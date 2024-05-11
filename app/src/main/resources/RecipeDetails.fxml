@@ -89,7 +89,7 @@
                </font>
             </Label>
             
-            <Label layoutX="8.0" layoutY="377.0" prefHeight="40.0" prefWidth="184.0" text="Instructions" textFill="#db5442" wrapText="true">
+            <Label layoutX="15.0" layoutY="380.0" prefHeight="40.0" prefWidth="184.0" text="Instructions" textFill="#db5442" wrapText="true">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
@@ -98,7 +98,7 @@
                </effect>
             </Label>
             
-            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="416.0" prefHeight="188.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
+            <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="15.0" layoutY="420.0" prefHeight="188.0" prefWidth="574.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
