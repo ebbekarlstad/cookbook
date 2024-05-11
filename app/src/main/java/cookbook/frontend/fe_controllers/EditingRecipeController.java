@@ -1,9 +1,14 @@
 package cookbook.frontend.fe_controllers;
 
+import cookbook.backend.be_controllers.IngredientController;
 import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_objects.AmountOfIngredients;
+import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.UserSession;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,15 +20,31 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class EditingRecipeController {
+
+  @FXML
+  private TableView<AmountOfIngredients> ingredientTable;
+  @FXML
+  private TableColumn<AmountOfIngredients, String> ingredientColumn;
+  @FXML
+  private TableColumn<AmountOfIngredients, String> amountColumn;
+  @FXML
+  private TableColumn<AmountOfIngredients, String> unitColumn;
+
+  private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
 
   @FXML
   private Button EditIngredient;
@@ -76,13 +97,15 @@ public class EditingRecipeController {
   @FXML
   private ComboBox<String> unit;
 
+  Recipe recipe;
+
   private void loadRecipes() throws SQLException {
     List<Recipe> recipes = RecipeController.getRecipesByUserID(UserSession.getInstance().getUserId());
     RecipesComboBox.setItems(FXCollections.observableArrayList(recipes));
     RecipesComboBox.setConverter(new StringConverter<Recipe>() {
-
+      @Override
       public java.lang.String toString(Recipe recipe) {
-        return (recipe != null) ? recipe.getRecipeName() : "Select user";
+        return (recipe != null) ? recipe.getRecipeName() : "Select recipe";
       }
 
       @Override
@@ -90,6 +113,85 @@ public class EditingRecipeController {
         return null;
       }
     });
+
+    if (!recipes.isEmpty()) {
+      RecipesComboBox.setValue(recipes.get(0)); // Set default selected recipe if list is not empty
+    }
+
+    RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+      if (newValue != null) {
+          initData();
+      }
+    });
+}
+
+  private Ingredient fetchIngredientDetails(String ingredientID) {
+    try {
+      // Retrieve ingredient details from the database using IngredientController queries that is already been specified
+      List<Ingredient> ingredients = IngredientController.getIngredients();
+      for (Ingredient ingredient : ingredients) {
+        if (ingredient.getIngredientID().equals(ingredientID)) {
+          return ingredient;
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private void fetchIngredientsFromDatabase(String recipeID) {
+    try {
+      // I should implement the DBmanager class inside of here somehow but will change it later.
+      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
+      statement.setString(1, recipeID);
+      // Execute query to fetch ingredients
+      ResultSet resultSet = statement.executeQuery();
+      // Process the result set with a while loop
+      while (resultSet.next()) {
+        String ingredientID = resultSet.getString("IngredientID");
+        String amount = resultSet.getString("Amount");
+        String unit = resultSet.getString("Unit");
+        Ingredient ingredient = fetchIngredientDetails(ingredientID);
+        AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
+        ingredients.add(amountOfIngredient);
+      }
+      resultSet.close();
+      statement.close();
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    // Set the items of the table view to the list of ingredients
+    ingredientTable.setItems(ingredients);
+  }
+
+  public void initData() {
+    Recipe selectedRecipe = RecipesComboBox.getValue();
+    // Set the recipe information
+
+    ingredientColumn.setCellValueFactory(cellData -> {
+        AmountOfIngredients ingredient = cellData.getValue();
+        Ingredient ingredientObject = ingredient.getIngredient();
+        if (ingredientObject != null) {
+            return new SimpleStringProperty(ingredientObject.getIngredientName());
+        } else {
+            return new SimpleStringProperty("Null Ingredient");
+        }
+    });
+    amountColumn.setCellValueFactory(cellData -> {
+        AmountOfIngredients ingredient = cellData.getValue();
+        return new SimpleStringProperty(String.valueOf(ingredient.getAmount()));
+    });
+    unitColumn.setCellValueFactory(cellData -> {
+        AmountOfIngredients ingredient = cellData.getValue();
+        return new SimpleStringProperty(ingredient.getUnit());
+    });
+
+    //Fetches everything from the databse and inserts it in the Table View
+    fetchIngredientsFromDatabase(selectedRecipe.getId());
+
   }
 
   @FXML
