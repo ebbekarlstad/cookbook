@@ -4,11 +4,23 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="183.0" prefWidth="240.0" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShareDialogController">
-    <Label text="Share Recipe" />
+    <Label text="Share Recipe">
+      <font>
+         <Font name="System Bold" size="13.0" />
+      </font></Label>
     <ComboBox fx:id="recipientComboBox" promptText="Select a recipient" />
-    <TextField fx:id="messageField" prefHeight="24.0" prefWidth="214.0" promptText="Add a message" />
-    <Button onAction="#sendShare" text="Send" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" />
+    <TextField fx:id="messageField" prefHeight="24.0" prefWidth="214.0" promptText="Add a message">
+      <effect>
+         <DropShadow />
+      </effect></TextField>
+    <Button onAction="#sendShare" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Send" />
+   <effect>
+      <InnerShadow />
+   </effect>
 </VBox>
