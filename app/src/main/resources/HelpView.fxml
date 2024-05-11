@@ -21,7 +21,7 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="679.0" prefWidth="903.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
+            <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="30.0" prefWidth="120.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back &gt;">
                <font>
                   <Font name="PT Sans Narrow" size="14.0" />
                </font>
@@ -33,7 +33,7 @@
                </font>
             </Text>
             <TextField fx:id="searchByNameField" layoutX="17.0" layoutY="58.0" prefHeight="51.0" prefWidth="242.0" promptText="Enter keyword here..." style="-fx-background-color: White;" />
-            <Button fx:id="searchByNameButton" layoutX="46.0" layoutY="120.0" mnemonicParsing="false" onAction="#searchHelp" prefHeight="26.0" prefWidth="183.0" text="Search" />
+            <Button fx:id="searchByNameButton" layoutX="46.0" layoutY="120.0" mnemonicParsing="false" onAction="#searchHelp" prefHeight="26.0" prefWidth="183.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search" />
             <TextArea fx:id="helpResultField" editable="false" layoutX="293.0" layoutY="48.0" prefHeight="631.0" prefWidth="633.0" style="-fx-background-color: White;" wrapText="true">
                <font>
                   <Font name="System Bold" size="22.0" />

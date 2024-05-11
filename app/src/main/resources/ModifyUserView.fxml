@@ -72,23 +72,15 @@
                   <Blend mode="MULTIPLY" />
                </effect>
             </ImageView>
-            <TextField fx:id="newUsernameField" layoutX="383.0" layoutY="295.0" prefHeight="25.0" prefWidth="164.0">
+            <TextField fx:id="newUsernameField" layoutX="383.0" layoutY="295.0" prefHeight="25.0" prefWidth="164.0" promptText="New Username">
                <effect>
                   <DropShadow />
                </effect></TextField>
-            <Text fill="WHITE" layoutX="138.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Username" wrappingWidth="202.000020345052">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
             <ComboBox fx:id="userComboBox" layoutX="638.0" layoutY="245.0" prefHeight="25.0" prefWidth="229.0">
                <effect>
                   <DropShadow />
                </effect></ComboBox>
-            <Button fx:id="submitButton" layoutX="403.0" layoutY="468.0" mnemonicParsing="false" onAction="#submitUserChanges" prefHeight="29.0" prefWidth="124.0" text="Submit">
+            <Button fx:id="submitButton" layoutX="403.0" layoutY="468.0" mnemonicParsing="false" onAction="#submitUserChanges" prefHeight="29.0" prefWidth="124.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Submit">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -122,31 +114,15 @@
                   </DropShadow>
                </effect>
             </Text>
-            <Text fill="WHITE" layoutX="138.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New DisplayName" wrappingWidth="229.0">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <TextField fx:id="newDisplayNameField" layoutX="383.0" layoutY="349.0" prefHeight="25.0" prefWidth="164.0">
+            <TextField fx:id="newDisplayNameField" layoutX="383.0" layoutY="349.0" prefHeight="25.0" prefWidth="164.0" promptText="New Displayname">
                <effect>
                   <DropShadow />
                </effect></TextField>
-            <Text fill="WHITE" layoutX="138.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Password" wrappingWidth="191.0">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-            <TextField fx:id="newPasswordField" layoutX="383.0" layoutY="405.0" prefHeight="25.0" prefWidth="164.0">
+            <TextField fx:id="newPasswordField" layoutX="383.0" layoutY="405.0" prefHeight="25.0" prefWidth="164.0" promptText="New Password">
                <effect>
                   <DropShadow />
                </effect></TextField>
-            <Button fx:id="deleteButton" layoutX="403.0" layoutY="524.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="29.0" prefWidth="124.0" text="Delete User">
+            <Button fx:id="deleteButton" layoutX="403.0" layoutY="524.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="29.0" prefWidth="124.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Delete User">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -154,7 +130,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button layoutX="813.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleBackButton" text="Back">
+            <Button layoutX="813.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleBackButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Back">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>

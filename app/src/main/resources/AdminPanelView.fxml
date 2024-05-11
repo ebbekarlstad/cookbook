@@ -76,15 +76,15 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="registerUserButton" layoutX="322.0" layoutY="375.0" mnemonicParsing="false" onAction="#redirectToRegister" text="Register User">
+            <Button fx:id="registerUserButton" layoutX="322.0" layoutY="375.0" mnemonicParsing="false" onAction="#redirectToRegister" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Register User">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button layoutX="503.0" layoutY="375.0" mnemonicParsing="false" onAction="#redirectToModify" prefHeight="24.0" prefWidth="106.0" text="Modify User">
+            <Button layoutX="503.0" layoutY="375.0" mnemonicParsing="false" onAction="#redirectToModify" prefHeight="24.0" prefWidth="106.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Modify User">
                <effect>
                   <DropShadow />
                </effect></Button>
-            <Button layoutX="808.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleLogoutButton" text="Logout">
+            <Button layoutX="808.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Logout">
                <effect>
                   <DropShadow />
                </effect></Button>
