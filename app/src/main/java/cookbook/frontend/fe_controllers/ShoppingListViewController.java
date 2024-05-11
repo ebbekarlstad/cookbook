@@ -1,6 +1,24 @@
 package cookbook.frontend.fe_controllers;
 
-import cookbook.backend.be_objects.IngredientInfo;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Date;  // Use java.sql.Date for SQL date handling
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,19 +27,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-import java.sql.*;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.temporal.WeekFields;
-import java.util.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Paths;
-
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
+
+import cookbook.backend.be_objects.IngredientInfo;
+import cookbook.backend.be_objects.UserSession;
+
+
 
 public class ShoppingListViewController {
 
@@ -69,25 +83,29 @@ public class ShoppingListViewController {
      * Loads weeks from the database and populates the weeksList ListView with week ranges.
      * Each week range is represented by its starting and ending dates along with a week number.
      */
-    private void loadWeeks() {
-        ObservableList<String> weeks = FXCollections.observableArrayList(); // List to hold week ranges for the UI
-        String sql = "SELECT MIN(Week) AS StartDate, MAX(Week) AS EndDate FROM weekly_dinner_lists " +
-                "GROUP BY YEAR(Week), WEEK(Week) ORDER BY YEAR(Week) DESC, WEEK(Week) DESC";
-        try (Connection conn = connect(); // Establish a database connection
-             PreparedStatement pstmt = conn.prepareStatement(sql); // Prepare SQL query
-             ResultSet rs = pstmt.executeQuery()) { // Execute query and get the result set
+private void loadWeeks() {
+    ObservableList<String> weeks = FXCollections.observableArrayList();
+    // Updated SQL query to filter weeks by user ID
+    String sql = "SELECT MIN(Week) AS StartDate, MAX(Week) AS EndDate FROM weekly_dinner_lists " +
+            "WHERE UserID = ? GROUP BY YEAR(Week), WEEK(Week) ORDER BY YEAR(Week) DESC, WEEK(Week) DESC";
+    try (Connection conn = connect();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setLong(1, UserSession.getInstance().getUserId());  // Set user ID from session
+        try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                LocalDate startDate = rs.getDate("StartDate").toLocalDate(); // Get the start date of the week
-                LocalDate endDate = rs.getDate("EndDate").toLocalDate(); // Get the end date of the week
-                int weekNumber = startDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()); // Calculate week number
-                String weekDisplay = "Week " + weekNumber + " (" + startDate + " to " + endDate + ")"; // Format display string for the week
-                weeks.add(weekDisplay); // Add the formatted week range to the list
+                LocalDate startDate = rs.getDate("StartDate").toLocalDate();
+                LocalDate endDate = rs.getDate("EndDate").toLocalDate();
+                int weekNumber = startDate.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+                String weekDisplay = "Week " + weekNumber + " (" + startDate + " to " + endDate + ")";
+                weeks.add(weekDisplay);
             }
-        } catch (SQLException e) {
-            System.out.println("Error loading weeks: " + e.getMessage()); // Log error if the SQL operation fails
         }
-        weeksList.setItems(weeks); // Set the items in the ListView to the loaded week ranges
+    } catch (SQLException e) {
+        System.out.println("Error loading weeks: " + e.getMessage());
     }
+    weeksList.setItems(weeks);
+}
+
 
 
     /**
@@ -203,43 +221,32 @@ public class ShoppingListViewController {
      * @param weekDisplay A string representation of the week, typically formatted as "Week <number> (startDate to endDate)"
      */
     private void loadShoppingListItems(String weekDisplay) {
-        // Initialize an observable list to hold the shopping list items for display in the UI
-        ObservableList<String> shoppingItems = FXCollections.observableArrayList();
-
-        // Split the weekDisplay string to extract the start and end dates
-        String[] parts = weekDisplay.split(" to ");
-        String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
-        String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
-
-        // SQL query to fetch shopping list items for the specified week range
-        String sql = "SELECT ItemName, Amount, Unit FROM Shopping_List " +
-                "JOIN weekly_dinner_lists ON Shopping_List.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
-                "WHERE weekly_dinner_lists.Week BETWEEN ? AND ?";
-
-        // Establish a database connection and prepare the SQL statement
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, Date.valueOf(startDatePart)); // Set the start date parameter in the SQL query
-            pstmt.setDate(2, Date.valueOf(endDatePart));   // Set the end date parameter in the SQL query
-
-            // Execute the query and process the result set
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    // Format each shopping list item detail and add it to the observable list
-                    String itemDetail = rs.getString("ItemName") + " - " +
-                            rs.getFloat("Amount") + " " +
-                            rs.getString("Unit");
-                    shoppingItems.add(itemDetail);
-                }
-            }
-        } catch (SQLException e) {
-            // Log the SQL error if there is an issue loading the shopping list items
-            System.out.println("Error loading shopping list items: " + e.getMessage());
-        }
-
-        // Update the ShoppingList ListView with the loaded items
-        ShoppingList.setItems(shoppingItems);
-    }
+      ObservableList<String> shoppingItems = FXCollections.observableArrayList();
+      String[] parts = weekDisplay.split(" to ");
+      String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+      String endDatePart = parts[1].substring(0, parts[1].indexOf(')'));
+  
+      String sql = "SELECT ItemName, Amount, Unit FROM Shopping_List " +
+              "JOIN weekly_dinner_lists ON Shopping_List.WeeklyDinnerListID = weekly_dinner_lists.WeeklyDinnerListID " +
+              "WHERE weekly_dinner_lists.Week BETWEEN ? AND ? AND weekly_dinner_lists.UserID = ?";
+      try (Connection conn = connect();
+           PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setDate(1, java.sql.Date.valueOf(startDatePart));
+          pstmt.setDate(2, java.sql.Date.valueOf(endDatePart));
+          pstmt.setLong(3, UserSession.getInstance().getUserId());  // Set user ID from session
+          try (ResultSet rs = pstmt.executeQuery()) {
+              while (rs.next()) {
+                  String itemDetail = rs.getString("ItemName") + " - " + rs.getFloat("Amount") + " " + rs.getString("Unit");
+                  shoppingItems.add(itemDetail);
+              }
+          }
+      } catch (SQLException e) {
+          System.out.println("Error loading shopping list items: " + e.getMessage());
+      }
+      ShoppingList.setItems(shoppingItems);
+  }
+  
+  
 
 
     /**
@@ -248,53 +255,59 @@ public class ShoppingListViewController {
      *
      * @param event The action event triggered by the user interaction.
      */
-    @FXML
-    void addIngredient(ActionEvent event) {
-        // Retrieve the selected ingredients from the ingredients list UI component
-        ObservableList<String> selectedIngredients = ingredientsList.getSelectionModel().getSelectedItems();
+@FXML
+void addIngredient(ActionEvent event) {
+    // Retrieve the selected ingredients from the ingredients list UI component
+    ObservableList<String> selectedIngredients = ingredientsList.getSelectionModel().getSelectedItems();
 
-        // Check if no ingredients are selected and exit the method if true
-        if (selectedIngredients.isEmpty()) {
-            return;  // No ingredient selected, so do nothing
-        }
-
-        // Extract the week identifier from the UI and parse its start date
-        String weekDisplay = weeksList.getSelectionModel().getSelectedItem();
-        String[] parts = weekDisplay.split(" to ");
-        String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
-
-        // Retrieve the WeeklyDinnerListID from the database based on the week's start date
-        int weeklyDinnerListID = getWeeklyDinnerListID(Date.valueOf(startDatePart));
-
-        // Establish a database connection and prepare to insert new shopping list items
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Shopping_List (ItemName, Amount, Unit, WeeklyDinnerListID) VALUES (?, ?, ?, ?)")) {
-            // Loop through each selected ingredient and prepare it for batch insertion
-            for (String ingredientDetail : selectedIngredients) {
-                String[] ingredientParts = ingredientDetail.split(" - ");
-                String itemName = ingredientParts[0];
-                String amountUnit = ingredientParts[1];
-                String[] amountUnitParts = amountUnit.split(" ");
-                String amount = amountUnitParts[0];
-                String unit = amountUnitParts[1];
-
-                // Set parameters for the prepared statement
-                pstmt.setString(1, itemName);
-                pstmt.setFloat(2, Float.parseFloat(amount));
-                pstmt.setString(3, unit);
-                pstmt.setInt(4, weeklyDinnerListID);
-                pstmt.addBatch();
-            }
-            // Execute the batch of inserts
-            pstmt.executeBatch();
-        } catch (SQLException e) {
-            // Handle SQL exceptions by logging the error
-            System.out.println("Error adding ingredient to shopping list: " + e.getMessage());
-        }
-
-        // Refresh the shopping list in the UI to reflect the newly added items
-        loadShoppingListItems(weekDisplay);
+    // Check if no ingredients are selected and exit the method if true
+    if (selectedIngredients.isEmpty()) {
+        return;  // No ingredient selected, so do nothing
     }
+
+    // Extract the week identifier from the UI and parse its start date
+    String weekDisplay = weeksList.getSelectionModel().getSelectedItem();
+    String[] parts = weekDisplay.split(" to ");
+    String startDatePart = parts[0].substring(parts[0].indexOf('(') + 1);
+
+    // Retrieve the WeeklyDinnerListID from the database based on the week's start date
+    int weeklyDinnerListID = getWeeklyDinnerListID(Date.valueOf(startDatePart));
+
+    // Establish a database connection and prepare to insert new shopping list items
+    try (Connection conn = connect();
+         PreparedStatement pstmt = conn.prepareStatement(
+            "INSERT INTO Shopping_List (UserID, ItemName, Amount, Unit, WeeklyDinnerListID) VALUES (?, ?, ?, ?, ?)")) {
+        // Get the current user's ID from the session
+        Long currentUserId = UserSession.getInstance().getUserId();
+
+        // Loop through each selected ingredient and prepare it for batch insertion
+        for (String ingredientDetail : selectedIngredients) {
+            String[] ingredientParts = ingredientDetail.split(" - ");
+            String itemName = ingredientParts[0];
+            String amountUnit = ingredientParts[1];
+            String[] amountUnitParts = amountUnit.split(" ");
+            String amount = amountUnitParts[0];
+            String unit = amountUnitParts[1];
+
+            // Set parameters for the prepared statement
+            pstmt.setLong(1, currentUserId);  // Set UserID from the session
+            pstmt.setString(2, itemName);
+            pstmt.setFloat(3, Float.parseFloat(amount));
+            pstmt.setString(4, unit);
+            pstmt.setInt(5, weeklyDinnerListID);
+            pstmt.addBatch();
+        }
+        // Execute the batch of inserts
+        pstmt.executeBatch();
+    } catch (SQLException e) {
+        // Handle SQL exceptions by logging the error
+        System.out.println("Error adding ingredient to shopping list: " + e.getMessage());
+    }
+
+    // Refresh the shopping list in the UI to reflect the newly added items
+    loadShoppingListItems(weekDisplay);
+}
+
 
 
     /**
