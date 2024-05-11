@@ -90,7 +90,7 @@
              </TableView>
 
             <Button fx:id="shareRecipeButton" layoutX="657.0" layoutY="17.0" mnemonicParsing="false" onAction="#shareRecipe" text="Share Recipe" />
-            <Button layoutX="37.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleweekButtonAction" prefHeight="40.0" prefWidth="93.0" text="Button" />
+            <Button layoutX="37.0" layoutY="611.0" mnemonicParsing="false" onAction="#handleweekButtonAction" prefHeight="46.0" prefWidth="140" text="Add to weekly list" />
             <TextField fx:id="MultipliedAmount" alignment="CENTER" layoutX="310.0" layoutY="619.0" prefHeight="25.0" prefWidth="54.0" promptText="1.0" />
             <Button fx:id="LessPersons" layoutX="282.0" layoutY="619.0" mnemonicParsing="false" onAction="#DecrementPeople" prefHeight="25.0" prefWidth="27.0" text="-" />
             <Button fx:id="MorePersons" layoutX="364.0" layoutY="619.0" mnemonicParsing="false" onAction="#IncrementPeople" prefHeight="25.0" prefWidth="27.0" text="+" />
