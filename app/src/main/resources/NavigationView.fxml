@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -22,107 +24,175 @@
           </items>
         </Menu>
       </menus>
+         <effect>
+            <DropShadow />
+         </effect>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.48" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.85" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="703.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="340.0" />
-            <Button fx:id="newRecipeButton" layoutX="22.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" text="    New Recipe" textAlignment="RIGHT">
+            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" text="New Recipe" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <Button layoutX="22.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" text="          Browse Recipes" textAlignment="RIGHT">
+            <Button alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" text="Browse Recipes" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="67.0" layoutX="22.0" layoutY="159.0">
+            <ImageView fitHeight="50.0" fitWidth="67.0" layoutX="37.0" layoutY="159.0">
                <image>
                   <Image url="@images/search.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="39.0" layoutY="42.0">
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="56.0" layoutY="42.0">
                <image>
                   <Image url="@images/plus.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <Button layoutX="22.0" layoutY="503.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
+            <Button alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="503.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" text=" My Inbox">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
             <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="503.0">
                <image>
                   <Image url="@images/mail.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <Button fx:id="help_button" layoutX="22.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
+            <Button fx:id="help_button" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" text="Get Help">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
             <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="567.0">
                <image>
                   <Image url="@images/question.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <Button fx:id="favoriteButton" layoutX="22.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Favorite" textAlignment="RIGHT">
+            <Button fx:id="favoriteButton" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" text="Favorites" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="35.0" layoutY="227.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="49.0" layoutY="229.0">
                <image>
                   <Image url="@images/star.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <Button fx:id="favoriteButton1" layoutX="22.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="RIGHT">
+            <Button fx:id="favoriteButton1" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" text="Shopping List" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="38.0" layoutY="293.0">
-               <image>
-                  <Image url="@images/Shoppinglist.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="" layoutX="22.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="RIGHT">
+            <Button fx:id="" alignment="BOTTOM_RIGHT" layoutX="35.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" text="Weekly " textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="37.0" layoutY="355.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="50.0" layoutY="356.0">
                <image>
                   <Image url="@images/weekly.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
-            <Button fx:id="logoutButton" layoutX="22.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="50.0" prefWidth="189.0" text="Logout">
+            <Button fx:id="logoutButton" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="50.0" prefWidth="189.0" text="Logout">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <Button fx:id="1" layoutX="21.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleUserCreatedRecipesButtonAction" prefHeight="52.0" prefWidth="272.0" text="My Own Recipes" textAlignment="RIGHT">
+            <Button fx:id="1" alignment="BOTTOM_RIGHT" layoutX="34.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleUserCreatedRecipesButtonAction" prefHeight="52.0" prefWidth="272.0" text="My Own Recipes" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Button>
-            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="33.0" layoutY="99.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="49.0" layoutY="100.0">
                <image>
                   <Image url="@images/user_svg.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="39.0" layoutY="632.0">
                <image>
                   <Image url="@images/logout.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitHeight="702.0" fitWidth="500.0" layoutX="337.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/chef-cooking-kitchen-while-wearing-professional-attire.jpg" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="50.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/ShoppingList.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
       </children>
     </AnchorPane>

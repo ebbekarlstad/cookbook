@@ -40,7 +40,9 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -49,7 +51,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.LoginViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.LoginViewController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -62,31 +64,52 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="703.0" fitWidth="934.0" layoutX="-0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="703.0" fitWidth="934.0" layoutX="-0.0" layoutY="0.0" opacity="0.85" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
+               <effect>
+                  <Blend mode="MULTIPLY" />
+               </effect>
             </ImageView>
-            <TextField fx:id="usernameField" layoutX="382.0" layoutY="352.0" />
-            <PasswordField fx:id="passwordField" layoutX="382.0" layoutY="390.0" />
+            <TextField fx:id="usernameField" layoutX="382.0" layoutY="352.0">
+               <effect>
+                  <DropShadow />
+               </effect></TextField>
+            <PasswordField fx:id="passwordField" layoutX="382.0" layoutY="390.0">
+               <effect>
+                  <DropShadow />
+               </effect></PasswordField>
             <Button fx:id="loadNavButton" layoutX="435.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleLoginButton" text="LOGIN">
                <font>
                   <Font name="System Bold" size="13.0" />
-               </font></Button>
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect></Button>
             <ProgressIndicator fx:id="loginProgress" layoutX="441.0" layoutY="364.0" prefHeight="119.0" prefWidth="52.0" visible="false" />
             <Label fx:id="errorLabel" alignment="TOP_CENTER" layoutX="362.0" layoutY="424.0" prefHeight="16.0" prefWidth="211.0" textAlignment="CENTER" textFill="red" />
-            <Text layoutX="296.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+            <Text fill="WHITE" layoutX="296.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
                <font>
                   <Font name="SansSerif Bold" size="13.0" />
-               </font></Text>
-            <Text layoutX="297.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect></Text>
+            <Text fill="WHITE" layoutX="297.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                <font>
                   <Font name="SansSerif Bold" size="13.0" />
-               </font></Text>
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect></Text>
             <ImageView fitHeight="235.0" fitWidth="222.0" layoutX="356.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/user_svg.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <Text fill="#fff1e4" layoutX="344.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN">
                <font>
@@ -103,4 +126,7 @@
       </children>
     </AnchorPane>
   </children>
+   <effect>
+      <InnerShadow />
+   </effect>
 </VBox>

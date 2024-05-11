@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShoppingListViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.ShoppingListViewController">
     <children>
         <MenuBar prefHeight="0.0" prefWidth="633.0" VBox.vgrow="NEVER">
             <menus>
@@ -24,44 +29,129 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
             <children>
-                <Text layoutX="55.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shopping List" wrappingWidth="247.1171875">
-                    <font>
-                        <Font size="38.0" />
-                    </font>
-                </Text>
-                <Button fx:id="back" layoutX="800.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #FFE5B4;" text="Go back &gt;">
+            <ImageView fitHeight="703.0" fitWidth="934.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/abstract-textured-backgound.jpg" />
+               </image>
+               <viewport>
+                  <Rectangle2D height="703.0" width="934.0" />
+               </viewport>
+               <effect>
+                  <Blend mode="MULTIPLY" />
+               </effect>
+            </ImageView>
+                <Button fx:id="back" layoutX="811.0" layoutY="15.0" mnemonicParsing="false" onAction="#backButton" prefHeight="24.0" prefWidth="99.0" text="Go Back &gt;">
                     <font>
                         <Font name="PT Sans Narrow" size="14.0" />
                     </font>
+               <effect>
+                  <DropShadow />
+               </effect>
                 </Button>
-                <ListView fx:id="weeksList" layoutX="14.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-                <ListView fx:id="dishesList" layoutX="227.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-                <ListView fx:id="ingredientsList" layoutX="446.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0" />
-                <Label layoutX="73.0" layoutY="97.0" text="Weeks">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <Label layoutX="289.0" layoutY="97.0" text="Dishes">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <Label layoutX="490.0" layoutY="97.0" text="Ingredients">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <ListView fx:id="ShoppingList" layoutX="666.0" layoutY="129.0" prefHeight="396.0" prefWidth="200.0" />
-                <Label layoutX="714.0" layoutY="95.0" text="Shopping List">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-                <Button layoutX="452.0" layoutY="526.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping List" />
-                <Button layoutX="673.0" layoutY="580.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate" />
-                <Button fx:id="ModifyIngredient" layoutX="792.0" layoutY="539.0" mnemonicParsing="false" onAction="#ModifyIngredient" text="Modify" />
-                <Button fx:id="DeleteIngredient" layoutX="686.0" layoutY="539.0" mnemonicParsing="false" onAction="#DeleteIngredient" text="Delete" />
+                <ListView fx:id="weeksList" layoutX="14.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0">
+               <effect>
+                  <DropShadow />
+               </effect></ListView>
+                <ListView fx:id="dishesList" layoutX="227.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0">
+               <effect>
+                  <DropShadow />
+               </effect></ListView>
+                <ListView fx:id="ingredientsList" layoutX="446.0" layoutY="131.0" prefHeight="396.0" prefWidth="200.0">
+               <effect>
+                  <DropShadow />
+               </effect></ListView>
+                <ListView fx:id="ShoppingList" layoutX="666.0" layoutY="129.0" prefHeight="396.0" prefWidth="200.0">
+               <effect>
+                  <DropShadow />
+               </effect></ListView>
+                <Button layoutX="453.0" layoutY="540.0" mnemonicParsing="false" onAction="#addIngredient" prefHeight="26.0" prefWidth="187.0" text="Add To Shopping Lst">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+                <Button layoutX="673.0" layoutY="579.0" mnemonicParsing="false" onAction="#generateShoppingListFile" prefHeight="26.0" prefWidth="187.0" text="Generate">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+                <Button fx:id="ModifyIngredient" layoutX="798.0" layoutY="541.0" mnemonicParsing="false" onAction="#ModifyIngredient" text="Modify">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+                <Button fx:id="DeleteIngredient" layoutX="673.0" layoutY="541.0" mnemonicParsing="false" onAction="#DeleteIngredient" text="Delete">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+            <Text fill="#fff1e4" layoutX="278.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shopping List">
+               <font>
+                  <Font name="SansSerif Bold" size="49.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
+                     <color>
+                        <Color opacity="0.8836398720741272" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Text>
+            <Text fill="#fff1e4" layoutX="14.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weeks">
+               <font>
+                  <Font name="SansSerif Bold" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="9.14" offsetY="3.0" radius="3.3275" spread="0.66" width="6.17">
+                     <color>
+                        <Color opacity="0.8836398720741272" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Text>
+            <Text fill="#fff1e4" layoutX="227.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dishes">
+               <font>
+                  <Font name="SansSerif Bold" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="9.14" offsetY="3.0" radius="3.3275" spread="0.66" width="6.17">
+                     <color>
+                        <Color opacity="0.8836398720741272" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Text>
+            <Text fill="#fff1e4" layoutX="446.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients">
+               <font>
+                  <Font name="SansSerif Bold" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="9.14" offsetY="3.0" radius="3.3275" spread="0.66" width="6.17">
+                     <color>
+                        <Color opacity="0.8836398720741272" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Text>
+            <Text fill="#fff1e4" layoutX="666.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shopping List">
+               <font>
+                  <Font name="SansSerif Bold" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="9.14" offsetY="3.0" radius="3.3275" spread="0.66" width="6.17">
+                     <color>
+                        <Color opacity="0.8836398720741272" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Text>
             </children>
         </AnchorPane>
     </children>
