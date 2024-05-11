@@ -17,6 +17,7 @@ import java.util.List;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
 import javafx.application.Platform;
 
 public class FavoriteViewController {
@@ -52,14 +53,12 @@ public class FavoriteViewController {
         Platform.runLater(this::loadFavoriteRecipes);
     }
 
-    private void loadFavoriteRecipes() {
-        System.out.println("here");
-    
-    Long userId = 1L; 
+private void loadFavoriteRecipes() {
+    Long userId = UserSession.getInstance().getUserId(); 
     List<Recipe> favorites = favoritesController.getFavorites(userId);
-    System.out.println("Favorites for user " + userId + ": " + favorites); 
+    System.out.println("Favorites for user " + userId + ": " + favorites);
     favoriteRecipes.setAll(favorites);
-    }
+}
 
     @FXML
     public void goBackToNavigator(MouseEvent event) {
