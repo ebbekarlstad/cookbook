@@ -120,10 +120,23 @@ public class EditingRecipeController {
 
     RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
       if (newValue != null) {
-          initData();
+        updateRecipeDetailsUI(newValue);
+        initData();
       }
     });
 }
+
+  private void updateRecipeDetailsUI(Recipe recipe) {
+    if (recipe != null) {
+        recipeName.setText(recipe.getRecipeName());
+        recipeShortDesc.setText(recipe.getShortDesc());
+        recipeLongDesc.setText(recipe.getDetailedDesc());
+    } else {
+        recipeName.setText("");
+        recipeShortDesc.setText("");
+        recipeLongDesc.setText("");
+    }
+  }
 
   private Ingredient fetchIngredientDetails(String ingredientID) {
     try {
@@ -171,6 +184,8 @@ public class EditingRecipeController {
     Recipe selectedRecipe = RecipesComboBox.getValue();
     // Set the recipe information
 
+    ingredients.clear();
+
     ingredientColumn.setCellValueFactory(cellData -> {
         AmountOfIngredients ingredient = cellData.getValue();
         Ingredient ingredientObject = ingredient.getIngredient();
@@ -204,8 +219,26 @@ public class EditingRecipeController {
 
   @FXML
   void EditIngredientToList(ActionEvent event) {
-
+    AmountOfIngredients selected = ingredientTable.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+        ingredientName.setText(selected.getIngredient().getIngredientName());
+        amount.setText(String.valueOf(selected.getAmount()));
+        unit.getSelectionModel().select(selected.getUnit());
+    }
   }
+
+  @FXML
+  void updateIngredientInList(ActionEvent event) {
+      AmountOfIngredients selected = ingredientTable.getSelectionModel().getSelectedItem();
+      if (selected != null) {
+          selected.getIngredient().setIngredientName(ingredientName.getText());
+          selected.setAmount(Float.parseFloat(amount.getText()));
+          selected.setUnit(unit.getValue());
+  
+          ingredientTable.refresh();  // Refresh the table view to show updated values
+      }
+  }
+  
 
   @FXML
   void EditTagToList(ActionEvent event) {
@@ -230,6 +263,7 @@ public class EditingRecipeController {
               newLongDesc);
       if (updated) {
         System.out.println("Recipe updated successfully");
+        updateIngredients(selectedRecipe.getId());
       } else {
         System.out.println("Recipe update failed");
       }
@@ -262,5 +296,23 @@ public class EditingRecipeController {
       e.printStackTrace();
     }
   }
+
+  private void updateIngredients(String recipeID) throws SQLException {
+    // Loop through the ingredients list
+    for (AmountOfIngredients ingredientDetails : ingredients) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+             PreparedStatement updateStmt = connection.prepareStatement(
+                     "UPDATE recipe_ingredients SET Amount = ?, Unit = ? WHERE RecipeID = ? AND IngredientID = ?")) {
+            updateStmt.setFloat(1, ingredientDetails.getAmount());
+            updateStmt.setString(2, ingredientDetails.getUnit());
+            updateStmt.setString(3, recipeID);
+            updateStmt.setString(4, ingredientDetails.getIngredient().getIngredientID());
+            updateStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating ingredient: " + ingredientDetails.getIngredient().getIngredientName());
+            e.printStackTrace();
+        }
+    }
+}
 
 }

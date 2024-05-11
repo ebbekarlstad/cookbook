@@ -86,6 +86,10 @@ public class AmountOfIngredients {
     return Unit;
   }
 
+  public String setUnit(String Unit) {
+    return this.Unit = Unit;
+  }
+
   /**
    * Get the name of the ingredient.
    *

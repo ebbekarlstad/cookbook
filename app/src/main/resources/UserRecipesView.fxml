@@ -69,7 +69,7 @@
             <TextField fx:id="amount" layoutX="205.0" layoutY="168.0" prefHeight="32.0" prefWidth="120.0" promptText="Amount " style="-fx-border-color: #5499C7;" />
             <ComboBox fx:id="unit" layoutX="326.0" layoutY="168.0" prefHeight="32.0" prefWidth="77.0" promptText="Unit" style="-fx-background-color: #FFBF00;" />
             <TextField fx:id="ingredientName" layoutX="24.0" layoutY="168.0" prefHeight="32.0" prefWidth="180.0" promptText="Ingredient name" style="-fx-border-color: #5499C7;" />
-            <Button fx:id="addIngredient" layoutX="24.0" layoutY="202.0" mnemonicParsing="false" onAction="#addIngredientToList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #FFA500;" text="Add ingredient" />
+            <Button fx:id="addIngredient" layoutX="24.0" layoutY="202.0" mnemonicParsing="false" onAction="#addIngredientToList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #FFA500;" text="Add" />
             <Text layoutX="28.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients">
                <font>
                   <Font name="PT Sans Narrow" size="20.0" />
@@ -101,7 +101,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="EditIngredient" layoutX="128.0" layoutY="202.0" mnemonicParsing="false" onAction="#EditIngredientToList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #FFA500;" text="Edit Ingredient" />
+            <Button fx:id="EditIngredient" layoutX="128.0" layoutY="202.0" mnemonicParsing="false" onAction="#EditIngredientToList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #FFA500;" text="Edit" />
             <ComboBox fx:id="RecipesComboBox" layoutX="22.0" layoutY="81.0" prefWidth="150.0" promptText="My Recipes" />
             <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="24.0" layoutY="240.0" prefHeight="117.0" prefWidth="378.0">
                <columns>
@@ -113,6 +113,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <Button fx:id="updateIngredient" layoutX="230.0" layoutY="202.0" mnemonicParsing="false" onAction="#updateIngredientInList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #FFA500;" text="Update" />
             </children>
         </AnchorPane>
     </children>
