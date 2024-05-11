@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;  // Use java.sql.Date for SQL date handling
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.HashMap;
