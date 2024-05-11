@@ -466,23 +466,6 @@ public void seedDinnerListRecipes() {
     
 }
 
-
-
-   public void seedShoppingListItems() {
-     String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
-
-     String createTableSQL = "CREATE TABLE `shopping_list_items` ("
-             + "`ShoppingListID` int NOT NULL AUTO_INCREMENT, "
-             + "`UserID` int NOT NULL, "
-             + "`CreatedDate` DATE NOT NULL, "
-             + "PRIMARY KEY (`ShoppingListID`), "
-             + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
-
-
-     seedTable(dropTableSQL);
-     seedTable(createTableSQL);
-   }
-
   public static void main(String[] args) {
     DatabaseSeeder seeder = new DatabaseSeeder();
     seeder.seedUsers();
@@ -496,7 +479,6 @@ public void seedDinnerListRecipes() {
     seeder.seedWeeklyDinnerLists();
     seeder.seedDinnerListRecipes();
     seeder.seedShoppingList();
-    seeder.seedShoppingListItems();
     seeder.seedSentRecipes();
     seeder.seedMessages();
   }

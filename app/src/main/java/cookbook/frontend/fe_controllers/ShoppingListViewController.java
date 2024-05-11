@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;  // Use java.sql.Date for SQL date handling
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.HashMap;
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +30,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
-
 import cookbook.backend.be_objects.IngredientInfo;
 import cookbook.backend.be_objects.UserSession;
 
