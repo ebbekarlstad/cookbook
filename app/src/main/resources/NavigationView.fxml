@@ -101,7 +101,7 @@
             </Button>
             <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="22.0" layoutY="384.0">
                <image>
-                  <Image url="@images/star2.png" />
+                  <Image url="@images/weekly.png" />
                </image>
             </ImageView>
             <Button fx:id="logoutButton" layoutX="22.0" layoutY="623.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="50.0" prefWidth="189.0" text="Logout">
