@@ -346,27 +346,7 @@ public class RecipeDetailsViewController {
 
     @FXML
     public void removeFromFavorites(ActionEvent event) {
-
-        //   // Använd favoritesController för att ta bort från databasen istället
-        //   if (favoritesController.removeFavorite(this.userId, this.recipe)) {
-        //       System.out.println("Favorite removed successfully.");
-        //       // Uppdatera ditt UI här om nödvändigt, t.ex. aktivera 'Add to favorite'-knappen
-        //   } else {
-        //       System.out.println("Failed to remove favorite.");
-        //       // Visa felmeddelande till användaren
-        //   }
-        // String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
-        // try (Connection conn = myDbManager.getConnection();
-        //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        //     pstmt.setLong(1, userId);
-        //     pstmt.setString(2, recipe.getId());
-        //     int affectedRows = pstmt.executeUpdate();
-        //     if ( affectedRows > 0) System.out.println("Done");;
-        // } catch (SQLException e) {
-        //   System.err.println("Failed to remove favorite: ");
-        // }
-
-        favoritesController.removeFavorite(UserSession.getInstance().getUserId(), recipe);
+        Long userId = UserSession.getInstance().getUserId();  
     }
 
     @FXML
