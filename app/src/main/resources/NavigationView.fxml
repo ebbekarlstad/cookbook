@@ -79,7 +79,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="22.0" layoutY="224.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="35.0" layoutY="227.0">
                <image>
                   <Image url="@images/star.png" />
                </image>
@@ -89,7 +89,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="29.0" layoutY="287.0">
+            <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="38.0" layoutY="293.0">
                <image>
                   <Image url="@images/Shoppinglist.png" />
                </image>
@@ -99,7 +99,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="29" layoutY="350.0">
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="37.0" layoutY="355.0">
                <image>
                   <Image url="@images/weekly.png" />
                </image>
@@ -114,6 +114,16 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="33.0" layoutY="99.0">
+               <image>
+                  <Image url="@images/user_svg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="39.0" layoutY="632.0">
+               <image>
+                  <Image url="@images/logout.png" />
+               </image>
+            </ImageView>
       </children>
     </AnchorPane>
   </children>
