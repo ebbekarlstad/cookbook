@@ -262,27 +262,35 @@ public class RecipeViewController {
       UUID uniqueID = UUID.randomUUID();
       String uniqueIngredientID = uniqueID.toString();
       String selectedUnit = unit.getSelectionModel().getSelectedItem();
-      String a = amount.getText();
-      float selectedAmount = Float.parseFloat(a);
-      IngredientController.addIngredient(uniqueIngredientID, IngredientName);
-      Ingredient newIngredientObj = new Ingredient(uniqueIngredientID, IngredientName);
-
-      AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
-      selectedIngredients.add(newQuantityIngredients);
-      String currentLabelText = ingredientLabel.getText();
-      if (currentLabelText.isEmpty()) {
-        ingredientLabel.setText(IngredientName);
-      } else {
-        ingredientLabel.setText(currentLabelText + ", " + IngredientName);
+      if (selectedUnit != null) {
+        String a = amount.getText();
+        float selectedAmount = Float.parseFloat(a);
+        IngredientController.addIngredient(uniqueIngredientID, IngredientName);
+        Ingredient newIngredientObj = new Ingredient(uniqueIngredientID, IngredientName);
+  
+        AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
+        selectedIngredients.add(newQuantityIngredients);
+        String currentLabelText = ingredientLabel.getText();
+        if (currentLabelText.isEmpty()) {
+          ingredientLabel.setText(IngredientName);
+        } else {
+          ingredientLabel.setText(currentLabelText + ", " + IngredientName);
+        }
+  
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Success!");
+        success.setContentText("You successfully created a new ingredient!");
+        success.show();
+      } else{
+        System.out.println("You must choose a unit!");
+        Alert failure = new Alert(Alert.AlertType.ERROR);
+        failure.setTitle("Error");
+        failure.setContentText("You must choose a unit.");
+        failure.show();
       }
-
-      Alert success = new Alert(Alert.AlertType.INFORMATION);
-      success.setTitle("Success!");
-      success.setContentText("You successfully created a new ingredient!");
-      success.show();
-    } catch (SQLException e) {
-      System.out.println(e);
-    }
+      } catch (SQLException e) {
+        System.out.println(e);
+      }
   }
 
   /**
