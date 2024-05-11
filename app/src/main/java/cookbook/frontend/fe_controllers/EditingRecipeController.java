@@ -2,11 +2,9 @@ package cookbook.frontend.fe_controllers;
 
 import cookbook.backend.be_controllers.IngredientController;
 import cookbook.backend.be_controllers.RecipeController;
-import cookbook.backend.be_controllers.TagController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
-import cookbook.backend.be_objects.Tag;
 import cookbook.backend.be_objects.UserSession;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -33,7 +31,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditingRecipeController {
@@ -46,12 +43,6 @@ public class EditingRecipeController {
   private TableColumn<AmountOfIngredients, String> amountColumn;
   @FXML
   private TableColumn<AmountOfIngredients, String> unitColumn;
-  @FXML
-  private TableView<String> tagsTable;
-  @FXML
-  private TableColumn<String, String> tagColumn;
-  
-  private ObservableList<String> tagObservableList = FXCollections.observableArrayList();
 
   private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
 
@@ -129,10 +120,10 @@ public class EditingRecipeController {
 
     RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
       if (newValue != null) {
-          updateRecipeDetailsUI(newValue);
-          loadSelectedRecipeTags();
+        updateRecipeDetailsUI(newValue);
+        initData();
       }
-  });
+    });
 }
 
   private void updateRecipeDetailsUI(Recipe recipe) {
@@ -146,12 +137,6 @@ public class EditingRecipeController {
         recipeLongDesc.setText("");
     }
   }
-
-  public void updateTagsUI(List<String> tags) {
-    tagsDropdown.getItems().clear();  // Clear previous tags
-    tagsDropdown.getItems().addAll(tags);  // Add fetched tags
-  }
-
 
   private Ingredient fetchIngredientDetails(String ingredientID) {
     try {
@@ -221,44 +206,15 @@ public class EditingRecipeController {
 
     //Fetches everything from the databse and inserts it in the Table View
     fetchIngredientsFromDatabase(selectedRecipe.getId());
-    List<String> tags = fetchTagsForRecipe(selectedRecipe.getId());
-    updateTagsUI(tags);  // Update UI with fetched tags
+
   }
 
   @FXML
   private void initialize() throws SQLException {
-
-    // Initial ComboBox population with all tags
-    updateTagBox();
-    // Setup the listener for when a recipe is selected
-    RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-        if (newSelection != null) {
-            updateTagsTable(newSelection.getId());  // Update the table with tags for the selected recipe
-        }
-    });
-
-    // Setup for TableView columns (if not already configured in FXML)
-    tagColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-    tagsTable.setItems(tagObservableList);
     unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
     loadRecipes();
-    tagColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-    tagsTable.setItems(tagObservableList);
-    }
-
-  public void updateTagBox() throws SQLException {
-    tagsDropdown.getItems().clear();  // Clear the ComboBox
-    for (Tag tag : TagController.getTags()) {  // This assumes TagController.getTags() fetches all tags
-        String tagName = tag.getTagName();
-        tagsDropdown.getItems().add(tagName);
-    }
   }
 
-  public void updateTagsTable(String recipeId) {
-    tagObservableList.clear();  // Clear the tags in the table
-    List<String> tags = fetchTagsForRecipe(recipeId);  // Fetch tags for the selected recipe
-    tagObservableList.addAll(tags);  // Add these tags to the ObservableList bound to the table
-  }
 
 
   @FXML
@@ -359,29 +315,4 @@ public class EditingRecipeController {
     }
 }
 
-  public void loadSelectedRecipeTags() {
-    Recipe selectedRecipe = RecipesComboBox.getValue();
-    if (selectedRecipe != null) {
-        List<String> tags = fetchTagsForRecipe(selectedRecipe.getId());
-        tagObservableList.setAll(tags);  // Update the table with tags for the selected recipe
-    }
-  }
-
-  private List<String> fetchTagsForRecipe(String recipeID) {
-    List<String> tags = new ArrayList<>();
-    String sql = "SELECT t.TagName FROM tags t JOIN recipe_tags rt ON t.TagID = rt.TagID WHERE rt.RecipeID = ?";
-    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement statement = connection.prepareStatement(sql)) {
-        statement.setString(1, recipeID);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                tags.add(resultSet.getString("TagName"));
-            }
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        System.out.println("Error fetching tags from database: " + e.getMessage());
-    }
-    return tags;
-  }
 }
