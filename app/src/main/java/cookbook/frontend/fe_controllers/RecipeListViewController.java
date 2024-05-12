@@ -8,9 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,9 +42,12 @@ public class RecipeListViewController {
   @FXML
   private Button searchByTagsButton;
   @FXML
+  private Pagination pagination;
+  @FXML
   private ListView<Recipe> mainTable;
 
   private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+  private static final int ITEMS_PER_PAGE = 10;
 
   /**
    * Initializes the controller class.
@@ -72,6 +77,8 @@ public class RecipeListViewController {
       e.printStackTrace();
     }
     mainTable.setOnMouseClicked(this::handleRecipeSelection);
+
+    updatePagination();
   }
 
   /**
@@ -167,4 +174,30 @@ public class RecipeListViewController {
       }
     }
   }
+
+  private void updatePagination() {
+        int pageCount = (int) Math.ceil((double) recipeList.size() / ITEMS_PER_PAGE);
+        pagination.setPageCount(pageCount);
+        pagination.setPageFactory(this::createPage);
+    }
+
+    private Node createPage(int pageIndex) {
+        int fromIndex = pageIndex * ITEMS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ITEMS_PER_PAGE, recipeList.size());
+        mainTable.setItems(FXCollections.observableArrayList(recipeList.subList(fromIndex, toIndex)));
+        return new VBox(mainTable);
+    }
+
+    // Update recipe list and refresh pagination
+    public void refreshRecipeList() {
+        try {
+            recipeList.clear();
+            recipeList.addAll(RecipeController.getRecipes()); // Adjust this method call as needed
+            updatePagination();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
