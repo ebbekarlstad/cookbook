@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Shadow?>
@@ -28,10 +29,13 @@
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
+         <effect>
+            <Blend mode="MULTIPLY" />
+         </effect>
             </ImageView>
       <BorderPane prefHeight="703.0" prefWidth="934.0">
          <right>
-            <VBox prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: GRAY;" BorderPane.alignment="CENTER">
+            <VBox prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #1E81B00;" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="5.0" left="7.0" right="7.0" top="7.0" />
                </padding>
@@ -82,7 +86,7 @@
                         </Shadow>
                      </effect>
                   </Separator>
-                  <Button fx:id="searchByNameButton" mnemonicParsing="false" onAction="#searchByName" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
+                  <Button fx:id="searchByNameButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#searchByName" prefHeight="27.0" prefWidth="196.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -124,7 +128,7 @@
                         </Shadow>
                      </effect>
                   </Separator>
-                  <Button fx:id="searchByIngredientsButton" mnemonicParsing="false" onAction="#searchByIngredients" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
+                  <Button fx:id="searchByIngredientsButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#searchByIngredients" prefHeight="27.0" prefWidth="186.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -166,7 +170,7 @@
                         </Shadow>
                      </effect>
                   </Separator>
-                  <Button fx:id="searchByTagsButton" mnemonicParsing="false" onAction="#searchByTags" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
+                  <Button fx:id="searchByTagsButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#searchByTags" prefHeight="27.0" prefWidth="187.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Search">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -186,6 +190,14 @@
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font name="System Font Light" size="13.0" />
+                     </font>
+                  </Button>
                   <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="BROWSE" textAlignment="CENTER" wrappingWidth="736.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="38.0" />
@@ -198,15 +210,7 @@
                         </DropShadow>
                      </effect>
                   </Text>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                     <font>
-                        <Font name="System Font Light" size="13.0" />
-                     </font>
-                  </Button>
-                  <ListView fx:id="mainTable" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
+                  <ListView fx:id="mainTable" prefHeight="570.0" prefWidth="740.0" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets top="1.0" />
                      </VBox.margin>
@@ -219,6 +223,9 @@
                      </effect>
                   </ListView>
                </children>
+               <effect>
+                  <Blend />
+               </effect>
             </VBox>
          </center>
       </BorderPane>
