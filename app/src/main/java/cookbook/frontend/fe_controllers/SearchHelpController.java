@@ -93,9 +93,13 @@ public class SearchHelpController {
                   "1. Adding a Comment: To add a comment, type your message in the 'Write a comment' box and click 'Add'. Your comment will then appear in the 'Comments' area on the right side of the recipe page.\n" +
                   "2. Editing and Removing Comments: If you need to edit or remove a comment you've posted, use the 'Edit' or 'Remove' buttons associated with your comment. Make the necessary changes in the comment text box and click 'Update' to save edits or 'Remove' to delete the comment.\n" +
                   "3. Interacting with Comments: Scroll through the comments section to read insights from other users. This can provide valuable information and different perspectives on the recipe.\n\n" +
-                  "Use the comments feature to engage with the community, share your culinary successes or challenges, and gain insights from other home cooks.")
+                  "Use the comments feature to engage with the community, share your culinary successes or challenges, and gain insights from other home cooks."),
               
-          
+      new HelpMain("How to Edit a Recipe",
+                  "To edit an existing recipe, navigate to 'My Own Recipes' from the main menu. Here you will see a list of all your created recipes. Select the recipe you wish to edit by clicking on its name. This action will take you to the recipe detail page. \n\n" +
+                  "Once on the recipe detail page, you can modify any part of the recipe including the name, description, ingredients, and cooking instructions. After making the necessary changes, click on the 'Save Recipe' button to update the recipe. The application will save the changes and update the recipe details accordingly.\n\n" +
+                  "If you need to add or modify ingredients, you can do so by entering the ingredient name, amount, and unit, then clicking the 'Update' button next to each ingredient to save changes. You can also use the 'Add' button to include new ingredients. Use the 'Edit tag' option to modify existing tags or 'Add tag' to include new ones related to your recipe.")
+     
                   );
       
                   StringBuilder helpTextBuilder = new StringBuilder();
