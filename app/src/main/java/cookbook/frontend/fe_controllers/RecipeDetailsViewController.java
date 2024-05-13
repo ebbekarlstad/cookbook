@@ -26,6 +26,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -60,6 +62,20 @@ public class RecipeDetailsViewController {
 
     @FXML
     private ToggleButton toggleFavorite; 
+
+    @FXML
+    private ImageView favoriteIcon;  // Se till att denna ImageView har en fx:id som matchar FXML
+
+    private void addRecipeToFavorites() {
+        // Lägg till receptet i användarens favoritlista i databasen eller lokalt
+        System.out.println("Added to favorites!");
+    }
+    
+    private void removeRecipeFromFavorites() {
+        // Ta bort receptet från användarens favoritlista
+        System.out.println("Removed from favorites!");
+    }
+    
 
 
     private String recipeId;
@@ -404,13 +420,15 @@ public class RecipeDetailsViewController {
         }
     }
 
-    
-    @FXML
-    public void handleToggleFavorite() {
+
+@FXML
+private void handleToggleFavorite() {
     if (toggleFavorite.isSelected()) {
-        addToFavorites(new ActionEvent());
+        favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starBLACK.png")));
+        addRecipeToFavorites();  // Logik för att lägga till i favoriter
     } else {
-        removeFromFavorites(new ActionEvent());
+        favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starWHITE.png")));
+        removeRecipeFromFavorites();  // Logik för att ta bort från favoriter
     }
 }
 

@@ -129,10 +129,14 @@
              </TableView>
 
 
+
+
 <ToggleButton fx:id="toggleFavorite" layoutX="833.0" layoutY="97.0" mnemonicParsing="false" onAction="#handleToggleFavorite" text="Favorite">
     <graphic>
-        <ImageView fitHeight="20" fitWidth="20">
-            <Image url="@images/starWHITE.png" />
+        <ImageView fx:id="favoriteIcon" fitHeight="20" fitWidth="20">
+            <image>
+                <Image url="@images/starWHITE.png" /> 
+            </image>
         </ImageView>
     </graphic>
 </ToggleButton>
