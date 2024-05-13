@@ -58,6 +58,9 @@ public class RecipeDetailsViewController {
     @FXML
     private TextField MultipliedAmount;
 
+    @FXML
+    private ToggleButton toggleFavorite; 
+
 
     private String recipeId;
     private int commentId;
@@ -400,6 +403,8 @@ public class RecipeDetailsViewController {
             System.out.println("UserId or Recipe is null, cannot remove from favorites.");
         }
     }
+
+
 
     @FXML
     private void handleweekButtonAction(ActionEvent event) {
