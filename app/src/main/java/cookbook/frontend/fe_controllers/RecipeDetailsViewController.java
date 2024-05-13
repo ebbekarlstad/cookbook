@@ -404,6 +404,16 @@ public class RecipeDetailsViewController {
         }
     }
 
+    
+    @FXML
+    public void handleToggleFavorite() {
+    if (toggleFavorite.isSelected()) {
+        addToFavorites(new ActionEvent());
+    } else {
+        removeFromFavorites(new ActionEvent());
+    }
+}
+
 
 
     @FXML
