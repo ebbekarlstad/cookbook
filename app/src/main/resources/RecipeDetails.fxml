@@ -110,7 +110,10 @@
 <Button fx:id="toggleFavorite" layoutX="780.0" layoutY="93.0" mnemonicParsing="false" onAction="#toggleFavorite" prefHeight="25.0" prefWidth="140.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;">
     <graphic>
         <ImageView fx:id="favoriteIcon" fitHeight="20" fitWidth="20">
-           
+            <image>
+                <Image url="@images/starWHITE.jpg"/> 
+                
+            </image>
         </ImageView>
     </graphic>
     <effect>
