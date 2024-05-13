@@ -107,17 +107,17 @@
 
 
 
-            <Button fx:id="addToFavorites" layoutX="780.0" layoutY="93.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="5.0" prefWidth="140.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Add to favorite">
-               <effect>
-                  <DropShadow />
-               </effect>
-               <font>
-                  <Font name="System Font Light" size="13.0" />
-               </font></Button>
-            <Button fx:id="removeFromFavorites" layoutX="780.0" layoutY="125.0" mnemonicParsing="false" onAction="#removeFromFavorites" prefHeight="26.0" prefWidth="140.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Remove from favorite">
-               <effect>
-                  <DropShadow />
-               </effect>
+<Button fx:id="toggleFavorite" layoutX="780.0" layoutY="93.0" mnemonicParsing="false" onAction="#toggleFavorite" prefHeight="25.0" prefWidth="140.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;">
+    <graphic>
+        <ImageView fx:id="favoriteIcon" fitHeight="20" fitWidth="20">
+           
+        </ImageView>
+    </graphic>
+    <effect>
+        <DropShadow/>
+    </effect>
+</Button>
+
 
 
 
