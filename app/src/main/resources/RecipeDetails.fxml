@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -103,32 +104,6 @@
                   <Font name="System Font Medium" size="13.0" />
                </font>
             </Label>
-
-
-
-
-<Button fx:id="toggleFavorite" layoutX="780.0" layoutY="93.0" mnemonicParsing="false" onAction="#toggleFavorite" prefHeight="25.0" prefWidth="140.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;">
-    <graphic>
-        <ImageView fx:id="favoriteIcon" fitHeight="20" fitWidth="20">
-            <image>
-                <Image url="@images/starWHITE.jpg"/> 
-                
-            </image>
-        </ImageView>
-    </graphic>
-    <effect>
-        <DropShadow/>
-    </effect>
-</Button>
-
-
-
-
-
-               
-               <font>
-                  <Font name="System Font Light" size="13.0" />
-               </font></Button>
             <Label fx:id="commentsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="698.0" layoutY="182.0" prefHeight="26.0" prefWidth="120.0" text="Comments" textFill="#db5442">
                <font>
                   <Font name="System Font Medium" size="22.0" />
@@ -185,6 +160,7 @@
                   <DropShadow />
                </effect>
             </Text>
+            <ToggleButton layoutX="830.0" layoutY="102.0" mnemonicParsing="false" onAction="#handleToggleFavorite" text="ToggleButton" />
          </children>
         </AnchorPane>
     </children>
