@@ -34,10 +34,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -46,35 +45,32 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
+<VBox prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.MainViewController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="-Infinity" prefWidth="-Infinity" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.92" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="703.0" fitWidth="934.0" focusTraversable="true" nodeOrientation="INHERIT" opacity="0.85" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
+               <effect>
+                  <Blend mode="MULTIPLY" />
+               </effect>
             </ImageView>
             <ImageView fitHeight="396.0" fitWidth="485.0" layoutX="269.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/app_logo_transparent.png" />
                </image>
+               <effect>
+                  <DropShadow />
+               </effect>
             </ImageView>
             <Text fx:id="welcomeText" cache="true" fill="#fff1e4" fontSmoothingType="LCD" layoutX="194.0" layoutY="390.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="COOKBOOK" textAlignment="CENTER" wrappingWidth="546.896484375">
                <font>
-                  <Font name="SansSerif Bold" size="73.0" />
+                  <Font name="System Font Heavy" size="73.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
@@ -87,12 +83,18 @@
                   </DropShadow>
                </effect>
             </Text>
-            <Button fx:id="loginbutton" contentDisplay="CENTER" layoutX="425.0" layoutY="430.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="25.0" prefWidth="85.0" style="-fx-border-radius: 4;" text="LOGIN" textAlignment="CENTER">
+            <Button fx:id="loginbutton" contentDisplay="CENTER" layoutX="425.0" layoutY="430.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="25.0" prefWidth="85.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="LOGIN" textAlignment="CENTER">
                <font>
-                  <Font name="SansSerif Bold" size="12.0" />
-               </font></Button>
+                  <Font name="System Font Medium" size="12.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect></Button>
                
       </children>
     </AnchorPane>
   </children>
+   <effect>
+      <InnerShadow />
+   </effect>
 </VBox>

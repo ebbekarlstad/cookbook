@@ -14,10 +14,17 @@ public class UIHandler extends Application {
     // Load the FXML layout
     Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
 
-    // Set the application icon
-    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+    // Load and set multiple icons
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_16x16.png")));
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_32x32.png")));
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_64x64.png")));
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_128x128.png")));
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_256x256.png")));
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_512x512.png")));
+    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/app_icon_1024x1024.png")));
 
-    // Set the scene and show the stage
+
+    // Rest of your code to set up the scene, etc.  
     primaryStage.setScene(new Scene(root, 934, 703));
     primaryStage.setTitle("Cookbook");
     primaryStage.show();

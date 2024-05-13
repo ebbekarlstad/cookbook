@@ -1,5 +1,7 @@
 package cookbook.backend.be_controllers;
 
+
+//imports
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class CommentController {
     try (Connection conn = dbManager.getConnection(); 
       PreparedStatement pstmt = conn.prepareStatement(sql)) {
       pstmt.setString(1, commentObj.getRecipeId());
-      pstmt.setInt(2, commentObj.getUserId());
+      pstmt.setLong(2, commentObj.getUserId());
       pstmt.setString(3, commentObj.getText());
       pstmt.setString(4,commentObj.getTimestamp());
 

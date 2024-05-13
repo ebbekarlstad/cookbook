@@ -83,213 +83,33 @@ public class DatabaseSeeder {
         + "KEY `UserID_idx` (`UserID`), "
         + "CONSTRAINT `UserID` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
 
-     String insertDataSQL = "INSERT INTO recipes (RecipeID, UserID, RecipeName,"
-     + "ShortDesc, DetailedDesc, Unit, Amount)"
-     + " VALUES (1, 1, 'placeHolderName', 'placeHolderShort', 'placeHolderLong', 'Servings amount test', '10');";
-
-    String insertDataSQL1 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (1, 1, 'Creamy Tomato Soup', 'A comforting and creamy soup made with fresh tomatoes and herbs.', 'This recipe is a classic comfort food dish that''s perfect for a chilly evening. The creamy texture comes from a mixture of heavy cream and Parmesan cheese, while the fresh tomatoes add a burst of flavor.', 'Servings', 6);";
-
-    String insertDataSQL2 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (2, 1, 'Spicy Shrimp Tacos', 'A flavorful and spicy taco recipe featuring succulent shrimp and crispy tortillas.', 'This recipe is a twist on traditional tacos, with succulent shrimp marinated in a spicy mixture of chili flakes, lime juice, and cumin. Serve with crispy tortillas, sliced avocado, and a dollop of sour cream.', 'Tacos', 8);";
-
-    String insertDataSQL3 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (3, 1, 'Roasted Vegetable Quinoa Bowl', 'A healthy and flavorful bowl filled with roasted vegetables and quinoa.', 'This recipe is a great way to get your daily dose of veggies, with a variety of colorful vegetables roasted to perfection and served over a bed of quinoa. Add a dollop of tzatziki sauce for extra creaminess.', 'Servings', 6);";
-
-    String insertDataSQL4 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (4, 1, 'Chicken Fajita Wrap', 'A flavorful and easy wrap recipe featuring chicken, peppers, and onions.', 'This recipe is a quick and easy lunch or dinner option, with marinated chicken breast cooked with sliced peppers and onions and wrapped in a warm flour tortilla.', 'Wraps', 6);";
-
-    String insertDataSQL5 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (5, 1, 'Baked Salmon with Lemon and Herbs', 'A flavorful and healthy salmon recipe featuring a bright and citrusy sauce.', 'This recipe is a great way to prepare salmon, with a flavorful sauce made from lemon juice, olive oil, and herbs like thyme and parsley. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL6 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (6, 1, 'Creamy Mushroom Pasta', 'A rich and creamy pasta recipe featuring sautéed mushrooms and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with sautéed mushrooms and a creamy sauce made from heavy cream and Parmesan cheese. Serve with-cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL7 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (7, 1, 'Grilled Chicken and Pineapple Skewers', 'A colorful and flavorful skewer recipe featuring chicken, pineapple, and bell peppers.', 'This recipe is a great way to enjoy the flavors of summer, with marinated chicken breast, pineapple, and bell peppers grilled to perfection. Serve with a side of quinoa and steamed vegetables.', 'Skewers', 8);";
-
-    String insertDataSQL8 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (8, 1, 'Spinach and Feta Stuffed Chicken Breast', 'A flavorful and healthy chicken recipe featuring a creamy spinach and feta filling.', 'This recipe is a great way to add some excitement to your chicken breast, with a creamy filling made from spinach, feta cheese, and lemon zest. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL9 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (9, 1, 'Lentil Soup with Crusty Bread', 'A hearty and comforting soup recipe featuring red lentils and crusty bread.', 'This recipe is a great way to warm up on a chilly day, with a flavorful soup made from red lentils, onions, and carrots. Serve with a side of crusty bread for dipping.', 'Servings', 6);";
-
-    String insertDataSQL10 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (10, 1, 'Pan-Seared Steak with Garlic Butter', 'A flavorful and indulgent steak recipe featuring a rich garlic butter sauce.', 'This recipe is a great way to treat yourself to a special dinner, with a tender steak cooked to perfection and served with a rich garlic butter sauce. Serve with roasted vegetables and mashed potatoes.', 'Servings', 4);";
-
-    String insertDataSQL11 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (11, 1, 'Roasted Sweet Potato and Black Bean Tacos', 'A flavorful and healthy taco recipe featuring roasted sweet potatoes and black beans.', 'This recipe is a great way to enjoy a vegetarian meal, with roasted sweet potatoes and black beans served in warm tortillas. Top with sliced avocado, salsa, and a dollop of sour cream.', 'Tacos', 8);";
-
-    String insertDataSQL12 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (12, 1, 'Creamy Broccoli and Cheddar Soup', 'A comforting and creamy soup recipe featuring broccoli and sharp cheddar cheese.', 'This recipe is a great way to enjoy a classic comfort food dish, with a creamy soup made from broccoli, onions, and chicken broth. Serve with a side of crusty bread for dipping.', 'Servings', 6);";
-
-    String insertDataSQL13 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (13, 1, 'Chickpea and Spinach Curry', 'A flavorful and healthy curry recipe featuring chickpeas and spinach.', 'This recipe is a great way to enjoy a vegetarian meal, with a flavorful curry made from chickpeas, spinach, and a variety of spices. Serve with cooked rice and a side of naan bread.', 'Servings', 6);";
-
-    String insertDataSQL14 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (14, 1, 'Baked Lemon Herb Salmon', 'A flavorful and healthy salmon recipe featuring a bright and citrusy marinade.', 'This recipe is a great way to prepare salmon, with a flavorful marinade made from lemon juice, olive oil, and herbs like thyme and parsley. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL15 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (15, 1, 'Creamy Tomato Basil Pasta', 'A rich and creamy pasta recipe featuring fresh tomatoes and basil.', 'This recipe is a comforting and indulgent dish, with sautéed tomatoes and a creamy sauce made from heavy cream and Parmesan cheese. Serve with cooked pasta and a sprinkle of basil.', 'Servings', 6);";
-
-    String insertDataSQL16 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (16, 1, 'Grilled Chicken and Vegetable Kabobs', 'A colorful and flavorful kabob recipe featuring chicken, vegetables, and a tangy marinade.', 'This recipe is a great way to enjoy the flavors of summer, with marinated chicken breast, vegetables, and a tangy marinade grilled to perfection. Serve with a side of quinoa and steamed vegetables.', 'Kabobs', 8);";
-
-    String insertDataSQL17 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (17, 1, 'Spinach and Feta Stuffed Portobello Mushrooms', 'A flavorful and healthy vegetarian recipe featuring stuffed portobello mushrooms.', 'This recipe is a great way to enjoy a vegetarian meal, with portobello mushrooms stuffed with a creamy filling made from spinach, feta cheese, and lemon zest. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL18 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (18, 1, 'Lentil and Vegetable Stew', 'A hearty and comforting stew recipe featuring lentils and a variety of vegetables.', 'This recipe is a great way to warm up on a chilly day, with a flavorful stew made from lentils, onions, carrots, and celery. Serve with a side of crusty bread for dipping.', 'Servings', 6);";
-
-    String insertDataSQL19 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (19, 1, 'Pan-Seared Scallops with Lemon Butter', 'A flavorful and indulgent scallop recipe featuring a rich lemon butter sauce.', 'This recipe is a great way to treat yourself to a special dinner, with tender scallops cooked to perfection and served with a rich lemon butter sauce. Serve with roasted vegetables and mashed potatoes.', 'Servings', 4);";
-
-    String insertDataSQL20 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (20, 1, 'Roasted Vegetable and Quinoa Salad', 'A healthy and flavorful salad recipe featuring roasted vegetables and quinoa.', 'This recipe is a great way to enjoy a vegetarian meal, with a variety of colorful vegetables roasted to perfection and served over a bed of quinoa. Add a dollop of tzatziki sauce for extra creaminess.', 'Servings', 6);";
-
-    String insertDataSQL21 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (21, 1, 'Chicken and Vegetable Stir-Fry', 'A flavorful and healthy stir-fry recipe featuring chicken and a variety of vegetables.', 'This recipe is a quick and easy dinner option, with marinated chicken breast and sliced vegetables cookedin a flavorful sauce. Serve with cooked rice or noodles.', 'Servings', 6);";
-
-    String insertDataSQL22 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (22, 1, 'Baked Zucchini Fries', 'A healthy and flavorful snack recipe featuring crispy baked zucchini fries.', 'This recipe is a great way to enjoy a healthy snack, with zucchini slices coated in a crispy breadcrumb mixture and baked to perfection. Serve with a side of marinara sauce for dipping.', 'Servings', 6);";
-
-    String insertDataSQL23 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (23, 1, 'Creamy Avocado Pasta', 'A rich and creamy pasta recipe featuring ripe avocados and a tangy lime dressing.', 'This recipe is a comforting and indulgent dish, with a creamy sauce made from ripe avocados, garlic, and lime juice. Serve with cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL24 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (24, 1, 'Grilled Chicken and Pineapple Salad', 'A colorful and flavorful salad recipe featuring grilled chicken, pineapple, and a tangy vinaigrette.', 'This recipe is a great way to enjoy the flavors of summer, with marinated chicken breast, grilled pineapple, and a tangy vinaigrette. Serve with a side of quinoa or brown rice.', 'Servings', 6);";
-
-    String insertDataSQL25 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (25, 1, 'Spicy Shrimp and Vegetable Stir-Fry', 'A flavorful and spicy stir-fry recipe featuring succulent shrimp and a variety of vegetables.', 'This recipe is a quick and easy dinner option, with succulent shrimp and sliced vegetables cooked in a spicy sauce. Serve with cooked rice or noodles.', 'Servings', 6);";
-
-    String insertDataSQL26 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (26, 1, 'Baked Sweet Potato Fries', 'A healthy and flavorful snack recipe featuring crispy baked sweet potato fries.', 'This recipe is a great way to enjoy a healthy snack, with sweet potato slices coated in a crispy breadcrumb mixture and baked to perfection. Serve with a side of ketchup or aioli for dipping.', 'Servings', 6);";
-
-    String insertDataSQL27 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (27, 1, 'Creamy Mushroom and Spinach Pasta', 'A rich and creamy pasta recipe featuring sautéed mushrooms, spinach, and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with sautéed mushrooms and spinach and a creamy sauce made from heavy cream and Parmesan cheese. Serve with cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL28 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (28, 1, 'Grilled Chicken Shawarma Bowl', 'A flavorful and healthy bowl recipe featuring grilled chicken, vegetables, and a tangy yogurt sauce.', 'This recipe is a great way to enjoy a Mediterranean-inspired meal, with marinated chicken breast, grilled vegetables, and a tangy yogurt sauce. Serve with cooked quinoa or rice and a side of pita bread.', 'Bowls', 6);";
-
-    String insertDataSQL29 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (29, 1, 'Vegetarian Chili', 'A hearty and healthy chili recipe featuring a variety of beans and vegetables.', 'This recipe is a great way to enjoy a vegetarian meal, with a variety of beans and vegetables simmered in a flavorful tomato sauce. Serve with a side of cornbread or crackers.', 'Servings', 6);";
-
-    String insertDataSQL30 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (30, 1, 'Baked Lemon Herb Chicken', 'A flavorful and healthy chicken recipe featuring a bright and citrusy marinade.', 'This recipe is a great way to prepare chicken, with a flavorful marinade made from lemon juice, olive oil, and herbs like thyme and parsley. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL31 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (31, 1, 'Creamy Pumpkin Pasta', 'A rich and creamy pasta recipe featuring roasted pumpkin and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with roasted pumpkin and a creamy sauce made from heavy cream and Parmesan cheese. Serve with cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL32 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (32, 1, 'Grilled Vegetable Skewers', 'A colorful and flavorful skewer recipe featuring a variety of grilled vegetables.', 'This recipe is a great way to enjoy the flavors of summer, with a variety of vegetables grilled to perfection. Serve with a side of quinoa and a dollop of tzatziki sauce.', 'Skewers', 8);";
-
-    String insertDataSQL33 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (33, 1, 'Spinach and Artichoke Dip', 'A creamy and flavorful dip recipe featuring spinach, artichokes, and Parmesan cheese.', 'This recipe is a great way to enjoy a party favorite, with a creamy dip made from spinach, artichokes, and Parmesan cheese. Serve with a side of pita chips or veggies.', 'Dips', 6);";
-
-    String insertDataSQL34 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (34, 1, 'Baked Sweet Potato', 'A healthy and flavorful side dish recipe featuring a baked sweet potato.', 'This recipe is a great way to enjoy a healthy side dish, with a baked sweet potato topped with a dollop of Greek yogurt and a sprinkle of cinnamon.', 'Servings', 2);";
-
-    String insertDataSQL35 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (35, 1, 'Creamy Tomato Risotto', 'A rich and creamy rice dish recipe featuring sautéed tomatoes and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with sautéed tomatoes and a creamy sauce made from heavy cream and Parmesan cheese. Serve with a side of roasted vegetables and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL36 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (36, 1, 'Grilled Steak Salad', 'A colorful and flavorful salad recipe featuring grilled steak, vegetables, and a tangy vinaigrette.', 'This recipe is a great way to enjoy a hearty salad, with grilled steak, vegetables, and atangy vinaigrette. Serve with a side of crusty bread or quinoa.', 'Salads', 6);";
-
-    String insertDataSQL37 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (37, 1, 'Spicy Shrimp and Avocado Toast', 'A flavorful and healthy breakfast or snack recipe featuring spicy shrimp and creamy avocado.', 'This recipe is a great way to start your day or enjoy a healthy snack, with spicy shrimp and creamy avocado served on toasted bread. Serve with a side of fruit or a green smoothie.', 'Toasts', 4);";
-
-    String insertDataSQL38 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (38, 1, 'Baked Lemon Herb Tilapia', 'A flavorful and healthy fish recipe featuring a bright and citrusy marinade.', 'This recipe is a great way to prepare fish, with a flavorful marinade made from lemon juice, olive oil, and herbs like thyme and parsley. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL39 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (39, 1, 'Creamy Roasted Red Pepper Pasta', 'A rich and creamy pasta recipe featuring roasted red peppers and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with roasted red peppers and a creamy sauce made from heavy cream and Parmesan cheese. Serve with cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL40 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (40, 1, 'Grilled Chicken and Vegetable Quinoa Bowl', 'A healthy and flavorful bowl recipe featuring grilled chicken, vegetables, and quinoa.', 'This recipe is a great way to enjoy a balanced meal, with grilled chicken, vegetables, and quinoa. Serve with a side of hummus or tzatziki sauce.', 'Bowls', 6);";
-
-    String insertDataSQL41 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (41, 1, 'Spicy Black Bean and Sweet Potato Tacos', 'A flavorful and healthy taco recipe featuring spicy black beans and roasted sweet potatoes.', 'This recipe is a great way to enjoy a vegetarian meal, with spicy black beans and roasted sweet potatoes served in warm tortillas. Top with sliced avocado, salsa, and a dollop of sour cream.', 'Tacos', 8);";
-
-    String insertDataSQL42 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (42, 1, 'Baked Zucchini Boats', 'A healthy and flavorful side dish recipe featuring baked zucchini boats.', 'This recipe is a great way to enjoy a healthy side dish, with zucchini boats filled with a mixture of tomatoes, onions, and Parmesan cheese. Serve with a side of roasted vegetables or a salad.', 'Servings', 6);";
-
-    String insertDataSQL43 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (43, 1, 'Creamy Butternut Squash Pasta', 'A rich and creamy pasta recipe featuring roasted butternut squash and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with roasted butternut squash and a creamy sauce made from heavy cream and Parmesan cheese. Serve with cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL44 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (44, 1, 'Grilled Vegetable and Goat Cheese Pizza', 'A colorful and flavorful pizza recipe featuring grilled vegetables and creamy goat cheese.', 'This recipe is a great way to enjoy a vegetarian meal, with grilled vegetables and creamy goat cheese served on a crispy pizza crust. Serve with a side of arugula or mixed greens.', 'Pizzas', 4);";
-
-    String insertDataSQL45 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (45, 1, 'Spicy Shrimp and Pineapple Fried Rice', 'A flavorful and spicy rice dish recipe featuring succulent shrimp and sweet pineapple.', 'This recipe is a quick and easy dinner option, with succulent shrimp and sweet pineapple cooked in a spicy sauce and served over cooked rice. Serve with a side of steamed vegetables or a salad.', 'Servings', 6);";
-
-    String insertDataSQL46 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (46, 1, 'Baked Lemon Herb Cod', 'A flavorful and healthy fish recipe featuring a bright and citrusy marinade.', 'This recipe is a great way to prepare fish, with a flavorful marinade made from lemon juice, olive oil, and herbs like thyme and parsley. Serve with roasted vegetables and quinoa for a well-rounded meal.', 'Servings', 6);";
-
-    String insertDataSQL47 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (47, 1, 'Creamy Mushroom and Leek Pasta', 'A rich and creamy pasta recipe featuring sautéed mushrooms and leeks and a velvety sauce.', 'This recipe is a comforting and indulgent dish, with sautéed mushrooms and leeks and a creamy sauce made from heavy cream and Parmesan cheese. Serve with cooked pasta and a sprinkle of parsley.', 'Servings', 6);";
-
-    String insertDataSQL48 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (48, 1, 'Grilled Chicken and Avocado Salad', 'A colorful and flavorful salad recipe featuring grilled chicken, avocado, and a tangy vinaigrette.', 'This recipe is a great way to enjoy a hearty salad, with grilled chicken, avocado, and a tangy vinaigrette. Serve with a side of crusty bread or quinoa.', 'Salads', 6);";
-
-    String insertDataSQL49 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (49, 1, 'Spicy Shrimp and Quinoa Bowl', 'A flavorful and healthy bowl recipe featuring spicy shrimp and quinoa.', 'This recipe is a great way to enjoy a balanced meal, with spicy shrimp and quinoa. Serve with a side of steamed vegetables or a salad.', 'Bowls', 6);";
-
-    String insertDataSQL50 = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount)"
-        + "VALUES (50, 1, 'Baked Lemon Herb Salmon and Asparagus', 'A flavorful and healthy fish and vegetable recipe featuring a bright and citrusy marinade.', 'This recipe is a great way to prepare fish and vegetables, with a flavorful marinade made from lemon juice, olive oil, and herbs like thyme and parsley. Serve with a side of quinoa or brown rice.', 'Servings', 6);";
-
+    String[] insertDataSQL = new String[20];  // Array to hold SQL commands for each recipe
+    insertDataSQL[0] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('1', 1, 'Creamy Tomato Soup', 'A comforting, creamy blend of tomatoes and herbs.', 'Perfect for chilly evenings. Rich with cream and parmesan, complemented by fresh tomatoes.', 'servings', '4');";
+    insertDataSQL[1] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('2', 1, 'Spicy Shrimp Tacos', 'Tasty shrimp with a kick, wrapped in a soft tortilla.', 'Juicy shrimp seasoned with chili and lime, topped with fresh salsa and avocado.', 'servings', '4');";
+    insertDataSQL[2] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('3', 1, 'Roasted Vegetable Quinoa Bowl', 'A warm bowl of healthy goodness.', 'Roasted seasonal vegetables over fluffy quinoa, drizzled with a balsamic glaze.', 'servings', '4');";
+    insertDataSQL[3] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('4', 1, 'Chicken Fajita Wrap', 'Spicy chicken with crunchy veggies.', 'Chicken strips with bell peppers and onions, served in a warm tortilla with sour cream.', 'servings', '4');";
+    insertDataSQL[4] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('5', 1, 'Baked Salmon with Lemon and Herbs', 'Lemon and herb infused salmon.', 'Oven-baked salmon seasoned with fresh herbs and a zesty lemon butter sauce.', 'servings', '4');";
+    insertDataSQL[5] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('6', 1, 'Creamy Mushroom Pasta', 'Comforting pasta in a creamy sauce.', 'Penne pasta smothered in a rich, garlic mushroom cream sauce.', 'servings', '4');";
+    insertDataSQL[6] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('7', 1, 'Beef Stroganoff', 'Rich and creamy Russian classic.', 'Tender slices of beef and mushrooms in a savory sour cream sauce served over egg noodles.', 'servings', '4');";
+    insertDataSQL[7] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('8', 1, 'Thai Green Curry', 'Spicy and aromatic Thai favorite.', 'Green curry paste cooked with coconut milk, chicken, and mixed vegetables.', 'servings', '4');";
+    insertDataSQL[8] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('9', 1, 'Vegetable Stir Fry', 'Quick and colorful veggie dish.', 'A variety of fresh vegetables sautéed with soy sauce and sesame oil.', 'servings', '4');";
+    insertDataSQL[9] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('10', 1, 'Classic Margherita Pizza', 'Simple and fresh.', 'A thin crust pizza topped with tomato sauce, fresh mozzarella, and basil leaves.', 'servings', '2');";
+    insertDataSQL[10] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('11', 1, 'Pumpkin Spice Latte', 'Warm and seasonal favorite.', 'Espresso mixed with steamed milk, pumpkin spice syrup, topped with whipped cream and a sprinkle of cinnamon.', 'servings', '1');";
+    insertDataSQL[11] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('12', 1, 'Maple Glazed Salmon', 'Sweet and savory delight.', 'Fresh salmon fillet glazed with a sweet maple syrup sauce.', 'servings', '4');";
+    insertDataSQL[12] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('13', 1, 'Butternut Squash Soup', 'Creamy and comforting.', 'Smooth soup made from roasted butternut squash, onions, and a hint of nutmeg.', 'servings', '4');";
+    insertDataSQL[13] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('14', 1, 'Grilled Cheese Sandwich', 'Classic comfort food.', 'Crispy bread grilled with melted cheese inside, served with tomato soup.', 'servings', '1');";
+    insertDataSQL[14] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('15', 1, 'Mediterranean Chickpea Salad', 'Light and refreshing.', 'Chickpeas mixed with diced cucumbers, tomatoes, red onion, feta cheese, and olives, dressed with olive oil and lemon juice.', 'servings', '4');";
+    insertDataSQL[15] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('16', 1, 'BBQ Ribs', 'Tender and smoky.', 'Slow-cooked ribs coated in a homemade BBQ sauce, grilled to perfection.', 'servings', '4');";
+    insertDataSQL[16] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('17', 1, 'Garlic Butter Shrimp', 'Quick and flavorful.', 'Shrimp sautéed in a rich sauce of butter, garlic, and parsley.', 'servings', '4');";
+    insertDataSQL[17] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('18', 1, 'Chocolate Lava Cake', 'Decadent dessert.', 'Rich chocolate cake with a gooey molten chocolate center, served warm.', 'servings', '4');";
+    insertDataSQL[18] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('19', 1, 'Caesar Salad', 'Classic and crisp.', 'Crisp romaine lettuce tossed with Caesar dressing, croutons, and Parmesan cheese.', 'servings', '4');";
+    insertDataSQL[19] = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES ('20', 1, 'Lemon Herb Roasted Chicken', 'Juicy and flavorful.', 'Whole chicken roasted with a blend of lemon, garlic, and herbs.', 'servings', '4');";
+    
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
-    seedTable(insertDataSQL);
-    seedTable(insertDataSQL1);
-    seedTable(insertDataSQL2);
-    seedTable(insertDataSQL3);
-    seedTable(insertDataSQL4);
-    seedTable(insertDataSQL5);
-    seedTable(insertDataSQL6);
-    seedTable(insertDataSQL7);
-    seedTable(insertDataSQL8);
-    seedTable(insertDataSQL9);
-    seedTable(insertDataSQL10);
-    seedTable(insertDataSQL11);
-    seedTable(insertDataSQL12);
-    seedTable(insertDataSQL13);
-    seedTable(insertDataSQL14);
-    seedTable(insertDataSQL15);
-    seedTable(insertDataSQL16);
-    seedTable(insertDataSQL17);
-    seedTable(insertDataSQL18);
-    seedTable(insertDataSQL19);
-    seedTable(insertDataSQL20);
-    seedTable(insertDataSQL21);
-    seedTable(insertDataSQL22);
-    seedTable(insertDataSQL23);
-    seedTable(insertDataSQL24);
-    seedTable(insertDataSQL25);
-    seedTable(insertDataSQL26);
-    seedTable(insertDataSQL27);
-    seedTable(insertDataSQL28);
-    seedTable(insertDataSQL29);
-    seedTable(insertDataSQL30);
-    seedTable(insertDataSQL31);
-    seedTable(insertDataSQL32);
-    seedTable(insertDataSQL33);
-    seedTable(insertDataSQL34);
-    seedTable(insertDataSQL35);
-    seedTable(insertDataSQL36);
-    seedTable(insertDataSQL37);
-    seedTable(insertDataSQL38);
-    seedTable(insertDataSQL39);
-    seedTable(insertDataSQL40);
-    seedTable(insertDataSQL41);
-    seedTable(insertDataSQL42);
-    seedTable(insertDataSQL43);
-    seedTable(insertDataSQL44);
-    seedTable(insertDataSQL45);
-    seedTable(insertDataSQL46);
-    seedTable(insertDataSQL47);
-    seedTable(insertDataSQL48);
-    seedTable(insertDataSQL49);
-    seedTable(insertDataSQL50);
+    for (String sql : insertDataSQL) {
+        seedTable(sql);     // Seed each recipe
+    }
   }
 
 
@@ -301,9 +121,21 @@ public class DatabaseSeeder {
         + "`IngredientID` varchar(45) NOT NULL, "
         + "`IngredientName` varchar(45) NOT NULL, "
         + "PRIMARY KEY (`IngredientID`));";
-
+    
+    String seedIngredients = "INSERT INTO `ingredients` (IngredientID, IngredientName) VALUES " +
+    "('1', 'Tomato'), " +
+    "('2', 'Shrimp'), " +
+    "('3', 'Quinoa'), " +
+    "('4', 'Chicken'), " +
+    "('5', 'Salmon'), " +
+    "('6', 'Mushroom'), " +
+    "('7', 'Beef'), " +
+    "('8', 'Coconut Milk'), " +
+    "('9', 'Soy Sauce'), " +
+    "('10', 'Mozzarella');";
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
+    seedTable(seedIngredients);
   }
 
   public void seedRecipeIngredients() {
@@ -318,8 +150,21 @@ public class DatabaseSeeder {
         + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
         + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
 
+    String seedRecipeIngredients = "INSERT INTO `recipe_ingredients` (RecipeID, IngredientID, Unit, Amount) VALUES " +
+    "('1', '1', 'cups', '2'), " +
+    "('2', '2', 'pieces', '12'), " +
+    "('3', '3', 'cups', '1'), " +
+    "('4', '4', 'grams', '300'), " +
+    "('5', '5', 'fillets', '4'), " +
+    "('6', '6', 'grams', '200'), " +
+    "('7', '7', 'grams', '500'), " +
+    "('8', '8', 'ml', '400'), " +
+    "('9', '9', 'ml', '100'), " +
+    "('10', '10', 'grams', '250');";
+
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
+    seedTable(seedRecipeIngredients);
   }
 
   public void seedUserFavorites() {
@@ -344,9 +189,10 @@ public class DatabaseSeeder {
         + "`TagID` varchar(255) NOT NULL, "
         + "`TagName` varchar(45) NOT NULL, "
         + "PRIMARY KEY (`TagID`));";
-
+    String seedTagValues = "INSERT INTO `tags` (`TagID`, `TagName`) VALUES ('1', 'Comfort Food'), ('2', 'Quick Meals'), ('3', 'Vegetarian');";
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
+    seedTable(seedTagValues);
   }
 
   public void seedRecipeTags() {
@@ -379,9 +225,86 @@ public class DatabaseSeeder {
         + "KEY `UserID0_idx` (`UserID`), "
         + "CONSTRAINT `RecipeID2` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
         + "CONSTRAINT `UserID0` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`))";
+    String[] insertCommentValues = new String[29];
+
+    // Recipe ID 1
+
+insertCommentValues[0] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('1', 1, 'Absolutely love this soup, its a family favorite now!', '2023-05-05 17:30:00');";
+
+insertCommentValues[1] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('1', 2, 'The vegetables are so fresh and crunchy!', '2023-05-06 10:00:00');";
+
+insertCommentValues[2] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('1', 1, 'A healthy and delicious soup!', '2023-05-07 14:30:00');";
+
+insertCommentValues[3] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('1', 2, 'So easy to make and so tasty!', '2023-05-08 18:00:00');";
+
+insertCommentValues[4] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('1', 2, 'Will definitely make this soup again!', '2023-05-09 21:30:00');";
+
+
+// Recipe ID 2
+
+insertCommentValues[5] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('2', 1, 'A perfect dish for a quick lunch!', '2023-05-10 12:15:00');";
+
+insertCommentValues[6] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('2', 2, 'The cheese and tomato combination is amazing!', '2023-05-11 17:00:00');";
+
+insertCommentValues[7] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('2', 2, 'So easy to prepare and so delicious!', '2023-05-12 20:30:00');";
+
+insertCommentValues[8] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('2', 2, 'Will make this for my family soon!', '2023-05-13 11:15:00');";
+
+insertCommentValues[9] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('2', 2, 'A great vegetarian option!', '2023-05-14 18:45:00');";
+
+
+// Recipe ID 3
+
+insertCommentValues[10] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('3', 2, 'A delicious and healthy salad!', '2023-05-15 13:30:00');";
+
+insertCommentValues[11] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('3', 1, 'The avocado and chicken are a great combination!', '2023-05-16 19:00:00');";
+
+insertCommentValues[12] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('3', 2, 'A perfect lunch option!', '2023-05-17 11:15:00');";
+
+insertCommentValues[13] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('3', 2, 'Will make this again for sure!', '2023-05-18 17:45:00');";
+
+insertCommentValues[14] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('3', 2, 'So easy to make and so tasty!', '2023-05-19 20:00:00');";
+
+
+// Recipe ID 4
+
+insertCommentValues[15] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('4', 1, 'A perfect dinner option!', '2023-05-20 18:30:00');";
+
+insertCommentValues[16] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('4', 1, 'The steak is so tender and juicy!', '2023-05-21 13:00:00');";
+
+insertCommentValues[17] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('4', 1, 'The mushrooms and onions add so much flavor!', '2023-05-22 20:15:00');";
+
+insertCommentValues[18] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('4', 2, 'A great recipe for a special occasion!', '2023-05-23 12:00:00');";
+
+insertCommentValues[19] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('4', 1, 'Will definitely make this again!', '2023-05-24 17:30:00');";
+
+
+// Recipe ID 5
+
+insertCommentValues[20] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('5', 1, 'A perfect breakfast option!', '2023-05-25 09:00:00');";
+
+insertCommentValues[21] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('5', 2, 'The pancakes are so fluffy and delicious!', '2023-05-26 13:30:00');";
+
+insertCommentValues[22] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('5', 1, 'A great recipe for a weekend morning!', '2023-05-27 10:45:00');";
+
+insertCommentValues[23] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('5', 1, 'Will make this again for sure!', '2023-05-28 18:00:00');";
+
+insertCommentValues[24] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('5', 1, 'So easy to make and so tasty!', '2023-05-29 21:30:00');";
+
+
+// Recipe ID 6
+
+insertCommentValues[25] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('6', 1, 'A perfect dinner option!', '2023-05-30 19:00:00');";
+
+insertCommentValues[26] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('6', 2, 'The chicken is so tender and juicy!', '2023-05-31 13:30:00');";
+
+insertCommentValues[27] = "INSERT INTO `comments` (RecipeID, UserID, Text, Timestamp) VALUES ('6', 1, 'The lemon and herbs add so much flavor!', '2023-06-01 11:00:00');";
 
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
+    for (String sql : insertCommentValues) {
+        seedTable(sql);     // Seed each comment
+    }
   }
 
   public void seedWeeklyDinnerLists() {
@@ -394,13 +317,8 @@ public class DatabaseSeeder {
         "PRIMARY KEY (`WeeklyDinnerListID`), " +
         "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
 
-    String seedDataSQL = "INSERT INTO `weekly_dinner_lists` (`UserID`, `Week`) VALUES " +
-        "(1, '2024-05-06'), " +  // Assuming user 1 is a valid user ID
-        "(1, '2024-05-13');";    // Additional weeks can be added similarly
-
     seedTable(dropTableSQL);
     seedTable(createTableSQL);
-    seedTable(seedDataSQL);
 }
 
 
@@ -419,17 +337,9 @@ public void seedDinnerListRecipes() {
       "CONSTRAINT `WeeklyDinnerListID0` FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists` (`WeeklyDinnerListID`)" +
       ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
-  // Here we assume '1' is the WeeklyDinnerListID returned after inserting the week '2024-05-06'.
-  String seedDataSQL = "INSERT INTO `dinner_list_recipes` (WeeklyDinnerListID, RecipeID, DayOfWeek) VALUES " +
-      "(1, '1', 'Monday'), " +
-      "(1, '2', 'Tuesday'), " +
-      "(1, '3', 'Wednesday'), " +
-      "(1, '4', 'Thursday'), " +
-      "(1, '5', 'Friday');";  // Ensure the recipe IDs match those inserted in seedRecipes.
-
   seedTable(dropTableSQL);
   seedTable(createTableSQL);
-  seedTable(seedDataSQL);
+
 }
 
   public void seedSentRecipes() {
@@ -454,20 +364,6 @@ public void seedDinnerListRecipes() {
     seedTable(createTableSQL);
   }
 
-  public void seedHelpSystem() {
-    String dropTableSQL = "DROP TABLE IF EXISTS `help_system`;";
-
-    String createTableSQL = "CREATE TABLE `help_system` ("
-        + "`HelpID` int NOT NULL, "
-        + "`Title` varchar(45) NOT NULL, "
-        + "`Content` varchar(255) NOT NULL, "
-        + "PRIMARY KEY (`HelpID`))";
-
-    seedTable(dropTableSQL);
-    seedTable(createTableSQL);
-  }
-
-  // Existing methods...
 
   public void seedShoppingList() {
     // SQL command to drop the table if it already exists
@@ -475,14 +371,16 @@ public void seedDinnerListRecipes() {
 
     // SQL command to create the table
     String createTableSQL = "CREATE TABLE `Shopping_List` (" +
-        "`ItemID` INT NOT NULL AUTO_INCREMENT," + // Auto-incrementing ID for each item
-        "`ItemName` VARCHAR(45) NOT NULL," +      // Name of the shopping item
-        "`Amount` FLOAT NOT NULL," +              // Amount of each item needed
-        "`Unit` VARCHAR(45) NOT NULL," +          // Unit of measurement for the amount
-        "`WeeklyDinnerListID` INT," +             // Reference to the weekly dinner list
-        " PRIMARY KEY (`ItemID`)," +
-        " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)" + // Foreign key linking to weekly dinner lists
-        ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+    "`UserID` INT NOT NULL," +  // Ensure there's a space between `UserID` and its type
+    "`ItemID` INT NOT NULL AUTO_INCREMENT," +  // Auto-incrementing ID for each item
+    "`ItemName` VARCHAR(45) NOT NULL," +  // Name of the shopping item
+    "`Amount` FLOAT NOT NULL," +  // Amount of each item needed
+    "`Unit` VARCHAR(45) NOT NULL," +  // Unit of measurement for the amount
+    "`WeeklyDinnerListID` INT," +  // Reference to the weekly dinner list
+    " PRIMARY KEY (`ItemID`)," +
+    " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)," + // Add a comma here
+    " FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`)" + // Foreign key linking to user
+    ");";  // Ensure the statement ends with a semicolon
 
 
     // Execute the SQL commands to seed the table
@@ -490,23 +388,6 @@ public void seedDinnerListRecipes() {
     seedTable(createTableSQL);
     
 }
-
-
-
-   public void seedShoppingListItems() {
-     String dropTableSQL = "DROP TABLE IF EXISTS `shopping_list_items`;";
-
-     String createTableSQL = "CREATE TABLE `shopping_list_items` ("
-         + "`ItemID` int NOT NULL AUTO_INCREMENT, "
-         + "`ShoppingListID` int NOT NULL, "
-         + "`IngredientID` varchar(45) NOT NULL, "
-         + "`Quantity` varchar(100) NOT NULL, "
-         + "PRIMARY KEY (`ItemID`), "
-         + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`));";
-
-     seedTable(dropTableSQL);
-     seedTable(createTableSQL);
-   }
 
   public static void main(String[] args) {
     DatabaseSeeder seeder = new DatabaseSeeder();
@@ -521,9 +402,7 @@ public void seedDinnerListRecipes() {
     seeder.seedWeeklyDinnerLists();
     seeder.seedDinnerListRecipes();
     seeder.seedShoppingList();
-    seeder.seedShoppingListItems();
     seeder.seedSentRecipes();
-    seeder.seedHelpSystem();
     seeder.seedMessages();
   }
 }

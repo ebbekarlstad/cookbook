@@ -6,11 +6,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import cookbook.backend.be_objects.Message;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.UserSession;
@@ -19,6 +21,7 @@ import cookbook.backend.be_controllers.MessageController;
 import cookbook.backend.be_controllers.RecipeController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,6 +41,8 @@ public class MessagesViewController {
   private TableColumn<Message, String> fromColumn;
   @FXML
   private TextArea messageContent;
+  @FXML
+  private Button backButton;
 
   public MessagesViewController() {
     this.dbManager = new DatabaseMng();
@@ -119,7 +124,7 @@ private void setupMessageTable() {
 
   private void loadMessages() {
     try {
-      int userId = UserSession.getInstance().getUserId();
+      Long userId = UserSession.getInstance().getUserId();
       List<Message> messages = messageController.getInbox(userId);
       ObservableList<Message> observableMessages = FXCollections.observableArrayList(messages);
       messageTableView.setItems(observableMessages);
@@ -128,4 +133,19 @@ private void setupMessageTable() {
     }
   }
 
+  @FXML
+  private void handleBackButton(ActionEvent event) {
+    try {
+      //Load the login page FXML
+      Parent navigationViewParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Scene navigationViewScene = new Scene(navigationViewParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationViewScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

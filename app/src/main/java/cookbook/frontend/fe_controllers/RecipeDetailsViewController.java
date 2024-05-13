@@ -7,12 +7,12 @@ import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.FloatProperty;
+
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,10 +28,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
-
-import java.sql.SQLException;
 
 import java.io.IOException;
 
@@ -64,7 +60,6 @@ public class RecipeDetailsViewController {
 
 
     private String recipeId;
-    private Long userId = 1L;
     private int commentId;
     Recipe recipe;
 
@@ -78,9 +73,6 @@ public class RecipeDetailsViewController {
     @FXML
     private Button shareRecipeButton;
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     DatabaseMng myDbManager;
 
@@ -234,12 +226,17 @@ public class RecipeDetailsViewController {
         String commentText = commentInput.getText().trim();  // Get text from TextField
         if (!commentText.isEmpty()) {
 
-            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, 1, commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
+            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, UserSession.getInstance().getUserId(), commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
             commentsListView.getItems().add(commentText);  // Add comment to ListView
             commentInput.clear();  // Clear the input field
 
             if (!commentController.addComment(newComment)) {
                 System.out.println("Failed to add comment.");
+                Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                failure.setTitle("Error..:(");
+                failure.setContentText("There was a problem with adding a comment.");
+                failure.show();
+                
             }
         }
     }
@@ -253,8 +250,16 @@ public class RecipeDetailsViewController {
             if (commentController.removeComment(selectedComment)) {
                 commentsListView.getItems().remove(selectedIndex);  // Remove the comment from the ListView
                 System.out.println("Comment removed successfully.");
+                Alert success = new Alert(Alert.AlertType.INFORMATION);
+                success.setTitle("Success!");
+                success.setContentText("You successfully removed the comment!");
+                success.show();
             } else {
                 System.out.println("Failed to remove comment.");
+                Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                failure.setTitle("Error..:(");
+                failure.setContentText("There was a problem deleting the comment.");
+                failure.show();
             }
         } else {
             System.out.println("No comment selected.");
@@ -282,9 +287,17 @@ public class RecipeDetailsViewController {
                     commentsListView.getItems().set(selectedIndex, newCommentText); // Update the comment in the ListView
                     commentInput.clear(); // Clear the text field after updating
                     System.out.println("Comment updated successfully.");
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("Success!");
+                    success.setContentText("Comment updated!");
+                    success.show();
                 }
             } else {
                 System.out.println("Failed to update comment.");
+                Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                failure.setTitle("Error..:(");
+                failure.setContentText("YThere was a probelm with updating the comment.");
+                failure.show();
             }
         } else {
             System.out.println("No changes made to the comment.");
@@ -294,7 +307,7 @@ public class RecipeDetailsViewController {
     public void handleHelpBackButton(ActionEvent event){
         try {
             //Load the navigation page FXML
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
             Scene navigationPageScene = new Scene(navigationPageParent);
 
             // Get the current stage and replace it
@@ -323,6 +336,7 @@ public class RecipeDetailsViewController {
             shareStage.setScene(new Scene(sharePageParent));
             shareStage.initModality(Modality.APPLICATION_MODAL); // This will make it so user cant interact with old window
             shareStage.show(); // Showw the new stage
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -330,67 +344,61 @@ public class RecipeDetailsViewController {
 
     @FXML
     public void addToFavorites(ActionEvent event) {
-        //   try {
-        //       // Skriv ut userID och recipeID för att verifiera att de inte är null
-        //       System.out.println("UserId: " + (this.userId != null ? this.userId: "null"));
-        //       System.out.println("Recipe: " + (this.recipe != null ? this.recipe.getId() : "null"));
-
-        //       // Kontrollera att både userId och recipe är korrekt innan du fortsätter
-        //       if (this.userId != null && this.recipe != null) {
-        //           if (favoritesController.addFavorite(this.userId, this.recipe)) {
-        //               System.out.println("Favorite added successfully.");
-        //               // Uppdatera UI här
-        //           } else {
-        //               System.out.println("Failed to add favorite.");
-        //           }
-        //       } else {
-        //           System.out.println("UserId or Recipe is null, cannot add to favorites.");
-        //       }
-        //   } catch (Exception e) {
-        //       System.err.println("Error adding favorite: " + e.getMessage());
-        //       e.printStackTrace();
-        //   }
-        // String sql = "INSERT INTO user_favorites (UserID, RecipeID) VALUES (?, ?)";
-        // try (Connection conn = myDbManager.getConnection();
-        //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        //     this.userId = 1L;
-        //     pstmt.setLong(1, userId);
-        //     pstmt.setString(2, recipe.getId());  
-        //     int affectedRows = pstmt.executeUpdate();
-        //     if ( affectedRows > 0) System.out.println("Done");;
-        // } catch (SQLException e) {
-        //   System.err.println("Error adding favorite: " + e.getMessage());
-        // }
-        this.userId = 1L;
-        favoritesController.addFavorite(userId, recipe);
+        Long userId = UserSession.getInstance().getUserId();  // Ensures the user is retrieved from the session
+        if (userId != null && this.recipe != null) {
+            try {
+                boolean success = favoritesController.addFavorite(userId, this.recipe);
+                if (success) {
+                    System.out.println("Favorite added successfully.");
+                    Alert success1 = new Alert(Alert.AlertType.INFORMATION);
+                    success1.setTitle("Success!");
+                    success1.setContentText("You successfully added the recipe to your favorites!");
+                    success1.show();
+                } else {
+                    System.out.println("Failed to add favorite.");
+                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                    failure.setTitle("Error..:(");
+                    failure.setContentText("There was a problem adding this recipe to your favorites.");
+                    failure.show();
+                }
+            } catch (Exception e) {
+                System.err.println("Error adding favorite: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("UserId or Recipe is null, cannot add to favorites.");
+        }
     }
 
 
 
     @FXML
     public void removeFromFavorites(ActionEvent event) {
-
-        //   // Använd favoritesController för att ta bort från databasen istället
-        //   if (favoritesController.removeFavorite(this.userId, this.recipe)) {
-        //       System.out.println("Favorite removed successfully.");
-        //       // Uppdatera ditt UI här om nödvändigt, t.ex. aktivera 'Add to favorite'-knappen
-        //   } else {
-        //       System.out.println("Failed to remove favorite.");
-        //       // Visa felmeddelande till användaren
-        //   }
-        // String sql = "DELETE FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
-        // try (Connection conn = myDbManager.getConnection();
-        //       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        //     pstmt.setLong(1, userId);
-        //     pstmt.setString(2, recipe.getId());
-        //     int affectedRows = pstmt.executeUpdate();
-        //     if ( affectedRows > 0) System.out.println("Done");;
-        // } catch (SQLException e) {
-        //   System.err.println("Failed to remove favorite: ");
-        // }
-
-        this.userId = 1L;
-        favoritesController.removeFavorite(userId, recipe);
+        Long userId = UserSession.getInstance().getUserId(); 
+        if (userId != null && this.recipe != null) {
+            try {
+                boolean success = favoritesController.removeFavorite(userId, this.recipe);
+                if (success) {
+                    System.out.println("Favorite removed successfully.");
+                    Alert success1 = new Alert(Alert.AlertType.INFORMATION);
+                    success1.setTitle("Success!");
+                    success1.setContentText("You successfully removed this recipe from your favorites!");
+                    success1.show();                   
+                    
+                } else {
+                    System.out.println("Failed to remove favorite.");
+                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
+                    failure.setTitle("Error..:(");
+                    failure.setContentText("There was a problem removing this recipe from favorites.");
+                    failure.show();                    
+                }
+            } catch (Exception e) {
+                System.err.println("Failed to remove favorite: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("UserId or Recipe is null, cannot remove from favorites.");
+        }
     }
 
     @FXML
@@ -400,10 +408,8 @@ public class RecipeDetailsViewController {
             Parent parent = loader.load();
 
             PopupWeeklyViewController popupController = loader.getController();
-            this.userId = 1L; // Sätter userId direkt här
-            System.out.println(userId + " " + recipe.getId());
             if (popupController != null) {
-                popupController.initData(recipe, userId); // Skickar nu den här lokalt satta userId
+                popupController.initData(recipe, UserSession.getInstance().getUserId()); // Skickar nu den här lokalt satta userId
             } else {
                 System.out.println("Popup controller was not initialized.");
                 return; // To avoid further execution
