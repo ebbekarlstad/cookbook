@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+
 public class SearchHelpController {
 
   @FXML
@@ -97,16 +98,22 @@ public class SearchHelpController {
           
                   );
       
-    StringBuilder helpTextBuilder = new StringBuilder();
-    helpTextBuilder.append("Welcome to the Digital Cookbook Help System\n\n");
-    int topicNumber = 1;
-    for (HelpMain topic : helpTopics) {
-        helpTextBuilder.append(topicNumber).append("- ").append(topic.getTitle()).append("\n\n")
-                       .append(topic.getDescription()).append("\n\n");
-        topicNumber++;
-    }
-    helpResultField.setText(helpTextBuilder.toString());
-}
+                  StringBuilder helpTextBuilder = new StringBuilder();
+                  helpTextBuilder.append("Welcome to the Digital Cookbook Help System\n\n");
+                  int topicNumber = 1;
+                  for (HelpMain topic : helpTopics) {
+                      // Append title with a marker for bold (e.g., uppercase or special markers)
+                      helpTextBuilder.append(topicNumber)
+                                     .append("- ")
+                                     .append(topic.getTitle().toUpperCase()) // Making title uppercase to simulate bold
+                                     .append("\n\n");
+                      // Append description normally
+                      helpTextBuilder.append(topic.getDescription())
+                                     .append("\n\n");
+                      topicNumber++;
+                  }
+                  helpResultField.setText(helpTextBuilder.toString());
+              }
 
 
   private void loadListView() {
