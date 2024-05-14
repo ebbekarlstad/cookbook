@@ -65,5 +65,19 @@ public class AdminPanelViewController {
       e.printStackTrace();
     }
   }
+
+  @FXML
+  private void handleBackButton(ActionEvent event) {
+      try {
+          Parent navigationViewAdminParent = FXMLLoader.load(getClass().getResource("/NavigationViewAdmin.fxml"));
+          Scene navigationViewAdminScene = new Scene(navigationViewAdminParent);
+
+          Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+          window.setScene(navigationViewAdminScene);
+          window.show();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
 }
 
