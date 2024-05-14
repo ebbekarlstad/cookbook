@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RecipeDetailsViewController {
+public class AdminRecipeDetailsViewController {
 
     @FXML
     private TableView<AmountOfIngredients> ingredientTable;
@@ -73,6 +73,8 @@ public class RecipeDetailsViewController {
     @FXML
     private ImageView favoriteIcon;  // Se till att denna ImageView har en fx:id som matchar FXML
 
+    @FXML
+    private Button deleteRecipeButton; // Ny knapp för att radera receptet
 
     private String recipeId;
     private int commentId;
@@ -467,6 +469,42 @@ public class RecipeDetailsViewController {
         }
     }
 
- 
+    @FXML
+private void handleDeleteRecipe() {
+    // Bekräfta raderingen med användaren
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Delete Recipe");
+    alert.setHeaderText("Are you sure you want to delete this recipe?");
+    
+    // Om användaren bekräftar
+    if (alert.showAndWait().get() == ButtonType.OK) {
+        // Logik för att radera receptet, t.ex. anropa en tjänst eller API
+        boolean success = deleteRecipeFromDatabase(); // Din metod för att radera receptet
+
+        if (success) {
+            // Visa en framgångsmeddelande
+            Alert successAlert = new Alert(AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText("Recipe deleted successfully.");
+            successAlert.showAndWait();
+
+            // Om du vill, kan du omdirigera användaren till en annan sida eller uppdatera gränssnittet
+            // Exempel: loadRecipesView();
+        } else {
+            // Visa ett felmeddelande
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText("Failed to delete the recipe.");
+            errorAlert.showAndWait();
+        }
+    }
+}
+
+private boolean deleteRecipeFromDatabase() {
+    // Din logik för att radera receptet från databasen
+    // Returnera true om lyckat, false annars
+    return true;
+}
+
 
 }
