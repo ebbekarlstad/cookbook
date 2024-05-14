@@ -432,4 +432,13 @@ public class RecipeDetailsViewController {
         }
     }
 
+    @FXML
+    private void handleDeleteRecipe(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Recipe");
+        alert.setHeaderText("Are you sure you want to delete this recipe?");
+        
+
+    }
+
 }
