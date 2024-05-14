@@ -450,5 +450,17 @@ public class RecipeDetailsViewController {
                     Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
                     window.setScene(navigationPageScene);
                     window.show();
-   
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete the recipe.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the recipe.");
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while loading the recipe list view.");
+            }
+        }
+    }
+
 }
