@@ -65,16 +65,6 @@ public class RecipeDetailsViewController {
 
     @FXML
     private ImageView favoriteIcon;  // Se till att denna ImageView har en fx:id som matchar FXML
-
-    private void addRecipeToFavorites() {
-        // Lägg till receptet i användarens favoritlista i databasen eller lokalt
-        System.out.println("Added to favorites!");
-    }
-    
-    private void removeRecipeFromFavorites() {
-        // Ta bort receptet från användarens favoritlista
-        System.out.println("Removed from favorites!");
-    }
     
 
 
@@ -145,6 +135,8 @@ public class RecipeDetailsViewController {
       // Set the items of the table view to the list of ingredients
       ingredientTable.setItems(ingredients);
     }
+
+    
 
     public void initData(Recipe recipe) {
         this.recipe = recipe;
@@ -362,75 +354,49 @@ public class RecipeDetailsViewController {
     }
 
     @FXML
-    public void addToFavorites(ActionEvent event) {
-        Long userId = UserSession.getInstance().getUserId();  // Ensures the user is retrieved from the session
+    private void handleToggleFavorite() {
+        Long userId = UserSession.getInstance().getUserId();
         if (userId != null && this.recipe != null) {
             try {
-                boolean success = favoritesController.addFavorite(userId, this.recipe);
-                if (success) {
-                    System.out.println("Favorite added successfully.");
-                    Alert success1 = new Alert(Alert.AlertType.INFORMATION);
-                    success1.setTitle("Success!");
-                    success1.setContentText("You successfully added the recipe to your favorites!");
-                    success1.show();
+                boolean success;
+                if (toggleFavorite.isSelected()) {
+                    favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starBLACK.png")));
+                    success = favoritesController.addFavorite(userId, this.recipe);
+                    showMessage(success, "added to");
                 } else {
-                    System.out.println("Failed to add favorite.");
-                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
-                    failure.setTitle("Error..:(");
-                    failure.setContentText("There was a problem adding this recipe to your favorites.");
-                    failure.show();
+                    favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starWHITE.png")));
+                    success = favoritesController.removeFavorite(userId, this.recipe);
+                    showMessage(success, "removed from");
                 }
             } catch (Exception e) {
-                System.err.println("Error adding favorite: " + e.getMessage());
+                System.err.println("Error updating favorite status: " + e.getMessage());
                 e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "There was a problem updating the favorites status.");
             }
         } else {
-            System.out.println("UserId or Recipe is null, cannot add to favorites.");
+            System.out.println("UserId or Recipe is null, cannot update favorites.");
+            showAlert(Alert.AlertType.ERROR, "Error", "User or Recipe data is missing.");
         }
     }
-
-
-
-    @FXML
-    public void removeFromFavorites(ActionEvent event) {
-        Long userId = UserSession.getInstance().getUserId(); 
-        if (userId != null && this.recipe != null) {
-            try {
-                boolean success = favoritesController.removeFavorite(userId, this.recipe);
-                if (success) {
-                    System.out.println("Favorite removed successfully.");
-                    Alert success1 = new Alert(Alert.AlertType.INFORMATION);
-                    success1.setTitle("Success!");
-                    success1.setContentText("You successfully removed this recipe from your favorites!");
-                    success1.show();                   
-                    
-                } else {
-                    System.out.println("Failed to remove favorite.");
-                    Alert failure = new Alert(Alert.AlertType.INFORMATION);
-                    failure.setTitle("Error..:(");
-                    failure.setContentText("There was a problem removing this recipe from favorites.");
-                    failure.show();                    
-                }
-            } catch (Exception e) {
-                System.err.println("Failed to remove favorite: " + e.getMessage());
-                e.printStackTrace();
-            }
+    
+    private void showMessage(boolean success, String action) {
+        if (success) {
+            System.out.println("Favorite " + action + " successfully.");
+            showAlert(Alert.AlertType.INFORMATION, "Success!", "Recipe successfully " + action + " your favorites!");
         } else {
-            System.out.println("UserId or Recipe is null, cannot remove from favorites.");
+            System.out.println("Failed to " + action + " favorite.");
+            showAlert(Alert.AlertType.ERROR, "Error..:(", "There was a problem " + action + " this recipe to your favorites.");
         }
     }
-
-
-@FXML
-private void handleToggleFavorite() {
-    if (toggleFavorite.isSelected()) {
-        favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starBLACK.png")));
-        addRecipeToFavorites();  // Logik för att lägga till i favoriter
-    } else {
-        favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starWHITE.png")));
-        removeRecipeFromFavorites();  // Logik för att ta bort från favoriter
+    
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.show();
     }
-}
+    
 
 
 
