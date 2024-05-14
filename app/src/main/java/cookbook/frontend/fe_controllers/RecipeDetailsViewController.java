@@ -136,7 +136,12 @@ public class RecipeDetailsViewController {
       ingredientTable.setItems(ingredients);
     }
 
-    
+    @FXML
+    private void initialize() {
+        DatabaseMng dbManager = new DatabaseMng();
+        this.favoritesController = new FavoritesController(dbManager);
+        // Andra initialiseringsuppgifter...
+    }
 
     public void initData(Recipe recipe) {
         this.recipe = recipe;
