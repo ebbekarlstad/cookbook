@@ -341,29 +341,33 @@ void addIngredient(ActionEvent event) {
 
 
 
-    /**
-     * Handles the action triggered by pressing the "Back" button. This method changes the scene
-     * to the navigation view, allowing the user to return to the main menu of the application.
-     *
-     * @param event The action event triggered by the user interaction.
-     */
-    @FXML
-    void backButton(ActionEvent event) {
-        // Attempt to load the navigation view FXML and switch scenes
-        try {
-            // Load the FXML for the navigation page
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-            Scene navigationPageScene = new Scene(navigationPageParent);
+/**
+ * Handles the action triggered by pressing the "Back" button. This method changes the scene
+ * to the navigation view, allowing the user to return to the main menu of the application.
+ *
+ * @param event The action event triggered by the user interaction.
+ */
+@FXML
+void backButton(ActionEvent event) {
+    // Attempt to load the navigation view FXML and switch scenes
+    try {
+        // Determine the correct FXML file based on the user's role
+        String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
 
-            // Get the current window from the event source and set the new scene
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(navigationPageScene);
-            window.show();
-        } catch (Exception e) {
-            // Print stack trace if there's an exception during scene change (usually FXML loading issues)
-            e.printStackTrace();
-        }
+        // Load the FXML for the navigation page
+        Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+        Scene navigationPageScene = new Scene(navigationPageParent);
+
+        // Get the current window from the event source and set the new scene
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(navigationPageScene);
+        window.show();
+    } catch (Exception e) {
+        // Print stack trace if there's an exception during scene change (usually FXML loading issues)
+        e.printStackTrace();
     }
+}
+
 
 
 
