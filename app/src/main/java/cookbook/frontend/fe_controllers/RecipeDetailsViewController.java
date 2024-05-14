@@ -438,7 +438,17 @@ public class RecipeDetailsViewController {
         alert.setTitle("Delete Recipe");
         alert.setHeaderText("Are you sure you want to delete this recipe?");
         
-
-    }
-
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                boolean success = RecipeController.deleteRecipeById(recipeId);
+                if (success) {
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "Recipe deleted successfully.");
+                    // Navigate back to the recipe list view
+                    Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
+                    Scene navigationPageScene = new Scene(navigationPageParent);
+                    Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(navigationPageScene);
+                    window.show();
+   
 }
