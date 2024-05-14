@@ -60,19 +60,21 @@ private void loadFavoriteRecipes() {
     favoriteRecipes.setAll(favorites);
 }
 
-    @FXML
-    public void goBackToNavigator(MouseEvent event) {
-                try {
-          //Load the navigation page FXML
-          Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-          Scene navigationPageScene = new Scene(navigationPageParent);
-    
-          // Get the current stage and replace it
-          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-          window.setScene(navigationPageScene);
-          window.show();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+@FXML
+public void goBackToNavigator(MouseEvent event) {
+    try {
+        String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+        
+        // Load the appropriate navigation page FXML
+        Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+        Scene navigationPageScene = new Scene(navigationPageParent);
+
+        // Get the current stage and replace it
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(navigationPageScene);
+        window.show();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 }
