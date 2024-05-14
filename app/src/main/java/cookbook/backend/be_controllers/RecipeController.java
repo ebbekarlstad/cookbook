@@ -398,12 +398,21 @@ public class RecipeController {
   }
 
   public static boolean deleteRecipeById(String recipeId) throws SQLException {
-    
+  
     if (!deleteRecipeIngredients(recipeId)) {
         return false;
     }
     
-
+    String sql = "DELETE FROM recipes WHERE RecipeID = ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, recipeId);
+        int affectedRows = pstmt.executeUpdate();
+        return affectedRows > 0;
+    } catch (SQLException ) {
+        System.err.println("Error deleting recipe: " + e.getMessage());
+        return false;
+    }
 }
 
   
