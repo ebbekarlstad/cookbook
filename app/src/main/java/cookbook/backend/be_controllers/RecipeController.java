@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class RecipeController {
 
   private static DatabaseMng dbManager;
@@ -399,11 +398,12 @@ public class RecipeController {
   }
 
   public static boolean deleteRecipeById(String recipeId) throws SQLException {
-  
+    // Först ta bort alla relaterade poster i recipe_ingredients
     if (!deleteRecipeIngredients(recipeId)) {
         return false;
     }
     
+    // Ta sedan bort receptet
     String sql = "DELETE FROM recipes WHERE RecipeID = ?";
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -416,20 +416,18 @@ public class RecipeController {
     }
 }
 
-public static boolean deleteRecipeIngredients(String recipeId) throws SQLException {
-  String sql = "DELETE FROM recipe_ingredients WHERE RecipeID = ?";
-  try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-       PreparedStatement pstmt = conn.prepareStatement(sql)) {
-      pstmt.setString(1, recipeId);
-      pstmt.executeUpdate();
-      return true;
-  } catch (SQLException e) {
-      System.err.println("Error deleting recipe ingredients: " + e.getMessage());
-      return false;
-  }
+
+  public static boolean deleteRecipeIngredients(String recipeId) throws SQLException {
+    String sql = "DELETE FROM recipe_ingredients WHERE RecipeID = ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, recipeId);
+        pstmt.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        System.err.println("Error deleting recipe ingredients: " + e.getMessage());
+        return false;
+    }
 }
-
-
-  
 
 }

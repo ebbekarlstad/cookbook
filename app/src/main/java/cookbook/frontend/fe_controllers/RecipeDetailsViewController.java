@@ -10,9 +10,6 @@ import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
-import javafx.scene.control.Alert.AlertType;
-
-
 
 import javafx.beans.property.SimpleStringProperty;
 
@@ -50,13 +47,7 @@ public class RecipeDetailsViewController {
     @FXML
     private TableColumn<AmountOfIngredients, String> unitColumn;
 
-    @FXML
-    private Button deleteRecipeButton;
-
-
     private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
-
-
 
     @FXML
     private Button LessPersons;
@@ -68,11 +59,13 @@ public class RecipeDetailsViewController {
     private TextField MultipliedAmount;
 
     @FXML
-    private ToggleButton toggleFavorite; 
+    private ToggleButton toggleFavorite;
 
     @FXML
     private ImageView favoriteIcon;  // Se till att denna ImageView har en fx:id som matchar FXML
 
+    @FXML
+    private Button deleteRecipeButton; // Ny knapp för att radera receptet
 
     private String recipeId;
     private int commentId;
@@ -88,64 +81,66 @@ public class RecipeDetailsViewController {
     @FXML
     private Button shareRecipeButton;
 
-
     DatabaseMng myDbManager;
 
     private FavoritesController favoritesController = new FavoritesController(myDbManager);
 
-
-
     private Ingredient fetchIngredientDetails(String ingredientID) {
-      try {
-        // Retrieve ingredient details from the database using IngredientController queries that is already been specified
-        List<Ingredient> ingredients = IngredientController.getIngredients();
-        for (Ingredient ingredient : ingredients) {
-          if (ingredient.getIngredientID().equals(ingredientID)) {
-            return ingredient;
-          }
+        try {
+            // Retrieve ingredient details from the database using IngredientController queries that is already been specified
+            List<Ingredient> ingredients = IngredientController.getIngredients();
+            for (Ingredient ingredient : ingredients) {
+                if (ingredient.getIngredientID().equals(ingredientID)) {
+                    return ingredient;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      return null;
+        return null;
     }
 
-
     private void fetchIngredientsFromDatabase(String recipeID) {
-      try {
-        // I should implement the DBmanager class inside of here somehow but will change it later.
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
-        statement.setString(1, recipeID);
+        try {
+            // I should implement the DBmanager class inside of here somehow but will change it later.
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
+            statement.setString(1, recipeID);
 
-        // Execute query to fetch ingredients
-        ResultSet resultSet = statement.executeQuery();
+            // Execute query to fetch ingredients
+            ResultSet resultSet = statement.executeQuery();
 
-        // Process the result set with a while loop
-        while (resultSet.next()) {
-          String ingredientID = resultSet.getString("IngredientID");
-          String amount = resultSet.getString("Amount");
-          String unit = resultSet.getString("Unit");
+            // Process the result set with a while loop
+            while (resultSet.next()) {
+                String ingredientID = resultSet.getString("IngredientID");
+                String amount = resultSet.getString("Amount");
+                String unit = resultSet.getString("Unit");
 
-          Ingredient ingredient = fetchIngredientDetails(ingredientID);
-          AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
+                Ingredient ingredient = fetchIngredientDetails(ingredientID);
+                AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
 
-          ingredients.add(amountOfIngredient);
+                ingredients.add(amountOfIngredient);
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        resultSet.close();
-        statement.close();
-        connection.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      // Set the items of the table view to the list of ingredients
-      ingredientTable.setItems(ingredients);
+        // Set the items of the table view to the list of ingredients
+        ingredientTable.setItems(ingredients);
     }
 
     @FXML
     private void initialize() {
         DatabaseMng dbManager = new DatabaseMng();
         this.favoritesController = new FavoritesController(dbManager);
+
+        // Kontrollera om användaren är admin och visa eller dölj knappen baserat på det
+        if (!UserSession.getInstance().isAdmin()) {
+            deleteRecipeButton.setVisible(false);
+        }
+
         // Andra initialiseringsuppgifter...
     }
 
@@ -179,14 +174,11 @@ public class RecipeDetailsViewController {
 
         //Fetches everything from the databse and inserts it in the Table View
         fetchIngredientsFromDatabase(recipeId);
-
     }
 
     // The variables needed to make this logic work.
     private int numberOfPersons = 1;
     private float currentMultipliedAmount = 1.0f;
-
-
 
     //for incrementing and decrementing the amount based on how many people.
     @FXML
@@ -210,7 +202,6 @@ public class RecipeDetailsViewController {
         updateIngredientsAmount(); // Update ingredients amount based on the new multiplied amount
     }
 
-
     private void updateIngredientsAmount() {
         for (AmountOfIngredients ingredient : ingredients) {
             float originalAmount = ingredient.getOriginalAmount();
@@ -219,7 +210,6 @@ public class RecipeDetailsViewController {
         }
         ingredientTable.refresh(); // Refresh the table view to reflect the changes
     }
-
 
     private CommentController commentController;
 
@@ -408,34 +398,6 @@ public class RecipeDetailsViewController {
         alert.show();
     }
 
-  
-
-    @FXML
-    private void handleweekButtonAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
-            Parent parent = loader.load();
-
-            PopupWeeklyViewController popupController = loader.getController();
-            if (popupController != null) {
-                popupController.initData(recipe, UserSession.getInstance().getUserId()); // Skickar nu den här lokalt satta userId
-            } else {
-                System.out.println("Popup controller was not initialized.");
-                return; // To avoid further execution
-            }
-            Scene scene = new Scene(parent);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Weekly Recipe Planner");
-            stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
-            stage.showAndWait();
-        } catch (IOException e) {
-            System.out.println("Failed to load the weekly list popup: " + e.getMessage());
-            e.printStackTrace();
-            System.out.println("Error when opening the popup: " + e.getMessage());
-        }
-    }
-
     @FXML
     private void handleDeleteRecipe(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -467,6 +429,30 @@ public class RecipeDetailsViewController {
         }
     }
 
- 
+    @FXML
+    private void handleweekButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
+            Parent parent = loader.load();
+
+            PopupWeeklyViewController popupController = loader.getController();
+            if (popupController != null) {
+                popupController.initData(recipe, UserSession.getInstance().getUserId()); // Skickar nu den här lokalt satta userId
+            } else {
+                System.out.println("Popup controller was not initialized.");
+                return; // To avoid further execution
+            }
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Weekly Recipe Planner");
+            stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
+            stage.showAndWait();
+        } catch (IOException e) {
+            System.out.println("Failed to load the weekly list popup: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error when opening the popup: " + e.getMessage());
+        }
+    }
 
 }
