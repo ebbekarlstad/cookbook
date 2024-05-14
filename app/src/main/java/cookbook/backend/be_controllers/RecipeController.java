@@ -415,6 +415,12 @@ public class RecipeController {
     }
 }
 
+public static boolean deleteRecipeIngredients(String recipeId) throws SQLException {
+  String sql = "DELETE FROM recipe_ingredients WHERE RecipeID = ?";
+
+}
+
+
   
 
 }
