@@ -63,15 +63,14 @@ public class LoginViewController {
                 System.out.println("Login successful!");
                 errorLabel.setTextFill(Color.GREEN);
                 errorLabel.setText("Login Successful!");
-                
-                // Hämta användar-ID och användarens roll (admin eller inte)
+
                 Long userId = UserSession.getInstance().getUserId();
                 boolean isAdmin = result[1];
-                
+
                 UserSession.getInstance().login(userId, username, isAdmin);
 
                 if (isAdmin) {
-                    loadAdminPanelView(event);
+                    loadNavigationViewAdmin(event);
                 } else {
                     loadNavigationView(event);
                 }
@@ -105,9 +104,9 @@ public class LoginViewController {
         }
     }
 
-    private void loadAdminPanelView(ActionEvent event) {
+    private void loadNavigationViewAdmin(ActionEvent event) {
         try {
-            Parent adminPageParent = FXMLLoader.load(getClass().getResource("/AdminRecipeDetailsView.fxml"));
+            Parent adminPageParent = FXMLLoader.load(getClass().getResource("/NavigationViewAdmin.fxml"));
             Scene adminPageScene = new Scene(adminPageParent);
 
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
