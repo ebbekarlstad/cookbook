@@ -15,19 +15,19 @@
 
 <VBox prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.SearchHelpController">
     <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="679.0" prefWidth="903.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="679.0" prefWidth="903.0" style="-fx-background-color: #185B6E;" VBox.vgrow="ALWAYS">
             <children>
                 <Button fx:id="back" layoutX="810.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleHelpBackButton" prefHeight="22.0" prefWidth="120.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back &gt;">
                     <font>
                         <Font name="Arial" size="14.0" />
                     </font>
                 </Button>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#878c91" height="703.0" layoutX="-2.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="298.0">
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#185b6e" height="703.0" layoutX="-2.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="298.0">
                     <effect>
                         <DropShadow />
                     </effect>
                 </Rectangle>
-                <Text layoutX="11.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need help? Start here!">
+                <Text fill="#e1d7d7" layoutX="37.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Need help? Start here!">
                     <font>
                         <Font name="Arial" size="20.0" />
                     </font>
