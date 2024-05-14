@@ -397,6 +397,15 @@ public class RecipeController {
     }
   }
 
+  public static boolean deleteRecipeById(String recipeId) throws SQLException {
+    
+    if (!deleteRecipeIngredients(recipeId)) {
+        return false;
+    }
+    
+
+}
+
   
 
 }
