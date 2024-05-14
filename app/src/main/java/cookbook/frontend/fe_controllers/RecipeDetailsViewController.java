@@ -3,6 +3,7 @@ package cookbook.frontend.fe_controllers;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
+import cookbook.backend.be_controllers.RecipeController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Ingredient;
@@ -65,8 +66,9 @@ public class RecipeDetailsViewController {
 
     @FXML
     private ImageView favoriteIcon;  // Se till att denna ImageView har en fx:id som matchar FXML
-    
 
+    @FXML
+    private Button deleteRecipeButton; // Ny knapp för att radera receptet
 
     private String recipeId;
     private int commentId;
@@ -312,7 +314,7 @@ public class RecipeDetailsViewController {
                 System.out.println("Failed to update comment.");
                 Alert failure = new Alert(Alert.AlertType.INFORMATION);
                 failure.setTitle("Error..:(");
-                failure.setContentText("YThere was a probelm with updating the comment.");
+                failure.setContentText("There was a probelm with updating the comment.");
                 failure.show();
             }
         } else {
@@ -401,9 +403,8 @@ public class RecipeDetailsViewController {
         alert.setContentText(content);
         alert.show();
     }
-    
 
-
+  
 
     @FXML
     private void handleweekButtonAction(ActionEvent event) {
@@ -430,6 +431,5 @@ public class RecipeDetailsViewController {
             System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
-
 
 }

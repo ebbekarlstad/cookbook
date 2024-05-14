@@ -179,6 +179,7 @@
                   <DropShadow />
                </effect>
             </Text>
+            <Button id="deleteRecipeButton" layoutX="664.0" layoutY="102.0" mnemonicParsing="false" onAction="#handleDeleteRecipe" prefHeight="38.0" prefWidth="94.0" text="Delete Recipe" />
             
          </children>
         </AnchorPane>
