@@ -10,10 +10,6 @@ import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
-
-
-import javafx.scene.control.Button;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 
@@ -53,6 +49,10 @@ public class RecipeDetailsViewController {
 
     @FXML
     private TableColumn<AmountOfIngredients, String> unitColumn;
+
+    @FXML
+    private Button deleteRecipeButton;
+
 
     private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
 
