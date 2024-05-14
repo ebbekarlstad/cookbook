@@ -265,6 +265,22 @@ private void handleWeeklyButtonAction(ActionEvent event) {
     }
 }
 
+@FXML
+private void handleGoToAdminPanel(ActionEvent event) {
+    System.out.println("Navigating to Admin Panel");
+    try {
+        Parent adminPanelParent = FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
+        Scene adminPanelScene = new Scene(adminPanelParent);
+
+        // Get the current stage and replace it
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(adminPanelScene);
+        window.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
 
 
   

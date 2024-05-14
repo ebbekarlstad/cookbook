@@ -21,6 +21,7 @@ import java.sql.SQLException;
 
 import cookbook.backend.be_controllers.RecipeController;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -81,21 +82,25 @@ public class RecipeListViewController {
     updatePagination();
   }
 
-  /**
-   * Handles back button action to navigate to the navigation page.
-   * @param event The action event.
-   */
-  public void backButton(ActionEvent event) throws SQLException, IOException {
-    try {
-      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-      Scene navigationPageScene = new Scene(navigationPageParent);
-      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      window.setScene(navigationPageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
+    @FXML
+    public void backButton(ActionEvent event){
+        try {
+            // Kontrollerar om användaren är admin
+            boolean isAdmin = UserSession.getInstance().isAdmin();
+            String fxmlFile = isAdmin ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+
+            // Laddar rätt vy baserat på användarens roll
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Scene navigationPageScene = new Scene(navigationPageParent);
+
+            // Byter scen
+            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            window.setScene(navigationPageScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
   /**
    * Handles selection of a recipe from the list.

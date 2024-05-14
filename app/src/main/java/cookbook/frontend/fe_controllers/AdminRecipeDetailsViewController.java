@@ -300,15 +300,22 @@ public class AdminRecipeDetailsViewController {
         }
     }
 
+    @FXML
     public void handleHelpBackButton(ActionEvent event){
         try {
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
+            // Kontrollerar om användaren är admin
+            boolean isAdmin = UserSession.getInstance().isAdmin();
+            String fxmlFile = isAdmin ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+
+            // Laddar rätt vy baserat på användarens roll
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
             Scene navigationPageScene = new Scene(navigationPageParent);
 
+            // Byter scen
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
             window.setScene(navigationPageScene);
             window.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

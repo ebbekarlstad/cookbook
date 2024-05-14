@@ -4,10 +4,9 @@ public class UserSession {
     private static UserSession instance;
     private Long userId;
     private String username;
-    private boolean admin;
+    private boolean isAdmin;
 
     private UserSession() {
-        // Privat konstruktor för att förhindra flera instanser
     }
 
     public static UserSession getInstance() {
@@ -17,18 +16,14 @@ public class UserSession {
         return instance;
     }
 
-    public void login(Long userId, String username, boolean admin) {
+    public void login(Long userId, String username, boolean isAdmin) {
         this.userId = userId;
         this.username = username;
-        this.admin = admin;
+        this.isAdmin = isAdmin;
     }
 
     public Long getUserId() {
         return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getUsername() {
@@ -36,6 +31,18 @@ public class UserSession {
     }
 
     public boolean isAdmin() {
-        return admin;
+        return isAdmin;
     }
+
+    public void logout() {
+        userId = null;
+        username = null;
+        isAdmin = false;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    
 }
