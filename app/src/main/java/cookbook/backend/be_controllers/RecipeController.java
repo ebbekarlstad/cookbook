@@ -409,7 +409,7 @@ public class RecipeController {
         pstmt.setString(1, recipeId);
         int affectedRows = pstmt.executeUpdate();
         return affectedRows > 0;
-    } catch (SQLException ) {
+    } catch (SQLException e) {
         System.err.println("Error deleting recipe: " + e.getMessage());
         return false;
     }
