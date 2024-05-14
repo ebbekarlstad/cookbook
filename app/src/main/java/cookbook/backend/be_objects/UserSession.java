@@ -1,45 +1,41 @@
 package cookbook.backend.be_objects;
 
 public class UserSession {
-  private static UserSession instance;
-  private Long userId;
-  private String username;
-  private String role;
+    private static UserSession instance;
+    private Long userId;
+    private String username;
+    private boolean admin;
 
-  private UserSession() {}
+    private UserSession() {
+        // Privat konstruktor för att förhindra flera instanser
+    }
 
-  public static synchronized UserSession getInstance() {
-      if (instance == null) {
-          instance = new UserSession();
-      }
-      return instance;
-  }
+    public static UserSession getInstance() {
+        if (instance == null) {
+            instance = new UserSession();
+        }
+        return instance;
+    }
 
-  public Long getUserId() {
-      return userId;
-  }
+    public void login(Long userId, String username, boolean admin) {
+        this.userId = userId;
+        this.username = username;
+        this.admin = admin;
+    }
 
-  public void setUserId(Long userId) {
-      this.userId = userId;
-  }
+    public Long getUserId() {
+        return userId;
+    }
 
-  public String getUsername() {
-      return username;
-  }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-  public void setUsername(String username) {
-      this.username = username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public String getRole() {
-      return role;
-  }
-
-  public void setRole(String role) {
-      this.role = role;
-  }
-
-  public boolean isAdmin() {
-      return "admin".equalsIgnoreCase(role);
-  }
+    public boolean isAdmin() {
+        return admin;
+    }
 }

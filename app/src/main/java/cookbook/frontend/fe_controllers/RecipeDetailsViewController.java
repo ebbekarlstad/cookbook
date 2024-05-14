@@ -12,14 +12,9 @@ import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
 
 import javafx.beans.property.SimpleStringProperty;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-
-import java.sql.*;
-import java.util.*;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -32,6 +27,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.*;
 
 public class RecipeDetailsViewController {
 
@@ -62,7 +59,7 @@ public class RecipeDetailsViewController {
     private ToggleButton toggleFavorite;
 
     @FXML
-    private ImageView favoriteIcon;  // Se till att denna ImageView har en fx:id som matchar FXML
+    private ImageView favoriteIcon;
 
     @FXML
     private Button deleteRecipeButton; // Ny knapp för att radera receptet
@@ -72,11 +69,11 @@ public class RecipeDetailsViewController {
     Recipe recipe;
 
     @FXML
-    private Label titleLabel; // Label for the recipe title.
+    private Label titleLabel;
     @FXML
-    private Label shortLabel; // Label for the short description.
+    private Label shortLabel;
     @FXML
-    private Label longLabel; // Label for the detailed description.
+    private Label longLabel;
 
     @FXML
     private Button shareRecipeButton;
@@ -87,7 +84,6 @@ public class RecipeDetailsViewController {
 
     private Ingredient fetchIngredientDetails(String ingredientID) {
         try {
-            // Retrieve ingredient details from the database using IngredientController queries that is already been specified
             List<Ingredient> ingredients = IngredientController.getIngredients();
             for (Ingredient ingredient : ingredients) {
                 if (ingredient.getIngredientID().equals(ingredientID)) {
@@ -102,15 +98,12 @@ public class RecipeDetailsViewController {
 
     private void fetchIngredientsFromDatabase(String recipeID) {
         try {
-            // I should implement the DBmanager class inside of here somehow but will change it later.
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
             statement.setString(1, recipeID);
 
-            // Execute query to fetch ingredients
             ResultSet resultSet = statement.executeQuery();
 
-            // Process the result set with a while loop
             while (resultSet.next()) {
                 String ingredientID = resultSet.getString("IngredientID");
                 String amount = resultSet.getString("Amount");
@@ -127,7 +120,6 @@ public class RecipeDetailsViewController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // Set the items of the table view to the list of ingredients
         ingredientTable.setItems(ingredients);
     }
 
@@ -136,17 +128,15 @@ public class RecipeDetailsViewController {
         DatabaseMng dbManager = new DatabaseMng();
         this.favoritesController = new FavoritesController(dbManager);
 
-        // Kontrollera om användaren är admin och visa eller dölj knappen baserat på det
         if (!UserSession.getInstance().isAdmin()) {
             deleteRecipeButton.setVisible(false);
+        } else {
+            deleteRecipeButton.setVisible(true);
         }
-
-        // Andra initialiseringsuppgifter...
     }
 
     public void initData(Recipe recipe) {
         this.recipe = recipe;
-        // Set the recipe information
         titleLabel.setText(recipe.getRecipeName());
         shortLabel.setText(recipe.getShortDesc());
         longLabel.setText(recipe.getDetailedDesc());
@@ -172,15 +162,12 @@ public class RecipeDetailsViewController {
             return new SimpleStringProperty(ingredient.getUnit());
         });
 
-        //Fetches everything from the databse and inserts it in the Table View
         fetchIngredientsFromDatabase(recipeId);
     }
 
-    // The variables needed to make this logic work.
     private int numberOfPersons = 1;
     private float currentMultipliedAmount = 1.0f;
 
-    //for incrementing and decrementing the amount based on how many people.
     @FXML
     void DecrementPeople(ActionEvent event) {
         if (numberOfPersons > 1) {
@@ -196,24 +183,22 @@ public class RecipeDetailsViewController {
     }
 
     private void updateMultipliedAmountAndIngredients() {
-        // Update the current multiplied amount
         currentMultipliedAmount = (float) numberOfPersons;
         MultipliedAmount.setText(String.valueOf(currentMultipliedAmount));
-        updateIngredientsAmount(); // Update ingredients amount based on the new multiplied amount
+        updateIngredientsAmount();
     }
 
     private void updateIngredientsAmount() {
         for (AmountOfIngredients ingredient : ingredients) {
             float originalAmount = ingredient.getOriginalAmount();
-            float adjustedAmount = originalAmount * currentMultipliedAmount; // Multiply by the current multiplied amount
+            float adjustedAmount = originalAmount * currentMultipliedAmount;
             ingredient.setAmount(adjustedAmount);
         }
-        ingredientTable.refresh(); // Refresh the table view to reflect the changes
+        ingredientTable.refresh();
     }
 
     private CommentController commentController;
 
-    // Constructor
     public RecipeDetailsViewController() {
         myDbManager = new DatabaseMng();
         this.commentController = new CommentController(myDbManager);
@@ -222,25 +207,24 @@ public class RecipeDetailsViewController {
 
     private void loadComments() {
         List<String> comments = commentController.fetchComments(this.recipeId);
-        commentsListView.getItems().setAll(comments); // Clears existing items and adds all fetched comments
+        commentsListView.getItems().setAll(comments);
     }
 
     @FXML
-    private ListView<String> commentsListView;  // List to display comments
+    private ListView<String> commentsListView;
 
     @FXML
-    private TextField commentInput;  // Input field for comments
+    private TextField commentInput;
 
     private String currentCommentText;
 
     @FXML
     private void addComment(ActionEvent event) {
-        String commentText = commentInput.getText().trim();  // Get text from TextField
+        String commentText = commentInput.getText().trim();
         if (!commentText.isEmpty()) {
-
-            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, UserSession.getInstance().getUserId(), commentText, "yy-mm-dd hh:mm:ss"); // Adjusted constructor
-            commentsListView.getItems().add(commentText);  // Add comment to ListView
-            commentInput.clear();  // Clear the input field
+            CommentObject newComment = new CommentObject(this.commentId, this.recipeId, UserSession.getInstance().getUserId(), commentText, "yy-mm-dd hh:mm:ss");
+            commentsListView.getItems().add(commentText);
+            commentInput.clear();
 
             if (!commentController.addComment(newComment)) {
                 System.out.println("Failed to add comment.");
@@ -248,7 +232,6 @@ public class RecipeDetailsViewController {
                 failure.setTitle("Error..:(");
                 failure.setContentText("There was a problem with adding a comment.");
                 failure.show();
-                
             }
         }
     }
@@ -260,7 +243,7 @@ public class RecipeDetailsViewController {
             String selectedComment = commentsListView.getItems().get(selectedIndex);
 
             if (commentController.removeComment(selectedComment)) {
-                commentsListView.getItems().remove(selectedIndex);  // Remove the comment from the ListView
+                commentsListView.getItems().remove(selectedIndex);
                 System.out.println("Comment removed successfully.");
                 Alert success = new Alert(Alert.AlertType.INFORMATION);
                 success.setTitle("Success!");
@@ -283,7 +266,7 @@ public class RecipeDetailsViewController {
         int selectedIndex = commentsListView.getSelectionModel().getSelectedIndex();
         if (selectedIndex != -1) {
             currentCommentText = commentsListView.getItems().get(selectedIndex);
-            commentInput.setText(currentCommentText); // Set the text of the selected comment into the text field for editing
+            commentInput.setText(currentCommentText);
         } else {
             System.out.println("No comment selected.");
         }
@@ -296,8 +279,8 @@ public class RecipeDetailsViewController {
             if (commentController.updateComment(currentCommentText, newCommentText)) {
                 int selectedIndex = commentsListView.getSelectionModel().getSelectedIndex();
                 if (selectedIndex != -1) {
-                    commentsListView.getItems().set(selectedIndex, newCommentText); // Update the comment in the ListView
-                    commentInput.clear(); // Clear the text field after updating
+                    commentsListView.getItems().set(selectedIndex, newCommentText);
+                    commentInput.clear();
                     System.out.println("Comment updated successfully.");
                     Alert success = new Alert(Alert.AlertType.INFORMATION);
                     success.setTitle("Success!");
@@ -308,7 +291,7 @@ public class RecipeDetailsViewController {
                 System.out.println("Failed to update comment.");
                 Alert failure = new Alert(Alert.AlertType.INFORMATION);
                 failure.setTitle("Error..:(");
-                failure.setContentText("There was a probelm with updating the comment.");
+                failure.setContentText("There was a problem with updating the comment.");
                 failure.show();
             }
         } else {
@@ -318,11 +301,9 @@ public class RecipeDetailsViewController {
 
     public void handleHelpBackButton(ActionEvent event){
         try {
-            //Load the navigation page FXML
             Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
             Scene navigationPageScene = new Scene(navigationPageParent);
 
-            // Get the current stage and replace it
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
             window.setScene(navigationPageScene);
             window.show();
@@ -331,24 +312,19 @@ public class RecipeDetailsViewController {
         }
     }
 
-    // When user clicks share recipe.
     public void shareRecipe(ActionEvent event) {
         try {
-            // Load the ShareDialog FXML and get the controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShareDialog.fxml"));
             Parent sharePageParent = loader.load();
             ShareDialogController shareDialogController = loader.getController();
 
-            // Pass the recipe data to the ShareDialogController
             shareDialogController.initData(this.recipe);
 
-            // Create a new stage (window)
             Stage shareStage = new Stage();
             shareStage.setTitle("Share Recipe");
             shareStage.setScene(new Scene(sharePageParent));
-            shareStage.initModality(Modality.APPLICATION_MODAL); // This will make it so user cant interact with old window
-            shareStage.show(); // Showw the new stage
-            
+            shareStage.initModality(Modality.APPLICATION_MODAL);
+            shareStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -410,7 +386,6 @@ public class RecipeDetailsViewController {
                 boolean success = RecipeController.deleteRecipeById(recipeId);
                 if (success) {
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Recipe deleted successfully.");
-                    // Navigate back to the recipe list view
                     Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
                     Scene navigationPageScene = new Scene(navigationPageParent);
                     Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -437,16 +412,16 @@ public class RecipeDetailsViewController {
 
             PopupWeeklyViewController popupController = loader.getController();
             if (popupController != null) {
-                popupController.initData(recipe, UserSession.getInstance().getUserId()); // Skickar nu den här lokalt satta userId
+                popupController.initData(recipe, UserSession.getInstance().getUserId());
             } else {
                 System.out.println("Popup controller was not initialized.");
-                return; // To avoid further execution
+                return;
             }
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("Weekly Recipe Planner");
-            stage.initModality(Modality.APPLICATION_MODAL); // Restricts interaction to the other windows
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
             System.out.println("Failed to load the weekly list popup: " + e.getMessage());
@@ -454,5 +429,4 @@ public class RecipeDetailsViewController {
             System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
-
 }
