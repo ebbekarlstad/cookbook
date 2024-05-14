@@ -198,13 +198,16 @@ public class WeeklyViewController {
 
  
 
-        @FXML
+    @FXML
     public void goBackToNavigator(MouseEvent event) {
         try {
+            // Determine the correct FXML file based on the user's role
+            String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+    
             // Load the navigation page FXML
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+            Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
             Scene navigationPageScene = new Scene(navigationPageParent);
-
+    
             // Get the current stage and replace it
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(navigationPageScene);
@@ -213,4 +216,5 @@ public class WeeklyViewController {
             e.printStackTrace();
         }
     }
+    
 }
