@@ -8,9 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class AdminPanelViewController {
+
+    @FXML
+    private Button backButton;
   
   /**
    * Method to redirect user to registration page on button click.
@@ -69,11 +73,12 @@ public class AdminPanelViewController {
   @FXML
   private void handleBackButton(ActionEvent event) {
       try {
-          Parent navigationViewAdminParent = FXMLLoader.load(getClass().getResource("/NavigationViewAdmin.fxml"));
-          Scene navigationViewAdminScene = new Scene(navigationViewAdminParent);
+          Parent navigationAdminViewParent = FXMLLoader.load(getClass().getResource("/NavigationViewAdmin.fxml"));
+          Scene navigationAdminViewScene = new Scene(navigationAdminViewParent);
 
-          Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-          window.setScene(navigationViewAdminScene);
+          // Get the current stage and replace it
+          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+          window.setScene(navigationAdminViewScene);
           window.show();
       } catch (IOException e) {
           e.printStackTrace();
