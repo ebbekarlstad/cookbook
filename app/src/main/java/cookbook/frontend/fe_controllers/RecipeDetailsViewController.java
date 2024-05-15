@@ -309,25 +309,20 @@ public class RecipeDetailsViewController {
         }
     }
 
-    @FXML
-    public void handleHelpBackButton(ActionEvent event){
+    public void handleHelpBackButton(ActionEvent event) throws SQLException, IOException {
         try {
-            // Kontrollerar om användaren är admin
-            boolean isAdmin = UserSession.getInstance().isAdmin();
-            String fxmlFile = isAdmin ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
-
-            // Laddar rätt vy baserat på användarens roll
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
-            Scene navigationPageScene = new Scene(navigationPageParent);
-
-            // Byter scen
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(navigationPageScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+          //Load the navigation page FXML
+          Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
+          Scene navigationPageScene = new Scene(navigationPageParent);
+    
+          // Get the current stage and replace it
+          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+          window.setScene(navigationPageScene);
+          window.show();
+        } catch (Exception e) {
+          e.printStackTrace();
         }
-    }
+      }
 
     public void shareRecipe(ActionEvent event) {
         try {
