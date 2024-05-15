@@ -2,10 +2,11 @@ package cookbook.frontend.fe_controllers;
 
 import cookbook.backend.be_controllers.IngredientController;
 import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_controllers.TagController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
-import cookbook.backend.be_objects.UserSession;
+import cookbook.backend.be_objects.Tag;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,15 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -32,6 +26,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class EditingRecipeController {
 
@@ -44,16 +40,22 @@ public class EditingRecipeController {
   @FXML
   private TableColumn<AmountOfIngredients, String> unitColumn;
 
+  @FXML
+  private TableView<Tag> tagTable;
+
+  @FXML
+  private TableColumn<Tag, String> tagColumn;
+
   private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
+  private ObservableList<AmountOfIngredients> newIngredients = FXCollections.observableArrayList();
+  private ObservableList<Tag> tags = FXCollections.observableArrayList();
+  private ObservableList<Tag> newTags = FXCollections.observableArrayList();
 
   @FXML
   private Button EditIngredient;
 
   @FXML
   private Button EditTag;
-
-  @FXML
-  private ComboBox<Recipe> RecipesComboBox;
 
   @FXML
   private Button SaveRecipe;
@@ -97,50 +99,19 @@ public class EditingRecipeController {
   @FXML
   private ComboBox<String> unit;
 
-  Recipe recipe;
+  private Recipe recipe;
 
-  private void loadRecipes() throws SQLException {
-    List<Recipe> recipes = RecipeController.getRecipesByUserID(UserSession.getInstance().getUserId());
-    RecipesComboBox.setItems(FXCollections.observableArrayList(recipes));
-    RecipesComboBox.setConverter(new StringConverter<Recipe>() {
-      @Override
-      public java.lang.String toString(Recipe recipe) {
-        return (recipe != null) ? recipe.getRecipeName() : "Select recipe";
-      }
-
-      @Override
-      public Recipe fromString(String string) {
-        return null;
-      }
-    });
-
-    if (!recipes.isEmpty()) {
-      RecipesComboBox.setValue(recipes.get(0)); // Set default selected recipe if list is not empty
-    }
-
-    RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-      if (newValue != null) {
-        updateRecipeDetailsUI(newValue);
-        initData();
-      }
-    });
-}
-
-  private void updateRecipeDetailsUI(Recipe recipe) {
-    if (recipe != null) {
-        recipeName.setText(recipe.getRecipeName());
-        recipeShortDesc.setText(recipe.getShortDesc());
-        recipeLongDesc.setText(recipe.getDetailedDesc());
-    } else {
-        recipeName.setText("");
-        recipeShortDesc.setText("");
-        recipeLongDesc.setText("");
-    }
+  public void initData(Recipe recipe) {
+    this.recipe = recipe;
+    recipeName.setText(recipe.getRecipeName());
+    recipeShortDesc.setText(recipe.getShortDesc());
+    recipeLongDesc.setText(recipe.getDetailedDesc());
+    fetchIngredientsFromDatabase(recipe.getId());
+    fetchTagsFromDatabase(recipe.getId());
   }
 
   private Ingredient fetchIngredientDetails(String ingredientID) {
     try {
-      // Retrieve ingredient details from the database using IngredientController queries that is already been specified
       List<Ingredient> ingredients = IngredientController.getIngredients();
       for (Ingredient ingredient : ingredients) {
         if (ingredient.getIngredientID().equals(ingredientID)) {
@@ -155,18 +126,22 @@ public class EditingRecipeController {
 
   private void fetchIngredientsFromDatabase(String recipeID) {
     try {
-      // I should implement the DBmanager class inside of here somehow but will change it later.
       Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-      PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
+      PreparedStatement statement = connection.prepareStatement(
+              "SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit " +
+                      "FROM recipe_ingredients " +
+                      "JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
+                      "WHERE recipe_ingredients.RecipeID = ?");
       statement.setString(1, recipeID);
-      // Execute query to fetch ingredients
       ResultSet resultSet = statement.executeQuery();
-      // Process the result set with a while loop
+
       while (resultSet.next()) {
         String ingredientID = resultSet.getString("IngredientID");
+        String ingredientName = resultSet.getString("IngredientName");
         String amount = resultSet.getString("Amount");
         String unit = resultSet.getString("Unit");
-        Ingredient ingredient = fetchIngredientDetails(ingredientID);
+
+        Ingredient ingredient = new Ingredient(ingredientID, ingredientName);
         AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
         ingredients.add(amountOfIngredient);
       }
@@ -176,120 +151,258 @@ public class EditingRecipeController {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    // Set the items of the table view to the list of ingredients
     ingredientTable.setItems(ingredients);
   }
 
-  public void initData() {
-    Recipe selectedRecipe = RecipesComboBox.getValue();
-    // Set the recipe information
+  private void fetchTagsFromDatabase(String recipeID) {
+    try {
+      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+      PreparedStatement statement = connection.prepareStatement(
+              "SELECT tags.TagID, tags.TagName " +
+                      "FROM recipe_tags " +
+                      "JOIN tags ON recipe_tags.TagID = tags.TagID " +
+                      "WHERE recipe_tags.RecipeID = ?");
+      statement.setString(1, recipeID);
+      ResultSet resultSet = statement.executeQuery();
 
-    ingredients.clear();
+      while (resultSet.next()) {
+        String tagID = resultSet.getString("TagID");
+        String tagName = resultSet.getString("TagName");
 
-    ingredientColumn.setCellValueFactory(cellData -> {
-        AmountOfIngredients ingredient = cellData.getValue();
-        Ingredient ingredientObject = ingredient.getIngredient();
-        if (ingredientObject != null) {
-            return new SimpleStringProperty(ingredientObject.getIngredientName());
-        } else {
-            return new SimpleStringProperty("Null Ingredient");
-        }
-    });
-    amountColumn.setCellValueFactory(cellData -> {
-        AmountOfIngredients ingredient = cellData.getValue();
-        return new SimpleStringProperty(String.valueOf(ingredient.getAmount()));
-    });
-    unitColumn.setCellValueFactory(cellData -> {
-        AmountOfIngredients ingredient = cellData.getValue();
-        return new SimpleStringProperty(ingredient.getUnit());
-    });
-
-    //Fetches everything from the databse and inserts it in the Table View
-    fetchIngredientsFromDatabase(selectedRecipe.getId());
-
+        Tag tag = new Tag(tagID, tagName);
+        tags.add(tag);
+      }
+      resultSet.close();
+      statement.close();
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    tagTable.setItems(tags);
   }
 
   @FXML
   private void initialize() throws SQLException {
-    unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
-    loadRecipes();
+    unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch");
+
+    ingredientColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIngredient().getIngredientName()));
+    amountColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getAmount())));
+    unitColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit()));
+
+    tagColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTagName()));
+
+    tagsDropdown.getItems().clear();
+    for (Tag tag : TagController.getTags()) {
+      tagsDropdown.getItems().add(tag.getTagName());
+    }
   }
-
-
 
   @FXML
   void EditIngredientToList(ActionEvent event) {
     AmountOfIngredients selected = ingredientTable.getSelectionModel().getSelectedItem();
     if (selected != null) {
-        ingredientName.setText(selected.getIngredient().getIngredientName());
-        amount.setText(String.valueOf(selected.getAmount()));
-        unit.getSelectionModel().select(selected.getUnit());
+      ingredientName.setText(selected.getIngredient().getIngredientName());
+      amount.setText(String.valueOf(selected.getAmount()));
+      unit.getSelectionModel().select(selected.getUnit());
     }
   }
 
   @FXML
   void updateIngredientInList(ActionEvent event) {
-      AmountOfIngredients selected = ingredientTable.getSelectionModel().getSelectedItem();
-      if (selected != null) {
-          selected.getIngredient().setIngredientName(ingredientName.getText());
-          selected.setAmount(Float.parseFloat(amount.getText()));
-          selected.setUnit(unit.getValue());
-  
-          ingredientTable.refresh();  // Refresh the table view to show updated values
-      }
+    AmountOfIngredients selected = ingredientTable.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+      selected.getIngredient().setIngredientName(ingredientName.getText());
+      selected.setAmount(Float.parseFloat(amount.getText()));
+      selected.setUnit(unit.getValue());
+      ingredientTable.refresh();
+    }
   }
-  
+
+  @FXML
+  void addIngredientToList(ActionEvent event) throws SQLException, IOException {
+    String IngredientName = ingredientName.getText();
+    UUID uniqueID = UUID.randomUUID();
+    String uniqueIngredientID = uniqueID.toString();
+    String selectedUnit = unit.getSelectionModel().getSelectedItem();
+    if (selectedUnit != null) {
+      String a = amount.getText();
+      float selectedAmount = Float.parseFloat(a);
+      IngredientController.addIngredient(uniqueIngredientID, IngredientName);
+      Ingredient newIngredientObj = new Ingredient(uniqueIngredientID, IngredientName);
+
+      AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
+      ingredients.add(newQuantityIngredients);
+      newIngredients.add(newQuantityIngredients); // Track new ingredients separately
+      ingredientTable.refresh();
+
+      String currentLabelText = ingredientLabel.getText();
+      if (currentLabelText.isEmpty()) {
+        ingredientLabel.setText(IngredientName);
+      } else {
+        ingredientLabel.setText(currentLabelText + ", " + IngredientName);
+      }
+
+      Alert success = new Alert(Alert.AlertType.INFORMATION);
+      success.setTitle("Success!");
+      success.setContentText("You successfully added a new ingredient!");
+      success.show();
+    } else {
+      System.out.println("You must choose a unit!");
+      Alert failure = new Alert(Alert.AlertType.ERROR);
+      failure.setTitle("Error");
+      failure.setContentText("You must choose a unit.");
+      failure.show();
+    }
+  }
+
+  @FXML
+  void addTagToList(ActionEvent event) throws SQLException {
+    String tagNameInput = tagName.getText();
+    String selectedTag = tagsDropdown.getSelectionModel().getSelectedItem();
+
+    if (tagNameInput != null && !tagNameInput.trim().isEmpty()) {
+      // Add new tag
+      UUID uniqueID = UUID.randomUUID();
+      String uniqueTagID = uniqueID.toString();
+
+      TagController.addTag(uniqueTagID, tagNameInput);
+      Tag newTag = new Tag(uniqueTagID, tagNameInput);
+      tags.add(newTag);
+      newTags.add(newTag); // Track new tags separately
+
+      tagTable.refresh();
+
+      Alert success = new Alert(Alert.AlertType.INFORMATION);
+      success.setTitle("Success!");
+      success.setContentText("You successfully created a new tag!");
+      success.show();
+    } else if (selectedTag != null) {
+      // Add existing tag
+      Tag tag = findTagByName(selectedTag);
+      if (tag != null && !tags.contains(tag)) {
+        tags.add(tag);
+        tagTable.refresh();
+
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Success!");
+        success.setContentText("You successfully added an existing tag!");
+        success.show();
+      }
+    }
+
+    tagsDropdown.setValue(null);
+    tagName.clear();
+    updateTagsLabel();
+  }
+
+  private Tag findTagByName(String tagName) throws SQLException {
+    for (Tag tag : TagController.getTags()) {
+      if (tag.getTagName().equals(tagName)) {
+        return tag;
+      }
+    }
+    return null;
+  }
 
   @FXML
   void EditTagToList(ActionEvent event) {
+    Tag selected = tagTable.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+      tagName.setText(selected.getTagName());
+    }
+  }
 
+  @FXML
+  void updateTagInList(ActionEvent event) {
+    Tag selected = tagTable.getSelectionModel().getSelectedItem();
+    if (selected != null) {
+      selected.setTagName(tagName.getText());
+      tagTable.refresh();
+    }
   }
 
   @FXML
   void SaveRecipe(ActionEvent event) {
     try {
-      Recipe selectedRecipe = RecipesComboBox.getValue();
-      if (selectedRecipe == null) {
+      if (recipe == null) {
         System.out.println("No recipe selected");
         return;
       }
       String newRecipeName = recipeName.getText().trim();
       String newShortDesc = recipeShortDesc.getText().trim();
-      String newLongDesc = ingredientName.getText().trim();
+      String newLongDesc = recipeLongDesc.getText().trim();
       boolean updated = RecipeController.updateRecipeDetails(
-              selectedRecipe.getId(),
+              recipe.getId(),
               newRecipeName,
               newShortDesc,
               newLongDesc);
       if (updated) {
         System.out.println("Recipe updated successfully");
-        updateIngredients(selectedRecipe.getId());
+        updateIngredients(recipe.getId());
+        saveNewIngredients(recipe.getId());
+        saveNewTags(recipe.getId());
       } else {
         System.out.println("Recipe update failed");
       }
     } catch (Exception e) {
-        throw new RuntimeException(e);
+      throw new RuntimeException(e);
     }
   }
 
-  @FXML
-  void addIngredientToList(ActionEvent event) {
-
+  private void updateIngredients(String recipeID) throws SQLException {
+    for (AmountOfIngredients ingredientDetails : ingredients) {
+      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+           PreparedStatement updateStmt = connection.prepareStatement(
+                   "UPDATE recipe_ingredients SET Amount = ?, Unit = ? WHERE RecipeID = ? AND IngredientID = ?")) {
+        updateStmt.setFloat(1, ingredientDetails.getAmount());
+        updateStmt.setString(2, ingredientDetails.getUnit());
+        updateStmt.setString(3, recipeID);
+        updateStmt.setString(4, ingredientDetails.getIngredient().getIngredientID());
+        updateStmt.executeUpdate();
+      } catch (SQLException e) {
+        System.out.println("Error updating ingredient: " + ingredientDetails.getIngredient().getIngredientName());
+        e.printStackTrace();
+      }
+    }
   }
 
-  @FXML
-  void addTagToList(ActionEvent event) {
+  private void saveNewIngredients(String recipeID) throws SQLException {
+    for (AmountOfIngredients ingredientDetails : newIngredients) {
+      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+           PreparedStatement insertStmt = connection.prepareStatement(
+                   "INSERT INTO recipe_ingredients (RecipeID, IngredientID, Amount, Unit) VALUES (?, ?, ?, ?)")) {
+        insertStmt.setString(1, recipeID);
+        insertStmt.setString(2, ingredientDetails.getIngredient().getIngredientID());
+        insertStmt.setFloat(3, ingredientDetails.getAmount());
+        insertStmt.setString(4, ingredientDetails.getUnit());
+        insertStmt.executeUpdate();
+      } catch (SQLException e) {
+        System.out.println("Error saving new ingredient: " + ingredientDetails.getIngredient().getIngredientName());
+        e.printStackTrace();
+      }
+    }
+  }
 
+  private void saveNewTags(String recipeID) throws SQLException {
+    for (Tag tagDetails : newTags) {
+      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+           PreparedStatement insertStmt = connection.prepareStatement(
+                   "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)")) {
+        insertStmt.setString(1, recipeID);
+        insertStmt.setString(2, tagDetails.getTagID());
+        insertStmt.executeUpdate();
+      } catch (SQLException e) {
+        System.out.println("Error saving new tag: " + tagDetails.getTagName());
+        e.printStackTrace();
+      }
+    }
   }
 
   public void backButton(ActionEvent event) throws SQLException, IOException {
     try {
-      //Load the navigation page FXML
       Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
       Scene navigationPageScene = new Scene(navigationPageParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(navigationPageScene);
       window.show();
     } catch (Exception e) {
@@ -297,22 +410,8 @@ public class EditingRecipeController {
     }
   }
 
-  private void updateIngredients(String recipeID) throws SQLException {
-    // Loop through the ingredients list
-    for (AmountOfIngredients ingredientDetails : ingredients) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-             PreparedStatement updateStmt = connection.prepareStatement(
-                     "UPDATE recipe_ingredients SET Amount = ?, Unit = ? WHERE RecipeID = ? AND IngredientID = ?")) {
-            updateStmt.setFloat(1, ingredientDetails.getAmount());
-            updateStmt.setString(2, ingredientDetails.getUnit());
-            updateStmt.setString(3, recipeID);
-            updateStmt.setString(4, ingredientDetails.getIngredient().getIngredientID());
-            updateStmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error updating ingredient: " + ingredientDetails.getIngredient().getIngredientName());
-            e.printStackTrace();
-        }
-    }
-}
-
+  private void updateTagsLabel() {
+    List<String> tagNames = tags.stream().map(Tag::getTagName).collect(Collectors.toList());
+    tagsLabel.setText(String.join(", ", tagNames));
+  }
 }

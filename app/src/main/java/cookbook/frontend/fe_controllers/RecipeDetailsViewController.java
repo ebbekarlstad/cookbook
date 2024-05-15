@@ -420,6 +420,23 @@ public class RecipeDetailsViewController {
     }
 
     @FXML
+    void UserOnClickEditRecipeViewButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserRecipesView.fxml"));
+            Parent editPageParent = loader.load();
+            EditingRecipeController editingRecipeController = loader.getController();
+            editingRecipeController.initData(this.recipe);
+
+            Stage editStage = new Stage();
+            editStage.setTitle("Edit Recipe");
+            editStage.setScene(new Scene(editPageParent));
+            editStage.initModality(Modality.APPLICATION_MODAL);
+            editStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
     private void handleweekButtonAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/PopupWeekList.fxml"));
@@ -444,4 +461,5 @@ public class RecipeDetailsViewController {
             System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
+
 }
