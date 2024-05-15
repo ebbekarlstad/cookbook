@@ -164,6 +164,16 @@ public class AdminRecipeDetailsViewController {
         });
 
         fetchIngredientsFromDatabase(recipeId);
+
+        // Uppdatera favoritknappen baserat på om receptet är favorit
+        Long userId = UserSession.getInstance().getUserId();
+        if (favoritesController.isFavorite(userId, this.recipe)) {
+            toggleFavorite.setSelected(true);
+            favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starBLACK.png")));
+        } else {
+            toggleFavorite.setSelected(false);
+            favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starWHITE.png")));
+        }
     }
 
     private int numberOfPersons = 1;
