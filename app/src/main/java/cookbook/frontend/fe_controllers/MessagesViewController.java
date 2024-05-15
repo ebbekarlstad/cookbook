@@ -135,17 +135,21 @@ private void setupMessageTable() {
 
   @FXML
   private void handleBackButton(ActionEvent event) {
-    try {
-      //Load the login page FXML
-      Parent navigationViewParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-      Scene navigationViewScene = new Scene(navigationViewParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(navigationViewScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+      try {
+         
+          String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+  
+         
+          Parent navigationViewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+          Scene navigationViewScene = new Scene(navigationViewParent);
+  
+          
+          Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+          window.setScene(navigationViewScene);
+          window.show();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
   }
+  
 }

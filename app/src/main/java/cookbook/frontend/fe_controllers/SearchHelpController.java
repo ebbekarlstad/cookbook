@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cookbook.backend.be_objects.HelpMain;
+import cookbook.backend.be_objects.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -177,16 +178,23 @@ public class SearchHelpController {
       }
   }
   
-  @FXML
-  private void handleHelpBackButton(ActionEvent event) {
+@FXML
+private void handleHelpBackButton(ActionEvent event) {
     try {
-      Parent helpPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-      Scene helpPageScene = new Scene(helpPageParent);
-      Stage window = (Stage) back.getScene().getWindow();
-      window.setScene(helpPageScene);
-      window.show();
+        // Determine the correct FXML file based on the user's role
+        String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+
+        // Load the appropriate navigation page FXML
+        Parent helpPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+        Scene helpPageScene = new Scene(helpPageParent);
+
+        // Get the current stage and replace it
+        Stage window = (Stage) back.getScene().getWindow();
+        window.setScene(helpPageScene);
+        window.show();
     } catch (Exception e) {
-      e.printStackTrace();
+        e.printStackTrace();
     }
-  }
+}
+
 }

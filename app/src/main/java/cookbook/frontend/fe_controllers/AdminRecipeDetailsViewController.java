@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-public class RecipeDetailsViewController {
+public class AdminRecipeDetailsViewController {
 
     @FXML
     private TableView<AmountOfIngredients> ingredientTable;
@@ -62,7 +62,7 @@ public class RecipeDetailsViewController {
     private ImageView favoriteIcon;
 
     @FXML
-    private Button deleteRecipeButton; // Ny knapp för att radera receptet
+    private Button deleteRecipeButton;
 
     private String recipeId;
     private int commentId;
@@ -128,10 +128,11 @@ public class RecipeDetailsViewController {
         DatabaseMng dbManager = new DatabaseMng();
         this.favoritesController = new FavoritesController(dbManager);
 
-        if (!UserSession.getInstance().isAdmin()) {
-            deleteRecipeButton.setVisible(false);
-        } else {
+        // Kontrollera om användaren är admin och visa knappen
+        if (UserSession.getInstance().isAdmin()) {
             deleteRecipeButton.setVisible(true);
+        } else {
+            deleteRecipeButton.setVisible(false);
         }
     }
 
@@ -209,7 +210,7 @@ public class RecipeDetailsViewController {
 
     private CommentController commentController;
 
-    public RecipeDetailsViewController() {
+    public AdminRecipeDetailsViewController() {
         myDbManager = new DatabaseMng();
         this.commentController = new CommentController(myDbManager);
         favoritesController = new FavoritesController(myDbManager);

@@ -8,7 +8,7 @@ import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.Tag;
-
+import cookbook.backend.be_objects.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -153,30 +153,33 @@ public class RecipeViewController {
     }
 }
 
-  /**
-   * Returns to the main menu screen when the back button is clicked.
-   * Loads the main menu scene and sets it as the current scene.
-   * Displays the main menu stage with specified dimensions.
-   *
-   * @param event The ActionEvent that triggered the method.
-   * @throws SQLException If an error occurs while accessing the database.
-   * @throws IOException  If an error occurs during I/O operations.
-   */
-
-  public void backButton(ActionEvent event) throws SQLException, IOException {
+/**
+ * Returns to the main menu screen when the back button is clicked.
+ * Loads the main menu scene and sets it as the current scene.
+ * Displays the main menu stage with specified dimensions.
+ *
+ * @param event The ActionEvent that triggered the method.
+ * @throws SQLException If an error occurs while accessing the database.
+ * @throws IOException  If an error occurs during I/O operations.
+ */
+public void backButton(ActionEvent event) throws SQLException, IOException {
     try {
-      //Load the navigation page FXML
-      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-      Scene navigationPageScene = new Scene(navigationPageParent);
+        // Determine the correct FXML file based on the user's role
+        String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
 
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(navigationPageScene);
-      window.show();
+        // Load the appropriate navigation page FXML
+        Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+        Scene navigationPageScene = new Scene(navigationPageParent);
+
+        // Get the current stage and replace it
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(navigationPageScene);
+        window.show();
     } catch (Exception e) {
-      e.printStackTrace();
+        e.printStackTrace();
     }
-  }
+}
+
 
   /**
    * Adds the selected tag to the temporary list of tags.
