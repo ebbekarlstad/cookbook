@@ -199,7 +199,7 @@
             </ImageView>
             <Label fx:id="userDisplayName" layoutX="77.0" layoutY="34.0" prefHeight="25.0" prefWidth="210.0">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Font Light" size="16.0" />
                </font>
             </Label>
 
