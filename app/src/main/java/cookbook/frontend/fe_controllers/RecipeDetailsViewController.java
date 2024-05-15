@@ -163,6 +163,16 @@ public class RecipeDetailsViewController {
         });
 
         fetchIngredientsFromDatabase(recipeId);
+
+        // Uppdatera favoritknappen baserat på om receptet är favorit
+        Long userId = UserSession.getInstance().getUserId();
+        if (favoritesController.isFavorite(userId, this.recipe)) {
+            toggleFavorite.setSelected(true);
+            favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starBLACK.png")));
+        } else {
+            toggleFavorite.setSelected(false);
+            favoriteIcon.setImage(new Image(getClass().getResourceAsStream("/images/starWHITE.png")));
+        }
     }
 
     private int numberOfPersons = 1;
@@ -436,6 +446,4 @@ public class RecipeDetailsViewController {
             System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
-
-    
 }
