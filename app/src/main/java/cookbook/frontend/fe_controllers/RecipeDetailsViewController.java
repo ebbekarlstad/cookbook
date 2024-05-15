@@ -10,7 +10,6 @@ import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,12 +24,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 public class RecipeDetailsViewController {
+
+    @FXML
+    private Button EditRecipes;
 
     @FXML
     private TableView<AmountOfIngredients> ingredientTable;
