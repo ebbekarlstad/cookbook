@@ -83,7 +83,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ProgressIndicator fx:id="loginProgress" layoutX="440.0" layoutY="424.0" prefHeight="47.0" prefWidth="85.0" visible="true" />
+            <ProgressIndicator fx:id="loginProgress" layoutX="440.0" layoutY="424.0" prefHeight="47.0" prefWidth="85.0" visible="false" />
             <Label fx:id="errorLabel" alignment="TOP_CENTER" layoutX="362.0" layoutY="439.0" prefHeight="16.0" prefWidth="211.0" textAlignment="CENTER" textFill="red" />
             <TextField layoutX="386.0" layoutY="366.0" promptText="Username">
                <font>
@@ -95,7 +95,7 @@
                   <Font name="System Font Medium" size="13.0" />
                </font>
             </PasswordField>
-            <Button layoutX="440.0" layoutY="478.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="55.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="GO">
+            <Button fx:id="loadNavButton" onAction="#handleLoginButton" layoutX="440.0" layoutY="478.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="55.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="GO">
                <font>
                   <Font name="System Font Light" size="13.0" />
                </font></Button>
