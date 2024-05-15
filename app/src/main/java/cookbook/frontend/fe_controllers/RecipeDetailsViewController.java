@@ -99,19 +99,22 @@ public class RecipeDetailsViewController {
     private void fetchIngredientsFromDatabase(String recipeID) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit " +
+                            "FROM recipe_ingredients " +
+                            "JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
+                            "WHERE recipe_ingredients.RecipeID = ?");
             statement.setString(1, recipeID);
-
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 String ingredientID = resultSet.getString("IngredientID");
+                String ingredientName = resultSet.getString("IngredientName");
                 String amount = resultSet.getString("Amount");
                 String unit = resultSet.getString("Unit");
 
-                Ingredient ingredient = fetchIngredientDetails(ingredientID);
+                Ingredient ingredient = new Ingredient(ingredientID, ingredientName);
                 AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
-
                 ingredients.add(amountOfIngredient);
             }
             resultSet.close();
