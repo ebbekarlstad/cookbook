@@ -65,4 +65,9 @@ public class FavoritesController {
           return new ArrayList<>();
         }
     }
+
+    public boolean isFavorite(Long userId, Recipe recipe) {
+
+
+
 }
