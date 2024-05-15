@@ -67,6 +67,16 @@ public class FavoritesController {
     }
 
     public boolean isFavorite(Long userId, Recipe recipe) {
+      String sql = "SELECT COUNT(*) FROM user_favorites WHERE UserID = ? AND RecipeID = ?";
+      try (Connection conn = dbManager.getConnection();
+           PreparedStatement pstmt = conn.prepareStatement(sql)) {
+          pstmt.setLong(1, userId);
+          pstmt.setString(2, recipe.getId());
+
+          ResultSet rs = pstmt.executeQuery();
+          if (rs.next()) {
+              return rs.getInt(1) > 0;
+          }
 
 
 
