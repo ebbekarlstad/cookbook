@@ -15,9 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.beans.value.ObservableValue;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import cookbook.backend.be_controllers.RecipeController;
 import cookbook.backend.be_objects.Recipe;
@@ -80,32 +80,28 @@ public class RecipeListViewController {
     mainTable.setOnMouseClicked(this::handleRecipeSelection);
 
     updatePagination();
+
+    // Add listeners to the search fields
+    searchByNameField.textProperty().addListener(this::onSearchFieldChanged);
+    searchByIngredientsField.textProperty().addListener(this::onSearchFieldChanged);
+    searchByTagsField.textProperty().addListener(this::onSearchFieldChanged);
   }
 
-    @FXML
-    public void backButton(ActionEvent event){
-        try {
-            // Kontrollerar om användaren är admin
-            boolean isAdmin = UserSession.getInstance().isAdmin();
-            String fxmlFile = isAdmin ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
-
-            // Laddar rätt vy baserat på användarens roll
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
-            Scene navigationPageScene = new Scene(navigationPageParent);
-
-            // Byter scen
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(navigationPageScene);
-            window.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  @FXML
+  public void backButton(ActionEvent event){
+    try {
+      boolean isAdmin = UserSession.getInstance().isAdmin();
+      String fxmlFile = isAdmin ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+      Scene navigationPageScene = new Scene(navigationPageParent);
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(navigationPageScene);
+      window.show();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 
-  /**
-   * Handles selection of a recipe from the list.
-   * @param event The mouse event.
-   */
   private void handleRecipeSelection(MouseEvent event) {
     if (event.getClickCount() == 2) {
       Recipe selectedRecipe = mainTable.getSelectionModel().getSelectedItem();
@@ -126,10 +122,6 @@ public class RecipeListViewController {
     }
   }
 
-  /**
-   * Searches recipes by name.
-   * @param event The action event.
-   */
   @FXML
   private void searchByName(ActionEvent event) {
     String nameQuery = searchByNameField.getText().trim();
@@ -138,16 +130,13 @@ public class RecipeListViewController {
         recipeList.clear();
         recipeList.addAll(RecipeController.getRecipesByName(nameQuery));
         mainTable.setItems(recipeList);
+        updatePagination();
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
   }
 
-  /**
-   * Searches recipes by ingredients.
-   * @param event The action event.
-   */
   @FXML
   private void searchByIngredients(ActionEvent event) {
     String ingredientQuery = searchByIngredientsField.getText().trim();
@@ -156,16 +145,13 @@ public class RecipeListViewController {
         recipeList.clear();
         recipeList.addAll(RecipeController.getRecipesByIngredients(ingredientQuery));
         mainTable.setItems(recipeList);
+        updatePagination();
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
   }
 
-  /**
-   * Searches recipes by tags.
-   * @param event The action event.
-   */
   @FXML
   private void searchByTags(ActionEvent event) {
     String tagQuery = searchByTagsField.getText().trim();
@@ -174,6 +160,7 @@ public class RecipeListViewController {
         recipeList.clear();
         recipeList.addAll(RecipeController.getRecipesByTags(tagQuery));
         mainTable.setItems(recipeList);
+        updatePagination();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -181,28 +168,33 @@ public class RecipeListViewController {
   }
 
   private void updatePagination() {
-        int pageCount = (int) Math.ceil((double) recipeList.size() / ITEMS_PER_PAGE);
-        pagination.setPageCount(pageCount);
-        pagination.setPageFactory(this::createPage);
+    int pageCount = (int) Math.ceil((double) recipeList.size() / ITEMS_PER_PAGE);
+    pagination.setPageCount(pageCount);
+    pagination.setPageFactory(this::createPage);
+  }
+
+  private Node createPage(int pageIndex) {
+    int fromIndex = pageIndex * ITEMS_PER_PAGE;
+    int toIndex = Math.min(fromIndex + ITEMS_PER_PAGE, recipeList.size());
+    mainTable.setItems(FXCollections.observableArrayList(recipeList.subList(fromIndex, toIndex)));
+    return new VBox(mainTable);
+  }
+
+  // Refresh recipe list
+  public void refreshRecipeList() {
+    try {
+      recipeList.clear();
+      recipeList.addAll(RecipeController.getRecipes());
+      updatePagination();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    private Node createPage(int pageIndex) {
-        int fromIndex = pageIndex * ITEMS_PER_PAGE;
-        int toIndex = Math.min(fromIndex + ITEMS_PER_PAGE, recipeList.size());
-        mainTable.setItems(FXCollections.observableArrayList(recipeList.subList(fromIndex, toIndex)));
-        return new VBox(mainTable);
+  // Handle search field changes
+  private void onSearchFieldChanged(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+    if (newValue.isEmpty()) {
+      refreshRecipeList();
     }
-
-    // Update recipe list and refresh pagination
-    public void refreshRecipeList() {
-        try {
-            recipeList.clear();
-            recipeList.addAll(RecipeController.getRecipes()); // Adjust this method call as needed
-            updatePagination();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
+  }
 }
