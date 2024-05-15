@@ -93,6 +93,20 @@ public class DatabaseMng {
     }
   return false;
   }
+
+  public String getDisplayName(Long userId) throws SQLException {
+    String sql = "SELECT DisplayName FROM users WHERE UserID = ?;";
+    try (Connection conn = this.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setLong(1, userId);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getString("DisplayName");
+        } else {
+            return "Unknown User"; // Default value if user not found
+        }
+    }
+}
 }
 
 

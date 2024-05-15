@@ -2,7 +2,6 @@ package cookbook.frontend.fe_controllers;
 
 import javafx.event.ActionEvent;
 
-import java.io.IOException;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.FillTransition;
@@ -21,8 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-/* import cookbook.backend.DatabaseMng;
-import java.sql.Connection; */
 
 
 public class MainViewController {
@@ -32,17 +29,6 @@ public class MainViewController {
   @FXML
   private Text welcomeText;
 
-/*   @FXML
-  private void initialize() {
-    // Attempt to get a database connection
-    Connection conn = DatabaseMng.getConnection();
-
-    if (conn != null) {
-            mysqlStatus.setText("Driver found and connected");
-        } else {
-            mysqlStatus.setText("An error has occurred: " + DatabaseMng.getLastErrorMessage());
-        }
-  } */
 
   @FXML
   private void initialize() {
@@ -105,22 +91,6 @@ public class MainViewController {
 }
 
   @FXML
-  private void handleLogoutButton(ActionEvent event) {
-    try {
-      //Load the login page FXML
-      Parent loginPageParent = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
-      Scene loginPageScene = new Scene(loginPageParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(loginPageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  @FXML
   private void handleNavigationButton(ActionEvent event) {
     try {
       //Load the navigation page FXML
@@ -136,136 +106,4 @@ public class MainViewController {
     }
   }
 
-  @FXML
-  private void handleHelpButton(ActionEvent event) {
-    try {
-      //Load the navigation page FXML
-      Parent helpPageParent = FXMLLoader.load(getClass().getResource("/HelpView.fxml"));
-      Scene helpPageScene = new Scene(helpPageParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(helpPageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-
-
-  @FXML
-  private void handleNewButton(ActionEvent event) {
-    try {
-      //Load the navigation page FXML
-      Parent newRecipePageParent = FXMLLoader.load(getClass().getResource("/RecipeView.fxml"));
-      Scene newRecipePageScene = new Scene(newRecipePageParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(newRecipePageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-  @FXML
-  void handleUserCreatedRecipesButtonAction(ActionEvent event) {
-    try {
-      //Load the navigation page FXML
-      Parent MyRecipePageParent = FXMLLoader.load(getClass().getResource("/UserRecipesView.fxml"));
-      Scene MyRecipePageScene = new Scene(MyRecipePageParent);
-
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(MyRecipePageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-  @FXML
-  private void handleBrowseRecipes(ActionEvent event) {
-      try {
-          // Load the main navigation menu FXML
-          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
-          Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
-  
-          // Get the current stage and replace it
-          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-          window.setScene(mainNavigationMenuScene);
-          window.show();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-  }
-
-  @FXML
-  private void handleInbox(ActionEvent event) {
-      try {
-          // Load the main navigation menu FXML
-          Parent mainNavigationMenuParent = FXMLLoader.load(getClass().getResource("/MessagesView.fxml"));
-          Scene mainNavigationMenuScene = new Scene(mainNavigationMenuParent);
-  
-          // Get the current stage and replace it
-          Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-          window.setScene(mainNavigationMenuScene);
-          window.show();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
-  }
-
-  @FXML
-    private void handleFavoriteButtonAction(ActionEvent event) {
-      try {
-
-        Parent favoriteRecipesParent = FXMLLoader.load(getClass().getResource("/favoriteView.fxml"));
-        Scene favoriteRecipesScene = new Scene(favoriteRecipesParent);
-
-      
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(favoriteRecipesScene);
-        window.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-}
-
-@FXML
-private void handleShoppingListButton(ActionEvent event) {
-    try {
-        // Load the Shopping List view FXML
-        Parent shoppingListPageParent = FXMLLoader.load(getClass().getResource("/ShoppingListView.fxml"));
-        Scene shoppingListPageScene = new Scene(shoppingListPageParent);
-
-        // Get the current stage and replace it
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(shoppingListPageScene);
-        window.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
-@FXML
-private void handleWeeklyButtonAction(ActionEvent event) {
-    try {
-        // Load the Shopping List view FXML
-        Parent shoppingListPageParent = FXMLLoader.load(getClass().getResource("/WeeklyDinnerView.fxml"));
-        Scene shoppingListPageScene = new Scene(shoppingListPageParent);
-
-        // Get the current stage and replace it
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(shoppingListPageScene);
-        window.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
-
-
-  
 }
