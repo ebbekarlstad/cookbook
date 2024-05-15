@@ -5,6 +5,7 @@ import cookbook.backend.be_objects.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecipeController {
@@ -172,26 +173,24 @@ public class RecipeController {
     return recipeList;
   }
 
-  // Method to query database when user searches for recipe by ingredients.
-  public static List<Recipe> getRecipesByIngredients(String ingredient) throws SQLException {
+  // Method to query database when user searches for recipes by multiple tags.
+  public static List<Recipe> getRecipesByTags(String[] tags) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
-
-    String query = "SELECT DISTINCT r.* FROM recipes r "
-
-                 + "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID "
-
-                 + "JOIN ingredients i ON ri.IngredientID = i.IngredientID "
-
-                 + "WHERE i.IngredientName LIKE ?";
-
+    String query = "SELECT r.* FROM recipes r "
+                 + "JOIN recipe_tags rt ON r.RecipeID = rt.RecipeID "
+                 + "JOIN tags t ON rt.TagID = t.TagID "
+                 + "WHERE t.TagName IN (" + String.join(",", Collections.nCopies(tags.length, "?")) + ") "
+                 + "GROUP BY r.RecipeID "
+                 + "HAVING COUNT(DISTINCT t.TagName) = ?";
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-
          PreparedStatement sqlStatement = conn.prepareStatement(query)) {
 
-      sqlStatement.setString(1, ingredient);
-
+      for (int i = 0; i < tags.length; i++) {
+        sqlStatement.setString(i + 1, tags[i].trim());
+      }
+      sqlStatement.setInt(tags.length + 1, tags.length);
+      
       ResultSet result = sqlStatement.executeQuery();
-
       while (result.next()) {
         Recipe newRecipe = new Recipe(
           result.getString("RecipeID"),
@@ -199,7 +198,6 @@ public class RecipeController {
           result.getString("ShortDesc"),
           result.getString("DetailedDesc")
         );
-
         recipeList.add(newRecipe);
       }
       result.close();
@@ -209,22 +207,23 @@ public class RecipeController {
     return recipeList;
   }
 
-  // Method to query database when user searches for a recipe by tags.
-  public static List<Recipe> getRecipesByTags(String tag) throws SQLException {
+  // Method to query database when user searches for recipes by multiple ingredients.
+  public static List<Recipe> getRecipesByIngredients(String[] ingredients) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
-
-    String query = "SELECT DISTINCT r.* FROM recipes r "
-
-                 + "JOIN recipe_tags rt ON r.RecipeID = rt.RecipeID "
-
-                 + "JOIN tags t ON rt.TagID = t.TagID "
-
-                 + "WHERE t.TagName LIKE ?";
-
+    String query = "SELECT r.* FROM recipes r "
+                 + "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID "
+                 + "JOIN ingredients i ON ri.IngredientID = i.IngredientID "
+                 + "WHERE i.IngredientName IN (" + String.join(",", Collections.nCopies(ingredients.length, "?")) + ") "
+                 + "GROUP BY r.RecipeID "
+                 + "HAVING COUNT(DISTINCT i.IngredientName) = ?";
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
          PreparedStatement sqlStatement = conn.prepareStatement(query)) {
 
-      sqlStatement.setString(1, tag);
+      for (int i = 0; i < ingredients.length; i++) {
+        sqlStatement.setString(i + 1, ingredients[i].trim());
+      }
+      sqlStatement.setInt(ingredients.length + 1, ingredients.length);
+
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Recipe newRecipe = new Recipe(

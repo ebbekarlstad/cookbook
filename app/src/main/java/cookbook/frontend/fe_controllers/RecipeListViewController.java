@@ -138,12 +138,13 @@ public class RecipeListViewController {
   }
 
   @FXML
-  private void searchByIngredients(ActionEvent event) {
-    String ingredientQuery = searchByIngredientsField.getText().trim();
-    if (!ingredientQuery.isEmpty()) {
+  private void searchByTags(ActionEvent event) {
+    String tagQuery = searchByTagsField.getText().trim();
+    if (!tagQuery.isEmpty()) {
+      String[] tags = tagQuery.split(",\\s*"); // Split by comma and optional spaces
       try {
         recipeList.clear();
-        recipeList.addAll(RecipeController.getRecipesByIngredients(ingredientQuery));
+        recipeList.addAll(RecipeController.getRecipesByTags(tags));
         mainTable.setItems(recipeList);
         updatePagination();
       } catch (Exception e) {
@@ -153,12 +154,13 @@ public class RecipeListViewController {
   }
 
   @FXML
-  private void searchByTags(ActionEvent event) {
-    String tagQuery = searchByTagsField.getText().trim();
-    if (!tagQuery.isEmpty()) {
+  private void searchByIngredients(ActionEvent event) {
+    String ingredientQuery = searchByIngredientsField.getText().trim();
+    if (!ingredientQuery.isEmpty()) {
+      String[] ingredients = ingredientQuery.split(",\\s*"); // Split by comma and optional spaces
       try {
         recipeList.clear();
-        recipeList.addAll(RecipeController.getRecipesByTags(tagQuery));
+        recipeList.addAll(RecipeController.getRecipesByIngredients(ingredients));
         mainTable.setItems(recipeList);
         updatePagination();
       } catch (Exception e) {
