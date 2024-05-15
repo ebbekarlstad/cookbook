@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class DatabaseSeeder {
 
     public void seedTable(String sql) {
-        DatabaseMng dbManager = new DatabaseMng();
+        DatabaseMng dbManager = new DatabaseMng(); // Create an instance of DatabaseMng
         try (Connection conn = dbManager.getConnection(); 
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
@@ -35,6 +35,7 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
+    // Seeding the Users table
     public void seedUsers() {
         String dropTableSQL = "DROP TABLE IF EXISTS `users`;";
 
@@ -98,17 +99,7 @@ public class DatabaseSeeder {
             "('17', 1, 'Tom Yum Soup', 'Spicy and sour Thai soup', 'This is a detailed description of Tom Yum Soup.')",
             "('18', 1, 'Pad Thai', 'A popular Thai dish', 'This is a detailed description of Pad Thai.')",
             "('19', 1, 'Ratatouille', 'A French vegetable dish', 'This is a detailed description of Ratatouille.')",
-            "('20', 1, 'Fish and Chips', 'A British classic', 'This is a detailed description of Fish and Chips.')",
-            "('21', 1, 'Butter Chicken', 'Creamy Indian dish', 'This is a detailed description of Butter Chicken.')",
-            "('22', 1, 'Falafel Wrap', 'Healthy Middle Eastern wrap', 'This is a detailed description of Falafel Wrap.')",
-            "('23', 1, 'Apple Pie', 'Classic dessert', 'This is a detailed description of Apple Pie.')",
-            "('24', 1, 'Stuffed Peppers', 'Delicious and healthy', 'This is a detailed description of Stuffed Peppers.')",
-            "('25', 1, 'Clam Chowder', 'Hearty soup', 'This is a detailed description of Clam Chowder.')",
-            "('26', 1, 'Gnocchi', 'Italian potato dumplings', 'This is a detailed description of Gnocchi.')",
-            "('27', 1, 'Chicken Alfredo', 'Creamy pasta dish', 'This is a detailed description of Chicken Alfredo.')",
-            "('28', 1, 'BBQ Ribs', 'Tender and smoky', 'This is a detailed description of BBQ Ribs.')",
-            "('29', 1, 'Greek Salad', 'Fresh and light', 'This is a detailed description of Greek Salad.')",
-            "('30', 1, 'Margarita', 'Classic cocktail', 'This is a detailed description of Margarita.')"
+            "('20', 1, 'Fish and Chips', 'A British classic', 'This is a detailed description of Fish and Chips.')"
         };
 
         seedTable(dropTableSQL);
@@ -148,44 +139,26 @@ public class DatabaseSeeder {
             "('17', 'Miso Paste')",
             "('18', 'Tofu')",
             "('19', 'Tortilla')",
-            "('20', 'Pizza Dough')",
-            "('21', 'Tomatoes')",
-            "('22', 'Basil')",
-            "('23', 'Lasagna Noodles')",
-            "('24', 'Ricotta Cheese')",
-            "('25', 'Seaweed')",
-            "('26', 'Rice')",
-            "('27', 'Fish')",
-            "('28', 'Chocolate')",
-            "('29', 'Sugar')",
-            "('30', 'Ground Beef')",
-            "('31', 'Buns')",
-            "('32', 'Vegetables')",
-            "('33', 'Rice Paper')",
-            "('34', 'Lamb')",
-            "('35', 'Herbs')",
-            "('36', 'Fish')",
-            "('37', 'Chips')",
-            "('38', 'Butter')",
-            "('39', 'Clams')",
-            "('40', 'Potatoes')",
-            "('41', 'Dough')",
-            "('42', 'Olive Oil')",
-            "('43', 'Garlic')",
-            "('44', 'Ginger')",
-            "('45', 'Chickpeas')",
-            "('46', 'Apples')",
-            "('47', 'Bell Peppers')",
-            "('48', 'Gnocchi')",
-            "('49', 'Alfredo Sauce')",
-            "('50', 'Ribs')",
-            "('51', 'BBQ Sauce')",
-            "('52', 'Cucumber')",
-            "('53', 'Olives')",
-            "('54', 'Feta Cheese')",
-            "('55', 'Tequila')",
-            "('56', 'Lime')",
-            "('57', 'Salt')"
+            "('20', 'Beef')",
+            "('21', 'Pizza Dough')",
+            "('22', 'Tomatoes')",
+            "('23', 'Basil')",
+            "('24', 'Lasagna Noodles')",
+            "('25', 'Ricotta Cheese')",
+            "('26', 'Seaweed')",
+            "('27', 'Rice')",
+            "('28', 'Fish')",
+            "('29', 'Chocolate')",
+            "('30', 'Sugar')",
+            "('31', 'Ground Beef')",
+            "('32', 'Buns')",
+            "('33', 'Rice')",
+            "('34', 'Vegetables')",
+            "('35', 'Rice Paper')",
+            "('36', 'Lamb')",
+            "('37', 'Herbs')",
+            "('38', 'Fish')",
+            "('39', 'Chips')"
         };
 
         seedTable(dropTableSQL);
@@ -198,76 +171,111 @@ public class DatabaseSeeder {
     }
 
     public void seedRecipeIngredients() {
-        String dropTableSQL = "DROP TABLE IF EXISTS `recipe_ingredients`;";
+      String dropTableSQL = "DROP TABLE IF EXISTS `recipe_ingredients`;";
+  
+      String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
+          + "`RecipeID` varchar(255) NOT NULL, "
+          + "`IngredientID` varchar(45) NOT NULL, "
+          + "`Unit` varchar(100) NOT NULL,"
+          + "`Amount` varchar(100) NOT NULL,"
+          + "PRIMARY KEY (`RecipeID`, `IngredientID`), "
+          + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
+          + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
+  
+      String[] recipeIngredients = new String[] {
+          // Spaghetti Bolognese
+          "('1', '1', 'g', '200')", // Spaghetti
+          "('1', '2', 'g', '250')", // Ground Beef
+          "('1', '3', 'ml', '500')", // Tomato Sauce
+          // Chicken Curry
+          "('2', '4', 'g', '300')", // Chicken
+          "('2', '5', 'tbsp', '2')", // Curry Powder
+          "('2', '6', 'ml', '400')", // Coconut Milk
+          // Beef Stew
+          "('3', '7', 'g', '500')", // Beef
+          "('3', '8', 'g', '200')", // Potatoes
+          "('3', '9', 'g', '100')", // Carrots
+          // Caesar Salad
+          "('4', '10', 'g', '150')", // Lettuce
+          "('4', '11', 'g', '50')", // Croutons
+          "('4', '12', 'g', '30')", // Cheese
+          // Grilled Cheese Sandwich
+          "('5', '13', 'slices', '2')", // Bread
+          "('5', '12', 'slices', '2')", // Cheese
+          // Pancakes
+          "('6', '14', 'ml', '200')", // Milk
+          "('6', '15', 'pcs', '2')", // Eggs
+          "('6', '16', 'g', '250')", // Flour
+          // Miso Soup
+          "('7', '17', 'tbsp', '2')", // Miso Paste
+          "('7', '18', 'g', '100')", // Tofu
+          // Tacos
+          "('8', '19', 'pcs', '3')", // Tortilla
+          "('8', '2', 'g', '250')", // Ground Beef
+          // Pizza Margherita
+          "('9', '21', 'g', '500')", // Pizza Dough
+          "('9', '22', 'g', '200')", // Tomatoes
+          "('9', '23', 'g', '20')", // Basil
+          // Lasagna
+          "('10', '24', 'sheets', '8')", // Lasagna Noodles
+          "('10', '25', 'g', '200')", // Ricotta Cheese
+          "('10', '3', 'ml', '500')", // Tomato Sauce
+          // Sushi
+          "('11', '26', 'sheets', '2')", // Seaweed
+          "('11', '27', 'g', '200')", // Rice
+          "('11', '28', 'g', '150')", // Fish
+          // Chocolate Cake
+          "('12', '29', 'g', '200')", // Chocolate
+          "('12', '15', 'pcs', '2')", // Eggs
+          "('12', '30', 'g', '150')", // Sugar
+          // Burger
+          "('13', '31', 'g', '200')", // Ground Beef
+          "('13', '32', 'pcs', '2')", // Buns
+          // Fried Rice
+          "('14', '27', 'g', '200')", // Rice
+          "('14', '33', 'g', '150')", // Vegetables
+          // Spring Rolls
+          "('15', '34', 'g', '200')", // Vegetables
+          "('15', '35', 'sheets', '10')", // Rice Paper
+          // Lamb Chops
+          "('16', '36', 'g', '400')", // Lamb
+          "('16', '37', 'g', '50')", // Herbs
+          // Tom Yum Soup
+          "('17', '38', 'g', '200')", // Fish
+          "('17', '37', 'g', '20')", // Herbs
+          // Pad Thai
+          "('18', '27', 'g', '200')", // Rice
+          "('18', '33', 'g', '150')", // Vegetables
+          // Ratatouille
+          "('19', '33', 'g', '300')", // Vegetables
+          "('19', '37', 'g', '20')", // Herbs
+          // Fish and Chips
+          "('20', '38', 'g', '200')", // Fish
+          "('20', '39', 'g', '200')" // Chips
+      };
+  
+      seedTable(dropTableSQL);
+      seedTable(createTableSQL);
+  
+      for (String recipeIngredient : recipeIngredients) {
+          String seedRecipeIngredient = "INSERT INTO `recipe_ingredients` (`RecipeID`, `IngredientID`, `Unit`, `Amount`) VALUES " + recipeIngredient + ";";
+          seedTable(seedRecipeIngredient);
+      }
+  }
+  
 
-        String createTableSQL = "CREATE TABLE `recipe_ingredients` ("
+    public void seedUserFavorites() {
+        String dropTableSQL = "DROP TABLE IF EXISTS `user_favorites`;";
+
+        String createTableSQL = "CREATE TABLE `user_favorites` ("
+            + "`UserID` INT NOT NULL, "
             + "`RecipeID` varchar(255) NOT NULL, "
-            + "`IngredientID` varchar(45) NOT NULL, "
-            + "`Unit` varchar(100) NOT NULL,"
-            + "`Amount` varchar(100) NOT NULL,"
-            + "PRIMARY KEY (`RecipeID`, `IngredientID`), "
-            + "FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`), "
+            + "PRIMARY KEY (`UserID`, `RecipeID`), "
+            + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`), "
             + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
-
-        String[] recipeIngredients = new String[] {
-            // Existing recipes...
-            // New recipes
-            // Butter Chicken
-            "('21', '4', 'g', '500')", // Chicken
-            "('21', '38', 'g', '100')", // Butter
-            "('21', '5', 'tbsp', '2')", // Curry Powder
-            "('21', '43', 'cloves', '4')", // Garlic
-            // Falafel Wrap
-            "('22', '45', 'g', '200')", // Chickpeas
-            "('22', '13', 'pcs', '2')", // Bread
-            "('22', '47', 'g', '100')", // Bell Peppers
-            "('22', '43', 'cloves', '2')", // Garlic
-            // Apple Pie
-            "('23', '46', 'g', '500')", // Apples
-            "('23', '29', 'g', '150')", // Sugar
-            "('23', '16', 'g', '200')", // Flour
-            "('23', '15', 'pcs', '2')", // Eggs
-            // Stuffed Peppers
-            "('24', '47', 'pcs', '4')", // Bell Peppers
-            "('24', '32', 'g', '200')", // Vegetables
-            "('24', '2', 'g', '200')", // Ground Beef
-            // Clam Chowder
-            "('25', '39', 'g', '300')", // Clams
-            "('25', '8', 'g', '200')", // Potatoes
-            "('25', '38', 'g', '100')", // Butter
-            "('25', '14', 'ml', '200')", // Milk
-            // Gnocchi
-            "('26', '48', 'g', '500')", // Gnocchi
-            "('26', '42', 'tbsp', '2')", // Olive Oil
-            "('26', '43', 'cloves', '3')", // Garlic
-            // Chicken Alfredo
-            "('27', '4', 'g', '500')", // Chicken
-            "('27', '49', 'ml', '300')", // Alfredo Sauce
-            "('27', '16', 'g', '200')", // Flour
-            "('27', '15', 'pcs', '2')", // Eggs
-            // BBQ Ribs
-            "('28', '50', 'g', '700')", // Ribs
-            "('28', '51', 'ml', '200')", // BBQ Sauce
-            "('28', '44', 'tbsp', '2')", // Ginger
-            "('28', '43', 'cloves', '3')", // Garlic
-            // Greek Salad
-            "('29', '52', 'g', '100')", // Cucumber
-            "('29', '53', 'g', '50')", // Olives
-            "('29', '54', 'g', '50')", // Feta Cheese
-            "('29', '42', 'tbsp', '2')", // Olive Oil
-            // Margarita
-            "('30', '55', 'ml', '50')", // Tequila
-            "('30', '56', 'ml', '30')", // Lime
-            "('30', '57', 'g', '2')" // Salt
-        };
 
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
-
-        for (String recipeIngredient : recipeIngredients) {
-            String seedRecipeIngredient = "INSERT INTO `recipe_ingredients` (`RecipeID`, `IngredientID`, `Unit`, `Amount`) VALUES " + recipeIngredient + ";";
-            seedTable(seedRecipeIngredient);
-        }
     }
 
     public void seedTags() {
@@ -313,42 +321,125 @@ public class DatabaseSeeder {
             + "CONSTRAINT `Tag_FK` FOREIGN KEY (`TagID`) REFERENCES `tags` (`TagID`));";
 
         String[] recipeTags = new String[] {
-            // Existing recipe tags...
-            // New recipe tags
-            "('21', '1')",
-            "('21', '2')",
-            "('21', '9')",
-            "('21', '10')",
-            "('21', '4')",
-            "('22', '3')",
-            "('22', '4')",
-            "('22', '5')",
-            "('22', '9')",
-            "('23', '1')",
-            "('23', '7')",
-            "('23', '9')",
-            "('23', '10')",
-            "('24', '1')",
-            "('24', '3')",
-            "('24', '4')",
-            "('24', '9')",
-            "('25', '1')",
-            "('25', '2')",
-            "('25', '9')",
-            "('26', '1')",
-            "('26', '2')",
-            "('26', '9')",
-            "('27', '1')",
-            "('27', '2')",
-            "('27', '9')",
-            "('28', '1')",
-            "('28', '2')",
-            "('28', '9')",
-            "('29', '3')",
-            "('29', '4')",
-            "('29', '9')",
-            "('30', '1')",
-            "('30', '9')"
+            "('1', '1')",
+            "('1', '2')",
+            "('1', '9')",
+            "('1', '10')",
+            "('1', '4')",
+            
+            "('2', '1')",
+            "('2', '2')",
+            "('2', '9')",
+            "('2', '10')",
+            "('2', '4')",
+            
+            "('3', '1')",
+            "('3', '2')",
+            "('3', '9')",
+            "('3', '10')",
+            "('3', '4')",
+            
+            "('4', '3')",
+            "('4', '4')",
+            "('4', '9')",
+            "('4', '10')",
+            "('4', '6')",
+            
+            "('5', '1')",
+            "('5', '2')",
+            "('5', '9')",
+            "('5', '10')",
+            "('5', '4')",
+            
+            "('6', '8')",
+            "('6', '2')",
+            "('6', '9')",
+            "('6', '10')",
+            "('6', '4')",
+            
+            "('7', '4')",
+            "('7', '5')",
+            "('7', '9')",
+            "('7', '10')",
+            "('7', '6')",
+            
+            "('8', '1')",
+            "('8', '2')",
+            "('8', '9')",
+            "('8', '10')",
+            "('8', '4')",
+            
+            "('9', '1')",
+            "('9', '2')",
+            "('9', '9')",
+            "('9', '10')",
+            "('9', '4')",
+            
+            "('10', '1')",
+            "('10', '2')",
+            "('10', '9')",
+            "('10', '10')",
+            "('10', '4')",
+            
+            "('11', '1')",
+            "('11', '2')",
+            "('11', '9')",
+            "('11', '10')",
+            "('11', '4')",
+            
+            "('12', '1')",
+            "('12', '7')",
+            "('12', '9')",
+            "('12', '10')",
+            "('12', '4')",
+            
+            "('13', '1')",
+            "('13', '2')",
+            "('13', '9')",
+            "('13', '10')",
+            "('13', '4')",
+            
+            "('14', '1')",
+            "('14', '2')",
+            "('14', '9')",
+            "('14', '10')",
+            "('14', '4')",
+            
+            "('15', '1')",
+            "('15', '2')",
+            "('15', '9')",
+            "('15', '10')",
+            "('15', '4')",
+            
+            "('16', '1')",
+            "('16', '2')",
+            "('16', '9')",
+            "('16', '10')",
+            "('16', '4')",
+            
+            "('17', '1')",
+            "('17', '2')",
+            "('17', '9')",
+            "('17', '10')",
+            "('17', '4')",
+            
+            "('18', '1')",
+            "('18', '2')",
+            "('18', '9')",
+            "('18', '10')",
+            "('18', '4')",
+            
+            "('19', '1')",
+            "('19', '3')",
+            "('19', '9')",
+            "('19', '10')",
+            "('19', '4')",
+            
+            "('20', '1')",
+            "('20', '2')",
+            "('20', '9')",
+            "('20', '10')",
+            "('20', '4')"
         };
 
         seedTable(dropTableSQL);
@@ -368,56 +459,12 @@ public class DatabaseSeeder {
             + "`RecipeID` varchar(255) NOT NULL, "
             + "`UserID` int NOT NULL, "
             + "`Text` varchar(255) NOT NULL, "
-            + "`Timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+            + "`Timestamp` varchar(45) NOT NULL, "
             + "PRIMARY KEY (`CommentID`), "
             + "KEY `RecipeID2_idx` (`RecipeID`), "
             + "KEY `UserID0_idx` (`UserID`), "
             + "CONSTRAINT `RecipeID2` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
             + "CONSTRAINT `UserID0` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
-
-        seedTable(dropTableSQL);
-        seedTable(createTableSQL);
-
-        String[] recipeIds = new String[] {
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", 
-            "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-            "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
-        };
-
-        String[] comments = new String[] {
-            "This recipe is amazing!",
-            "My family loved it!",
-            "Will definitely make this again.",
-            "Easy to follow and delicious.",
-            "A new favorite in our house."
-        };
-
-        int userId = 1; 
-        
-        for (String recipeId : recipeIds) {
-            for (int i = 0; i < comments.length; i++) {
-                String seedComment = String.format(
-                    "INSERT INTO `comments` (`RecipeID`, `UserID`, `Text`) VALUES ('%s', '%d', '%s');", 
-                    recipeId, userId, comments[i]
-                );
-                seedTable(seedComment);
-                userId++;
-                if (userId > 3) { // Reset userId if more than 3 users
-                    userId = 1;
-                }
-            }
-        }
-    }
-
-    public void seedUserFavorites() {
-        String dropTableSQL = "DROP TABLE IF EXISTS `user_favorites`;";
-
-        String createTableSQL = "CREATE TABLE `user_favorites` ("
-            + "`UserID` INT NOT NULL, "
-            + "`RecipeID` varchar(255) NOT NULL, "
-            + "PRIMARY KEY (`UserID`, `RecipeID`), "
-            + "FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`), "
-            + "FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`));";
 
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
@@ -456,25 +503,6 @@ public class DatabaseSeeder {
         seedTable(createTableSQL);
     }
 
-    public void seedShoppingList() {
-        String dropTableSQL = "DROP TABLE IF EXISTS `Shopping_List`;";
-
-        String createTableSQL = "CREATE TABLE `Shopping_List` (" +
-            "`UserID` INT NOT NULL," +
-            "`ItemID` INT NOT NULL AUTO_INCREMENT," +
-            "`ItemName` VARCHAR(45) NOT NULL," +
-            "`Amount` FLOAT NOT NULL," +
-            "`Unit` VARCHAR(45) NOT NULL," +
-            "`WeeklyDinnerListID` INT," +
-            " PRIMARY KEY (`ItemID`)," +
-            " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)," +
-            " FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`)" +
-            ");";
-
-        seedTable(dropTableSQL);
-        seedTable(createTableSQL);
-    }
-
     public void seedSentRecipes() {
         String dropTableSQL = "DROP TABLE IF EXISTS `sent_recepies`;";
 
@@ -493,6 +521,28 @@ public class DatabaseSeeder {
             + "CONSTRAINT `RecipeID4` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
             + "CONSTRAINT `SenderUserID` FOREIGN KEY (`SenderUserID`) REFERENCES `users` (`UserID`));";
 
+        seedTable(dropTableSQL);
+        seedTable(createTableSQL);
+    }
+
+    public void seedShoppingList() {
+        // SQL command to drop the table if it already exists
+        String dropTableSQL = "DROP TABLE IF EXISTS `Shopping_List`;";
+
+        // SQL command to create the table
+        String createTableSQL = "CREATE TABLE `Shopping_List` (" +
+            "`UserID` INT NOT NULL," +
+            "`ItemID` INT NOT NULL AUTO_INCREMENT," +
+            "`ItemName` VARCHAR(45) NOT NULL," +
+            "`Amount` FLOAT NOT NULL," +
+            "`Unit` VARCHAR(45) NOT NULL," +
+            "`WeeklyDinnerListID` INT," +
+            " PRIMARY KEY (`ItemID`)," +
+            " FOREIGN KEY (`WeeklyDinnerListID`) REFERENCES `weekly_dinner_lists`(`WeeklyDinnerListID`)," +
+            " FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`)" +
+            ");";
+
+        // Execute the SQL commands to seed the table
         seedTable(dropTableSQL);
         seedTable(createTableSQL);
     }
