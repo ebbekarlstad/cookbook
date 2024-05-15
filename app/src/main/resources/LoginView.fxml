@@ -85,12 +85,12 @@
             </ImageView>
             <ProgressIndicator fx:id="loginProgress" layoutX="440.0" layoutY="424.0" prefHeight="47.0" prefWidth="85.0" visible="false" />
             <Label fx:id="errorLabel" alignment="TOP_CENTER" layoutX="362.0" layoutY="439.0" prefHeight="16.0" prefWidth="211.0" textAlignment="CENTER" textFill="red" />
-            <TextField layoutX="386.0" layoutY="366.0" promptText="Username">
+            <TextField fx:id="usernameField" layoutX="386.0" layoutY="366.0" promptText="Username">
                <font>
                   <Font name="System Font Medium" size="13.0" />
                </font>
             </TextField>
-            <PasswordField layoutX="386.0" layoutY="398.0" promptText="Password">
+            <PasswordField fx:id="passwordField" layoutX="386.0" layoutY="398.0" promptText="Password">
                <font>
                   <Font name="System Font Medium" size="13.0" />
                </font>
