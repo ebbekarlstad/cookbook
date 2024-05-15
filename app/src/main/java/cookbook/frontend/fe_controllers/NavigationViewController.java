@@ -1,7 +1,10 @@
 package cookbook.frontend.fe_controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import cookbook.backend.DatabaseMng;
+import cookbook.backend.be_objects.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class NavigationViewController {
@@ -24,7 +29,16 @@ public class NavigationViewController {
   private Button logoutButton;
   @FXML
   private Button newRecipeButton;
+  @FXML
+  private Label userDisplayName;
 
+
+  @FXML
+  private void initialize() throws SQLException {
+    DatabaseMng dbManager = new DatabaseMng();
+    userDisplayName.setTextFill(Color.WHITE);
+    userDisplayName.setText("Welcome, " + dbManager.getDisplayName(UserSession.getInstance().getUserId()) + "!");
+  }
   @FXML
   void handleBrowseRecipes(ActionEvent event) {
     try {
