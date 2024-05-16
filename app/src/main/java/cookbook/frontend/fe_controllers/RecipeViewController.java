@@ -125,7 +125,7 @@ public class RecipeViewController {
         System.out.println("Invalid input for amount, defaulting to 0.");
         Amount = 0.0f;  // Setting a default value if parsing fails
     }
-    if (Unit != null) {
+    if (Unit != null && ingredientLabel.getText() != "") {
       try {
         RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
         Recipe createdRecipe = new Recipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
@@ -173,10 +173,10 @@ public class RecipeViewController {
       failure.show();
     
     }else {
-      System.out.println("You must choose an ingredient!");
+      System.out.println("You must add an ingredient!");
       Alert failure = new Alert(Alert.AlertType.ERROR);
       failure.setTitle("Error");
-      failure.setContentText("You must choose an ingredient.");
+      failure.setContentText("You must add an ingredient.");
       failure.show();
     }
 
