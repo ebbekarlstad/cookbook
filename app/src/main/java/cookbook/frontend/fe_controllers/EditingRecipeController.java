@@ -408,7 +408,7 @@ public class EditingRecipeController {
 
   public void backButton(ActionEvent event) throws SQLException, IOException {
     try {
-      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
+      Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
       Scene navigationPageScene = new Scene(navigationPageParent);
       Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(navigationPageScene);

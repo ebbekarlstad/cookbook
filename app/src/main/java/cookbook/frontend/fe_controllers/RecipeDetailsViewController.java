@@ -425,14 +425,13 @@ public class RecipeDetailsViewController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserRecipesView.fxml"));
             Parent editPageParent = loader.load();
+            Scene editPageScene = new Scene(editPageParent);
             EditingRecipeController editingRecipeController = loader.getController();
             editingRecipeController.initData(this.recipe);
-
-            Stage editStage = new Stage();
-            editStage.setTitle("Edit Recipe");
-            editStage.setScene(new Scene(editPageParent));
-            editStage.initModality(Modality.APPLICATION_MODAL);
-            editStage.show();
+    
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(editPageScene);
+            window.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
