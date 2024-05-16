@@ -29,7 +29,7 @@
                </effect>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="703.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="340.0" />
-            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="New Recipe" textAlignment="CENTER">
+            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="63.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="New Recipe" textAlignment="CENTER">
                <effect>
                   <DropShadow />
                </effect>
@@ -53,7 +53,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="44.0" layoutY="139.0">
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="44.0" layoutY="73.0">
                <image>
                   <Image url="@images/plus.png" />
                </image>
@@ -178,6 +178,22 @@
                   <Font size="16.0" />
                </font>
             </Label>
+            <Button fx:id="EditRecipeButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="128.0" mnemonicParsing="false" onAction="#handleEditRecipeButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Edit My Recipes" textAlignment="CENTER">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Font Light" size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="43.0" layoutY="138.0">
+               <image>
+                  <Image url="@images/user_svg.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
       </children>
     </AnchorPane>
   </children>

@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 
 public class NavigationViewController {
 
+  @FXML
+  private Button EditRecipeButton;
 
   @FXML
   private Button favoriteButton;
@@ -134,6 +136,24 @@ public class NavigationViewController {
       e.printStackTrace();
     }
   }
+
+  @FXML
+  void handleEditRecipeButton(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent MyRecipePageParent = FXMLLoader.load(getClass().getResource("/UserEditRecipesView.fxml"));
+      Scene MyRecipePageScene = new Scene(MyRecipePageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(MyRecipePageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
 
   @FXML
   void handleShoppingListButton(ActionEvent event) {

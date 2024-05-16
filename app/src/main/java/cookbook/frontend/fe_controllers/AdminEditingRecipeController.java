@@ -27,9 +27,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class EditingRecipeController {
+public class AdminEditingRecipeController {
 
   @FXML
   private TableView<AmountOfIngredients> ingredientTable;
@@ -50,6 +49,7 @@ public class EditingRecipeController {
   private ObservableList<AmountOfIngredients> newIngredients = FXCollections.observableArrayList();
   private ObservableList<Tag> tags = FXCollections.observableArrayList();
   private ObservableList<Tag> newTags = FXCollections.observableArrayList();
+  private ObservableList<Tag> updatedTags = FXCollections.observableArrayList();
 
   @FXML
   private Button EditIngredient;
@@ -232,7 +232,7 @@ public class EditingRecipeController {
 
       AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
       ingredients.add(newQuantityIngredients);
-      newIngredients.add(newQuantityIngredients); // Track new ingredients separately
+      newIngredients.add(newQuantityIngredients);
       ingredientTable.refresh();
 
       String currentLabelText = ingredientLabel.getText();
@@ -261,15 +261,13 @@ public class EditingRecipeController {
     String selectedTag = tagsDropdown.getSelectionModel().getSelectedItem();
 
     if (tagNameInput != null && !tagNameInput.trim().isEmpty()) {
-      // Add new tag
       UUID uniqueID = UUID.randomUUID();
       String uniqueTagID = uniqueID.toString();
 
       TagController.addTag(uniqueTagID, tagNameInput);
       Tag newTag = new Tag(uniqueTagID, tagNameInput);
       tags.add(newTag);
-      newTags.add(newTag); // Track new tags separately
-
+      newTags.add(newTag);
       tagTable.refresh();
 
       Alert success = new Alert(Alert.AlertType.INFORMATION);
@@ -277,7 +275,6 @@ public class EditingRecipeController {
       success.setContentText("You successfully created a new tag!");
       success.show();
     } else if (selectedTag != null) {
-      // Add existing tag
       Tag tag = findTagByName(selectedTag);
       if (tag != null && !tags.contains(tag)) {
         tags.add(tag);
@@ -315,18 +312,18 @@ public class EditingRecipeController {
   void updateTagInList(ActionEvent event) {
     Tag selected = tagTable.getSelectionModel().getSelectedItem();
     String updatedTagName = tagName.getText();
-    if (updatedTagName == "") {
+    if (updatedTagName.isEmpty()) {
       Alert error = new Alert(Alert.AlertType.ERROR);
       error.setTitle("Error...");
       error.setContentText("Tag name cannot be empty");
       error.show();
-
-    } else{
-    if (selected != null) {
-      selected.setTagName(tagName.getText());
-      tagTable.refresh();
+    } else {
+      if (selected != null) {
+        selected.setTagName(tagName.getText());
+        updatedTags.add(selected);
+        tagTable.refresh();
+      }
     }
-  }
   }
 
   @FXML
@@ -349,6 +346,7 @@ public class EditingRecipeController {
         updateIngredients(recipe.getId());
         saveNewIngredients(recipe.getId());
         saveNewTags(recipe.getId());
+        updateTags(recipe.getId());  // Call the method to update existing tags
       } else {
         System.out.println("Recipe update failed");
       }
@@ -406,6 +404,21 @@ public class EditingRecipeController {
     }
   }
 
+  private void updateTags(String recipeID) throws SQLException {
+    for (Tag tagDetails : updatedTags) {
+      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+           PreparedStatement updateStmt = connection.prepareStatement(
+                   "UPDATE tags SET TagName = ? WHERE TagID = ?")) {
+        updateStmt.setString(1, tagDetails.getTagName());
+        updateStmt.setString(2, tagDetails.getTagID());
+        updateStmt.executeUpdate();
+      } catch (SQLException e) {
+        System.out.println("Error updating tag: " + tagDetails.getTagName());
+        e.printStackTrace();
+      }
+    }
+  }
+
   public void backButton(ActionEvent event) throws SQLException, IOException {
     try {
       Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
@@ -417,6 +430,4 @@ public class EditingRecipeController {
       e.printStackTrace();
     }
   }
-
-
 }

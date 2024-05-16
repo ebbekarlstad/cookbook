@@ -132,10 +132,13 @@ public class RecipeDetailsViewController {
         DatabaseMng dbManager = new DatabaseMng();
         this.favoritesController = new FavoritesController(dbManager);
 
+        // Döljer "Edit Recipe" och "Delete Recipe" knapparna om användaren inte är admin
         if (!UserSession.getInstance().isAdmin()) {
             deleteRecipeButton.setVisible(false);
+            EditRecipes.setVisible(false);
         } else {
             deleteRecipeButton.setVisible(true);
+            EditRecipes.setVisible(true);
         }
     }
 
@@ -423,10 +426,10 @@ public class RecipeDetailsViewController {
     @FXML
     void UserOnClickEditRecipeViewButton(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserRecipesView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AdminEditRecipesView.fxml"));
             Parent editPageParent = loader.load();
             Scene editPageScene = new Scene(editPageParent);
-            EditingRecipeController editingRecipeController = loader.getController();
+            AdminEditingRecipeController editingRecipeController = loader.getController();
             editingRecipeController.initData(this.recipe);
     
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -436,6 +439,7 @@ public class RecipeDetailsViewController {
             e.printStackTrace();
         }
     }
+    
     @FXML
     private void handleweekButtonAction(ActionEvent event) {
         try {
@@ -461,5 +465,4 @@ public class RecipeDetailsViewController {
             System.out.println("Error when opening the popup: " + e.getMessage());
         }
     }
-
 }
