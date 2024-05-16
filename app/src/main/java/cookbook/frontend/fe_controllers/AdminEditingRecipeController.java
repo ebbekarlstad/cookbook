@@ -25,7 +25,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.UUID;
 
 public class AdminEditingRecipeController {
@@ -110,28 +109,16 @@ public class AdminEditingRecipeController {
     fetchTagsFromDatabase(recipe.getId());
   }
 
-  private Ingredient fetchIngredientDetails(String ingredientID) {
-    try {
-      List<Ingredient> ingredients = IngredientController.getIngredients();
-      for (Ingredient ingredient : ingredients) {
-        if (ingredient.getIngredientID().equals(ingredientID)) {
-          return ingredient;
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
   private void fetchIngredientsFromDatabase(String recipeID) {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+      Connection connection = DriverManager
+          .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
       PreparedStatement statement = connection.prepareStatement(
-              "SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit " +
-                      "FROM recipe_ingredients " +
-                      "JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
-                      "WHERE recipe_ingredients.RecipeID = ?");
+          "SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit "
+              +
+              "FROM recipe_ingredients " +
+              "JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
+              "WHERE recipe_ingredients.RecipeID = ?");
       statement.setString(1, recipeID);
       ResultSet resultSet = statement.executeQuery();
 
@@ -156,12 +143,13 @@ public class AdminEditingRecipeController {
 
   private void fetchTagsFromDatabase(String recipeID) {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+      Connection connection = DriverManager
+          .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
       PreparedStatement statement = connection.prepareStatement(
-              "SELECT tags.TagID, tags.TagName " +
-                      "FROM recipe_tags " +
-                      "JOIN tags ON recipe_tags.TagID = tags.TagID " +
-                      "WHERE recipe_tags.RecipeID = ?");
+          "SELECT tags.TagID, tags.TagName " +
+              "FROM recipe_tags " +
+              "JOIN tags ON recipe_tags.TagID = tags.TagID " +
+              "WHERE recipe_tags.RecipeID = ?");
       statement.setString(1, recipeID);
       ResultSet resultSet = statement.executeQuery();
 
@@ -185,8 +173,10 @@ public class AdminEditingRecipeController {
   private void initialize() throws SQLException {
     unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch");
 
-    ingredientColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIngredient().getIngredientName()));
-    amountColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getAmount())));
+    ingredientColumn.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getIngredient().getIngredientName()));
+    amountColumn
+        .setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getAmount())));
     unitColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit()));
 
     tagColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTagName()));
@@ -230,7 +220,8 @@ public class AdminEditingRecipeController {
       IngredientController.addIngredient(uniqueIngredientID, IngredientName);
       Ingredient newIngredientObj = new Ingredient(uniqueIngredientID, IngredientName);
 
-      AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
+      AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount,
+          newIngredientObj);
       ingredients.add(newQuantityIngredients);
       newIngredients.add(newQuantityIngredients);
       ingredientTable.refresh();
@@ -337,16 +328,16 @@ public class AdminEditingRecipeController {
       String newShortDesc = recipeShortDesc.getText().trim();
       String newLongDesc = recipeLongDesc.getText().trim();
       boolean updated = RecipeController.updateRecipeDetails(
-              recipe.getId(),
-              newRecipeName,
-              newShortDesc,
-              newLongDesc);
+          recipe.getId(),
+          newRecipeName,
+          newShortDesc,
+          newLongDesc);
       if (updated) {
         System.out.println("Recipe updated successfully");
         updateIngredients(recipe.getId());
         saveNewIngredients(recipe.getId());
         saveNewTags(recipe.getId());
-        updateTags(recipe.getId());  // Call the method to update existing tags
+        updateTags(recipe.getId()); // Call the method to update existing tags
       } else {
         System.out.println("Recipe update failed");
       }
@@ -357,9 +348,11 @@ public class AdminEditingRecipeController {
 
   private void updateIngredients(String recipeID) throws SQLException {
     for (AmountOfIngredients ingredientDetails : ingredients) {
-      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-           PreparedStatement updateStmt = connection.prepareStatement(
-                   "UPDATE recipe_ingredients SET Amount = ?, Unit = ? WHERE RecipeID = ? AND IngredientID = ?")) {
+      try (
+          Connection connection = DriverManager
+              .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+          PreparedStatement updateStmt = connection.prepareStatement(
+              "UPDATE recipe_ingredients SET Amount = ?, Unit = ? WHERE RecipeID = ? AND IngredientID = ?")) {
         updateStmt.setFloat(1, ingredientDetails.getAmount());
         updateStmt.setString(2, ingredientDetails.getUnit());
         updateStmt.setString(3, recipeID);
@@ -374,9 +367,11 @@ public class AdminEditingRecipeController {
 
   private void saveNewIngredients(String recipeID) throws SQLException {
     for (AmountOfIngredients ingredientDetails : newIngredients) {
-      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-           PreparedStatement insertStmt = connection.prepareStatement(
-                   "INSERT INTO recipe_ingredients (RecipeID, IngredientID, Amount, Unit) VALUES (?, ?, ?, ?)")) {
+      try (
+          Connection connection = DriverManager
+              .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+          PreparedStatement insertStmt = connection.prepareStatement(
+              "INSERT INTO recipe_ingredients (RecipeID, IngredientID, Amount, Unit) VALUES (?, ?, ?, ?)")) {
         insertStmt.setString(1, recipeID);
         insertStmt.setString(2, ingredientDetails.getIngredient().getIngredientID());
         insertStmt.setFloat(3, ingredientDetails.getAmount());
@@ -391,9 +386,11 @@ public class AdminEditingRecipeController {
 
   private void saveNewTags(String recipeID) throws SQLException {
     for (Tag tagDetails : newTags) {
-      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-           PreparedStatement insertStmt = connection.prepareStatement(
-                   "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)")) {
+      try (
+          Connection connection = DriverManager
+              .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+          PreparedStatement insertStmt = connection.prepareStatement(
+              "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)")) {
         insertStmt.setString(1, recipeID);
         insertStmt.setString(2, tagDetails.getTagID());
         insertStmt.executeUpdate();
@@ -406,9 +403,11 @@ public class AdminEditingRecipeController {
 
   private void updateTags(String recipeID) throws SQLException {
     for (Tag tagDetails : updatedTags) {
-      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-           PreparedStatement updateStmt = connection.prepareStatement(
-                   "UPDATE tags SET TagName = ? WHERE TagID = ?")) {
+      try (
+          Connection connection = DriverManager
+              .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+          PreparedStatement updateStmt = connection.prepareStatement(
+              "UPDATE tags SET TagName = ? WHERE TagID = ?")) {
         updateStmt.setString(1, tagDetails.getTagName());
         updateStmt.setString(2, tagDetails.getTagID());
         updateStmt.executeUpdate();
