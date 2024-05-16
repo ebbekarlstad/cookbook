@@ -91,7 +91,7 @@
                 </Label>
                 <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="21.0" layoutY="114.0" prefHeight="87.0" prefWidth="565.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
                     <font>
-                        <Font name="System Font Medium" size="13.0" />
+                        <Font name="System Font Medium" size="13.0" style="Italic" />
                     </font>
                 </Label>
                 <Label layoutX="21.0" layoutY="400.0" prefHeight="40.0" prefWidth="184.0" text="Instructions:" textFill="#db5442" wrapText="true">
