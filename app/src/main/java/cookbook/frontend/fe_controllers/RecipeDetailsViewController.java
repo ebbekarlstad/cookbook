@@ -10,7 +10,6 @@ import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.be_controllers.IngredientController;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,12 +24,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 public class RecipeDetailsViewController {
+
+    @FXML
+    private Button EditRecipes;
 
     @FXML
     private TableView<AmountOfIngredients> ingredientTable;
@@ -424,14 +425,13 @@ public class RecipeDetailsViewController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserRecipesView.fxml"));
             Parent editPageParent = loader.load();
+            Scene editPageScene = new Scene(editPageParent);
             EditingRecipeController editingRecipeController = loader.getController();
             editingRecipeController.initData(this.recipe);
-
-            Stage editStage = new Stage();
-            editStage.setTitle("Edit Recipe");
-            editStage.setScene(new Scene(editPageParent));
-            editStage.initModality(Modality.APPLICATION_MODAL);
-            editStage.show();
+    
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(editPageScene);
+            window.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
