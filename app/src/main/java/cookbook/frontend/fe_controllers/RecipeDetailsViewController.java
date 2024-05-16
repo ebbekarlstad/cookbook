@@ -63,7 +63,7 @@ public class RecipeDetailsViewController {
     private ImageView favoriteIcon;
 
     @FXML
-    private Button deleteRecipeButton; // Ny knapp för att radera receptet
+    private Button deleteRecipeButton;
 
     private String recipeId;
     private int commentId;
@@ -398,7 +398,6 @@ public class RecipeDetailsViewController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Recipe");
         alert.setHeaderText("Are you sure you want to delete this recipe?");
-        
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {

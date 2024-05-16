@@ -397,28 +397,27 @@ public class RecipeController {
   }
 
   public static boolean deleteRecipeById(String recipeId) throws SQLException {
-    // Först ta bort alla relaterade poster i recipe_ingredients
-    if (!deleteRecipeIngredients(recipeId)) {
-        return false;
-    }
     
-    // Ta sedan bort receptet
     String sql = "DELETE FROM recipes WHERE RecipeID = ?;";
     String sql2 = "DELETE FROM comments WHERE RecipeID = ?;";
     String sql3 = "DELETE FROM recipe_tags WHERE RecipeID = ?;";
+    String sql4 = "DELETE FROM recipe_ingredients WHERE RecipeID = ?;";
 
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
          PreparedStatement pstmt = conn.prepareStatement(sql);
          PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-         PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
+         PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+         PreparedStatement pstmt4 = conn.prepareStatement(sql4)) {
         pstmt.setString(1, recipeId);
         pstmt2.setString(1, recipeId);
         pstmt3.setString(1, recipeId);
-        int affectedRows2 = pstmt2.executeUpdate();
-        int affectedRows3 = pstmt3.executeUpdate();
-        int affectedRows = pstmt.executeUpdate();
-
-        return affectedRows > 0 && affectedRows2 > 0 && affectedRows3 > 0;
+        pstmt4.setString(1, recipeId);
+        pstmt2.executeUpdate();
+        pstmt3.executeUpdate();
+        pstmt4.executeUpdate();
+        pstmt.executeUpdate();
+            
+        return true;
     } catch (SQLException e) {
         System.err.println("Error deleting recipe: " + e.getMessage());
         return false;
