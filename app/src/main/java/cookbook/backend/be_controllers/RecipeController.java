@@ -177,18 +177,18 @@ public class RecipeController {
   public static List<Recipe> getRecipesByTags(String[] tags) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
     String query = "SELECT r.* FROM recipes r "
-                 + "JOIN recipe_tags rt ON r.RecipeID = rt.RecipeID "
-                 + "JOIN tags t ON rt.TagID = t.TagID "
-                 + "WHERE t.TagName IN (" + String.join(",", Collections.nCopies(tags.length, "?")) + ") "
-                 + "GROUP BY r.RecipeID "
-                 + "HAVING COUNT(DISTINCT t.TagName) = ?";
+        + "JOIN recipe_tags rt ON r.RecipeID = rt.RecipeID "
+        + "JOIN tags t ON rt.TagID = t.TagID "
+        + "WHERE " + String.join(" OR ", Collections.nCopies(tags.length, "LOWER(t.TagName) LIKE ?"))
+        + " GROUP BY r.RecipeID "
+        + "HAVING COUNT(DISTINCT t.TagName) >= ?"; 
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
          PreparedStatement sqlStatement = conn.prepareStatement(query)) {
 
-      for (int i = 0; i < tags.length; i++) {
-        sqlStatement.setString(i + 1, tags[i].trim());
-      }
-      sqlStatement.setInt(tags.length + 1, tags.length);
+        for (int i = 0; i < tags.length; i++) {
+          sqlStatement.setString(i + 1, "%" + tags[i].trim().toLowerCase() + "%");
+        }
+        sqlStatement.setInt(tags.length + 1, tags.length);
       
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
