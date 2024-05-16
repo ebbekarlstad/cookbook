@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public class MessagesViewController {
   private DatabaseMng dbManager;
   private MessageController messageController;
@@ -55,72 +54,72 @@ public class MessagesViewController {
     loadMessages();
   }
 
-private void setupMessageTable() {
-    fromColumn.setCellValueFactory(new PropertyValueFactory<>("senderId")); // Assumes that senderId will be converted to a name or identifier
+  private void setupMessageTable() {
+    fromColumn.setCellValueFactory(new PropertyValueFactory<>("senderId")); // Assumes that senderId will be converted
+                                                                            // to a name or identifier
 
     // Setup for the action column
     actionColumn.setCellValueFactory(new PropertyValueFactory<>("recipeId"));
     actionColumn.setCellFactory(column -> {
-        return new TableCell<Message, String>() {
-            private final Hyperlink hyperlink = new Hyperlink("View Recipe");
-    
-            {
-              // Changed color to black to be more visible
-              hyperlink.setStyle("-fx-text-fill: black;");
-                hyperlink.setOnAction(event -> {
-                    Message msg = getTableView().getItems().get(getIndex());
-                    if (msg != null) {
-                        openRecipeDetails(msg.getRecipeId());
-                    }
-                });
+      return new TableCell<Message, String>() {
+        private final Hyperlink hyperlink = new Hyperlink("View Recipe");
+
+        {
+          // Changed color to black to be more visible
+          hyperlink.setStyle("-fx-text-fill: black;");
+          hyperlink.setOnAction(event -> {
+            Message msg = getTableView().getItems().get(getIndex());
+            if (msg != null) {
+              openRecipeDetails(msg.getRecipeId());
             }
-    
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(hyperlink);
-                }
-            }
-        };
+          });
+        }
+
+        @Override
+        protected void updateItem(String item, boolean empty) {
+          super.updateItem(item, empty);
+          if (empty) {
+            setGraphic(null);
+          } else {
+            setGraphic(hyperlink);
+          }
+        }
+      };
     });
 
     messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-        if (newSelection != null) {
-            try {
-                messageContent.setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t" + newSelection.getSentTime() 
-                +"\n" + newSelection.getContent()
-                );
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+      if (newSelection != null) {
+        try {
+          messageContent
+              .setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t" + newSelection.getSentTime()
+                  + "\n" + newSelection.getContent());
+        } catch (SQLException e) {
+          e.printStackTrace();
         }
+      }
     });
-}
+  }
 
   private void openRecipeDetails(String recipeId) {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetails.fxml"));
-        Parent detailsView = loader.load();
-    
-        RecipeDetailsViewController controller = loader.getController();
-        DatabaseMng dbManager = new DatabaseMng();  // Ensure this is the right place to instantiate
-        RecipeController recipeController = new RecipeController(dbManager);
-        Recipe recipe = recipeController.getRecipeById(recipeId);
-        controller.initData(recipe);
-    
-        Scene scene = new Scene(detailsView);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Recipe Details");
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/RecipeDetails.fxml"));
+      Parent detailsView = loader.load();
 
+      RecipeDetailsViewController controller = loader.getController();
+      DatabaseMng dbManager = new DatabaseMng(); // Ensure this is the right place to instantiate
+      RecipeController recipeController = new RecipeController(dbManager);
+      Recipe recipe = recipeController.getRecipeById(recipeId);
+      controller.initData(recipe);
+
+      Scene scene = new Scene(detailsView);
+      Stage stage = new Stage();
+      stage.setScene(scene);
+      stage.setTitle("Recipe Details");
+      stage.show();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   private void loadMessages() {
     try {
@@ -135,21 +134,19 @@ private void setupMessageTable() {
 
   @FXML
   private void handleBackButton(ActionEvent event) {
-      try {
-         
-          String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
-  
-         
-          Parent navigationViewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
-          Scene navigationViewScene = new Scene(navigationViewParent);
-  
-          
-          Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-          window.setScene(navigationViewScene);
-          window.show();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
+    try {
+
+      String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
+
+      Parent navigationViewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+      Scene navigationViewScene = new Scene(navigationViewParent);
+
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      window.setScene(navigationViewScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
-  
+
 }

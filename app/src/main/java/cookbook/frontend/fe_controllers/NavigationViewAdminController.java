@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
-
 public class NavigationViewAdminController {
   @FXML
   private Label userDisplayName;
@@ -75,7 +74,6 @@ public class NavigationViewAdminController {
       e.printStackTrace();
     }
   }
-
 
   @FXML
   private void handleBrowseRecipes(ActionEvent event) {
