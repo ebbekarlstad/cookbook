@@ -1,16 +1,14 @@
 package cookbook.backend.be_objects;
 
-
-
 import java.sql.Timestamp;
 
 public class Message {
   private Long messageId;
   private Long senderId;
   private Long receiverId;
-  private String recipeId;  // Foreign key to the recipes table
-  private String content;  // Optional message text about the recipe
-  private Timestamp sentTime;  // Timestamp when the message was created
+  private String recipeId; // Foreign key to the recipes table
+  private String content; // Optional message text about the recipe
+  private Timestamp sentTime; // Timestamp when the message was created
 
   // Constructor
   public Message(Long senderId, Long receiverId, String recipeId, String content) {
@@ -20,7 +18,6 @@ public class Message {
     this.content = content;
     this.sentTime = new Timestamp(System.currentTimeMillis()); // Set current time as the timestamp
   }
-
 
   // Getters and Setters
   public Long getMessageId() {
@@ -71,4 +68,3 @@ public class Message {
     this.sentTime = sentTime;
   }
 }
-

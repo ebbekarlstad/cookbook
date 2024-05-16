@@ -8,68 +8,68 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class DatabaseMng {
-  
 
   private String lastErrorMessage = "";
 
   private String databaseUrl = "jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false";
 
-    public Connection getConnection() throws SQLException {
-        try {
-            Connection conn = DriverManager.getConnection(databaseUrl);
-            return conn;
-        } catch (SQLException e) {
-            lastErrorMessage = e.getMessage();
-            throw e;
-        }
+  public Connection getConnection() throws SQLException {
+    try {
+      Connection conn = DriverManager.getConnection(databaseUrl);
+      return conn;
+    } catch (SQLException e) {
+      lastErrorMessage = e.getMessage();
+      throw e;
     }
-
-    // Returns the UserID.
-    public Optional<Long> getUserId(String userName) {
-      String sql = "SELECT UserID FROM users WHERE UserName = ?";
-      try (Connection conn = getConnection();
-           PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userName);
-          ResultSet rs = pstmt.executeQuery();
-          if (rs.next()) {
-              return Optional.of(rs.getLong("UserID"));
-          }
-      } catch (SQLException e) {
-          System.err.println("SQL Exception in getUserId: " + e.getMessage());
-          lastErrorMessage = e.getMessage();
-      }
-      return Optional.empty();
   }
 
-    public Optional<String> getPasswordHashForUser(String userName) {
-      String sql = "SELECT Password FROM users WHERE UserName = ?";
-      try (Connection conn = getConnection();
-          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-          pstmt.setString(1, userName);
-          ResultSet rs = pstmt.executeQuery();
-          if (rs.next()) {
-            return Optional.of(rs.getString("Password"));
-          } 
-        } catch (SQLException e) {
-            System.err.println("SQL Exception in getPasswordHashForUser: " + e.getMessage());
-            lastErrorMessage = e.getMessage();
-        }
-        return Optional.empty();
-    }
-
-    public boolean connect() {
-       try {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-        return conn != null;
-      } catch (SQLException e) {
-        lastErrorMessage = e.getMessage();
-        return false;
+  // Returns the UserID.
+  public Optional<Long> getUserId(String userName) {
+    String sql = "SELECT UserID FROM users WHERE UserName = ?";
+    try (Connection conn = getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setString(1, userName);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return Optional.of(rs.getLong("UserID"));
       }
+    } catch (SQLException e) {
+      System.err.println("SQL Exception in getUserId: " + e.getMessage());
+      lastErrorMessage = e.getMessage();
     }
+    return Optional.empty();
+  }
 
-    public String getLastErrorMessage() {
-      return lastErrorMessage;
+  public Optional<String> getPasswordHashForUser(String userName) {
+    String sql = "SELECT Password FROM users WHERE UserName = ?";
+    try (Connection conn = getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setString(1, userName);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return Optional.of(rs.getString("Password"));
+      }
+    } catch (SQLException e) {
+      System.err.println("SQL Exception in getPasswordHashForUser: " + e.getMessage());
+      lastErrorMessage = e.getMessage();
     }
+    return Optional.empty();
+  }
+
+  public boolean connect() {
+    try {
+      Connection conn = DriverManager
+          .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+      return conn != null;
+    } catch (SQLException e) {
+      lastErrorMessage = e.getMessage();
+      return false;
+    }
+  }
+
+  public String getLastErrorMessage() {
+    return lastErrorMessage;
+  }
 
   /**
    * Method that checks the isAdmin attribute of a userName.
@@ -79,36 +79,32 @@ public class DatabaseMng {
    * @throws SQLException - SQL error.
    */
   public boolean isAdminUser(Long userId) throws SQLException {
-  String sql = "SELECT IsAdmin FROM users WHERE UserID = ?";
-  try (Connection conn = this.getConnection();
-       PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    String sql = "SELECT IsAdmin FROM users WHERE UserID = ?";
+    try (Connection conn = this.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
       pstmt.setLong(1, userId);
       ResultSet rs = pstmt.executeQuery();
       if (rs.next()) {
         return rs.getBoolean("IsAdmin");
       }
-  } catch (SQLException e) {
+    } catch (SQLException e) {
       System.err.println("SQL Exception in isAdminUser: " + e.getMessage());
       throw e;
     }
-  return false;
+    return false;
   }
 
   public String getDisplayName(Long userId) throws SQLException {
     String sql = "SELECT DisplayName FROM users WHERE UserID = ?;";
     try (Connection conn = this.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setLong(1, userId);
-        ResultSet rs = pstmt.executeQuery();
-        if (rs.next()) {
-            return rs.getString("DisplayName");
-        } else {
-            return "Unknown User"; // Default value if user not found
-        }
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setLong(1, userId);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return rs.getString("DisplayName");
+      } else {
+        return "Unknown User"; // Default value if user not found
+      }
     }
+  }
 }
-}
-
-
-  
-

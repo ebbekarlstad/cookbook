@@ -1,7 +1,8 @@
 package cookbook.backend.be_objects;
 
 /**
- * The AmountOfIngredients class represents the quantity of an ingredient, including its unit, amount, and name.
+ * The AmountOfIngredients class represents the quantity of an ingredient,
+ * including its unit, amount, and name.
  */
 public class AmountOfIngredients {
   private String Unit;
@@ -11,18 +12,20 @@ public class AmountOfIngredients {
   private float originalAmount;
 
   /**
-   * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient.
+   * Constructs a new AmountOfIngredients object with the specified unit, amount,
+   * and ingredient.
    *
-   * @param Unit       the unit of measurement for the ingredient (e.g., "g", "ml")
+   * @param Unit       the unit of measurement for the ingredient (e.g., "g",
+   *                   "ml")
    * @param Amount     the amount of the ingredient
    * @param ingredient the ingredient object
    */
   public AmountOfIngredients(String Unit, float Amount, Ingredient ingredient) {
     this.Unit = Unit;
-    if(Unit == null) {
+    if (Unit == null) {
       this.Unit = "";
     }
-    if(Unit == "Unit") {
+    if (Unit == "Unit") {
       this.Unit = "";
     }
     this.Amount = Amount;
@@ -31,7 +34,6 @@ public class AmountOfIngredients {
     this.IngredientName = ingredient.getIngredientName();
   }
 
-
   public String getIngredientName() {
     if (ingredient != null) {
       return ingredient.getIngredientName();
@@ -39,19 +41,22 @@ public class AmountOfIngredients {
       return "UnknownIngredient";
     }
   }
+
   /**
-   * Constructs a new AmountOfIngredients object with the specified unit, amount, and ingredient name.
+   * Constructs a new AmountOfIngredients object with the specified unit, amount,
+   * and ingredient name.
    *
-   * @param Unit   the unit of measurement for the ingredient (e.g., "g", "ml")
-   * @param Amount the amount of the ingredient
-   * @param IngredientName   the name of the ingredient
+   * @param Unit           the unit of measurement for the ingredient (e.g., "g",
+   *                       "ml")
+   * @param Amount         the amount of the ingredient
+   * @param IngredientName the name of the ingredient
    */
   public AmountOfIngredients(String Unit, float Amount, String IngredientName) {
     this.Unit = Unit;
-    if(Unit == null) {
+    if (Unit == null) {
       this.Unit = "";
     }
-    if(Unit == "Unit") {
+    if (Unit == "Unit") {
       this.Unit = "";
     }
     this.Amount = Amount;
@@ -133,6 +138,7 @@ public class AmountOfIngredients {
   public void setOriginalAmount(float originalAmount) {
     this.originalAmount = originalAmount;
   }
+
   /**
    * Convert the object to a string representation.
    *

@@ -22,59 +22,59 @@ import javafx.application.Platform;
 
 public class FavoriteViewController {
 
-    @FXML
-    private ListView<Recipe> favoritesListView;
+	@FXML
+	private ListView<Recipe> favoritesListView;
 
-    private ObservableList<Recipe> favoriteRecipes = FXCollections.observableArrayList();
-    private FavoritesController favoritesController; 
+	private ObservableList<Recipe> favoriteRecipes = FXCollections.observableArrayList();
+	private FavoritesController favoritesController;
 
-    public FavoriteViewController() {
-        DatabaseMng dbManager = new DatabaseMng();
-        favoritesController = new FavoritesController(dbManager);
-    }
+	public FavoriteViewController() {
+		DatabaseMng dbManager = new DatabaseMng();
+		favoritesController = new FavoritesController(dbManager);
+	}
 
-    @FXML
-    private void initialize() {
-        // Initialisera ListView med favoritrecept
-        favoritesListView.setItems(favoriteRecipes);
-        favoritesListView.setCellFactory(lv -> new ListCell<Recipe>() {
-            @Override
-            protected void updateItem(Recipe recipe, boolean empty) {
-                super.updateItem(recipe, empty);
-                if (empty || recipe == null) {
-                    setText(null);
-                } else {
-                    setText(recipe.getRecipeName()); 
-                }
-            }
-        });
+	@FXML
+	private void initialize() {
+		// Initialisera ListView med favoritrecept
+		favoritesListView.setItems(favoriteRecipes);
+		favoritesListView.setCellFactory(lv -> new ListCell<Recipe>() {
+			@Override
+			protected void updateItem(Recipe recipe, boolean empty) {
+				super.updateItem(recipe, empty);
+				if (empty || recipe == null) {
+					setText(null);
+				} else {
+					setText(recipe.getRecipeName());
+				}
+			}
+		});
 
-        // Ladda favoritrecept i en bakgrundstråd om det behövs
-        Platform.runLater(this::loadFavoriteRecipes);
-    }
+		// Ladda favoritrecept i en bakgrundstråd om det behövs
+		Platform.runLater(this::loadFavoriteRecipes);
+	}
 
-private void loadFavoriteRecipes() {
-    Long userId = UserSession.getInstance().getUserId(); 
-    List<Recipe> favorites = favoritesController.getFavorites(userId);
-    System.out.println("Favorites for user " + userId + ": " + favorites);
-    favoriteRecipes.setAll(favorites);
-}
+	private void loadFavoriteRecipes() {
+		Long userId = UserSession.getInstance().getUserId();
+		List<Recipe> favorites = favoritesController.getFavorites(userId);
+		System.out.println("Favorites for user " + userId + ": " + favorites);
+		favoriteRecipes.setAll(favorites);
+	}
 
-@FXML
-public void goBackToNavigator(MouseEvent event) {
-    try {
-        String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
-        
-        // Load the appropriate navigation page FXML
-        Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
-        Scene navigationPageScene = new Scene(navigationPageParent);
+	@FXML
+	public void goBackToNavigator(MouseEvent event) {
+		try {
+			String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
 
-        // Get the current stage and replace it
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(navigationPageScene);
-        window.show();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
+			// Load the appropriate navigation page FXML
+			Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+			Scene navigationPageScene = new Scene(navigationPageParent);
+
+			// Get the current stage and replace it
+			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			window.setScene(navigationPageScene);
+			window.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

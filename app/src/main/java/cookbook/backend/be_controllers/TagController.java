@@ -21,14 +21,14 @@ public class TagController {
     String query = "SELECT * FROM tags;";
 
     Connection conn = DriverManager
-            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Tag user = new Tag(
-                result.getString("TagID"),
-                result.getString("TagName"));
+            result.getString("TagID"),
+            result.getString("TagName"));
 
         tags.add(user);
       }
@@ -50,7 +50,7 @@ public class TagController {
   public static void addTag(String TagID, String TagName) throws SQLException {
     String query = "INSERT INTO tags VALUES(?, ?);";
     Connection conn = DriverManager
-            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
       sqlStatement.setString(1, TagID);
@@ -71,19 +71,21 @@ public class TagController {
    * @throws SQLException if a database error occurs
    */
 
-   public static void addTagToRecipe(String RecipeID, String TagID) throws SQLException {
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+  public static void addTagToRecipe(String RecipeID, String TagID) throws SQLException {
+    Connection conn = DriverManager
+        .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
     String query = "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?);";
     try (PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-        sqlStatement.setString(1, RecipeID);
-        sqlStatement.setString(2, TagID);
-        System.out.println("Executing SQL to add tag to recipe: " + query + " with RecipeID: " + RecipeID + ", TagID: " + TagID);
-        sqlStatement.executeUpdate();
+      sqlStatement.setString(1, RecipeID);
+      sqlStatement.setString(2, TagID);
+      System.out.println(
+          "Executing SQL to add tag to recipe: " + query + " with RecipeID: " + RecipeID + ", TagID: " + TagID);
+      sqlStatement.executeUpdate();
     } catch (SQLException e) {
-        System.err.println("SQL Exception in addTagToRecipe: " + e.getMessage());
-        e.printStackTrace();
-        throw e;  // Rethrow the exception to handle it in the calling method
+      System.err.println("SQL Exception in addTagToRecipe: " + e.getMessage());
+      e.printStackTrace();
+      throw e; // Rethrow the exception to handle it in the calling method
     }
-}
+  }
 
 }

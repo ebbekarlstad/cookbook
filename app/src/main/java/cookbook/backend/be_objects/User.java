@@ -1,4 +1,5 @@
 package cookbook.backend.be_objects;
+
 import cookbook.backend.DatabaseMng;
 
 import java.util.ArrayList;
@@ -14,19 +15,21 @@ public class User {
   private List<Recipe> favoriteRecipes = new ArrayList<>();
   private ArrayList<Recipe> weeklyRecipes = new ArrayList<>();
 
-  public User(Long userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager, String favourites) {
+  public User(Long userId, String userName, String displayName, String password, Boolean isAdmin, DatabaseMng dbManager,
+      String favourites) {
     this.userId = userId != null ? userId : 1L;
     setUserName(userName);
     setDisplayName(displayName);
     setIsAdmin(isAdmin);
     this.login = new LogIn(dbManager);
     setPassword(password);
-    
+
   }
 
   public Long getUserId() {
     return userId;
   }
+
   public String getUserName() {
     return this.userName;
   }
@@ -67,7 +70,7 @@ public class User {
   }
 
   public void addFavoriteRecipe(Recipe recipe) {
-    if(!favoriteRecipes.contains(recipe)) {
+    if (!favoriteRecipes.contains(recipe)) {
       favoriteRecipes.add(recipe);
     }
   }
@@ -83,12 +86,13 @@ public class User {
   public void addWeekly(Recipe recipe) {
     weeklyRecipes.add(recipe);
   }
+
   public void removeWeekly(Recipe recipe) {
     weeklyRecipes.remove(recipe);
   }
-    
+
   public List<Recipe> getWeekly() {
     return new ArrayList<>(weeklyRecipes);
   }
-  
+
 }

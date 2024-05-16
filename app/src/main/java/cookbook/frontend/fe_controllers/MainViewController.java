@@ -2,7 +2,6 @@ package cookbook.frontend.fe_controllers;
 
 import javafx.event.ActionEvent;
 
-
 import javafx.animation.FadeTransition;
 import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
@@ -21,14 +20,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-
 public class MainViewController {
   @FXML
   private Label mysqlStatus;
 
   @FXML
   private Text welcomeText;
-
 
   @FXML
   private void initialize() {
@@ -49,56 +46,57 @@ public class MainViewController {
     scaleTransition.setCycleCount(ScaleTransition.INDEFINITE); // Repeat indefinitely
     scaleTransition.setAutoReverse(true); // Reverse the animation on each iteration
     scaleTransition.play();
-}
+  }
 
   @FXML
   private void handleLoginButton(ActionEvent event) {
     try {
-        // Load the login page FXML
-        Parent loginPageParent = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      // Load the login page FXML
+      Parent loginPageParent = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        // Create a rectangle to cover the scene
-        Rectangle colorOverlay = new Rectangle(934, 703);
-        colorOverlay.setFill(Color.TRANSPARENT);
-        
-        Group rootWithOverlay = new Group(loginPageParent, colorOverlay);
-        Scene sceneWithOverlay = new Scene(rootWithOverlay, 934, 703);
+      // Create a rectangle to cover the scene
+      Rectangle colorOverlay = new Rectangle(934, 703);
+      colorOverlay.setFill(Color.TRANSPARENT);
 
-        // Prepare the fade transitions
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.8), colorOverlay);
-        fadeOut.setFromValue(0.0);
-        fadeOut.setToValue(0.8);
-        fadeOut.setInterpolator(Interpolator.EASE_BOTH);
+      Group rootWithOverlay = new Group(loginPageParent, colorOverlay);
+      Scene sceneWithOverlay = new Scene(rootWithOverlay, 934, 703);
 
-        FillTransition fillTransition = new FillTransition(Duration.seconds(0.5), colorOverlay, Color.TRANSPARENT, Color.BLACK);
-        fillTransition.setOnFinished(event1 -> {
-            window.setScene(sceneWithOverlay);
-            
-            FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.8), colorOverlay);
-            fadeIn.setFromValue(0.8);
-            fadeIn.setToValue(0.0);
-            fadeIn.setInterpolator(Interpolator.EASE_BOTH);
-            fadeIn.setOnFinished(event2 -> colorOverlay.setFill(Color.TRANSPARENT)); // Reset color after transition
-            fadeIn.play();
-        });
+      // Prepare the fade transitions
+      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.8), colorOverlay);
+      fadeOut.setFromValue(0.0);
+      fadeOut.setToValue(0.8);
+      fadeOut.setInterpolator(Interpolator.EASE_BOTH);
 
-        // Start transitions
-        new SequentialTransition(fadeOut, fillTransition).play();
+      FillTransition fillTransition = new FillTransition(Duration.seconds(0.5), colorOverlay, Color.TRANSPARENT,
+          Color.BLACK);
+      fillTransition.setOnFinished(event1 -> {
+        window.setScene(sceneWithOverlay);
+
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.8), colorOverlay);
+        fadeIn.setFromValue(0.8);
+        fadeIn.setToValue(0.0);
+        fadeIn.setInterpolator(Interpolator.EASE_BOTH);
+        fadeIn.setOnFinished(event2 -> colorOverlay.setFill(Color.TRANSPARENT)); // Reset color after transition
+        fadeIn.play();
+      });
+
+      // Start transitions
+      new SequentialTransition(fadeOut, fillTransition).play();
     } catch (Exception e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
-}
+  }
 
   @FXML
   private void handleNavigationButton(ActionEvent event) {
     try {
-      //Load the navigation page FXML
+      // Load the navigation page FXML
       Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
       Scene navigationPageScene = new Scene(navigationPageParent);
 
       // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(navigationPageScene);
       window.show();
     } catch (Exception e) {

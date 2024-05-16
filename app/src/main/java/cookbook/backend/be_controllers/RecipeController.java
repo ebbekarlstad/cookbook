@@ -15,102 +15,105 @@ public class RecipeController {
   public RecipeController(DatabaseMng dbManager) {
     RecipeController.dbManager = dbManager;
   }
-  
+
   // ArrayList with the current recipes
   public ArrayList<Recipe> allRecipes = new ArrayList<>();
-  
+
   /**
-  * Returns a list of all recipes.
-  *
-  * @return List of Recipe objects
-  * @throws SQLException if a database access error occurs
-  */
+   * Returns a list of all recipes.
+   *
+   * @return List of Recipe objects
+   * @throws SQLException if a database access error occurs
+   */
   public static List<Recipe> getRecipes() throws SQLException {
-    
+
     ArrayList<Recipe> currentRecipeObjects = new ArrayList<>();
     String query = "SELECT * FROM recipes";
-    
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-    PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement sqlStatement = conn.prepareStatement(query)) {
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Recipe newRecipe = new Recipe(
-        result.getString("RecipeID"),
-        result.getString("RecipeName"),
-        result.getString("ShortDesc"),
-        result.getString("DetailedDesc"));
-        
+            result.getString("RecipeID"),
+            result.getString("RecipeName"),
+            result.getString("ShortDesc"),
+            result.getString("DetailedDesc"));
+
         // Updates the class ArrayList.
         currentRecipeObjects.add(newRecipe);
       }
-      
+
       // Adding ingredients for each recipe.
       for (Recipe recipeObject : currentRecipeObjects) {
         String id = recipeObject.getId();
         String ingQuery = "SELECT * " +
-        "FROM ingredients " +
-        "JOIN recipe_ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientName " +
-        "WHERE recipe_ingredients.IngredientID = ?";
+            "FROM ingredients " +
+            "JOIN recipe_ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientName " +
+            "WHERE recipe_ingredients.IngredientID = ?";
         try (PreparedStatement ingStatement = conn.prepareStatement(ingQuery)) {
           ingStatement.setString(1, id);
           ResultSet ingResultSet = ingStatement.executeQuery();
           while (ingResultSet.next()) {
             recipeObject.addIngredient(new AmountOfIngredients(
-            ingResultSet.getString("Unit"),
-            ingResultSet.getFloat("Amount"),
-            new Ingredient(ingResultSet.getString("IngredientID"), ingResultSet.getString("IngredientName")))
-            );
+                ingResultSet.getString("Unit"),
+                ingResultSet.getFloat("Amount"),
+                new Ingredient(ingResultSet.getString("IngredientID"), ingResultSet.getString("IngredientName"))));
           }
-          
+
           // Adding tags to the object.
           String tagQuery = "SELECT tags.TagID, tags.TagName " +
-          "FROM tags " +
-          "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
-          "WHERE recipe_tags.RecipeID = ?";
+              "FROM tags " +
+              "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
+              "WHERE recipe_tags.RecipeID = ?";
 
           try (PreparedStatement tagsStatement = conn.prepareStatement(tagQuery)) {
             tagsStatement.setString(1, id);
             ResultSet tagResultSet = tagsStatement.executeQuery();
             while (tagResultSet.next()) {
               Tag newTag = new Tag(
-              tagResultSet.getString("TagID"),
-              tagResultSet.getString("TagName"));
+                  tagResultSet.getString("TagID"),
+                  tagResultSet.getString("TagName"));
               recipeObject.addTag(newTag);
             }
-            
+
           } catch (SQLException e) {
             System.out.println("Error adding tags: " + e);
           }
-          
+
         } catch (SQLException e) {
           System.out.println("Adding ingredients query" + e);
         }
       }
-      
+
       result.close();
     } catch (SQLException e) {
       System.out.println(e);
     }
     return currentRecipeObjects;
   }
-  
+
   /**
-  * Adds the date to the recipe for the weekly list.
-  *
-  * @param recipeId   The ID of the recipe
-  * @param created_at The timestamp when the recipe was added
-  * @param userId     The ID of the user
-  * @throws SQLException if a database access error occurs
-  */
+   * Adds the date to the recipe for the weekly list.
+   *
+   * @param recipeId   The ID of the recipe
+   * @param created_at The timestamp when the recipe was added
+   * @param userId     The ID of the user
+   * @throws SQLException if a database access error occurs
+   */
   public static void addDate(String recipeId, Timestamp created_at, String userId) throws SQLException {
     String query = "INSERT into weekly_list values  ((?),(?),(?))";
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-    PreparedStatement preparedStmt = conn.prepareStatement(query)) {
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement preparedStmt = conn.prepareStatement(query)) {
       preparedStmt.setString(1, userId);
       preparedStmt.setString(2, recipeId);
       preparedStmt.setString(3, String.valueOf(created_at));
       preparedStmt.executeUpdate();
-      
+
     } catch (SQLException e) {
       if (e instanceof SQLIntegrityConstraintViolationException) {
         return;
@@ -119,20 +122,22 @@ public class RecipeController {
       }
     }
   }
-  
+
   /**
-  * Adds a new recipe to the database.
-  *
-  * @param recipeId   The ID of the recipe
-  * @param recipeName The name of the recipe
-  * @param shortDesc  A short description of the recipe
-  * @param longDesc   A long description of the recipe
-  * @throws SQLException if a database access error occurs
-  */
-  public static void addRecipe(String recipeId, Long UserID, String recipeName, String shortDesc, String longDesc, String Unit, Float Amount) throws SQLException {
+   * Adds a new recipe to the database.
+   *
+   * @param recipeId   The ID of the recipe
+   * @param recipeName The name of the recipe
+   * @param shortDesc  A short description of the recipe
+   * @param longDesc   A long description of the recipe
+   * @throws SQLException if a database access error occurs
+   */
+  public static void addRecipe(String recipeId, Long UserID, String recipeName, String shortDesc, String longDesc,
+      String Unit, Float Amount) throws SQLException {
     String query = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES(?,?,?,?,?,?,?)";
-    try { 
-      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+    try {
+      Connection conn = DriverManager
+          .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
       PreparedStatement sqlStatement = conn.prepareStatement(query);
       sqlStatement.setString(1, recipeId);
       sqlStatement.setLong(2, UserID);
@@ -142,7 +147,7 @@ public class RecipeController {
       sqlStatement.setString(6, Unit);
       sqlStatement.setFloat(7, Amount);
       sqlStatement.executeUpdate();
-      
+
     } catch (SQLException e) {
       System.err.println("..." + e);
     }
@@ -152,20 +157,21 @@ public class RecipeController {
   public static List<Recipe> getRecipesByName(String name) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
     String query = "SELECT * FROM recipes WHERE RecipeName LIKE ?";
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
-          sqlStatement.setString(1, "%" + name + "%");
-          ResultSet result = sqlStatement.executeQuery();
-          while (result.next()) {
-            Recipe newRecipe = new Recipe(
-              result.getString("RecipeID"),
-              result.getString("RecipeName"),
-              result.getString("ShortDesc"),
-              result.getString("DetailedDesc")
-            );
-            recipeList.add(newRecipe);
-          }
-          result.close();
+      sqlStatement.setString(1, "%" + name + "%");
+      ResultSet result = sqlStatement.executeQuery();
+      while (result.next()) {
+        Recipe newRecipe = new Recipe(
+            result.getString("RecipeID"),
+            result.getString("RecipeName"),
+            result.getString("ShortDesc"),
+            result.getString("DetailedDesc"));
+        recipeList.add(newRecipe);
+      }
+      result.close();
 
     } catch (SQLException e) {
       System.out.println(e);
@@ -181,23 +187,24 @@ public class RecipeController {
         + "JOIN tags t ON rt.TagID = t.TagID "
         + "WHERE " + String.join(" OR ", Collections.nCopies(tags.length, "LOWER(t.TagName) LIKE ?"))
         + " GROUP BY r.RecipeID "
-        + "HAVING COUNT(DISTINCT t.TagName) >= ?"; 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+        + "HAVING COUNT(DISTINCT t.TagName) >= ?";
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement sqlStatement = conn.prepareStatement(query)) {
 
-        for (int i = 0; i < tags.length; i++) {
-          sqlStatement.setString(i + 1, "%" + tags[i].trim().toLowerCase() + "%");
-        }
-        sqlStatement.setInt(tags.length + 1, tags.length);
-      
+      for (int i = 0; i < tags.length; i++) {
+        sqlStatement.setString(i + 1, "%" + tags[i].trim().toLowerCase() + "%");
+      }
+      sqlStatement.setInt(tags.length + 1, tags.length);
+
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Recipe newRecipe = new Recipe(
-          result.getString("RecipeID"),
-          result.getString("RecipeName"),
-          result.getString("ShortDesc"),
-          result.getString("DetailedDesc")
-        );
+            result.getString("RecipeID"),
+            result.getString("RecipeName"),
+            result.getString("ShortDesc"),
+            result.getString("DetailedDesc"));
         recipeList.add(newRecipe);
       }
       result.close();
@@ -207,17 +214,20 @@ public class RecipeController {
     return recipeList;
   }
 
-  // Method to query database when user searches for recipes by multiple ingredients.
+  // Method to query database when user searches for recipes by multiple
+  // ingredients.
   public static List<Recipe> getRecipesByIngredients(String[] ingredients) throws SQLException {
     ArrayList<Recipe> recipeList = new ArrayList<>();
     String query = "SELECT r.* FROM recipes r "
-                 + "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID "
-                 + "JOIN ingredients i ON ri.IngredientID = i.IngredientID "
-                 + "WHERE i.IngredientName IN (" + String.join(",", Collections.nCopies(ingredients.length, "?")) + ") "
-                 + "GROUP BY r.RecipeID "
-                 + "HAVING COUNT(DISTINCT i.IngredientName) = ?";
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement sqlStatement = conn.prepareStatement(query)) {
+        + "JOIN recipe_ingredients ri ON r.RecipeID = ri.RecipeID "
+        + "JOIN ingredients i ON ri.IngredientID = i.IngredientID "
+        + "WHERE i.IngredientName IN (" + String.join(",", Collections.nCopies(ingredients.length, "?")) + ") "
+        + "GROUP BY r.RecipeID "
+        + "HAVING COUNT(DISTINCT i.IngredientName) = ?";
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement sqlStatement = conn.prepareStatement(query)) {
 
       for (int i = 0; i < ingredients.length; i++) {
         sqlStatement.setString(i + 1, ingredients[i].trim());
@@ -227,11 +237,10 @@ public class RecipeController {
       ResultSet result = sqlStatement.executeQuery();
       while (result.next()) {
         Recipe newRecipe = new Recipe(
-          result.getString("RecipeID"),
-          result.getString("RecipeName"),
-          result.getString("ShortDesc"),
-          result.getString("DetailedDesc")
-        );
+            result.getString("RecipeID"),
+            result.getString("RecipeName"),
+            result.getString("ShortDesc"),
+            result.getString("DetailedDesc"));
         recipeList.add(newRecipe);
       }
       result.close();
@@ -244,36 +253,37 @@ public class RecipeController {
   public Recipe getRecipeById(String recipeId) {
     String sql = "SELECT * FROM recipes WHERE RecipeID = ?";
     try (Connection conn = dbManager.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setString(1, recipeId);
-        ResultSet rs = pstmt.executeQuery();
-        if (rs.next()) {
-            return new Recipe(rs.getString("RecipeID"), rs.getString("RecipeName"), rs.getString("ShortDesc"), rs.getString("DetailedDesc"));
-        }
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setString(1, recipeId);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return new Recipe(rs.getString("RecipeID"), rs.getString("RecipeName"), rs.getString("ShortDesc"),
+            rs.getString("DetailedDesc"));
+      }
     } catch (SQLException e) {
-        System.err.println("Error retrieving recipe: " + e.getMessage());
+      System.err.println("Error retrieving recipe: " + e.getMessage());
     }
     return null;
-}
+  }
 
   public static List<Recipe> getRecipesByUserID(Long userId) throws SQLException {
 
     ArrayList<Recipe> currentRecipeObjects = new ArrayList<>();
     String query = "SELECT * FROM recipes WHERE UserID = ?";
 
-
-
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-     PreparedStatement pstmt = conn.prepareStatement(query)) {
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement pstmt = conn.prepareStatement(query)) {
       pstmt.setLong(1, UserSession.getInstance().getUserId());
       ResultSet result = pstmt.executeQuery();
 
       while (result.next()) {
         Recipe newRecipe = new Recipe(
-                result.getString("RecipeID"),
-                result.getString("RecipeName"),
-                result.getString("ShortDesc"),
-                result.getString("DetailedDesc"));
+            result.getString("RecipeID"),
+            result.getString("RecipeName"),
+            result.getString("ShortDesc"),
+            result.getString("DetailedDesc"));
 
         // Updates the class ArrayList.
         currentRecipeObjects.add(newRecipe);
@@ -283,33 +293,32 @@ public class RecipeController {
       for (Recipe recipeObject : currentRecipeObjects) {
         String id = recipeObject.getId();
         String ingQuery = "SELECT * " +
-                "FROM ingredients " +
-                "JOIN recipe_ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientName " +
-                "WHERE recipe_ingredients.IngredientID = ?";
+            "FROM ingredients " +
+            "JOIN recipe_ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientName " +
+            "WHERE recipe_ingredients.IngredientID = ?";
         try (PreparedStatement ingStatement = conn.prepareStatement(ingQuery)) {
           ingStatement.setString(1, id);
           ResultSet ingResultSet = ingStatement.executeQuery();
           while (ingResultSet.next()) {
             recipeObject.addIngredient(new AmountOfIngredients(
-                    ingResultSet.getString("Unit"),
-                    ingResultSet.getFloat("Amount"),
-                    new Ingredient(ingResultSet.getString("IngredientID"), ingResultSet.getString("IngredientName")))
-            );
+                ingResultSet.getString("Unit"),
+                ingResultSet.getFloat("Amount"),
+                new Ingredient(ingResultSet.getString("IngredientID"), ingResultSet.getString("IngredientName"))));
           }
 
           // Adding tags to the object.
           String tagQuery = "SELECT tags.TagID, tags.TagName " +
-                  "FROM tags " +
-                  "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
-                  "WHERE recipe_tags.RecipeID = ?";
+              "FROM tags " +
+              "JOIN recipe_tags ON recipe_tags.TagID = tags.TagID " +
+              "WHERE recipe_tags.RecipeID = ?";
 
           try (PreparedStatement tagsStatement = conn.prepareStatement(tagQuery)) {
             tagsStatement.setString(1, id);
             ResultSet tagResultSet = tagsStatement.executeQuery();
             while (tagResultSet.next()) {
               Tag newTag = new Tag(
-                      tagResultSet.getString("TagID"),
-                      tagResultSet.getString("TagName"));
+                  tagResultSet.getString("TagID"),
+                  tagResultSet.getString("TagName"));
               recipeObject.addTag(newTag);
             }
 
@@ -329,10 +338,13 @@ public class RecipeController {
     return currentRecipeObjects;
   }
 
-  public static boolean updateRecipeDetails(String recipeId, String newName, String newShortDesc, String newLongDesc) throws SQLException {
+  public static boolean updateRecipeDetails(String recipeId, String newName, String newShortDesc, String newLongDesc)
+      throws SQLException {
     String sql = "UPDATE recipes SET RecipeName = ?, ShortDesc = ?, DetailedDesc = ? WHERE RecipeID = ?";
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
       pstmt.setString(1, newName);
       pstmt.setString(2, newShortDesc);
       pstmt.setString(3, newLongDesc);
@@ -345,13 +357,16 @@ public class RecipeController {
     }
   }
 
-  public static boolean updateRecipeIngredients(String recipeId, List<AmountOfIngredients> newIngredients) throws SQLException {
+  public static boolean updateRecipeIngredients(String recipeId, List<AmountOfIngredients> newIngredients)
+      throws SQLException {
     String deleteSql = "DELETE FROM recipe_ingredients WHERE RecipeID = ?";
     String insertSql = "INSERT INTO recipe_ingredients (RecipeID, IngredientID, Amount, Unit) VALUES (?, ?, ?, ?)";
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
-         PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
+        PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
 
       // Delete old ingredients
       deletePstmt.setString(1, recipeId);
@@ -371,13 +386,16 @@ public class RecipeController {
       return false;
     }
   }
+
   public static boolean updateRecipeTags(String recipeId, List<Tag> newTags) throws SQLException {
     String deleteSql = "DELETE FROM recipe_tags WHERE RecipeID = ?";
     String insertSql = "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)";
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
-         PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
+        PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
 
       // Delete old tags
       deletePstmt.setString(1, recipeId);
@@ -397,45 +415,48 @@ public class RecipeController {
   }
 
   public static boolean deleteRecipeById(String recipeId) throws SQLException {
-    
+
     String sql = "DELETE FROM recipes WHERE RecipeID = ?;";
     String sql2 = "DELETE FROM comments WHERE RecipeID = ?;";
     String sql3 = "DELETE FROM recipe_tags WHERE RecipeID = ?;";
     String sql4 = "DELETE FROM recipe_ingredients WHERE RecipeID = ?;";
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement pstmt = conn.prepareStatement(sql);
-         PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-         PreparedStatement pstmt3 = conn.prepareStatement(sql3);
-         PreparedStatement pstmt4 = conn.prepareStatement(sql4)) {
-        pstmt.setString(1, recipeId);
-        pstmt2.setString(1, recipeId);
-        pstmt3.setString(1, recipeId);
-        pstmt4.setString(1, recipeId);
-        pstmt2.executeUpdate();
-        pstmt3.executeUpdate();
-        pstmt4.executeUpdate();
-        pstmt.executeUpdate();
-            
-        return true;
-    } catch (SQLException e) {
-        System.err.println("Error deleting recipe: " + e.getMessage());
-        return false;
-    }
-}
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+        PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+        PreparedStatement pstmt4 = conn.prepareStatement(sql4)) {
+      pstmt.setString(1, recipeId);
+      pstmt2.setString(1, recipeId);
+      pstmt3.setString(1, recipeId);
+      pstmt4.setString(1, recipeId);
+      pstmt2.executeUpdate();
+      pstmt3.executeUpdate();
+      pstmt4.executeUpdate();
+      pstmt.executeUpdate();
 
+      return true;
+    } catch (SQLException e) {
+      System.err.println("Error deleting recipe: " + e.getMessage());
+      return false;
+    }
+  }
 
   public static boolean deleteRecipeIngredients(String recipeId) throws SQLException {
     String sql = "DELETE FROM recipe_ingredients WHERE RecipeID = ?";
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setString(1, recipeId);
-        pstmt.executeUpdate();
-        return true;
+    try (
+        Connection conn = DriverManager
+            .getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      pstmt.setString(1, recipeId);
+      pstmt.executeUpdate();
+      return true;
     } catch (SQLException e) {
-        System.err.println("Error deleting recipe ingredients: " + e.getMessage());
-        return false;
+      System.err.println("Error deleting recipe ingredients: " + e.getMessage());
+      return false;
     }
-}
+  }
 
 }

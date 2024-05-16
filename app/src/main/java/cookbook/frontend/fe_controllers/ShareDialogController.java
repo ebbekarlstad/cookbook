@@ -22,7 +22,7 @@ import cookbook.backend.be_objects.Recipe;
 import cookbook.backend.be_controllers.MessageController;
 
 public class ShareDialogController {
-  
+
   private DatabaseMng dbManager;
 
   public ShareDialogController() {
@@ -31,7 +31,7 @@ public class ShareDialogController {
 
   @FXML
   private ComboBox<User> recipientComboBox;
-  
+
   @FXML
   private TextField messageField;
 
@@ -44,40 +44,39 @@ public class ShareDialogController {
     this.recipeId = recipe.getId(); // Store the recipe ID
   }
 
-
   @FXML
   public void sendShare(ActionEvent event) {
-      User recipient = recipientComboBox.getValue();
-      if (recipient != null) {
-          
-          long senderId = UserSession.getInstance().getUserId();
-          long receiverId = recipient.getUserId();
-          String content = getContent();
-          String recipeId = getRecipeId();
+    User recipient = recipientComboBox.getValue();
+    if (recipient != null) {
 
-          // Create the message with dynamic sender and receiver IDs
-          Message message = new Message(senderId, receiverId, recipeId, content);
-          message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
+      long senderId = UserSession.getInstance().getUserId();
+      long receiverId = recipient.getUserId();
+      String content = getContent();
+      String recipeId = getRecipeId();
 
-          // Attempt to save the message using the MessageController
-          MessageController messageManager = new MessageController(dbManager);
-          boolean result = messageManager.saveMessage(message);
-          if (result) {
-              System.out.println("Message sent successfully!");
-              Alert success = new Alert(Alert.AlertType.INFORMATION);
-              success.setTitle("Success!");
-              success.setContentText("Recipe shared!");
-              success.show();
-          } else {
-              System.out.println("Failed to send message.");
-              Alert failure = new Alert(Alert.AlertType.INFORMATION);
-              failure.setTitle("Error..:(");
-              failure.setContentText("There was a problem with sharing the recipe.");
-              failure.show();
-          }
+      // Create the message with dynamic sender and receiver IDs
+      Message message = new Message(senderId, receiverId, recipeId, content);
+      message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
+
+      // Attempt to save the message using the MessageController
+      MessageController messageManager = new MessageController(dbManager);
+      boolean result = messageManager.saveMessage(message);
+      if (result) {
+        System.out.println("Message sent successfully!");
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Success!");
+        success.setContentText("Recipe shared!");
+        success.show();
       } else {
-          System.out.println("No recipient selected.");
+        System.out.println("Failed to send message.");
+        Alert failure = new Alert(Alert.AlertType.INFORMATION);
+        failure.setTitle("Error..:(");
+        failure.setContentText("There was a problem with sharing the recipe.");
+        failure.show();
       }
+    } else {
+      System.out.println("No recipient selected.");
+    }
   }
 
   private String getContent() {
@@ -99,15 +98,15 @@ public class ShareDialogController {
     List<User> users = userController.getAllUsers();
     recipientComboBox.setItems(FXCollections.observableArrayList(users));
     recipientComboBox.setConverter(new StringConverter<User>() {
-        @Override
-        public java.lang.String toString(User user) {
-            return user.getUserName(); 
-        }
+      @Override
+      public java.lang.String toString(User user) {
+        return user.getUserName();
+      }
 
-        @Override
-        public User fromString(String string) {
-            return null;
-        }
+      @Override
+      public User fromString(String string) {
+        return null;
+      }
     });
   }
 }

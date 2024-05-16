@@ -1,6 +1,5 @@
 package cookbook.backend.be_objects;
 
-
 // A class that i created to make the LoadAllIngredients method work with the displayed units and combonating the amount.
 public class IngredientInfo {
   private float amount;
