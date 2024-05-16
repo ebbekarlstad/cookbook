@@ -129,13 +129,13 @@ public class RecipeController {
   * @param longDesc   A long description of the recipe
   * @throws SQLException if a database access error occurs
   */
-  public static void addRecipe(String recipeId, String UserID, String recipeName, String shortDesc, String longDesc, String Unit, Float Amount) throws SQLException {
+  public static void addRecipe(String recipeId, Long UserID, String recipeName, String shortDesc, String longDesc, String Unit, Float Amount) throws SQLException {
     String query = "INSERT INTO recipes (RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount) VALUES(?,?,?,?,?,?,?)";
     try { 
       Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
       PreparedStatement sqlStatement = conn.prepareStatement(query);
       sqlStatement.setString(1, recipeId);
-      sqlStatement.setString(2, UserID);
+      sqlStatement.setLong(2, UserID);
       sqlStatement.setString(3, recipeName);
       sqlStatement.setString(4, shortDesc);
       sqlStatement.setString(5, longDesc);

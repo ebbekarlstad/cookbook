@@ -112,8 +112,7 @@ public class RecipeViewController {
    public void createRecipe(ActionEvent event) throws SQLException, IOException {
     // For Recipe
     String RecipeName = recipeName.getText();
-    String userPlaceholder = "1"; // Placeholder for UserID
-    String UserID = userPlaceholder; // Convert to string if necessary
+    Long UserID = UserSession.getInstance().getUserId();
     String ShortDesc = recipeShortDesc.getText();
     String DetailedDesc = recipeLongDesc.getText();
     UUID uniqueRecipe = UUID.randomUUID();
