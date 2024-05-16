@@ -1,6 +1,7 @@
 package cookbook.backend;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -452,23 +453,44 @@ public class DatabaseSeeder {
     }
 
     public void seedComments() {
-        String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";
+      String dropTableSQL = "DROP TABLE IF EXISTS `comments`;";
+  
+      String createTableSQL = "CREATE TABLE `comments` ("
+          + "`CommentID` int NOT NULL AUTO_INCREMENT, "
+          + "`RecipeID` varchar(255) NOT NULL, "
+          + "`UserID` int NOT NULL, "
+          + "`Text` varchar(255) NOT NULL, "
+          + "`Timestamp` varchar(45) NOT NULL, "
+          + "PRIMARY KEY (`CommentID`), "
+          + "KEY `RecipeID2_idx` (`RecipeID`), "
+          + "KEY `UserID0_idx` (`UserID`), "
+          + "CONSTRAINT `RecipeID2` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
+          + "CONSTRAINT `UserID0` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+  
+            //Sample comments for variety
+            String[] comments = {
+              "Great recipe!", "Loved it!", "Will make it again!", "Delicious!", "Very tasty!",
+              "Yummy!", "Fantastic!", "Amazing!", "So good!", "Perfect!",
+              "Loved the taste!", "Would make again!", "So easy to make!", "Absolutely delicious!", "A new favorite!",
+              "Highly recommend!", "Five stars!", "Best recipe ever!", "Superb!", "Will make this often!"
+            };
 
-        String createTableSQL = "CREATE TABLE `comments` ("
-            + "`CommentID` int NOT NULL AUTO_INCREMENT, "
-            + "`RecipeID` varchar(255) NOT NULL, "
-            + "`UserID` int NOT NULL, "
-            + "`Text` varchar(255) NOT NULL, "
-            + "`Timestamp` varchar(45) NOT NULL, "
-            + "PRIMARY KEY (`CommentID`), "
-            + "KEY `RecipeID2_idx` (`RecipeID`), "
-            + "KEY `UserID0_idx` (`UserID`), "
-            + "CONSTRAINT `RecipeID2` FOREIGN KEY (`RecipeID`) REFERENCES `recipes` (`RecipeID`), "
-            + "CONSTRAINT `UserID0` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`));";
+            seedTable(dropTableSQL);
+            seedTable(createTableSQL);
 
-        seedTable(dropTableSQL);
-        seedTable(createTableSQL);
-    }
+            for (int i = 1; i <= 20; i++) {
+              for (int j = 0; j < 5; j++) { // Add 5 comments per recipe
+                  int commentIndex = (i - 1) * 5 + j;
+                  String insertComment = String.format(
+                      "INSERT INTO `comments` (`RecipeID`, `UserID`, `Text`, `Timestamp`) VALUES ('%d', 1, '%s', '2024-05-15 %02d:00:00');",
+                      i, comments[commentIndex % comments.length], 9 + i
+                  );
+                  seedTable(insertComment);
+              }}}
+
+
+  
+
 
     public void seedWeeklyDinnerLists() {
         String dropTableSQL = "DROP TABLE IF EXISTS `weekly_dinner_lists`;";
