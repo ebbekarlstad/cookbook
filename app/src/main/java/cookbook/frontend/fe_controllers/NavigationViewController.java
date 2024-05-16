@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 
 public class NavigationViewController {
 
+  @FXML
+  private Button EditRecipeButton;
 
   @FXML
   private Button favoriteButton;
@@ -134,6 +136,12 @@ public class NavigationViewController {
       e.printStackTrace();
     }
   }
+
+  @FXML
+  void handleEditReipeButton(ActionEvent event) {
+
+  }
+
 
   @FXML
   void handleShoppingListButton(ActionEvent event) {
