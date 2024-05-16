@@ -178,7 +178,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="EditRecipeButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="128.0" mnemonicParsing="false" onAction="#handleEditReipeButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Edit My Recipes" textAlignment="CENTER">
+            <Button fx:id="EditRecipeButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="128.0" mnemonicParsing="false" onAction="#handleEditRecipeButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Edit My Recipes" textAlignment="CENTER">
                <effect>
                   <DropShadow />
                </effect>

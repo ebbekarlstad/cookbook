@@ -27,9 +27,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class EditingRecipeController {
+public class AdminEditingRecipeController {
 
   @FXML
   private TableView<AmountOfIngredients> ingredientTable;

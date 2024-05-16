@@ -426,10 +426,10 @@ public class RecipeDetailsViewController {
     @FXML
     void UserOnClickEditRecipeViewButton(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserRecipesView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AdminEditRecipesView.fxml"));
             Parent editPageParent = loader.load();
             Scene editPageScene = new Scene(editPageParent);
-            EditingRecipeController editingRecipeController = loader.getController();
+            AdminEditingRecipeController editingRecipeController = loader.getController();
             editingRecipeController.initData(this.recipe);
     
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

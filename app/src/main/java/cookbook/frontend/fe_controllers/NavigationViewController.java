@@ -138,7 +138,19 @@ public class NavigationViewController {
   }
 
   @FXML
-  void handleEditReipeButton(ActionEvent event) {
+  void handleEditRecipeButton(ActionEvent event) {
+    try {
+      //Load the navigation page FXML
+      Parent MyRecipePageParent = FXMLLoader.load(getClass().getResource("/UserEditRecipesView.fxml"));
+      Scene MyRecipePageScene = new Scene(MyRecipePageParent);
+
+      // Get the current stage and replace it
+      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      window.setScene(MyRecipePageScene);
+      window.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
   }
 
