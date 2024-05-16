@@ -23,7 +23,6 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,9 +70,6 @@ public class UserEditingRecipeController {
     private Button back;
 
     @FXML
-    private Label ingredientLabel;
-
-    @FXML
     private TextField ingredientName;
 
     @FXML
@@ -91,8 +87,6 @@ public class UserEditingRecipeController {
     @FXML
     private ComboBox<String> tagsDropdown;
 
-    @FXML
-    private Label tagsLabel;
 
     @FXML
     private ComboBox<String> unit;
@@ -140,7 +134,6 @@ public class UserEditingRecipeController {
 
     private Ingredient fetchIngredientDetails(String ingredientID) {
         try {
-            // Retrieve ingredient details from the database using IngredientController queries that is already been specified
             List<Ingredient> ingredients = IngredientController.getIngredients();
             for (Ingredient ingredient : ingredients) {
                 if (ingredient.getIngredientID().equals(ingredientID)) {
@@ -155,13 +148,10 @@ public class UserEditingRecipeController {
 
     private void fetchIngredientsFromDatabase(String recipeID) {
         try {
-            // I should implement the DBmanager class inside of here somehow but will change it later.
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM recipe_ingredients WHERE RecipeID = ?");
             statement.setString(1, recipeID);
-            // Execute query to fetch ingredients
             ResultSet resultSet = statement.executeQuery();
-            // Process the result set with a while loop
             while (resultSet.next()) {
                 String ingredientID = resultSet.getString("IngredientID");
                 String amount = resultSet.getString("Amount");
@@ -176,7 +166,6 @@ public class UserEditingRecipeController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // Set the items of the table view to the list of ingredients
         ingredientTable.setItems(ingredients);
     }
 
@@ -218,7 +207,6 @@ public class UserEditingRecipeController {
 
     public void initData() {
         Recipe selectedRecipe = RecipesComboBox.getValue();
-        // Set the recipe information
         ingredients.clear();
         tags.clear();
 
@@ -245,14 +233,13 @@ public class UserEditingRecipeController {
             return new SimpleStringProperty(tag.getTagName());
         });
 
-        //Fetches everything from the databse and inserts it in the Table View
         fetchIngredientsFromDatabase(selectedRecipe.getId());
         fetchTagsFromDatabase(selectedRecipe.getId());
     }
 
     @FXML
     private void initialize() throws SQLException {
-        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
+        unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch");
         loadRecipes();
     }
 
@@ -274,7 +261,7 @@ public class UserEditingRecipeController {
             selected.setAmount(Float.parseFloat(amount.getText()));
             selected.setUnit(unit.getValue());
 
-            ingredientTable.refresh();  // Refresh the table view to show updated values
+            ingredientTable.refresh();
         }
     }
 
@@ -315,6 +302,7 @@ public class UserEditingRecipeController {
                 System.out.println("Recipe updated successfully");
                 updateIngredients(selectedRecipe.getId());
                 updateTags(selectedRecipe.getId());
+                saveNewTags(selectedRecipe.getId());
             } else {
                 System.out.println("Recipe update failed");
             }
@@ -368,11 +356,9 @@ public class UserEditingRecipeController {
 
     public void backButton(ActionEvent event) throws SQLException, IOException {
         try {
-            //Load the navigation page FXML
             Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
             Scene navigationPageScene = new Scene(navigationPageParent);
 
-            // Get the current stage and replace it
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
             window.setScene(navigationPageScene);
             window.show();
@@ -382,7 +368,6 @@ public class UserEditingRecipeController {
     }
 
     private void updateIngredients(String recipeID) throws SQLException {
-        // Loop through the ingredients list
         for (AmountOfIngredients ingredientDetails : ingredients) {
             try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
                  PreparedStatement updateStmt = connection.prepareStatement(
@@ -400,18 +385,21 @@ public class UserEditingRecipeController {
     }
 
     private void updateTags(String recipeID) throws SQLException {
-        // Delete existing tags for the recipe
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-             PreparedStatement deleteStmt = connection.prepareStatement(
-                     "DELETE FROM recipe_tags WHERE RecipeID = ?")) {
-            deleteStmt.setString(1, recipeID);
-            deleteStmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error deleting existing tags for recipe: " + recipeID);
-            e.printStackTrace();
+        for (Tag tagDetails : tags) {
+            try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+                 PreparedStatement updateStmt = connection.prepareStatement(
+                         "UPDATE tags SET TagName = ? WHERE TagID = ?")) {
+                updateStmt.setString(1, tagDetails.getTagName());
+                updateStmt.setString(2, tagDetails.getTagID());
+                updateStmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Error updating tag: " + tagDetails.getTagName());
+                e.printStackTrace();
+            }
         }
+    }
 
-        // Insert new tags for the recipe
+    private void saveNewTags(String recipeID) throws SQLException {
         for (Tag tagDetails : tags) {
             try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
                  PreparedStatement insertStmt = connection.prepareStatement(

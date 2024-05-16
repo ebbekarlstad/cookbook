@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -75,7 +74,6 @@
                         <Font name="PT Sans Narrow" size="20.0" />
                     </font>
                 </Text>
-                <Label fx:id="tagsLabel" layoutX="22.0" layoutY="482.0" prefHeight="69.0" prefWidth="366.0" style="-fx-border-color: #5499C7; -fx-background-color: #FDFEFE;" />
                 <Button fx:id="SaveRecipe" layoutX="337.0" layoutY="608.0" mnemonicParsing="false" onAction="#SaveRecipe" prefHeight="32.0" prefWidth="215.0" style="-fx-background-color: #FFE5B4;" text="Save Recipe">
                     <graphic>
                         <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
@@ -115,7 +113,7 @@
                 </TableView>
                 <TableView fx:id="tagTable" layoutX="24.0" layoutY="487.0" prefHeight="97.0" prefWidth="378.0">
                     <columns>
-                        <TableColumn fx:id="tagColumn" prefWidth="345.0" text="Tag Name" />
+                        <TableColumn fx:id="tagColumn" prefWidth="377.0" text="Tag Name" />
                     </columns>
                 </TableView>
                 <Button fx:id="updateIngredient" layoutX="230.0" layoutY="202.0" mnemonicParsing="false" onAction="#updateIngredientInList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #FFA500;" text="Update" />
