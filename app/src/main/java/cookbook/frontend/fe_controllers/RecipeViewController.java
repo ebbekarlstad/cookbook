@@ -125,8 +125,8 @@ public class RecipeViewController {
         System.out.println("Invalid input for amount, defaulting to 0.");
         Amount = 0.0f;  // Setting a default value if parsing fails
     }
-
-    try {
+    if (Unit != null) {
+      try {
         RecipeController.addRecipe(RecipeID, UserID, RecipeName, ShortDesc, DetailedDesc, Unit, Amount);
         Recipe createdRecipe = new Recipe(RecipeID, RecipeName, ShortDesc, DetailedDesc);
 
@@ -151,7 +151,35 @@ public class RecipeViewController {
         failure.setContentText("Failed to create recipe due to a database error.");
         failure.show();
         System.err.println("SQL Exception: " + x.getMessage());
+      }
+    } else if (RecipeName == "") {
+      System.out.println("You must enter a recipe name!");
+      Alert failure = new Alert(Alert.AlertType.ERROR);
+      failure.setTitle("Error");
+      failure.setContentText("You must enter a recipe name!");
+      failure.show();
+    
+    } else if (ShortDesc == "") {
+      System.out.println("You must enter a short description!");
+      Alert failure = new Alert(Alert.AlertType.ERROR);
+      failure.setTitle("Error");
+      failure.setContentText("You must enter a short description!");
+      failure.show();
+    } else if (DetailedDesc == "") {
+      System.out.println("You must enter a detailed description!");
+      Alert failure = new Alert(Alert.AlertType.ERROR);
+      failure.setTitle("Error");
+      failure.setContentText("You must enter a detailed description!");
+      failure.show();
+    
+    }else {
+      System.out.println("You must choose an ingredient!");
+      Alert failure = new Alert(Alert.AlertType.ERROR);
+      failure.setTitle("Error");
+      failure.setContentText("You must choose an ingredient.");
+      failure.show();
     }
+
 }
 
 /**
@@ -271,7 +299,7 @@ public void backButton(ActionEvent event) throws SQLException, IOException {
         float selectedAmount = Float.parseFloat(a);
         IngredientController.addIngredient(uniqueIngredientID, IngredientName);
         Ingredient newIngredientObj = new Ingredient(uniqueIngredientID, IngredientName);
-  
+        
         AmountOfIngredients newQuantityIngredients = new AmountOfIngredients(selectedUnit, selectedAmount, newIngredientObj);
         selectedIngredients.add(newQuantityIngredients);
         String currentLabelText = ingredientLabel.getText();
