@@ -292,7 +292,6 @@ public class EditingRecipeController {
 
     tagsDropdown.setValue(null);
     tagName.clear();
-    updateTagsLabel();
   }
 
   private Tag findTagByName(String tagName) throws SQLException {
@@ -315,10 +314,19 @@ public class EditingRecipeController {
   @FXML
   void updateTagInList(ActionEvent event) {
     Tag selected = tagTable.getSelectionModel().getSelectedItem();
+    String updatedTagName = tagName.getText();
+    if (updatedTagName == "") {
+      Alert error = new Alert(Alert.AlertType.ERROR);
+      error.setTitle("Error...");
+      error.setContentText("Tag name cannot be empty");
+      error.show();
+
+    } else{
     if (selected != null) {
       selected.setTagName(tagName.getText());
       tagTable.refresh();
     }
+  }
   }
 
   @FXML
@@ -410,8 +418,5 @@ public class EditingRecipeController {
     }
   }
 
-  private void updateTagsLabel() {
-    List<String> tagNames = tags.stream().map(Tag::getTagName).collect(Collectors.toList());
-    tagsLabel.setText(String.join(", ", tagNames));
-  }
+
 }
