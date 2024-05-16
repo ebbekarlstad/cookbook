@@ -88,7 +88,9 @@ public class RecipeViewController {
 
 
   @FXML
-    private void initialize() {
+    private void initialize() throws SQLException {
+      updateTagBox();
+      tagsDropdown.getItems();
         unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch"); // Add items here
     }
 
