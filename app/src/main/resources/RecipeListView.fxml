@@ -41,7 +41,7 @@
                   <Insets bottom="5.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="SEARCH" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="SEARCH" textAlignment="CENTER" wrappingWidth="156.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="30.0" />
                      </font>
@@ -64,7 +64,7 @@
                            </color>
                         </Shadow>
                      </effect></Separator>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME" textAlignment="CENTER" wrappingWidth="157.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="26.0" />
                      </font>
@@ -75,11 +75,17 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </Text>
-                  <TextField fx:id="searchByNameField" promptText="Search by name" style="-fx-background-color: White;">
+                  <TextField fx:id="searchByNameField" prefHeight="24.0" prefWidth="151.0" promptText="Search by name" style="-fx-background-color: White;">
                      <effect>
                         <DropShadow />
                      </effect>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </TextField>
                   <Separator prefHeight="10.0" prefWidth="186.0">
                      <effect>
@@ -97,6 +103,9 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </Button>
                   <Separator prefHeight="65.0" prefWidth="186.0">
                      <effect>
@@ -106,9 +115,9 @@
                            </color>
                         </Shadow>
                      </effect></Separator>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="INGREDIENTS" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="INGREDIENTS" textAlignment="CENTER" wrappingWidth="157.1962890625">
                      <font>
-                        <Font name="System Font Heavy" size="26.0" />
+                        <Font name="System Font Heavy" size="23.0" />
                      </font>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
@@ -118,10 +127,13 @@
                         </DropShadow>
                      </effect>
                   </Text>
-                  <TextField fx:id="searchByIngredientsField" promptText="Search by ingredients" style="-fx-background-color: WHITE;">
+                  <TextField fx:id="searchByIngredientsField" prefHeight="24.0" prefWidth="153.0" promptText="Search by ingredients" style="-fx-background-color: WHITE;">
                      <effect>
                         <DropShadow />
                      </effect>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </TextField>
                   <Separator prefHeight="10.0" prefWidth="186.0">
                      <effect>
@@ -139,6 +151,9 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </Button>
                   <Separator prefHeight="65.0" prefWidth="186.0">
                      <effect>
@@ -148,7 +163,7 @@
                            </color>
                         </Shadow>
                      </effect></Separator>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="TAGS" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="TAGS" textAlignment="CENTER" wrappingWidth="156.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="26.0" />
                      </font>
@@ -164,6 +179,9 @@
                      <effect>
                         <DropShadow />
                      </effect>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </TextField>
                   <Separator prefHeight="10.0" prefWidth="186.0">
                      <effect>
@@ -181,6 +199,9 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </Button>
                </children>
                <effect>
