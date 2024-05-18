@@ -106,7 +106,7 @@
                 </Label>
                 <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="28.0" layoutY="106.0" prefHeight="48.0" prefWidth="632.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
                     <font>
-                        <Font name="System Font Light" size="12.0" />
+                        <Font name="System Font Light" size="13.0" />
                     </font>
                 </Label>
                 <Label layoutX="20.0" layoutY="421.0" prefHeight="40.0" prefWidth="184.0" text="Instructions" textFill="#ffecea" wrapText="true">
@@ -119,7 +119,7 @@
                 </Label>
                 <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="26.0" layoutY="461.0" prefHeight="140.0" prefWidth="539.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
                     <font>
-                        <Font name="System Font Light" size="12.0" />
+                        <Font name="System Font Light" size="13.0" />
                     </font>
                 </Label>
                 <Label fx:id="commentsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="698.0" layoutY="182.0" prefHeight="26.0" prefWidth="120.0" text="Comments" textFill="#ffecea">
