@@ -3,10 +3,8 @@ package cookbook.frontend.fe_controllers;
 import javafx.event.ActionEvent;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
