@@ -208,14 +208,6 @@
                   <InnerShadow />
                </effect>
             </Label>
-            <Label layoutX="21.0" layoutY="157.0" prefHeight="30.0" prefWidth="273.0" text="Tags" textFill="#ffecea" wrapText="true">
-               <font>
-                  <Font name="System Font Bold" size="26.0" />
-               </font>
-               <effect>
-                  <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
-               </effect>
-            </Label>
             </children>
         </AnchorPane>
     </children>
