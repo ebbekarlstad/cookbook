@@ -165,7 +165,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="goToAdminPanelButton" layoutX="814.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleGoToAdminPanel" prefHeight="80.0" prefWidth="106.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Admin Panel">
+            <Button fx:id="goToAdminPanelButton" layoutX="814.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleGoToAdminPanel" prefHeight="32.0" prefWidth="106.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Admin Panel">
     <effect>
         <DropShadow />
     </effect>

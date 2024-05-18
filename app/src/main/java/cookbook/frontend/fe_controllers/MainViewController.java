@@ -53,6 +53,7 @@ private void handleLoginButton(ActionEvent event) {
         // Create a rectangle to cover the scene
         Rectangle colorOverlay = new Rectangle(934, 703);
         colorOverlay.setFill(Color.BLACK);
+        colorOverlay.setMouseTransparent(true);
 
         Group rootWithOverlay = new Group(loginPageParent, colorOverlay);
         Scene sceneWithOverlay = new Scene(rootWithOverlay, 934, 703);
