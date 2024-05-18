@@ -48,45 +48,44 @@ public class MainViewController {
     scaleTransition.play();
   }
 
-  @FXML
-  private void handleLoginButton(ActionEvent event) {
+@FXML
+private void handleLoginButton(ActionEvent event) {
     try {
-      // Load the login page FXML
-      Parent loginPageParent = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
-      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Load the login page FXML
+        Parent loginPageParent = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-      // Create a rectangle to cover the scene
-      Rectangle colorOverlay = new Rectangle(934, 703);
-      colorOverlay.setFill(Color.TRANSPARENT);
+        // Create a rectangle to cover the scene
+        Rectangle colorOverlay = new Rectangle(934, 703);
+        colorOverlay.setFill(Color.BLACK);
 
-      Group rootWithOverlay = new Group(loginPageParent, colorOverlay);
-      Scene sceneWithOverlay = new Scene(rootWithOverlay, 934, 703);
+        Group rootWithOverlay = new Group(loginPageParent, colorOverlay);
+        Scene sceneWithOverlay = new Scene(rootWithOverlay, 934, 703);
 
-      // Prepare the fade transitions
-      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.8), colorOverlay);
-      fadeOut.setFromValue(0.0);
-      fadeOut.setToValue(0.8);
-      fadeOut.setInterpolator(Interpolator.EASE_BOTH);
+        // Prepare the fade transitions
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), colorOverlay);
+        fadeOut.setFromValue(0.0);
+        fadeOut.setToValue(0.8);
+        fadeOut.setInterpolator(Interpolator.EASE_BOTH);
 
-      FillTransition fillTransition = new FillTransition(Duration.seconds(0.5), colorOverlay, Color.TRANSPARENT,
-          Color.BLACK);
-      fillTransition.setOnFinished(event1 -> {
-        window.setScene(sceneWithOverlay);
-
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.8), colorOverlay);
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.5), colorOverlay);
         fadeIn.setFromValue(0.8);
         fadeIn.setToValue(0.0);
         fadeIn.setInterpolator(Interpolator.EASE_BOTH);
-        fadeIn.setOnFinished(event2 -> colorOverlay.setFill(Color.TRANSPARENT)); // Reset color after transition
-        fadeIn.play();
-      });
 
-      // Start transitions
-      new SequentialTransition(fadeOut, fillTransition).play();
+        // Set actions on fade out completion
+        fadeOut.setOnFinished(event1 -> {
+            window.setScene(sceneWithOverlay);
+            fadeIn.play();
+        });
+
+        // Start fade out transition
+        fadeOut.play();
     } catch (Exception e) {
-      e.printStackTrace();
+        e.printStackTrace();
     }
-  }
+}
+
 
   @FXML
   private void handleNavigationButton(ActionEvent event) {
