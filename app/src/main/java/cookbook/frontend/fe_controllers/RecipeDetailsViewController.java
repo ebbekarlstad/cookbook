@@ -4,10 +4,12 @@ import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_controllers.TagController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.Tag;
 import cookbook.backend.be_objects.UserSession;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,6 +31,9 @@ import java.sql.*;
 import java.util.*;
 
 public class RecipeDetailsViewController {
+
+	@FXML
+	private Label tagsLabel;
 
 	@FXML
 	private Button EditRecipes;
@@ -115,6 +120,34 @@ public class RecipeDetailsViewController {
 		ingredientTable.setItems(ingredients);
 	}
 
+	private void fetchTagsFromDatabase(String recipeID) {
+		try {
+			Connection connection = DriverManager
+							.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+			PreparedStatement statement = connection.prepareStatement(
+							"SELECT tags.TagName FROM tags " +
+											"JOIN recipe_tags ON tags.TagID = recipe_tags.TagID " +
+											"WHERE recipe_tags.RecipeID = ?");
+			statement.setString(1, recipeID);
+			ResultSet resultSet = statement.executeQuery();
+
+			StringBuilder tags = new StringBuilder();
+			while (resultSet.next()) {
+				if (tags.length() > 0) {
+					tags.append(",      ");
+				}
+				tags.append("#").append(resultSet.getString("TagName"));
+			}
+			tagsLabel.setText(tags.toString());
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	@FXML
 	private void initialize() {
 		DatabaseMng dbManager = new DatabaseMng();
@@ -158,6 +191,7 @@ public class RecipeDetailsViewController {
 		});
 
 		fetchIngredientsFromDatabase(recipeId);
+		fetchTagsFromDatabase(recipeId);
 
 		// Update the favorite button based on whether the recipe is a favorite
 		Long userId = UserSession.getInstance().getUserId();

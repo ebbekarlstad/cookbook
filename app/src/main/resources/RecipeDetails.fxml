@@ -91,7 +91,7 @@
                 </Label>
                 <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="21.0" layoutY="114.0" prefHeight="87.0" prefWidth="565.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
                     <font>
-                        <Font name="System Font Medium" size="13.0" style="Italic" />
+                        <Font name="System Font Medium" size="13.0" />
                     </font>
                 </Label>
                 <Label layoutX="21.0" layoutY="400.0" prefHeight="40.0" prefWidth="184.0" text="Instructions:" textFill="#db5442" wrapText="true">
@@ -115,7 +115,7 @@
                         <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
                     </effect>
                 </Label>
-                <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="21.0" layoutY="204.0" prefHeight="196.0" prefWidth="551.0" style="-fx-border-color: black;">
+                <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="21.0" layoutY="254.0" prefHeight="146.0" prefWidth="509.0" style="-fx-border-color: black;">
                     <columns>
                         <TableColumn fx:id="ingredientColumn" prefWidth="300.0" text="Ingredient" />
                         <TableColumn fx:id="amountColumn" prefWidth="125.0" text="Amount" />
@@ -185,6 +185,16 @@
                         <Font name="System Font Light" size="13.0" />
                     </font>
                 </Button>
+            <Label fx:id="tagsLabel" layoutX="23.0" layoutY="190.0" prefHeight="43.0" prefWidth="506.0" style="-fx-border-color: #5499C7; -fx-background-color: #FDFEFE;">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Label>
+            <Text layoutX="25.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" wrappingWidth="70.51607084104364">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Text>
             </children>
         </AnchorPane>
     </children>
