@@ -4,10 +4,12 @@ import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
 import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_controllers.TagController;
 import cookbook.backend.be_objects.AmountOfIngredients;
 import cookbook.backend.be_objects.CommentObject;
 import cookbook.backend.be_objects.Ingredient;
 import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.Tag;
 import cookbook.backend.be_objects.UserSession;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,11 +25,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 public class RecipeDetailsViewController {
+
+	@FXML
+	private Label tagsLabel;
 
 	@FXML
 	private Button EditRecipes;
@@ -85,13 +91,13 @@ public class RecipeDetailsViewController {
 	private void fetchIngredientsFromDatabase(String recipeID) {
 		try {
 			Connection connection = DriverManager
-					.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+							.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 			PreparedStatement statement = connection.prepareStatement(
-					"SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit "
-							+
-							"FROM recipe_ingredients " +
-							"JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
-							"WHERE recipe_ingredients.RecipeID = ?");
+							"SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit "
+											+
+											"FROM recipe_ingredients " +
+											"JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
+											"WHERE recipe_ingredients.RecipeID = ?");
 			statement.setString(1, recipeID);
 			ResultSet resultSet = statement.executeQuery();
 
@@ -114,13 +120,40 @@ public class RecipeDetailsViewController {
 		ingredientTable.setItems(ingredients);
 	}
 
+	private void fetchTagsFromDatabase(String recipeID) {
+		try {
+			Connection connection = DriverManager
+							.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+			PreparedStatement statement = connection.prepareStatement(
+							"SELECT tags.TagName FROM tags " +
+											"JOIN recipe_tags ON tags.TagID = recipe_tags.TagID " +
+											"WHERE recipe_tags.RecipeID = ?");
+			statement.setString(1, recipeID);
+			ResultSet resultSet = statement.executeQuery();
+
+			StringBuilder tags = new StringBuilder();
+			while (resultSet.next()) {
+				if (tags.length() > 0) {
+					tags.append(",      ");
+				}
+				tags.append("#").append(resultSet.getString("TagName"));
+			}
+			tagsLabel.setText(tags.toString());
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	@FXML
 	private void initialize() {
 		DatabaseMng dbManager = new DatabaseMng();
 		this.favoritesController = new FavoritesController(dbManager);
 
-		// Döljer "Edit Recipe" och "Delete Recipe" knapparna om användaren inte är
-		// admin
+		// Hide "Edit Recipe" and "Delete Recipe" buttons if the user is not an admin
 		if (!UserSession.getInstance().isAdmin()) {
 			deleteRecipeButton.setVisible(false);
 			EditRecipes.setVisible(false);
@@ -158,8 +191,9 @@ public class RecipeDetailsViewController {
 		});
 
 		fetchIngredientsFromDatabase(recipeId);
+		fetchTagsFromDatabase(recipeId);
 
-		// Uppdatera favoritknappen baserat på om receptet är favorit
+		// Update the favorite button based on whether the recipe is a favorite
 		Long userId = UserSession.getInstance().getUserId();
 		if (favoritesController.isFavorite(userId, this.recipe)) {
 			toggleFavorite.setSelected(true);
@@ -176,14 +210,22 @@ public class RecipeDetailsViewController {
 	@FXML
 	void DecrementPeople(ActionEvent event) {
 		if (numberOfPersons > 1) {
-			numberOfPersons--;
+			if (numberOfPersons == 2) {
+				numberOfPersons = 1;
+			} else {
+				numberOfPersons -= 2;
+			}
 			updateMultipliedAmountAndIngredients();
 		}
 	}
 
 	@FXML
 	void IncrementPeople(ActionEvent event) {
-		numberOfPersons++;
+		if (numberOfPersons == 1) {
+			numberOfPersons = 2;
+		} else {
+			numberOfPersons += 2;
+		}
 		updateMultipliedAmountAndIngredients();
 	}
 
@@ -228,7 +270,7 @@ public class RecipeDetailsViewController {
 		String commentText = commentInput.getText().trim();
 		if (!commentText.isEmpty()) {
 			CommentObject newComment = new CommentObject(this.commentId, this.recipeId, UserSession.getInstance().getUserId(),
-					commentText, "yy-mm-dd hh:mm:ss");
+							commentText, "yy-mm-dd hh:mm:ss");
 			commentsListView.getItems().add(commentText);
 			commentInput.clear();
 
@@ -371,7 +413,7 @@ public class RecipeDetailsViewController {
 		} else {
 			System.out.println("Failed to " + action + " favorite.");
 			showAlert(Alert.AlertType.ERROR, "Error..:(",
-					"There was a problem " + action + " this recipe to your favorites.");
+							"There was a problem " + action + " this recipe to your favorites.");
 		}
 	}
 

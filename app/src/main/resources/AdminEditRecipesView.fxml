@@ -30,7 +30,7 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: #FFF5EE;" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="676.0" prefWidth="933.0" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
             <children>
             <ImageView fitHeight="703.0" fitWidth="934.0" layoutY="-4.0" opacity="0.85" pickOnBounds="true" preserveRatio="false">
                <image>
@@ -119,7 +119,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Text fill="#fff1e4" layoutX="354.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT RECIPE" wrappingWidth="268.30859375">
+            <Text fill="#fff1e4" layoutX="350.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT RECIPE" wrappingWidth="281.30859375">
                <font>
                   <Font name="System Font Heavy" size="50.0" />
                </font>
