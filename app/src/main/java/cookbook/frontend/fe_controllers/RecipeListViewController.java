@@ -48,7 +48,7 @@ public class RecipeListViewController {
   private ListView<Recipe> mainTable;
 
   private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
-  private static final int ITEMS_PER_PAGE = 10;
+  private static final int ITEMS_PER_PAGE = 25;
 
   /**
    * Initializes the controller class.
@@ -170,28 +170,32 @@ public class RecipeListViewController {
   }
 
   private void updatePagination() {
-    int pageCount = (int) Math.ceil((double) recipeList.size() / ITEMS_PER_PAGE);
-    pagination.setPageCount(pageCount);
+    if (recipeList.size() <= ITEMS_PER_PAGE) {
+        pagination.setPageCount(1);
+    } else {
+        int pageCount = (int) Math.ceil((double) recipeList.size() / ITEMS_PER_PAGE);
+        pagination.setPageCount(pageCount);
+    }
     pagination.setPageFactory(this::createPage);
-  }
+}
 
-  private Node createPage(int pageIndex) {
+private Node createPage(int pageIndex) {
     int fromIndex = pageIndex * ITEMS_PER_PAGE;
     int toIndex = Math.min(fromIndex + ITEMS_PER_PAGE, recipeList.size());
     mainTable.setItems(FXCollections.observableArrayList(recipeList.subList(fromIndex, toIndex)));
     return new VBox(mainTable);
-  }
+}
 
-  // Refresh recipe list
-  public void refreshRecipeList() {
+// Refresh recipe list
+public void refreshRecipeList() {
     try {
-      recipeList.clear();
-      recipeList.addAll(RecipeController.getRecipes());
-      updatePagination();
+        recipeList.clear();
+        recipeList.addAll(RecipeController.getRecipes());
+        updatePagination();
     } catch (Exception e) {
-      e.printStackTrace();
+        e.printStackTrace();
     }
-  }
+}
 
   // Handle search field changes
   private void onSearchFieldChanged(ObservableValue<? extends String> observable, String oldValue, String newValue) {
