@@ -48,7 +48,7 @@ public class RecipeListViewController {
   private ListView<Recipe> mainTable;
 
   private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
-  private static final int ITEMS_PER_PAGE = 25;
+  private static final int ITEMS_PER_PAGE = 15;
 
   /**
    * Initializes the controller class.
