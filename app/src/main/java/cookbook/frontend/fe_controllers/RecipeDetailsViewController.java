@@ -1,5 +1,14 @@
 package cookbook.frontend.fe_controllers;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.CommentController;
 import cookbook.backend.be_controllers.FavoritesController;
@@ -18,15 +27,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.*;
-import java.util.*;
 
 public class RecipeDetailsViewController {
 
@@ -71,6 +84,7 @@ public class RecipeDetailsViewController {
 	private String recipeId;
 	private int commentId;
 	Recipe recipe;
+	private String returnContext;
 
 	@FXML
 	private Label titleLabel;
@@ -86,16 +100,20 @@ public class RecipeDetailsViewController {
 
 	private FavoritesController favoritesController = new FavoritesController(myDbManager);
 
+	public void setReturnContext(String context) {
+		this.returnContext = context;
+	}
+
 	private void fetchIngredientsFromDatabase(String recipeID) {
 		try {
 			Connection connection = DriverManager
-							.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+					.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 			PreparedStatement statement = connection.prepareStatement(
-							"SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit "
-											+
-											"FROM recipe_ingredients " +
-											"JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
-											"WHERE recipe_ingredients.RecipeID = ?");
+					"SELECT ingredients.IngredientID, ingredients.IngredientName, recipe_ingredients.Amount, recipe_ingredients.Unit "
+							+
+							"FROM recipe_ingredients " +
+							"JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID " +
+							"WHERE recipe_ingredients.RecipeID = ?");
 			statement.setString(1, recipeID);
 			ResultSet resultSet = statement.executeQuery();
 
@@ -106,7 +124,8 @@ public class RecipeDetailsViewController {
 				String unit = resultSet.getString("Unit");
 
 				Ingredient ingredient = new Ingredient(ingredientID, ingredientName);
-				AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount), ingredient);
+				AmountOfIngredients amountOfIngredient = new AmountOfIngredients(unit, Float.parseFloat(amount),
+						ingredient);
 				ingredients.add(amountOfIngredient);
 			}
 			resultSet.close();
@@ -121,11 +140,11 @@ public class RecipeDetailsViewController {
 	private void fetchTagsFromDatabase(String recipeID) {
 		try {
 			Connection connection = DriverManager
-							.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+					.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
 			PreparedStatement statement = connection.prepareStatement(
-							"SELECT tags.TagName FROM tags " +
-											"JOIN recipe_tags ON tags.TagID = recipe_tags.TagID " +
-											"WHERE recipe_tags.RecipeID = ?");
+					"SELECT tags.TagName FROM tags " +
+							"JOIN recipe_tags ON tags.TagID = recipe_tags.TagID " +
+							"WHERE recipe_tags.RecipeID = ?");
 			statement.setString(1, recipeID);
 			ResultSet resultSet = statement.executeQuery();
 
@@ -144,7 +163,6 @@ public class RecipeDetailsViewController {
 			e.printStackTrace();
 		}
 	}
-
 
 	@FXML
 	private void initialize() {
@@ -267,8 +285,9 @@ public class RecipeDetailsViewController {
 	private void addComment(ActionEvent event) {
 		String commentText = commentInput.getText().trim();
 		if (!commentText.isEmpty()) {
-			CommentObject newComment = new CommentObject(this.commentId, this.recipeId, UserSession.getInstance().getUserId(),
-							commentText, "yy-mm-dd hh:mm:ss");
+			CommentObject newComment = new CommentObject(this.commentId, this.recipeId,
+					UserSession.getInstance().getUserId(),
+					commentText, "yy-mm-dd hh:mm:ss");
 			commentsListView.getItems().add(commentText);
 			commentInput.clear();
 
@@ -345,15 +364,19 @@ public class RecipeDetailsViewController {
 		}
 	}
 
-	public void handleHelpBackButton(ActionEvent event) throws SQLException, IOException {
+	@FXML
+	private void handleHelpBackButton(ActionEvent event) {
 		try {
-			// Load the navigation page FXML
-			Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/RecipeListView.fxml"));
-			Scene navigationPageScene = new Scene(navigationPageParent);
+			String fxmlFile = "/RecipeListView.fxml"; // Standard tillbakavigering
+			if ("MessagesViewController".equals(returnContext)) {
+				fxmlFile = "/MessagesView.fxml"; // Ändra till inkorgen om användaren kommer från meddelanden
+			}
 
-			// Get the current stage and replace it
+			// Ladda den specificerade FXML-filen baserat på kontexten
+			Parent viewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+			Scene viewScene = new Scene(viewParent);
 			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			window.setScene(navigationPageScene);
+			window.setScene(viewScene);
 			window.show();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -411,7 +434,7 @@ public class RecipeDetailsViewController {
 		} else {
 			System.out.println("Failed to " + action + " favorite.");
 			showAlert(Alert.AlertType.ERROR, "Error..:(",
-							"There was a problem " + action + " this recipe to your favorites.");
+					"There was a problem " + action + " this recipe to your favorites.");
 		}
 	}
 

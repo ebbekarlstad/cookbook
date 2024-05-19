@@ -106,16 +106,16 @@ public class MessagesViewController {
       Parent detailsView = loader.load();
 
       RecipeDetailsViewController controller = loader.getController();
-      DatabaseMng dbManager = new DatabaseMng(); // Ensure this is the right place to instantiate
+      DatabaseMng dbManager = new DatabaseMng(); // Säkerställ att detta är rätt plats att instansiera
       RecipeController recipeController = new RecipeController(dbManager);
       Recipe recipe = recipeController.getRecipeById(recipeId);
       controller.initData(recipe);
+      controller.setReturnContext("MessagesViewController"); // Sätt kontexten
 
       Scene scene = new Scene(detailsView);
-      Stage stage = new Stage();
-      stage.setScene(scene);
-      stage.setTitle("Recipe Details");
-      stage.show();
+      Stage window = (Stage) messageTableView.getScene().getWindow(); // Hämta nuvarande fönster
+      window.setScene(scene); // Sätt den nya scenen
+      window.show();
     } catch (IOException e) {
       e.printStackTrace();
     }
