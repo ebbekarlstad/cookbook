@@ -31,16 +31,13 @@ import javafx.stage.Stage;
 public class MessagesViewController {
   private DatabaseMng dbManager;
   private MessageController messageController;
-  private Message selectedMessage;
 
-  @FXML
-  private TableColumn<Message, String> actionColumn;
   @FXML
   private TableColumn<Message, String> contentColumn;
   @FXML
-  private TableView<Message> messageTableView;
-  @FXML
   private TableColumn<Message, String> fromColumn;
+  @FXML
+  private TableView<Message> messageTableView;
   @FXML
   private TextArea messageContent;
   @FXML
@@ -57,6 +54,7 @@ public class MessagesViewController {
     loadMessages();
   }
 
+  @FXML
   private void setupMessageTable() {
     fromColumn.setCellValueFactory(cellData -> {
       try {
@@ -68,8 +66,6 @@ public class MessagesViewController {
       }
     });
 
-    contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
-
     fromColumn.setCellFactory(column -> new TableCell<Message, String>() {
       @Override
       protected void updateItem(String item, boolean empty) {
@@ -80,68 +76,73 @@ public class MessagesViewController {
         } else {
           Message message = getTableView().getItems().get(getIndex());
           setText(item);
-          if (!message.isOpened()) {
-            setStyle("-fx-font-weight: bold;");
-          } else {
-            setStyle("");
-          }
+          updateStyleBasedOnOpened(message);
+
+          message.isOpenedProperty().addListener((observable, oldValue, newValue) -> {
+            updateStyleBasedOnOpened(message);
+          });
+        }
+      }
+
+      private void updateStyleBasedOnOpened(Message message) {
+        if (message.isOpened()) {
+          setStyle("");
+        } else {
+          setStyle("-fx-font-weight: bold;");
         }
       }
     });
 
+    contentColumn.setCellValueFactory(new PropertyValueFactory<>("recipeId"));
     contentColumn.setCellFactory(column -> new TableCell<Message, String>() {
+      private final Hyperlink hyperlink = new Hyperlink("View Recipe");
+
+      {
+        hyperlink.setStyle("-fx-text-fill: black;");
+        hyperlink.setOnAction(event -> {
+          Message msg = getTableView().getItems().get(getIndex());
+          if (msg != null) {
+            openRecipeDetails(msg.getRecipeId());
+          }
+        });
+      }
+
       @Override
       protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
-        if (empty || item == null) {
-          setText(null);
+        if (empty) {
+          setGraphic(null);
           setStyle("");
         } else {
           Message message = getTableView().getItems().get(getIndex());
-          setText(item);
-          if (!message.isOpened()) {
-            setStyle("-fx-font-weight: bold;");
-          } else {
-            setStyle("");
-          }
-        }
-      }
-    });
+          setGraphic(hyperlink);
+          updateStyleBasedOnOpened(message);
 
-    actionColumn.setCellValueFactory(new PropertyValueFactory<>("recipeId"));
-    actionColumn.setCellFactory(column -> {
-      return new TableCell<Message, String>() {
-        private final Hyperlink hyperlink = new Hyperlink("View Recipe");
-
-        {
-          hyperlink.setStyle("-fx-text-fill: black;");
-          hyperlink.setOnAction(event -> {
-            Message msg = getTableView().getItems().get(getIndex());
-            if (msg != null) {
-              openRecipeDetails(msg.getRecipeId());
-            }
+          message.isOpenedProperty().addListener((observable, oldValue, newValue) -> {
+            updateStyleBasedOnOpened(message);
           });
         }
+      }
 
-        @Override
-        protected void updateItem(String item, boolean empty) {
-          super.updateItem(item, empty);
-          if (empty) {
-            setGraphic(null);
-          } else {
-            setGraphic(hyperlink);
-          }
+      private void updateStyleBasedOnOpened(Message message) {
+        if (message.isOpened()) {
+          setStyle("");
+        } else {
+          setStyle("-fx-font-weight: bold;");
         }
-      };
+      }
     });
 
     messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
       if (newSelection != null) {
-        selectedMessage = newSelection;
         try {
-          markMessageAsOpened(selectedMessage); // Mark the message as read
-          messageContent.setText(messageController.getName(selectedMessage.getSenderId()) + "\t\t\t\t"
-              + selectedMessage.getSentTime() + "\n" + selectedMessage.getContent());
+          messageContent.setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t"
+              + newSelection.getSentTime() + "\n" + newSelection.getContent());
+          boolean updated = messageController.markMessageAsOpened(newSelection.getMessageId());
+          if (updated) {
+            newSelection.setOpened(true);
+          }
+          messageTableView.refresh();
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -155,16 +156,16 @@ public class MessagesViewController {
       Parent detailsView = loader.load();
 
       RecipeDetailsViewController controller = loader.getController();
-      DatabaseMng dbManager = new DatabaseMng();
       RecipeController recipeController = new RecipeController(dbManager);
       Recipe recipe = recipeController.getRecipeById(recipeId);
       controller.initData(recipe);
-      controller.setReturnContext("MessagesViewController");
+      controller.setReturnContext("MessagesViewController"); // Sets the return context
 
       Scene scene = new Scene(detailsView);
-      Stage window = (Stage) messageTableView.getScene().getWindow();
-      window.setScene(scene);
-      window.show();
+      Stage stage = new Stage();
+      stage.setScene(scene);
+      stage.setTitle("Recipe Details");
+      stage.show();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -184,9 +185,9 @@ public class MessagesViewController {
   @FXML
   private void handleBackButton(ActionEvent event) {
     try {
-      String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
-      Parent navigationViewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+      Parent navigationViewParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
       Scene navigationViewScene = new Scene(navigationViewParent);
+
       Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(navigationViewScene);
       window.show();
@@ -195,14 +196,19 @@ public class MessagesViewController {
     }
   }
 
-  private void markMessageAsOpened(Message message) {
+  // check if there are new messages
+  public boolean hasNewMessages() {
     try {
-      if (messageController.markMessageAsOpened(message.getMessageId())) {
-        message.setOpened(true);
-        messageTableView.refresh();
+      Long userId = UserSession.getInstance().getUserId();
+      List<Message> messages = messageController.getInbox(userId);
+      for (Message message : messages) {
+        if (!message.isOpened()) {
+          return true;
+        }
       }
     } catch (SQLException e) {
-      System.err.println("Failed to mark message as read: " + e.getMessage());
+      System.err.println("Failed to check new messages: " + e.getMessage());
     }
+    return false;
   }
 }

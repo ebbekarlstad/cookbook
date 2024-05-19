@@ -44,40 +44,38 @@ public class ShareDialogController {
     this.recipeId = recipe.getId(); // Store the recipe ID
   }
 
-  @FXML
   public void sendShare(ActionEvent event) {
     User recipient = recipientComboBox.getValue();
     if (recipient != null) {
 
-      long senderId = UserSession.getInstance().getUserId();
-      long receiverId = recipient.getUserId();
-      String content = getContent();
-      String recipeId = getRecipeId();
+        long senderId = UserSession.getInstance().getUserId();
+        long receiverId = recipient.getUserId();
+        String content = getContent();
+        String recipeId = getRecipeId();
 
-      // Create the message with dynamic sender and receiver IDs
-      Message message = new Message(null, senderId, receiverId, recipeId, content, false);
-      message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
-
-      // Attempt to save the message using the MessageController
-      MessageController messageManager = new MessageController(dbManager);
-      boolean result = messageManager.saveMessage(message);
-      if (result) {
-        System.out.println("Message sent successfully!");
-        Alert success = new Alert(Alert.AlertType.INFORMATION);
-        success.setTitle("Success!");
-        success.setContentText("Recipe shared!");
-        success.show();
-      } else {
-        System.out.println("Failed to send message.");
-        Alert failure = new Alert(Alert.AlertType.INFORMATION);
-        failure.setTitle("Error..:(");
-        failure.setContentText("There was a problem with sharing the recipe.");
-        failure.show();
-      }
+        // Create the message with dynamic sender and receiver IDs
+        Message message = new Message(null, senderId, receiverId, recipeId, content, new java.sql.Timestamp(new java.util.Date().getTime()), false);
+        
+        // Attempt to save the message using the MessageController
+        MessageController messageManager = new MessageController(dbManager);
+        boolean result = messageManager.saveMessage(message);
+        if (result) {
+            System.out.println("Message sent successfully!");
+            Alert success = new Alert(Alert.AlertType.INFORMATION);
+            success.setTitle("Success!");
+            success.setContentText("Recipe shared!");
+            success.show();
+        } else {
+            System.out.println("Failed to send message.");
+            Alert failure = new Alert(Alert.AlertType.INFORMATION);
+            failure.setTitle("Error..:(");
+            failure.setContentText("There was a problem with sharing the recipe.");
+            failure.show();
+        }
     } else {
-      System.out.println("No recipient selected.");
+        System.out.println("No recipient selected.");
     }
-  }
+}
 
   private String getContent() {
     return messageField.getText();
