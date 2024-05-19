@@ -55,7 +55,7 @@ public class ShareDialogController {
       String recipeId = getRecipeId();
 
       // Create the message with dynamic sender and receiver IDs
-      Message message = new Message(senderId, receiverId, recipeId, content, false);
+      Message message = new Message(null, senderId, receiverId, recipeId, content, false);
       message.setSentTime(new java.sql.Timestamp(new java.util.Date().getTime()));
 
       // Attempt to save the message using the MessageController

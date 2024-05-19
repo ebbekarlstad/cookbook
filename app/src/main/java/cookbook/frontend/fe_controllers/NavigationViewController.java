@@ -55,22 +55,18 @@ public class NavigationViewController {
   private void checkForUnreadMessages() {
     UserSession userSession = UserSession.getInstance();
     if (!userSession.isUnreadMessagesChecked()) {
-      try {
-        Long userId = userSession.getUserId();
-        int unreadMessagesCount = messageController.getUnreadMessagesCount(userId);
+      Long userId = userSession.getUserId();
+      boolean hasUnreadMessages = messageController.hasUnreadMessages(userId);
 
-        if (unreadMessagesCount > 0) {
-          Alert alert = new Alert(Alert.AlertType.INFORMATION);
-          alert.setTitle("Unread Messages");
-          alert.setHeaderText(null);
-          alert.setContentText("You have " + unreadMessagesCount + " unread message(s).");
-          alert.showAndWait();
-        }
-
-        userSession.setUnreadMessagesChecked(true);
-      } catch (SQLException e) {
-        System.err.println("Failed to check for unread messages: " + e.getMessage());
+      if (hasUnreadMessages) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Unread Messages");
+        alert.setHeaderText(null);
+        alert.setContentText("You have unread message(s).");
+        alert.showAndWait();
       }
+
+      userSession.setUnreadMessagesChecked(true);
     }
   }
 

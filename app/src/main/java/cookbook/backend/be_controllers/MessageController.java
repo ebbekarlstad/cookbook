@@ -55,6 +55,7 @@ public class MessageController {
 			while (rs.next()) {
 
 				Message message = new Message(
+						rs.getLong("message_id"),
 						rs.getLong("sender_id"),
 						rs.getLong("receiver_id"),
 						rs.getString("recipe_id"),
@@ -94,22 +95,43 @@ public class MessageController {
 		return displayName; // Return the display name, or null if not found
 	}
 
-	public int getUnreadMessagesCount(Long userId) throws SQLException {
-		String query = "SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_opened = 0;";
+	// Method for checking if user has unread messages
+	public boolean hasUnreadMessages(long userId) {
+		String query = "SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_opened = false";
 		try (Connection conn = dbManager.getConnection();
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			pstmt.setLong(1, userId);
-			ResultSet rs = pstmt.executeQuery();
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setLong(1, userId);
+			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				return rs.getInt(1);
-			} else {
-				return 0;
+				int count = rs.getInt(1);
+				System.out.println("Unread messages count for user " + userId + ": " + count);
+				return count > 0;
 			}
 		} catch (SQLException e) {
-			System.err.println("Database error during unread messages count fetching: " + e.getMessage());
+			System.err.println("Error checking for unread messages: " + e.getMessage());
+			return false;
+		}
+		return false;
+	}
+
+	// Method for marking messages as read:
+	public boolean markMessageAsOpened(long messageId) throws SQLException {
+		String sql = "UPDATE messages SET is_opened = TRUE WHERE message_id = ?";
+		try (Connection conn = dbManager.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setLong(1, messageId);
+			int affectedRows = pstmt.executeUpdate();
+			if (affectedRows > 0) {
+				System.out.println("Message marked as opened");
+				return true;
+			} else {
+				System.out.println("No message updated");
+				return false;
+			}
+		} catch (SQLException e) {
+			System.err.println("Database error during updating message status: " + e.getMessage());
 			throw e;
 		}
 	}
-	
 
 }

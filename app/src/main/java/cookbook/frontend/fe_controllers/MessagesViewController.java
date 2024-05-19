@@ -27,9 +27,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 public class MessagesViewController {
   private DatabaseMng dbManager;
   private MessageController messageController;
+  private Message selectedMessage;
 
   @FXML
   private TableColumn<Message, String> actionColumn;
@@ -68,7 +70,25 @@ public class MessagesViewController {
 
     contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
 
-    // Unread messages shows in bold text
+    fromColumn.setCellFactory(column -> new TableCell<Message, String>() {
+      @Override
+      protected void updateItem(String item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+          setStyle("");
+        } else {
+          Message message = getTableView().getItems().get(getIndex());
+          setText(item);
+          if (!message.isOpened()) {
+            setStyle("-fx-font-weight: bold;");
+          } else {
+            setStyle("");
+          }
+        }
+      }
+    });
+
     contentColumn.setCellFactory(column -> new TableCell<Message, String>() {
       @Override
       protected void updateItem(String item, boolean empty) {
@@ -93,8 +113,7 @@ public class MessagesViewController {
       return new TableCell<Message, String>() {
         private final Hyperlink hyperlink = new Hyperlink("View Recipe");
 
-        {          
-          // Changed color to black to be more visible
+        {
           hyperlink.setStyle("-fx-text-fill: black;");
           hyperlink.setOnAction(event -> {
             Message msg = getTableView().getItems().get(getIndex());
@@ -118,9 +137,11 @@ public class MessagesViewController {
 
     messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
       if (newSelection != null) {
+        selectedMessage = newSelection;
         try {
-          messageContent.setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t"
-              + newSelection.getSentTime() + "\n" + newSelection.getContent());
+          markMessageAsOpened(selectedMessage); // Mark the message as read
+          messageContent.setText(messageController.getName(selectedMessage.getSenderId()) + "\t\t\t\t"
+              + selectedMessage.getSentTime() + "\n" + selectedMessage.getContent());
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -163,12 +184,9 @@ public class MessagesViewController {
   @FXML
   private void handleBackButton(ActionEvent event) {
     try {
-
       String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
-
       Parent navigationViewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
       Scene navigationViewScene = new Scene(navigationViewParent);
-
       Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(navigationViewScene);
       window.show();
@@ -177,4 +195,14 @@ public class MessagesViewController {
     }
   }
 
+  private void markMessageAsOpened(Message message) {
+    try {
+      if (messageController.markMessageAsOpened(message.getMessageId())) {
+        message.setOpened(true);
+        messageTableView.refresh();
+      }
+    } catch (SQLException e) {
+      System.err.println("Failed to mark message as read: " + e.getMessage());
+    }
+  }
 }

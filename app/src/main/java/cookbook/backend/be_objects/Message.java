@@ -12,7 +12,8 @@ public class Message {
   private boolean isOpened;
 
   // Constructor
-  public Message(Long senderId, Long receiverId, String recipeId, String content, boolean isOpened) {
+  public Message(Long messageId, Long senderId, Long receiverId, String recipeId, String content, boolean isOpened) {
+    this.messageId = messageId;
     this.senderId = senderId;
     this.receiverId = receiverId;
     this.recipeId = recipeId;
