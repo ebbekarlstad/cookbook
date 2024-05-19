@@ -106,7 +106,7 @@
                 </Label>
                 <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="28.0" layoutY="106.0" prefHeight="69.0" prefWidth="495.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
                     <font>
-                        <Font name="System Font Light" size="13.0" />
+                        <Font name="System Italic" size="13.0" />
                     </font>
                 </Label>
                 <Label layoutX="20.0" layoutY="421.0" prefHeight="40.0" prefWidth="184.0" text="Instructions" textFill="#ffecea" wrapText="true">
