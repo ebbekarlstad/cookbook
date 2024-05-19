@@ -183,6 +183,7 @@ public class RecipeDetailsViewController {
     this.recipe = recipe;
     titleLabel.setText(recipe.getRecipeName());
     shortLabel.setText(recipe.getShortDesc());
+    shortLabel.setStyle("-fx-font-style: italic;");
     longLabel.setText(recipe.getDetailedDesc());
 
     this.recipeId = recipe.getId();
