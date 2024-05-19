@@ -93,31 +93,33 @@ public class UserEditingRecipeController {
 	Recipe recipe;
 
 	private void loadRecipes() throws SQLException {
-		List<Recipe> recipes = RecipeController.getRecipesByUserID(UserSession.getInstance().getUserId());
-		RecipesComboBox.setItems(FXCollections.observableArrayList(recipes));
-		RecipesComboBox.setConverter(new StringConverter<Recipe>() {
-			@Override
-			public java.lang.String toString(Recipe recipe) {
-				return (recipe != null) ? recipe.getRecipeName() : "Select recipe";
-			}
+    List<Recipe> recipes = RecipeController.getRecipesByUserID(UserSession.getInstance().getUserId());
+    RecipesComboBox.setItems(FXCollections.observableArrayList(recipes));
+    RecipesComboBox.setConverter(new StringConverter<Recipe>() {
+        @Override
+        public String toString(Recipe recipe) {
+            return (recipe != null) ? recipe.getRecipeName() : "Select recipe";
+        }
 
-			@Override
-			public Recipe fromString(String string) {
-				return null;
-			}
-		});
+        @Override
+        public Recipe fromString(String string) {
+            return null;
+        }
+    });
 
-		if (!recipes.isEmpty()) {
-			RecipesComboBox.setValue(recipes.get(0)); // Set default selected recipe if list is not empty
-		}
+    if (!recipes.isEmpty()) {
+        RecipesComboBox.setValue(recipes.get(0)); // Set default selected recipe if list is not empty
+        recipe = recipes.get(0); // Initialize the recipe object
+    }
 
-		RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-			if (newValue != null) {
-				updateRecipeDetailsUI(newValue);
-				initData();
-			}
-		});
-	}
+    RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+        if (newValue != null) {
+            updateRecipeDetailsUI(newValue);
+            initData();
+            recipe = newValue; // Update the recipe object when a new recipe is selected
+        }
+    });
+}
 
 	private void updateRecipeDetailsUI(Recipe recipe) {
 		if (recipe != null) {
@@ -426,10 +428,29 @@ public class UserEditingRecipeController {
 }
 
 
-	@FXML
-	void deleteIngredientFromList(ActionEvent event) {
+@FXML
+void deleteIngredientFromList(ActionEvent event) {
+    AmountOfIngredients selectedIngredient = ingredientTable.getSelectionModel().getSelectedItem();
+    if (selectedIngredient != null && recipe != null) {
+        try (
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+            PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM recipe_ingredients WHERE IngredientID = ? AND RecipeID = ?")
+        ) {
+            deleteStmt.setString(1, selectedIngredient.getIngredient().getIngredientID());
+            deleteStmt.setString(2, recipe.getId());
+            deleteStmt.executeUpdate();
 
-	}
+            // Remove the ingredient from the ObservableList and refresh the TableView
+            ingredients.remove(selectedIngredient);
+            ingredientTable.refresh();
+        } catch (SQLException e) {
+            System.out.println("Error deleting ingredient: " + selectedIngredient.getIngredient().getIngredientName());
+            e.printStackTrace();
+        }
+    } else {
+        System.out.println("No ingredient selected for deletion or recipe not set.");
+    }
+}
 
 	@FXML
 	void deleteTagFromList(ActionEvent event) {
