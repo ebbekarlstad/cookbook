@@ -421,4 +421,15 @@ public class UserEditingRecipeController {
 			}
 		}
 	}
+
+
+	@FXML
+	void deleteIngredientFromList(ActionEvent event) {
+
+	}
+
+	@FXML
+	void deleteTagFromList(ActionEvent event) {
+
+	}
 }
