@@ -365,23 +365,26 @@ public class RecipeDetailsViewController {
 	}
 
 	@FXML
-	private void handleHelpBackButton(ActionEvent event) {
-		try {
-			String fxmlFile = "/RecipeListView.fxml"; // Standard tillbakavigering
-			if ("MessagesViewController".equals(returnContext)) {
-				fxmlFile = "/MessagesView.fxml"; // Ändra till inkorgen om användaren kommer från meddelanden
-			}
+private void handleHelpBackButton(ActionEvent event) {
+    try {
+        String fxmlFile = "/RecipeListView.fxml"; 
+        if ("MessagesViewController".equals(returnContext)) {
+            fxmlFile = "/MessagesView.fxml"; 
+        } else if ("FavoriteViewController".equals(returnContext)) {
+            fxmlFile = "/FavoriteView.fxml";
+        }
 
-			// Ladda den specificerade FXML-filen baserat på kontexten
-			Parent viewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
-			Scene viewScene = new Scene(viewParent);
-			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			window.setScene(viewScene);
-			window.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        // Load specific FXML file
+        Parent viewParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+        Scene viewScene = new Scene(viewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(viewScene);
+        window.show();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 
 	public void shareRecipe(ActionEvent event) {
 		try {
