@@ -19,6 +19,7 @@ import cookbook.backend.be_objects.UserSession;
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.MessageController;
 import cookbook.backend.be_controllers.RecipeController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,8 +56,15 @@ public class MessagesViewController {
   }
 
   private void setupMessageTable() {
-    fromColumn.setCellValueFactory(new PropertyValueFactory<>("senderId")); // Assumes that senderId will be converted
-                                                                            // to a name or identifier
+    fromColumn.setCellValueFactory(cellData -> {
+      try {
+        String senderName = messageController.getName(cellData.getValue().getSenderId());
+        return new SimpleStringProperty(senderName);
+      } catch (SQLException e) {
+        e.printStackTrace();
+        return new SimpleStringProperty("Unknown");
+      }
+    });
 
     // Setup for the action column
     actionColumn.setCellValueFactory(new PropertyValueFactory<>("recipeId"));
@@ -90,9 +98,8 @@ public class MessagesViewController {
     messageTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
       if (newSelection != null) {
         try {
-          messageContent
-              .setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t" + newSelection.getSentTime()
-                  + "\n" + newSelection.getContent());
+          messageContent.setText(messageController.getName(newSelection.getSenderId()) + "\t\t\t\t"
+              + newSelection.getSentTime() + "\n" + newSelection.getContent());
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -106,15 +113,15 @@ public class MessagesViewController {
       Parent detailsView = loader.load();
 
       RecipeDetailsViewController controller = loader.getController();
-      DatabaseMng dbManager = new DatabaseMng(); // Säkerställ att detta är rätt plats att instansiera
+      DatabaseMng dbManager = new DatabaseMng();
       RecipeController recipeController = new RecipeController(dbManager);
       Recipe recipe = recipeController.getRecipeById(recipeId);
       controller.initData(recipe);
-      controller.setReturnContext("MessagesViewController"); // Sätt kontexten
+      controller.setReturnContext("MessagesViewController");
 
       Scene scene = new Scene(detailsView);
-      Stage window = (Stage) messageTableView.getScene().getWindow(); // Hämta nuvarande fönster
-      window.setScene(scene); // Sätt den nya scenen
+      Stage window = (Stage) messageTableView.getScene().getWindow();
+      window.setScene(scene); 
       window.show();
     } catch (IOException e) {
       e.printStackTrace();
