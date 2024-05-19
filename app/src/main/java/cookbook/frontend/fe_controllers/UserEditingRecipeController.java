@@ -406,21 +406,24 @@ public class UserEditingRecipeController {
 	}
 
 	private void saveNewTags(String recipeID) throws SQLException {
-		for (Tag tagDetails : tags) {
-			try (
-					Connection connection = DriverManager
-							.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
-					PreparedStatement insertStmt = connection.prepareStatement(
-							"INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)")) {
-				insertStmt.setString(1, recipeID);
-				insertStmt.setString(2, tagDetails.getTagID());
-				insertStmt.executeUpdate();
-			} catch (SQLException e) {
-				System.out.println("Error inserting new tag: " + tagDetails.getTagName());
-				e.printStackTrace();
-			}
-		}
-	}
+    for (Tag tagDetails : tags) {
+        // Check if the tag already exists in the recipe_tags table
+        if (!isTagAlreadyInRecipe(recipeID, tagDetails.getTagID())) {
+            try (
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+                PreparedStatement insertStmt = connection.prepareStatement(
+                        "INSERT INTO recipe_tags (RecipeID, TagID) VALUES (?, ?)")
+            ) {
+                insertStmt.setString(1, recipeID);
+                insertStmt.setString(2, tagDetails.getTagID());
+                insertStmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Error inserting new tag: " + tagDetails.getTagName());
+                e.printStackTrace();
+            }
+        }
+    }
+}
 
 
 	@FXML
@@ -430,6 +433,42 @@ public class UserEditingRecipeController {
 
 	@FXML
 	void deleteTagFromList(ActionEvent event) {
+		Tag selectedTag = tagTable.getSelectionModel().getSelectedItem();
+		if (selectedTag != null) {
+				try (
+						Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+						PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM recipe_tags WHERE TagID = ?")
+				) {
+						deleteStmt.setString(1, selectedTag.getTagID());
+						deleteStmt.executeUpdate();
 
+						// Remove the tag from the ObservableList and refresh the TableView
+						tags.remove(selectedTag);
+						tagTable.refresh();
+				} catch (SQLException e) {
+						System.out.println("Error deleting tag: " + selectedTag.getTagName());
+						e.printStackTrace();
+				}
+		} else {
+				System.out.println("No tag selected for deletion.");
+		}
 	}
+
+	private boolean isTagAlreadyInRecipe(String recipeID, String tagID) {
+    try (
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+        PreparedStatement checkStmt = connection.prepareStatement(
+                "SELECT COUNT(*) FROM recipe_tags WHERE RecipeID = ? AND TagID = ?")
+    ) {
+        checkStmt.setString(1, recipeID);
+        checkStmt.setString(2, tagID);
+        ResultSet resultSet = checkStmt.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 }
