@@ -13,10 +13,10 @@ public class Recipe {
   /**
    * Constructor for Recipe object.
    *
-   * @param RecipeID      The ID of the recipe
-   * @param RecipeName    The name of the recipe
-   * @param ShortDesc     The description of the recipe
-   * @param DetailedDesc  The instructions to prepare the recipe
+   * @param RecipeID     The ID of the recipe
+   * @param RecipeName   The name of the recipe
+   * @param ShortDesc    The description of the recipe
+   * @param DetailedDesc The instructions to prepare the recipe
    */
   public Recipe(String RecipeID, String RecipeName, String ShortDesc, String DetailedDesc) {
     setRecipeID(RecipeID);
@@ -96,7 +96,6 @@ public class Recipe {
   public void setDetailedDesc(String DetailedDesc) {
     this.DetailedDesc = DetailedDesc;
   }
-
 
   /**
    * Get a list of ingredients for the recipe.

@@ -5,8 +5,6 @@ import cookbook.backend.be_objects.User;
 
 import java.sql.SQLException;
 
-
-
 import cookbook.backend.DatabaseMng;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -31,7 +29,7 @@ public class RegistrationViewController {
    */
   @FXML
   private PasswordField passwordField;
-  
+
   /**
    * Username Field.
    */
@@ -85,11 +83,10 @@ public class RegistrationViewController {
   public RegistrationViewController() throws SQLException {
     this.dbManager = new DatabaseMng();
     this.userController = new UserController(dbManager);
-}
-
+  }
 
   /**
-   * Method to register users in to the system. Connects the UI with 
+   * Method to register users in to the system. Connects the UI with
    * the UserController methods that save the user to the database.
    *
    * @param event Start the registerTask when Register button is pressed.
@@ -104,7 +101,7 @@ public class RegistrationViewController {
     String username = usernameField.getText();
     String displayname = displayNameField.getText();
     String password = passwordField.getText();
-    boolean isAdmin = adminCheckBox.isSelected();  // Returns true if the box is checked.
+    boolean isAdmin = adminCheckBox.isSelected(); // Returns true if the box is checked.
 
     // Show progress indicator
     progressCircle.setVisible(true);
@@ -117,13 +114,12 @@ public class RegistrationViewController {
     Task<Boolean> registerTask = new Task<>() {
       @Override
       protected Boolean call() throws Exception {
-        Thread.sleep(2000);  // Sleep for 2 seconds
+        Thread.sleep(2000); // Sleep for 2 seconds
         User newUser = new User(null, username, displayname, password, isAdmin, dbManager, password);
         userController.setUser(newUser);
         return userController.saveToDatabase();
       }
     };
-    
 
     // If registration succeeded.
     registerTask.setOnSucceeded(e -> {
@@ -156,12 +152,12 @@ public class RegistrationViewController {
   private void exitRegisterPage(ActionEvent event) {
 
     try {
-      //Load the registration page FXML
-      Parent adminPageParent= FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
+      // Load the registration page FXML
+      Parent adminPageParent = FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
       Scene adminPaneScene = new Scene(adminPageParent);
 
       // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
       window.setScene(adminPaneScene);
       window.show();
     } catch (Exception e) {

@@ -1,26 +1,30 @@
 package cookbook.backend.be_objects;
 
-
-
 import java.sql.Timestamp;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Message {
   private Long messageId;
   private Long senderId;
   private Long receiverId;
-  private String recipeId;  // Foreign key to the recipes table
-  private String content;  // Optional message text about the recipe
-  private Timestamp sentTime;  // Timestamp when the message was created
+  private String recipeId; // Foreign key to the recipes table
+  private String content; // Optional message text about the recipe
+  private Timestamp sentTime; // Timestamp when the message was created
+  private BooleanProperty isOpened;
 
   // Constructor
-  public Message(Long senderId, Long receiverId, String recipeId, String content) {
+  public Message(Long messageId, Long senderId, Long receiverId, String recipeId, String content, Timestamp sentTime,
+      boolean isOpened) {
+    this.messageId = messageId;
     this.senderId = senderId;
     this.receiverId = receiverId;
     this.recipeId = recipeId;
     this.content = content;
     this.sentTime = new Timestamp(System.currentTimeMillis()); // Set current time as the timestamp
+    this.isOpened = new SimpleBooleanProperty(isOpened);
   }
-
 
   // Getters and Setters
   public Long getMessageId() {
@@ -70,5 +74,16 @@ public class Message {
   public void setSentTime(Timestamp sentTime) {
     this.sentTime = sentTime;
   }
-}
 
+  public boolean isOpened() {
+    return isOpened.get();
+  }
+
+  public void setOpened(boolean opened) {
+    this.isOpened.set(opened);
+  }
+
+  public BooleanProperty isOpenedProperty() {
+    return isOpened;
+  }
+}

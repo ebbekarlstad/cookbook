@@ -48,7 +48,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ImageView fitHeight="703.0" fitWidth="934.0" layoutX="-0.0" opacity="0.85" pickOnBounds="true" preserveRatio="false">
+            <ImageView fitHeight="703.0" fitWidth="934.0" layoutX="-2.0" layoutY="2.0" opacity="0.85" pickOnBounds="true" preserveRatio="false">
                <image>
                   <Image url="@images/abstract-textured-backgound.jpg" />
                </image>
@@ -97,6 +97,7 @@
                   </DropShadow>
                </effect>
             </Text>
+            <Button layoutX="823.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="30.0" prefWidth="60.0" text="Back" />
       </children>
     </AnchorPane>
   </children>

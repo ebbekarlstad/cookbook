@@ -11,7 +11,7 @@ public class Tag {
    * Constructs a new Tag with the specified ID and name.
    *
    * @param TagID   the ID of the tag
-   * @param TagName    the name of the tag
+   * @param TagName the name of the tag
    */
   public Tag(String TagID, String TagName) {
     setTagID(TagID);

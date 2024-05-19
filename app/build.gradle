@@ -32,14 +32,10 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
     implementation 'com.jfoenix:jfoenix:9.0.10'
+    implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'cookbook.App'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }

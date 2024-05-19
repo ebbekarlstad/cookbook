@@ -1,27 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.FavoriteViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="934.0" style="-fx-background-color: &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.geometry.Point3D?&gt;&lt;?import javafx.geometry.Rectangle2D?&gt;&lt;?import javafx.scene.effect.Blend?&gt;&lt;?import javafx.scene.image.Image?&gt;&lt;?import javafx.scene.image.ImageView?&gt;&lt;ImageView fitHeight=&quot;703.0&quot; fitWidth=&quot;934.0&quot; opacity=&quot;0.85&quot; pickOnBounds=&quot;true&quot; preserveRatio=&quot;true&quot; xmlns=&quot;http://javafx.com/javafx/21&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot;&gt;   &lt;image&gt;      &lt;Image url=&quot;@images/abstract-textured-backgound.jpg&quot; /&gt;   &lt;/image&gt;   &lt;rotationAxis&gt;      &lt;Point3D /&gt;   &lt;/rotationAxis&gt;   &lt;viewport&gt;      &lt;Rectangle2D height=&quot;703.0&quot; width=&quot;934.0&quot; /&gt;   &lt;/viewport&gt;   &lt;effect&gt;      &lt;Blend mode=&quot;MULTIPLY&quot; /&gt;   &lt;/effect&gt;&lt;/ImageView&gt;;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.FavoriteViewController">
     <children>
-    
-        <ImageView fitHeight="703.0" fitWidth="934.0" opacity="0.85" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@images/abstract-textured-backgound.jpg" />
-            </image>
-        </ImageView>
-        <ListView fx:id="favoritesListView" layoutX="24.0" layoutY="157.0" prefHeight="424.0" prefWidth="661.0" />
-        <Label fx:id="sceneTitle" layoutX="-109.0" layoutY="14.0" prefHeight="48.0" prefWidth="921.0" style="-fx-font-size: 27; -fx-text-fill: white; -fx-alignment: center;" text="Favorite Recipes">
-            <font>
-                <Font name="System Bold Italic" size="27.0" />
-            </font>
-        </Label>
-        <Button layoutX="593.0" layoutY="634.0" mnemonicParsing="false" onMouseClicked="#goBackToNavigator" prefHeight="37.0" prefWidth="86.0" text="Go back" />
+      <ImageView fitHeight="703.0" fitWidth="934.0" opacity="0.85" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/abstract-textured-backgound.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D height="703.0" width="934.0" />
+         </viewport>
+         <effect>
+            <Blend mode="MULTIPLY" />
+         </effect>
+      </ImageView>
+        <Button layoutX="837.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#goBackToNavigator" prefHeight="24.0" prefWidth="69.0" style="-fx-background-color: WHITE; -fx-border-color: WHITE; -fx-border-radius: 10;" text="Back">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Text fx:id="welcomeText" cache="true" fill="#fff1e4" fontSmoothingType="LCD" layoutX="205.0" layoutY="82.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="FAVORITES" textAlignment="CENTER" wrappingWidth="546.896484375">
+         <font>
+            <Font name="System Font Heavy" size="48.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
+               <color>
+                  <Color opacity="0.8836398720741272" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Text>
+        <ListView fx:id="favoritesListView" layoutX="478.0" layoutY="127.0" prefHeight="466.0" prefWidth="394.0">
+         <effect>
+            <InnerShadow />
+         </effect></ListView>
+      <ImageView fitHeight="488.0" fitWidth="394.0" layoutX="84.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/red-lentil-soup-with-slice-lemon-breadcrumbs.jpg" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
     </children>
+   <effect>
+      <InnerShadow />
+   </effect>
 </AnchorPane>

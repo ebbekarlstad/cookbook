@@ -27,170 +27,171 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ModifyUserViewController {
-    
-    // All the fields
-    @FXML
-    private TextField newPasswordField;
-    
-    @FXML
-    private ComboBox<User> userComboBox;
-    
-    @FXML
-    private TextField newUsernameField;
 
-    @FXML
-    private TextField newDisplayNameField;
+	// All the fields
+	@FXML
+	private TextField newPasswordField;
 
-    @FXML
-    private ProgressIndicator progressCircle;
-    
-    @FXML
-    private Label errorLabel;
-    
-    @FXML
-    private Button submitButton;
-    
-    // Reference the UserController and the Database
-    private UserController userController;
-    private DatabaseMng dbManager;
-    private ModifyUserController modifyUserController;
-    private LogIn login;
-    
-    public ModifyUserViewController() throws SQLException {
-        this.dbManager = new DatabaseMng();
-        this.userController = new UserController(dbManager);
-        this.modifyUserController = new ModifyUserController(dbManager);
-        this.login = new LogIn(dbManager);
-    }
-    
-    // Method to load all users to the dropdown combobox.
-    private void loadUsers() throws SQLException {
-        List<User> users = userController.getAllUsers();
-        userComboBox.setItems(FXCollections.observableArrayList(users));
-        userComboBox.setConverter(new StringConverter<User>() {
-            @Override
-            public java.lang.String toString(User user) {
-                return (user != null) ? user.getUserName() : "Select user";
-            }
-    
-            @Override
-            public User fromString(String string) {
-                return null;
-            }
-        });
-    }
-  
-		@FXML
-		private void deleteUser(ActionEvent event) {
-			errorLabel.setText("");
-			progressCircle.setVisible(true);
+	@FXML
+	private ComboBox<User> userComboBox;
 
-			User selectUser = userComboBox.getValue();
+	@FXML
+	private TextField newUsernameField;
 
-			if (selectUser != null) {
-				Task<Boolean> deleteTask = new Task<>() {
-					protected Boolean call() throws Exception {
-						return modifyUserController.deleteUser(selectUser.getUserId(), selectUser.getUserName(), selectUser.getDisplayName(), selectUser.getPasswordHash());
-					}
-				};
+	@FXML
+	private TextField newDisplayNameField;
 
-				deleteTask.setOnSucceeded(e -> {
-					progressCircle.setVisible(false);
-					if (deleteTask.getValue()) {
-						errorLabel.setTextFill(Color.GREEN);
-						errorLabel.setText("Deletion successful!");
-					} else {
-							errorLabel.setTextFill(Color.RED);
-							errorLabel.setText("Deletion Failed.");
-					}
-				});
+	@FXML
+	private ProgressIndicator progressCircle;
 
-				deleteTask.setOnFailed(e -> {
-					progressCircle.setVisible(false);
-					errorLabel.setTextFill(Color.RED);
-					errorLabel.setText("Error during deletion.");
-				});
+	@FXML
+	private Label errorLabel;
 
-				new Thread(deleteTask).start();
-			} else {
-					progressCircle.setVisible(false);
-					errorLabel.setTextFill(Color.RED);
-					errorLabel.setText("No user selected");
+	@FXML
+	private Button submitButton;
+
+	// Reference the UserController and the Database
+	private UserController userController;
+	private DatabaseMng dbManager;
+	private ModifyUserController modifyUserController;
+	private LogIn login;
+
+	public ModifyUserViewController() throws SQLException {
+		this.dbManager = new DatabaseMng();
+		this.userController = new UserController(dbManager);
+		this.modifyUserController = new ModifyUserController(dbManager);
+		this.login = new LogIn(dbManager);
+	}
+
+	// Method to load all users to the dropdown combobox.
+	private void loadUsers() throws SQLException {
+		List<User> users = userController.getAllUsers();
+		userComboBox.setItems(FXCollections.observableArrayList(users));
+		userComboBox.setConverter(new StringConverter<User>() {
+			@Override
+			public java.lang.String toString(User user) {
+				return (user != null) ? user.getUserName() : "Select user";
 			}
+
+			@Override
+			public User fromString(String string) {
+				return null;
+			}
+		});
+	}
+
+	@FXML
+	private void deleteUser(ActionEvent event) {
+		errorLabel.setText("");
+		progressCircle.setVisible(true);
+
+		User selectUser = userComboBox.getValue();
+
+		if (selectUser != null) {
+			Task<Boolean> deleteTask = new Task<>() {
+				protected Boolean call() throws Exception {
+					return modifyUserController.deleteUser(selectUser.getUserId(), selectUser.getUserName(),
+							selectUser.getDisplayName(), selectUser.getPasswordHash());
+				}
+			};
+
+			deleteTask.setOnSucceeded(e -> {
+				progressCircle.setVisible(false);
+				if (deleteTask.getValue()) {
+					errorLabel.setTextFill(Color.GREEN);
+					errorLabel.setText("Deletion successful!");
+				} else {
+					errorLabel.setTextFill(Color.RED);
+					errorLabel.setText("Deletion Failed.");
+				}
+			});
+
+			deleteTask.setOnFailed(e -> {
+				progressCircle.setVisible(false);
+				errorLabel.setTextFill(Color.RED);
+				errorLabel.setText("Error during deletion.");
+			});
+
+			new Thread(deleteTask).start();
+		} else {
+			progressCircle.setVisible(false);
+			errorLabel.setTextFill(Color.RED);
+			errorLabel.setText("No user selected");
 		}
-    
-    @FXML
-    private void submitUserChanges(ActionEvent event) {
-        // Error label and progress bar
-        errorLabel.setText("");
-        progressCircle.setVisible(true);
-        
-        // Get the input from the admin.
-        String username = newUsernameField.getText();
-        String displayname = newDisplayNameField.getText();
-        String password = newPasswordField.getText();
-        User selectedUser = userComboBox.getValue();
+	}
 
-        String hashedPassword = login.hashPassword(password);
-        
-        // Boolean that initializes a new Task object
-        if (selectedUser != null) {
-            Task<Boolean> modifyTask = new Task<>() {
-                @Override
-                protected Boolean call() throws Exception {
-                    return modifyUserController.modifyUser(selectedUser.getUserId(), username, displayname, hashedPassword);
-                }
-            };
-            
-            // If task succeeds
-            modifyTask.setOnSucceeded(e -> {
-                progressCircle.setVisible(false);
-                if (modifyTask.getValue()) {
-                    errorLabel.setTextFill(Color.GREEN);
-                    errorLabel.setText("Modification Successful!");
-                } else {
-                    errorLabel.setTextFill(Color.RED);
-                    errorLabel.setText("Modification Failed.");
-                }
-            });
+	@FXML
+	private void submitUserChanges(ActionEvent event) {
+		// Error label and progress bar
+		errorLabel.setText("");
+		progressCircle.setVisible(true);
 
-            // If task fails
-            modifyTask.setOnFailed(e -> {
-                progressCircle.setVisible(false);
-                errorLabel.setTextFill(Color.RED);
-                errorLabel.setText("Error during modification.");
-            });
+		// Get the input from the admin.
+		String username = newUsernameField.getText();
+		String displayname = newDisplayNameField.getText();
+		String password = newPasswordField.getText();
+		User selectedUser = userComboBox.getValue();
 
-            new Thread(modifyTask).start();
-        } else {
-            progressCircle.setVisible(false);
-            errorLabel.setTextFill(Color.RED);
-            errorLabel.setText("No user selected.");
-        }
-    }
-    
-    @FXML
-    public void initialize() throws SQLException {
-        try {
-            loadUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		String hashedPassword = login.hashPassword(password);
 
-  @FXML
-  private void handleBackButton (ActionEvent event) {
-    try {
-      //Load the registration page FXML
-      Parent registrationPageParent = FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
-      Scene registrationPageScene = new Scene(registrationPageParent);
+		// Boolean that initializes a new Task object
+		if (selectedUser != null) {
+			Task<Boolean> modifyTask = new Task<>() {
+				@Override
+				protected Boolean call() throws Exception {
+					return modifyUserController.modifyUser(selectedUser.getUserId(), username, displayname, hashedPassword);
+				}
+			};
 
-      // Get the current stage and replace it
-      Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-      window.setScene(registrationPageScene);
-      window.show();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+			// If task succeeds
+			modifyTask.setOnSucceeded(e -> {
+				progressCircle.setVisible(false);
+				if (modifyTask.getValue()) {
+					errorLabel.setTextFill(Color.GREEN);
+					errorLabel.setText("Modification Successful!");
+				} else {
+					errorLabel.setTextFill(Color.RED);
+					errorLabel.setText("Modification Failed.");
+				}
+			});
+
+			// If task fails
+			modifyTask.setOnFailed(e -> {
+				progressCircle.setVisible(false);
+				errorLabel.setTextFill(Color.RED);
+				errorLabel.setText("Error during modification.");
+			});
+
+			new Thread(modifyTask).start();
+		} else {
+			progressCircle.setVisible(false);
+			errorLabel.setTextFill(Color.RED);
+			errorLabel.setText("No user selected.");
+		}
+	}
+
+	@FXML
+	public void initialize() throws SQLException {
+		try {
+			loadUsers();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void handleBackButton(ActionEvent event) {
+		try {
+			// Load the registration page FXML
+			Parent registrationPageParent = FXMLLoader.load(getClass().getResource("/AdminPanelView.fxml"));
+			Scene registrationPageScene = new Scene(registrationPageParent);
+
+			// Get the current stage and replace it
+			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			window.setScene(registrationPageScene);
+			window.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

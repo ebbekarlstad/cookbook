@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
@@ -17,13 +18,12 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Pagination?>
 
 <StackPane fx:id="mainStack" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.frontend.fe_controllers.RecipeListViewController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <effect>
-            <InnerShadow />
+            <InnerShadow choke="0.19" height="22.485" radius="11.11375" width="23.97" />
          </effect>
       </VBox>
                <ImageView fitHeight="712.0" fitWidth="954.0" layoutX="-0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="false">
@@ -41,7 +41,7 @@
                   <Insets bottom="5.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="SEARCH" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="SEARCH" textAlignment="CENTER" wrappingWidth="156.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="30.0" />
                      </font>
@@ -52,6 +52,9 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
                   </Text>
                   <Separator prefHeight="65.0" prefWidth="186.0">
                      <effect>
@@ -61,7 +64,7 @@
                            </color>
                         </Shadow>
                      </effect></Separator>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME" textAlignment="CENTER" wrappingWidth="157.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="26.0" />
                      </font>
@@ -72,11 +75,17 @@
                            </color>
                         </DropShadow>
                      </effect>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </Text>
-                  <TextField fx:id="searchByNameField" promptText="Search by name" style="-fx-background-color: White;">
+                  <TextField fx:id="searchByNameField" prefHeight="24.0" prefWidth="151.0" promptText="Search by name" style="-fx-background-color: White;">
                      <effect>
                         <DropShadow />
                      </effect>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </TextField>
                   <Separator prefHeight="10.0" prefWidth="186.0">
                      <effect>
@@ -94,6 +103,9 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </Button>
                   <Separator prefHeight="65.0" prefWidth="186.0">
                      <effect>
@@ -103,9 +115,9 @@
                            </color>
                         </Shadow>
                      </effect></Separator>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="INGREDIENTS" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="INGREDIENTS" textAlignment="CENTER" wrappingWidth="157.1962890625">
                      <font>
-                        <Font name="System Font Heavy" size="26.0" />
+                        <Font name="System Font Heavy" size="23.0" />
                      </font>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
@@ -115,10 +127,13 @@
                         </DropShadow>
                      </effect>
                   </Text>
-                  <TextField fx:id="searchByIngredientsField" promptText="Search by ingredients" style="-fx-background-color: WHITE;">
+                  <TextField fx:id="searchByIngredientsField" prefHeight="24.0" prefWidth="153.0" promptText="Search by ingredients" style="-fx-background-color: WHITE;">
                      <effect>
                         <DropShadow />
                      </effect>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </TextField>
                   <Separator prefHeight="10.0" prefWidth="186.0">
                      <effect>
@@ -136,6 +151,9 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </Button>
                   <Separator prefHeight="65.0" prefWidth="186.0">
                      <effect>
@@ -145,7 +163,7 @@
                            </color>
                         </Shadow>
                      </effect></Separator>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="TAGS" textAlignment="CENTER" wrappingWidth="185.1962890625">
+                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="TAGS" textAlignment="CENTER" wrappingWidth="156.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="26.0" />
                      </font>
@@ -161,6 +179,9 @@
                      <effect>
                         <DropShadow />
                      </effect>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </TextField>
                   <Separator prefHeight="10.0" prefWidth="186.0">
                      <effect>
@@ -178,10 +199,13 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets right="30.0" />
+                     </VBox.margin>
                   </Button>
                </children>
                <effect>
-                  <DropShadow />
+                  <DropShadow height="35.825" radius="21.11875" width="50.65" />
                </effect>
             </VBox>
          </right>
@@ -198,6 +222,9 @@
                      <font>
                         <Font name="System Font Light" size="13.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </VBox.margin>
                   </Button>
                   <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="BROWSE" textAlignment="CENTER" wrappingWidth="736.1962890625">
                      <font>
@@ -210,11 +237,13 @@
                            </color>
                         </DropShadow>
                      </effect>
-                  </Text>
-                  <Pagination fx:id="pagination" pageCount="1" currentPageIndex="0" />
-                  <ListView fx:id="mainTable" prefHeight="570.0" prefWidth="740.0" style="-fx-background-color: #fff4f2;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
-                        <Insets top="1.0" />
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <ListView fx:id="mainTable" prefHeight="453.0" prefWidth="600.0" style="-fx-background-color: #fff4f2;">
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" top="50.0" />
                      </VBox.margin>
                      <effect>
                         <DropShadow>
@@ -224,6 +253,7 @@
                         </DropShadow>
                      </effect>
                   </ListView>
+                  <Pagination fx:id="pagination" currentPageIndex="0" pageCount="1" />
                </children>
                <effect>
                   <Blend />

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_controllers.WeeklyController;
 import cookbook.backend.be_objects.Recipe;
@@ -29,188 +28,196 @@ import java.sql.Date;
 
 public class WeeklyViewController {
 
-    @FXML private ListView<Recipe> mondayListView;
-    @FXML private ListView<Recipe> tuesdayListView;
-    @FXML private ListView<Recipe> wednesdayListView;
-    @FXML private ListView<Recipe> thursdayListView;
-    @FXML private ListView<Recipe> fridayListView;
-    @FXML private ListView<Recipe> saturdayListView;
-    @FXML private ListView<Recipe> sundayListView;
-    @FXML private ComboBox<String> weeksComboBox;
+	@FXML
+	private ListView<Recipe> mondayListView;
+	@FXML
+	private ListView<Recipe> tuesdayListView;
+	@FXML
+	private ListView<Recipe> wednesdayListView;
+	@FXML
+	private ListView<Recipe> thursdayListView;
+	@FXML
+	private ListView<Recipe> fridayListView;
+	@FXML
+	private ListView<Recipe> saturdayListView;
+	@FXML
+	private ListView<Recipe> sundayListView;
+	@FXML
+	private ComboBox<String> weeksComboBox;
 
-    private WeeklyController weeklyController;
+	private WeeklyController weeklyController;
 
-    @FXML
-    public void initialize() {
-        DatabaseMng dbManager = new DatabaseMng();
-        weeklyController = new WeeklyController(dbManager);
+	@FXML
+	public void initialize() {
+		DatabaseMng dbManager = new DatabaseMng();
+		weeklyController = new WeeklyController(dbManager);
 
-        setupRecipeListView(mondayListView, "Monday");
-        setupRecipeListView(tuesdayListView, "Tuesday");
-        setupRecipeListView(wednesdayListView, "Wednesday");
-        setupRecipeListView(thursdayListView, "Thursday");
-        setupRecipeListView(fridayListView, "Friday");
-        setupRecipeListView(saturdayListView, "Saturday");
-        setupRecipeListView(sundayListView, "Sunday");
+		setupRecipeListView(mondayListView, "Monday");
+		setupRecipeListView(tuesdayListView, "Tuesday");
+		setupRecipeListView(wednesdayListView, "Wednesday");
+		setupRecipeListView(thursdayListView, "Thursday");
+		setupRecipeListView(fridayListView, "Friday");
+		setupRecipeListView(saturdayListView, "Saturday");
+		setupRecipeListView(sundayListView, "Sunday");
 
-        populateWeeksComboBox();
-        
-        String selectedWeek = weeksComboBox.getSelectionModel().getSelectedItem();
-        if (selectedWeek != null) {
-            loadWeeklyRecipesForSelectedWeek(selectedWeek);
-            highlightCurrentDay();
-        }
+		populateWeeksComboBox();
 
-        weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                loadWeeklyRecipesForSelectedWeek(newVal);
-                highlightCurrentDay();
-            }
-        });
-    }
+		String selectedWeek = weeksComboBox.getSelectionModel().getSelectedItem();
+		if (selectedWeek != null) {
+			loadWeeklyRecipesForSelectedWeek(selectedWeek);
+			highlightCurrentDay();
+		}
 
-    private void populateWeeksComboBox() {
-        List<Date> weeks = weeklyController.getWeeklyList(UserSession.getInstance().getUserId());
-        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
-        String currentWeek = sdf.format(new java.util.Date());
+		weeksComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal != null) {
+				loadWeeklyRecipesForSelectedWeek(newVal);
+				highlightCurrentDay();
+			}
+		});
+	}
 
-        weeksComboBox.getItems().clear();
-        weeksComboBox.setPromptText("Select Week");
+	private void populateWeeksComboBox() {
+		List<Date> weeks = weeklyController.getWeeklyList(UserSession.getInstance().getUserId());
+		SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+		String currentWeek = sdf.format(new java.util.Date());
 
-        List<String> weekLabels = weeks.stream().map(date -> {
-            String weekString = sdf.format(date);
-            return weekString.equals(currentWeek) ? weekString + " (Current Week)" : weekString;
-        }).collect(Collectors.toList());
+		weeksComboBox.getItems().clear();
+		weeksComboBox.setPromptText("Select Week");
 
-        weeksComboBox.getItems().addAll(weekLabels);
-        int currentWeekIndex = weekLabels.indexOf(currentWeek + " (Current Week)");
-        if (currentWeekIndex != -1) {
-            weeksComboBox.getSelectionModel().select(currentWeekIndex);
-        }
-        
-        // current week visible in red
-        weeksComboBox.setCellFactory(lv -> new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setText(null);
-                } else {
-                    setText(item);
-                    if (item.contains("Current Week")) {
-                        setTextFill(Color.RED);
-                        setStyle("-fx-font-weight: bold;");
-                    } else {
-                        setTextFill(Color.BLACK);
-                        setStyle("");
-                    }
-                }
-            }
-        });
-            
-    }
+		List<String> weekLabels = weeks.stream().map(date -> {
+			String weekString = sdf.format(date);
+			return weekString.equals(currentWeek) ? weekString + " (Current Week)" : weekString;
+		}).collect(Collectors.toList());
 
-    private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
-        Task<Map<String, List<Recipe>>> fetchRecipeTask = new Task<>() {
-            @Override
-            protected Map<String, List<Recipe>> call() throws Exception {
-                SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
-                java.util.Date parsedDate = sdf.parse(selectedWeek);
-                java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
-                return weeklyController.getWeeklyRecipes(UserSession.getInstance().getUserId(), weekStartDate);
-            }
-        };
+		weeksComboBox.getItems().addAll(weekLabels);
+		int currentWeekIndex = weekLabels.indexOf(currentWeek + " (Current Week)");
+		if (currentWeekIndex != -1) {
+			weeksComboBox.getSelectionModel().select(currentWeekIndex);
+		}
 
-        fetchRecipeTask.setOnSucceeded(event -> {
-            Map<String, List<Recipe>> weeklyRecipes = fetchRecipeTask.getValue();
-            updateRecipeViews(weeklyRecipes);
-            highlightCurrentDay();
-        });
-        fetchRecipeTask.setOnFailed(event -> {
-            Throwable e = fetchRecipeTask.getException();
-            e.printStackTrace();
-        });
+		// current week visible in red
+		weeksComboBox.setCellFactory(lv -> new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (item == null || empty) {
+					setText(null);
+				} else {
+					setText(item);
+					if (item.contains("Current Week")) {
+						setTextFill(Color.RED);
+						setStyle("-fx-font-weight: bold;");
+					} else {
+						setTextFill(Color.BLACK);
+						setStyle("");
+					}
+				}
+			}
+		});
 
-        new Thread(fetchRecipeTask).start();
-    }
-    private String getCurrentDayOfWeek() {
-        return weeklyController.getCurrentDay();
-    }
+	}
 
+	private void loadWeeklyRecipesForSelectedWeek(String selectedWeek) {
+		Task<Map<String, List<Recipe>>> fetchRecipeTask = new Task<>() {
+			@Override
+			protected Map<String, List<Recipe>> call() throws Exception {
+				SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+				java.util.Date parsedDate = sdf.parse(selectedWeek);
+				java.sql.Date weekStartDate = new java.sql.Date(parsedDate.getTime());
+				return weeklyController.getWeeklyRecipes(UserSession.getInstance().getUserId(), weekStartDate);
+			}
+		};
 
+		fetchRecipeTask.setOnSucceeded(event -> {
+			Map<String, List<Recipe>> weeklyRecipes = fetchRecipeTask.getValue();
+			updateRecipeViews(weeklyRecipes);
+			highlightCurrentDay();
+		});
+		fetchRecipeTask.setOnFailed(event -> {
+			Throwable e = fetchRecipeTask.getException();
+			e.printStackTrace();
+		});
 
+		new Thread(fetchRecipeTask).start();
+	}
 
-    private void setupRecipeListView(ListView<Recipe> listView, String dayName) {
-        listView.setCellFactory(lv -> new ListCell<Recipe>() {
-            @Override
-            protected void updateItem(Recipe item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getRecipeName() + " - " + item.getShortDesc());
-            }
-        });
+	private String getCurrentDayOfWeek() {
+		return weeklyController.getCurrentDay();
+	}
 
-        if (dayName.equals(getCurrentDayOfWeek()) && isCurrentWeekSelected()) {
-            listView.setStyle("-fx-background-color: lightblue;");
-        } else {
-            listView.setStyle("");
-        }
-    }
+	private void setupRecipeListView(ListView<Recipe> listView, String dayName) {
+		listView.setCellFactory(lv -> new ListCell<Recipe>() {
+			@Override
+			protected void updateItem(Recipe item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty || item == null ? null : item.getRecipeName() + " - " + item.getShortDesc());
+			}
+		});
 
-    private boolean isCurrentWeekSelected() {
-        SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
-        String selectedWeek = weeksComboBox.getValue();
-        String currentWeek = sdf.format(new java.util.Date());
-        return selectedWeek != null && selectedWeek.contains(currentWeek);
-    }
+		if (dayName.equals(getCurrentDayOfWeek()) && isCurrentWeekSelected()) {
+			listView.setStyle("-fx-background-color: lightblue;");
+		} else {
+			listView.setStyle("");
+		}
+	}
 
-    private void updateRecipeViews(Map<String, List<Recipe>> weeklyRecipes) {
-        Map<String, ListView<Recipe>> listViewMap = getDayToListViewMap();
+	private boolean isCurrentWeekSelected() {
+		SimpleDateFormat sdf = new SimpleDateFormat("w-YYYY");
+		String selectedWeek = weeksComboBox.getValue();
+		String currentWeek = sdf.format(new java.util.Date());
+		return selectedWeek != null && selectedWeek.contains(currentWeek);
+	}
 
-        Platform.runLater(() -> {
-            listViewMap.forEach((day, listView) -> {
-                List<Recipe> recipes = weeklyRecipes.getOrDefault(day, List.of());
-                listView.getItems().setAll(recipes);
-            });
-        });
-    }
+	private void updateRecipeViews(Map<String, List<Recipe>> weeklyRecipes) {
+		Map<String, ListView<Recipe>> listViewMap = getDayToListViewMap();
 
-    private void highlightCurrentDay() {
-        setupRecipeListView(mondayListView, "Monday");
-        setupRecipeListView(tuesdayListView, "Tuesday");
-        setupRecipeListView(wednesdayListView, "Wednesday");
-        setupRecipeListView(thursdayListView, "Thursday");
-        setupRecipeListView(fridayListView, "Friday");
-        setupRecipeListView(saturdayListView, "Saturday");
-        setupRecipeListView(sundayListView, "Sunday");
-    }
+		Platform.runLater(() -> {
+			listViewMap.forEach((day, listView) -> {
+				List<Recipe> recipes = weeklyRecipes.getOrDefault(day, List.of());
+				listView.getItems().setAll(recipes);
+			});
+		});
+	}
 
-    private Map<String, ListView<Recipe>> getDayToListViewMap() {
-        Map<String, ListView<Recipe>> map = new HashMap<>();
-        map.put("Monday", mondayListView);
-        map.put("Tuesday", tuesdayListView);
-        map.put("Wednesday", wednesdayListView);
-        map.put("Thursday", thursdayListView);
-        map.put("Friday", fridayListView);
-        map.put("Saturday", saturdayListView);
-        map.put("Sunday", sundayListView);
-        return map;
-    }
+	private void highlightCurrentDay() {
+		setupRecipeListView(mondayListView, "Monday");
+		setupRecipeListView(tuesdayListView, "Tuesday");
+		setupRecipeListView(wednesdayListView, "Wednesday");
+		setupRecipeListView(thursdayListView, "Thursday");
+		setupRecipeListView(fridayListView, "Friday");
+		setupRecipeListView(saturdayListView, "Saturday");
+		setupRecipeListView(sundayListView, "Sunday");
+	}
 
- 
+	private Map<String, ListView<Recipe>> getDayToListViewMap() {
+		Map<String, ListView<Recipe>> map = new HashMap<>();
+		map.put("Monday", mondayListView);
+		map.put("Tuesday", tuesdayListView);
+		map.put("Wednesday", wednesdayListView);
+		map.put("Thursday", thursdayListView);
+		map.put("Friday", fridayListView);
+		map.put("Saturday", saturdayListView);
+		map.put("Sunday", sundayListView);
+		return map;
+	}
 
-        @FXML
-    public void goBackToNavigator(MouseEvent event) {
-        try {
-            // Load the navigation page FXML
-            Parent navigationPageParent = FXMLLoader.load(getClass().getResource("/NavigationView.fxml"));
-            Scene navigationPageScene = new Scene(navigationPageParent);
+	@FXML
+	public void goBackToNavigator(MouseEvent event) {
+		try {
+			// Determine the correct FXML file based on the user's role
+			String fxmlFile = UserSession.getInstance().isAdmin() ? "/NavigationViewAdmin.fxml" : "/NavigationView.fxml";
 
-            // Get the current stage and replace it
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(navigationPageScene);
-            window.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+			// Load the navigation page FXML
+			Parent navigationPageParent = FXMLLoader.load(getClass().getResource(fxmlFile));
+			Scene navigationPageScene = new Scene(navigationPageParent);
+
+			// Get the current stage and replace it
+			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			window.setScene(navigationPageScene);
+			window.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
