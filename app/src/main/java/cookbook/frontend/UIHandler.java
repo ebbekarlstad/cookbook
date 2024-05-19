@@ -13,7 +13,6 @@ public class UIHandler extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     
-    Font.loadFont(getClass().getResourceAsStream("/fonts/SFNSDisplay-Medium"), 20);
     Font.loadFont(getClass().getResourceAsStream("/fonts/OpenSans-Italic.ttf"), 20);
     // Load the FXML layout
     Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
