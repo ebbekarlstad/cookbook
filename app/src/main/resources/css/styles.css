@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'OpenSansItalic';
+  src: url('/fonts/OpenSans-Italic.ttf');
+}
+
+.italic-label {
+  -fx-font-family: 'OpenSansItalic', 'sans-serif';
+  -fx-font-size: 13px;
+  font-family: 'OpenSansItalic', 'sans-serif'; /* Standard property for compatibility */
+  font-size: 13px; /* Standard property for compatibility */
+}

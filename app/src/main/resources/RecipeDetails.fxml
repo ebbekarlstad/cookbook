@@ -104,9 +104,9 @@
                         <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
                     </effect>
                 </Label>
-                <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="28.0" layoutY="106.0" prefHeight="69.0" prefWidth="495.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true">
+                <Label fx:id="shortLabel" alignment="TOP_LEFT" layoutX="28.0" layoutY="106.0" prefHeight="69.0" prefWidth="495.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" styleClass="italic-label">
                     <font>
-                        <Font name="SansSerif Regular" size="13.0" />
+                        <Font name="Open Sans Italic" size="13.0" />
                     </font>
                 </Label>
                 <Label layoutX="20.0" layoutY="421.0" prefHeight="40.0" prefWidth="184.0" text="Instructions" textFill="#ffecea" wrapText="true">
@@ -117,9 +117,9 @@
                         <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
                     </effect>
                 </Label>
-                <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="26.0" layoutY="461.0" prefHeight="140.0" prefWidth="495.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
+                <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="26.0" layoutY="461.0" prefHeight="140.0" prefWidth="495.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true" styleClass="italic-label">
                     <font>
-                        <Font name="System Font Light" size="13.0" />
+                        <Font name="Open Sans Italic" size="13.0" />
                     </font>
                 </Label>
                 <Label fx:id="commentsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="181.0" prefHeight="31.0" prefWidth="148.0" text="Comments" textFill="#ffecea">
