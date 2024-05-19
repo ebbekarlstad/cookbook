@@ -405,7 +405,7 @@ public class ShoppingListViewController {
 
 				contentStream.beginText();
 				contentStream.newLineAtOffset(50, 715);
-				contentStream.showText("UserID: " + UserSession.getInstance().getUserId());
+				contentStream.showText("Display Name: " + UserSession.getInstance().getUsername());
 				contentStream.endText();
 
 				contentStream.moveTo(50, 700);
