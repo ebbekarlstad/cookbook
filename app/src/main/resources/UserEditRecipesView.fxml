@@ -74,7 +74,7 @@
                 </Button>
                 <Button fx:id="EditIngredient" layoutX="123.0" layoutY="176.0" mnemonicParsing="false" onAction="#EditIngredientToList" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 10; -fx-border-width: 1; -fx-border-radius: 10;" text="Edit" />
                 <ComboBox fx:id="RecipesComboBox" layoutX="22.0" layoutY="81.0" prefWidth="150.0" promptText="My Recipes" style="-fx-background-color: white;" />
-                <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="16.0" layoutY="214.0" prefHeight="117.0" prefWidth="378.0">
+                <TableView fx:id="ingredientTable" fixedCellSize="0.0" layoutX="16.0" layoutY="214.0" prefHeight="139.0" prefWidth="406.0">
                     <columns>
                         <TableColumn fx:id="ingredientColumn" prefWidth="159.20001220703125" text="Ingredient" />
                         <TableColumn fx:id="amountColumn" prefWidth="150.0" text="Amount" />
@@ -84,7 +84,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
-                <TableView fx:id="tagTable" layoutX="16.0" layoutY="461.0" prefHeight="97.0" prefWidth="378.0">
+                <TableView fx:id="tagTable" layoutX="16.0" layoutY="461.0" prefHeight="131.0" prefWidth="406.0">
                     <columns>
                         <TableColumn fx:id="tagColumn" prefWidth="377.0" text="Tag Name" />
                     </columns>
