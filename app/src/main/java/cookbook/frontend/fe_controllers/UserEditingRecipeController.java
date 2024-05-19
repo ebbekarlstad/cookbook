@@ -115,7 +115,11 @@ public class UserEditingRecipeController {
     RecipesComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
         if (newValue != null) {
             updateRecipeDetailsUI(newValue);
-            initData();
+            try {
+							initData();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
             recipe = newValue; // Update the recipe object when a new recipe is selected
         }
     });
@@ -208,10 +212,13 @@ public class UserEditingRecipeController {
 		return null;
 	}
 
-	public void initData() {
+	public void initData() throws SQLException {
 		Recipe selectedRecipe = RecipesComboBox.getValue();
 		ingredients.clear();
 		tags.clear();
+		updateTagBox();
+		tagsDropdown.getItems();
+
 
 		ingredientColumn.setCellValueFactory(cellData -> {
 			AmountOfIngredients ingredient = cellData.getValue();
@@ -491,5 +498,14 @@ void deleteIngredientFromList(ActionEvent event) {
         e.printStackTrace();
     }
     return false;
-}
+	}
+
+  public void updateTagBox() throws SQLException {
+    tagsDropdown.getItems().clear();
+    tagsDropdown.getItems().add(null);
+    for (Tag tag : TagController.getTags()) {
+      String TagName = tag.getTagName();
+      tagsDropdown.getItems().add(TagName);
+    }
+  }
 }

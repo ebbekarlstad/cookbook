@@ -340,7 +340,6 @@ public class RecipeViewController {
       String TagName = tag.getTagName();
       tagsDropdown.getItems().add(TagName);
     }
-
   }
 
   public Tag findTag(String TagName) throws SQLException {

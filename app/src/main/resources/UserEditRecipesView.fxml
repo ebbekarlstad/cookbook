@@ -55,7 +55,7 @@
                         <Font name="PT Sans Narrow" size="20.0" />
                     </font>
                 </Text>
-                <ComboBox fx:id="tagsDropdown" layoutX="14.0" layoutY="377.0" prefHeight="30.0" prefWidth="164.0" promptText="Select an existing tag" style="-fx-background-color: #FFBF00;" />
+                <ComboBox fx:id="tagsDropdown" layoutX="14.0" layoutY="377.0" onAction="#updateTagBox" prefHeight="30.0" prefWidth="164.0" promptText="Select an existing tag" style="-fx-background-color: #FFBF00;" />
                 <TextField fx:id="tagName" layoutX="182.0" layoutY="377.0" prefHeight="32.0" prefWidth="180.0" promptText="Make a new tag">
                <effect>
                   <InnerShadow />
