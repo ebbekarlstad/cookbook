@@ -1,40 +1,40 @@
 package cookbook.frontend.fe_controllers;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import cookbook.backend.be_objects.Message;
-import cookbook.backend.be_objects.Recipe;
-import cookbook.backend.be_objects.UserSession;
-import cookbook.backend.DatabaseMng;
-import cookbook.backend.be_controllers.MessageController;
-import cookbook.backend.be_controllers.RecipeController;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import cookbook.backend.DatabaseMng;
+import cookbook.backend.be_controllers.MessageController;
+import cookbook.backend.be_controllers.RecipeController;
+import cookbook.backend.be_objects.Message;
+import cookbook.backend.be_objects.Recipe;
+import cookbook.backend.be_objects.UserSession;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 public class MessagesViewController {
   private DatabaseMng dbManager;
   private MessageController messageController;
 
   @FXML
   private TableColumn<Message, String> actionColumn;
-
+  @FXML
+  private TableColumn<Message, String> contentColumn;
   @FXML
   private TableView<Message> messageTableView;
   @FXML
@@ -66,13 +66,34 @@ public class MessagesViewController {
       }
     });
 
-    // Setup for the action column
+    contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+
+    // Unread messages shows in bold text
+    contentColumn.setCellFactory(column -> new TableCell<Message, String>() {
+      @Override
+      protected void updateItem(String item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+          setStyle("");
+        } else {
+          Message message = getTableView().getItems().get(getIndex());
+          setText(item);
+          if (!message.isOpened()) {
+            setStyle("-fx-font-weight: bold;");
+          } else {
+            setStyle("");
+          }
+        }
+      }
+    });
+
     actionColumn.setCellValueFactory(new PropertyValueFactory<>("recipeId"));
     actionColumn.setCellFactory(column -> {
       return new TableCell<Message, String>() {
         private final Hyperlink hyperlink = new Hyperlink("View Recipe");
 
-        {
+        {          
           // Changed color to black to be more visible
           hyperlink.setStyle("-fx-text-fill: black;");
           hyperlink.setOnAction(event -> {
@@ -121,7 +142,7 @@ public class MessagesViewController {
 
       Scene scene = new Scene(detailsView);
       Stage window = (Stage) messageTableView.getScene().getWindow();
-      window.setScene(scene); 
+      window.setScene(scene);
       window.show();
     } catch (IOException e) {
       e.printStackTrace();
