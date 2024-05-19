@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import cookbook.backend.DatabaseMng;
 import cookbook.backend.be_objects.Message;
@@ -18,7 +19,7 @@ public class MessageController {
 	}
 
 	public boolean saveMessage(Message messageObject) {
-		String sql = "INSERT INTO messages (sender_id, receiver_id, recipe_id, content, sent_time) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO messages (sender_id, receiver_id, recipe_id, content, sent_time, is_opened) VALUES (?, ?, ?, ?, ?, ?)";
 		try (Connection conn = dbManager.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setLong(1, messageObject.getSenderId());
@@ -26,6 +27,7 @@ public class MessageController {
 			pstmt.setString(3, messageObject.getRecipeId());
 			pstmt.setString(4, messageObject.getContent());
 			pstmt.setTimestamp(5, messageObject.getSentTime());
+			pstmt.setBoolean(6, messageObject.isOpened());
 
 			int affectedRows = pstmt.executeUpdate();
 			if (affectedRows > 0) {
@@ -56,7 +58,8 @@ public class MessageController {
 						rs.getLong("sender_id"),
 						rs.getLong("receiver_id"),
 						rs.getString("recipe_id"),
-						rs.getString("content"));
+						rs.getString("content"),
+						rs.getBoolean("is_opened"));
 
 				messages.add(message);
 				System.out.println("Added message: " + message.getContent()); // Debugging line
@@ -90,4 +93,23 @@ public class MessageController {
 		}
 		return displayName; // Return the display name, or null if not found
 	}
+
+	public int getUnreadMessagesCount(Long userId) throws SQLException {
+		String query = "SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_opened = 0;";
+		try (Connection conn = dbManager.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.setLong(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			} else {
+				return 0;
+			}
+		} catch (SQLException e) {
+			System.err.println("Database error during unread messages count fetching: " + e.getMessage());
+			throw e;
+		}
+	}
+	
+
 }

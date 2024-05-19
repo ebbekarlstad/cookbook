@@ -5,6 +5,8 @@ public class UserSession {
 	private Long userId;
 	private String username;
 	private boolean isAdmin;
+	private boolean unreadMessagesChecked; // flag to use later
+
 
 	private UserSession() {
 	}
@@ -20,6 +22,8 @@ public class UserSession {
 		this.userId = userId;
 		this.username = username;
 		this.isAdmin = isAdmin;
+		this.unreadMessagesChecked = false;
+
 	}
 
 	public Long getUserId() {
@@ -43,5 +47,13 @@ public class UserSession {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
+	public boolean isUnreadMessagesChecked() {
+        return unreadMessagesChecked;
+    }
+
+    public void setUnreadMessagesChecked(boolean unreadMessagesChecked) {
+        this.unreadMessagesChecked = unreadMessagesChecked;
+    }
 
 }

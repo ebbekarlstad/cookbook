@@ -9,14 +9,16 @@ public class Message {
   private String recipeId; // Foreign key to the recipes table
   private String content; // Optional message text about the recipe
   private Timestamp sentTime; // Timestamp when the message was created
+  private boolean isOpened;
 
   // Constructor
-  public Message(Long senderId, Long receiverId, String recipeId, String content) {
+  public Message(Long senderId, Long receiverId, String recipeId, String content, boolean isOpened) {
     this.senderId = senderId;
     this.receiverId = receiverId;
     this.recipeId = recipeId;
     this.content = content;
     this.sentTime = new Timestamp(System.currentTimeMillis()); // Set current time as the timestamp
+    this.isOpened = false;
   }
 
   // Getters and Setters
@@ -66,5 +68,13 @@ public class Message {
 
   public void setSentTime(Timestamp sentTime) {
     this.sentTime = sentTime;
+  }
+
+  public boolean isOpened() {
+    return isOpened;
+}
+
+  public void setOpened(boolean isOpened) {
+      this.isOpened = isOpened;
   }
 }

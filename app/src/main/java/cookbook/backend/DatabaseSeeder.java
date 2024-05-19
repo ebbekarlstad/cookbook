@@ -26,6 +26,7 @@ public class DatabaseSeeder {
 				+ "`recipe_id` VARCHAR(255) NOT NULL,"
 				+ "`content` TEXT,"
 				+ "`sent_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+				+ "`is_opened` TINYINT(1) DEFAULT 0,"
 				+ "FOREIGN KEY (`recipe_id`) REFERENCES `recipes`(`RecipeID`),"
 				+ "FOREIGN KEY (`sender_id`) REFERENCES `users`(`UserID`),"
 				+ "FOREIGN KEY (`receiver_id`) REFERENCES `users`(`UserID`)"
