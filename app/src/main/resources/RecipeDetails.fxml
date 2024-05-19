@@ -33,7 +33,7 @@
                   <InnerShadow />
                </effect>
             </Label>
-            <Label layoutX="486.0" layoutY="459.0" prefHeight="416.0" prefWidth="761.0" style="-fx-border-color: #5499C7; -fx-background-color: #FDFEFE; -fx-background-radius: 10; -fx-border-radius: 10;">
+            <Label layoutX="486.0" layoutY="459.0" prefHeight="439.0" prefWidth="761.0" style="-fx-border-color: #5499C7; -fx-background-color: #FDFEFE; -fx-background-radius: 10; -fx-border-radius: 10;">
                <effect>
                   <InnerShadow />
                </effect>
@@ -117,7 +117,7 @@
                         <DropShadow height="0.24" radius="0.31000000000000005" width="3.0" />
                     </effect>
                 </Label>
-                <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="493.0" layoutY="467.0" prefHeight="401.0" prefWidth="747.0" styleClass="italic-label" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
+                <Label fx:id="longLabel" alignment="TOP_LEFT" layoutX="493.0" layoutY="467.0" prefHeight="421.0" prefWidth="747.0" styleClass="italic-label" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus vitae aliquet nec. Phasellus egestas tellus rutrum tellus pellentesque eu. Risus sed vulputate odio ut enim blandit volutpat maecenas. Malesuada nunc vel risus commodo viverra maecenas accumsan." wrapText="true">
                     <font>
                         <Font size="15.0" />
                     </font>
