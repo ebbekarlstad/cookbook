@@ -372,7 +372,7 @@ public class RecipeDetailsViewController {
       if ("MessagesViewController".equals(returnContext)) {
         fxmlFile = "/MessagesView.fxml";
       } else if ("FavoriteViewController".equals(returnContext)) {
-        fxmlFile = "/FavoriteView.fxml";
+        fxmlFile = "/favoriteView.fxml";
       }
 
       // Load specific FXML file
