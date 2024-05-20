@@ -97,7 +97,10 @@
                   </DropShadow>
                </effect>
             </Text>
-            <Button layoutX="823.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="30.0" prefWidth="60.0" text="Back" />
+            <Button layoutX="823.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: WHITE; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: WHITE;" text="Back">
+               <effect>
+                  <DropShadow />
+               </effect></Button>
       </children>
     </AnchorPane>
   </children>
