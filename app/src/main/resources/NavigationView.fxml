@@ -100,7 +100,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Label fx:id="userDisplayName" layoutX="85.0" layoutY="21.0" prefHeight="25.0" prefWidth="210.0">
+            <Label fx:id="userDisplayName" layoutX="90.0" layoutY="21.0" prefHeight="25.0" prefWidth="205.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -156,6 +156,11 @@
             <ImageView fitHeight="41.0" fitWidth="41.0" layoutX="43.0" layoutY="567.0">
                <image>
                   <Image url="@images/icons/help.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="41.0" fitWidth="41.0" layoutX="43.0" layoutY="13.0">
+               <image>
+                  <Image url="@images/icons/profile.png" />
                </image>
             </ImageView>
       </children>
