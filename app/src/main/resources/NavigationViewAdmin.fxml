@@ -29,7 +29,7 @@
                </effect>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="703.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="340.0" />
-            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="138.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="New Recipe" textAlignment="CENTER">
+            <Button fx:id="newRecipeButton" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleNewButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="New Recipe" textAlignment="CENTER">
                <effect>
                   <DropShadow />
                </effect>
@@ -37,7 +37,7 @@
                   <Font name="System Font Light" size="16.0" />
                </font>
             </Button>
-            <Button alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Browse Recipes" textAlignment="CENTER">
+            <Button alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="201.0" mnemonicParsing="false" onAction="#handleBrowseRecipes" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Browse Recipes" textAlignment="CENTER">
                <font>
                   <Font name="System Font Light" size="16.0" />
                </font>
@@ -61,7 +61,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="503.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text=" My Inbox">
+            <Button alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="561.0" mnemonicParsing="false" onAction="#handleInbox" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text=" My Inbox">
                <font>
                   <Font name="System Font Light" size="16.0" />
                </font>
@@ -69,7 +69,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="503.0">
+            <ImageView fitHeight="50.0" fitWidth="43.0" layoutX="34.0" layoutY="561.0">
                <image>
                   <Image url="@images/mail.png" />
                </image>
@@ -77,23 +77,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="help_button" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHelpButton" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Get Help">
-               <font>
-                  <Font name="System Font Light" size="16.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Button>
-            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="34.0" layoutY="567.0">
-               <image>
-                  <Image url="@images/question.png" />
-               </image>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </ImageView>
-            <Button fx:id="favoriteButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Favorites" textAlignment="CENTER">
+            <Button fx:id="favoriteButton" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="266.0" mnemonicParsing="false" onAction="#handleFavoriteButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Favorites" textAlignment="CENTER">
                <font>
                   <Font name="System Font Light" size="16.0" />
                </font>
@@ -109,7 +93,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="favoriteButton1" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Shopping List" textAlignment="CENTER">
+            <Button fx:id="favoriteButton1" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleShoppingListButton" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Shopping List" textAlignment="CENTER">
                <font>
                   <Font name="System Font Light" size="16.0" />
                </font>
@@ -117,7 +101,7 @@
                   <DropShadow />
                </effect>
             </Button>
-            <Button fx:id="" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="392.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Weekly " textAlignment="CENTER">
+            <Button fx:id="" alignment="BOTTOM_RIGHT" layoutX="22.0" layoutY="393.0" mnemonicParsing="false" onAction="#handleWeeklyButtonAction" prefHeight="52.0" prefWidth="272.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Weekly " textAlignment="CENTER">
                <font>
                   <Font name="System Font Light" size="16.0" />
                </font>
@@ -165,12 +149,12 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Button fx:id="goToAdminPanelButton" layoutX="814.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleGoToAdminPanel" prefHeight="32.0" prefWidth="106.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Admin Panel">
+            <Button fx:id="goToAdminPanelButton" alignment="BOTTOM_RIGHT" layoutX="23.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleGoToAdminPanel" prefHeight="50.0" prefWidth="189.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Admin Panel">
     <effect>
         <DropShadow />
     </effect>
     <font>
-        <Font name="System Font Light" size="13.0" />
+        <Font name="System Font Light" size="16.0" />
     </font>
 </Button>
             <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="44.0" layoutY="27.0">
@@ -186,6 +170,11 @@
                   <Font name="System Font Light" size="16.0" />
                </font>
             </Label>
+            <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="35.0" layoutY="505.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/protection.png" />
+               </image>
+            </ImageView>
 
       </children>
     </AnchorPane>
