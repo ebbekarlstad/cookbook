@@ -41,22 +41,19 @@
                   <Insets bottom="5.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="SEARCH" textAlignment="CENTER" wrappingWidth="156.1962890625">
-                     <font>
-                        <Font name="System Font Heavy" size="30.0" />
-                     </font>
-                     <effect>
-                        <DropShadow blurType="GAUSSIAN" height="29.9" offsetY="3.0" radius="8.5175" spread="0.66" width="6.17">
-                           <color>
-                              <Color opacity="0.8836398720741272" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                     <VBox.margin>
-                        <Insets top="50.0" />
-                     </VBox.margin>
-                  </Text>
-                  <Separator prefHeight="65.0" prefWidth="186.0">
+                  <BorderPane prefHeight="52.0" prefWidth="142.0">
+                     <right>
+                        <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" prefHeight="32.0" prefWidth="63.0" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Back" BorderPane.alignment="CENTER">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <font>
+                              <Font name="System Font Light" size="13.0" />
+                           </font>
+                        </Button>
+                     </right>
+                  </BorderPane>
+                  <Separator prefHeight="65.0" prefWidth="163.0">
                      <effect>
                         <Shadow>
                            <color>
@@ -215,17 +212,6 @@
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
                <children>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#backButton" style="-fx-border-width: 1; -fx-border-radius: 10; -fx-border-style: solid; -fx-border-color: white; -fx-background-color: white;" text="Go back">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                     <font>
-                        <Font name="System Font Light" size="13.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                  </Button>
                   <Text fill="#fff1e4" strokeType="OUTSIDE" strokeWidth="0.0" text="BROWSE" textAlignment="CENTER" wrappingWidth="736.1962890625">
                      <font>
                         <Font name="System Font Heavy" size="38.0" />
