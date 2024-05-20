@@ -539,5 +539,5 @@ void deleteIngredientFromList(ActionEvent event) {
             tagsDropdown.getItems().add(tag.getTagName());
         }
     }
-}
+	}
 }

@@ -143,6 +143,8 @@
                   </DropShadow>
                </effect>
             </Text>
+            <Button fx:id="deleteIngredient" layoutX="266.0" layoutY="165.0" mnemonicParsing="false" onAction="#deleteIngredientFromList" prefHeight="32.0" prefWidth="75.0" snapToPixel="false" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 10; -fx-border-width: 1; -fx-border-radius: 10;" text="Delete" />
+            <Button fx:id="deleteTag" layoutX="264.0" layoutY="426.0" mnemonicParsing="false" onAction="#deleteTagFromList" prefHeight="32.0" prefWidth="75.0" snapToPixel="false" style="-fx-background-color: white; -fx-border-color: white; -fx-background-radius: 10; -fx-border-width: 1; -fx-border-radius: 10;" text="Delete" />
             </children>
         </AnchorPane>
     </children>

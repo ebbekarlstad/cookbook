@@ -42,6 +42,11 @@ public class AdminEditingRecipeController {
   private TableView<Tag> tagTable;
 
   @FXML
+  private Button deleteIngredientButton;
+  @FXML
+  private Button deleteTagButton;
+
+  @FXML
   private TableColumn<Tag, String> tagColumn;
 
   private ObservableList<AmountOfIngredients> ingredients = FXCollections.observableArrayList();
@@ -139,6 +144,70 @@ public class AdminEditingRecipeController {
       e.printStackTrace();
     }
     ingredientTable.setItems(ingredients);
+  }
+
+  @FXML
+  void deleteIngredientFromList(ActionEvent event) {
+      AmountOfIngredients selectedIngredient = ingredientTable.getSelectionModel().getSelectedItem();
+      if (selectedIngredient != null && recipe != null) {
+          try (
+              Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+              PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM recipe_ingredients WHERE IngredientID = ? AND RecipeID = ?")
+          ) {
+              deleteStmt.setString(1, selectedIngredient.getIngredient().getIngredientID());
+              deleteStmt.setString(2, recipe.getId());
+              deleteStmt.executeUpdate();
+  
+              // Remove the ingredient from the ObservableList and refresh the TableView
+              ingredients.remove(selectedIngredient);
+              ingredientTable.refresh();
+  
+              Alert success = new Alert(Alert.AlertType.INFORMATION);
+              success.setTitle("Success!");
+              success.setContentText("Ingredient deleted successfully.");
+              success.show();
+          } catch (SQLException e) {
+              System.out.println("Error deleting ingredient: " + selectedIngredient.getIngredient().getIngredientName());
+              e.printStackTrace();
+          }
+      } else {
+          Alert error = new Alert(Alert.AlertType.ERROR);
+          error.setTitle("Error");
+          error.setContentText("No ingredient selected for deletion or recipe not set.");
+          error.show();
+      }
+  }
+
+  @FXML
+  void deleteTagFromList(ActionEvent event) {
+      Tag selectedTag = tagTable.getSelectionModel().getSelectedItem();
+      if (selectedTag != null) {
+          try (
+              Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/cookbookdb?user=root&password=root&useSSL=false");
+              PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM recipe_tags WHERE TagID = ? AND RecipeID = ?")
+          ) {
+              deleteStmt.setString(1, selectedTag.getTagID());
+              deleteStmt.setString(2, recipe.getId());
+              deleteStmt.executeUpdate();
+  
+              // Remove the tag from the ObservableList and refresh the TableView
+              tags.remove(selectedTag);
+              tagTable.refresh();
+  
+              Alert success = new Alert(Alert.AlertType.INFORMATION);
+              success.setTitle("Success!");
+              success.setContentText("Tag deleted successfully.");
+              success.show();
+          } catch (SQLException e) {
+              System.out.println("Error deleting tag: " + selectedTag.getTagName());
+              e.printStackTrace();
+          }
+      } else {
+          Alert error = new Alert(Alert.AlertType.ERROR);
+          error.setTitle("Error");
+          error.setContentText("No tag selected for deletion.");
+          error.show();
+      }
   }
 
   private void fetchTagsFromDatabase(String recipeID) {
