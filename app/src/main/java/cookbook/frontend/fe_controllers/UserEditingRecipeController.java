@@ -249,8 +249,39 @@ public class UserEditingRecipeController {
 
 	@FXML
 	private void initialize() throws SQLException {
-		unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch");
-		loadRecipes();
+			unit.getItems().addAll("g", "kg", "ml", "L", "mg", "tea spoon", "pinch");
+			loadRecipes();
+			updateTagBox();
+	
+			tagsDropdown.setOnAction(event -> handleTagSelection());
+	
+			tagColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTagName()));
+			tagTable.setItems(tags);
+	}
+
+	private void handleTagSelection() {
+    String selectedTagName = tagsDropdown.getSelectionModel().getSelectedItem();
+    if (selectedTagName != null && !selectedTagName.isEmpty()) {
+        Tag selectedTag = findTagByName(selectedTagName);
+        if (selectedTag != null && !tags.contains(selectedTag)) {
+            tags.add(selectedTag);
+            tagTable.refresh();
+        }
+    }
+	}
+
+	private Tag findTagByName(String tagName) {
+    try {
+        List<Tag> allTags = TagController.getTags();
+        for (Tag tag : allTags) {
+            if (tag.getTagName().equals(tagName)) {
+                return tag;
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
 	}
 
 	@FXML
@@ -500,12 +531,13 @@ void deleteIngredientFromList(ActionEvent event) {
     return false;
 	}
 
-  public void updateTagBox() throws SQLException {
+	public void updateTagBox() throws SQLException {
     tagsDropdown.getItems().clear();
-    tagsDropdown.getItems().add(null);
-    for (Tag tag : TagController.getTags()) {
-      String TagName = tag.getTagName();
-      tagsDropdown.getItems().add(TagName);
+    List<Tag> allTags = TagController.getTags();
+    if (allTags != null && !allTags.isEmpty()) {
+        for (Tag tag : allTags) {
+            tagsDropdown.getItems().add(tag.getTagName());
+        }
     }
-  }
+}
 }
