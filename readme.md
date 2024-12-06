@@ -58,9 +58,9 @@ Follow these steps to set up the Cookbook App:
 ### Step 2: Configure the Database
 1. Open your database management tool (e.g., MySQL Workbench).
 2. Create a new schema:
-   ```sql
-   CREATE DATABASE cookbookdb;
-   ```
+```sql
+CREATE DATABASE cookbookdb;
+```
 ### Step 3: Seed the Database
 1. Locate the file ```DatabaseSeeder.java``` in the project.
 2. Run the file using your IDE or terminal to populate the database with sample data.
