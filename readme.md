@@ -37,7 +37,7 @@ The **Cookbook App** is a recipe management system that allows users to store, s
 Before running the application, ensure you have the following:
 
 1. **Java Development Kit (JDK)** installed (version 11 or later).
-2. A relational database server, e.g., **MySQL**.
+2. A relational database server, **MySQL**.
 3. Required fonts installed: **SFNSDisplay (San Francisco)**.
 4. IDE or command-line environment for running Java applications.
 
@@ -62,12 +62,10 @@ Follow these steps to set up the Cookbook App:
    CREATE DATABASE cookbookdb;
    ```
 ### Step 3: Seed the Database
-
-1.Locate the file ```DatabaseSeeder.java``` in the project.
+1. Locate the file ```DatabaseSeeder.java``` in the project.
 2. Run the file using your IDE or terminal to populate the database with sample data.
 
-Step 4: Run the Application
-
+### Step 4: Run the Application
 1. Locate the App.java file in the project.
 2. Execute the file:
 Using IDE: Right-click and select "Run."
@@ -77,5 +75,6 @@ javac App.java
 java App
 ```
 
+### Greetings, the developers! 🙂
 
    
